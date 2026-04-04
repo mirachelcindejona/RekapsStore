@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rekaps store login admin</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/login-admin.css">
+</head>
+<body>
+
+    <!-- container utama -->
+    <div class="auth">
+         <!-- login sebelah kiri -->
+        <div class="auth_left">
+            <div class="brand">
+                <img src="../assets/icons/rekaps-store-logo.svg" alt="logo">
+            </div>
+            <div class="auth_card">
+                <h1 class="auth_title">LOGIN <span>ADMIN</span></h1>
+
+                <form>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" placeholder="Username" required 
+                    oninvalid="this.setCustomValidity('Username tidak boleh kosong')"
+                    oninput="this.setCustomValidity('')">
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="input-icon">
+                        <input type="password" placeholder="Password" required
+                        oninvalid="this.setCustomValidity('Password tidak boleh kosong')"
+                        oninput="this.setCustomValidity('')">
+                        <span class="icon"></span>
+                    </div>
+                </div>
+    
+            <a href="#" class=" link link--small">Lupa Password?</a>
+
+            <button class="btn-primary">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Login sebelah kanan -->
+    <div class="auth_right">
+        <div class="hero">
+            <h1> WELCOME TO 
+            <span>REKAPS</span> STORE</h1>
+            <p> Berkarya, berkolaborasi, dan berkembang bersama</p>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

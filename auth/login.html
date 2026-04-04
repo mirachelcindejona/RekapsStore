@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rekaps store login</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+<body>
+
+    <!-- container utama -->
+    <div class="auth">
+         <!-- login sebelah kiri -->
+        <div class="auth_left">
+            <div class="brand">
+                <img src="../assets/icons/rekaps-store-logo.svg" alt="logo">
+            </div>
+            <div class="auth_card">
+                <h1 class="auth_title">LOGIN</h1>
+
+                <form>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" placeholder="Username" required 
+                    oninvalid="this.setCustomValidity('Username tidak boleh kosong')"
+                    oninput="this.setCustomValidity('')">
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="input-icon">
+                        <input type="password" placeholder="Password" required
+                        oninvalid="this.setCustomValidity('Password tidak boleh kosong')"
+                        oninput="this.setCustomValidity('')">
+                        <span class="icon"></span>
+                    </div>
+                </div>
+    
+            <a href="#" class=" link link--small">Lupa Password?</a>
+
+            <button class="btn-primary">Login</button>
+            <p class="auth_footer">Belum punya akun? <a href="#" class="link"> Register</a>
+            </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Login sebelah kanan -->
+    <div class="auth_right">
+        <div class="hero">
+            <h1> WELCOME TO 
+            <span>REKAPS</span> STORE</h1>
+            <p> Berkarya, berkolaborasi, dan berkembang bersama</p>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
