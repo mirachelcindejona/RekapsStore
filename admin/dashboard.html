@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard — Rekaps Admin</title>
+
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/dashboard.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <!-- ====== SIDEBAR ====== -->
+      <aside class="sidebar" id="sidebar">
+        <!-- Logo / Brand -->
+        <div class="sidebar-brand">
+          <div class="brand-logo">
+            <img src="../assets/icons/logo-rekaps.svg" alt="" />
+          </div>
+          <div class="brand-text">
+            <span class="brand-name">Rekaps Store</span>
+            <span class="brand-tagline">Admin Panel</span>
+          </div>
+        </div>
+
+        <!-- Info Pengguna -->
+        <div class="sidebar-user">
+          <div class="user-avatar">AR</div>
+          <div class="user-info">
+            <div class="user-name">Admin Rekaps</div>
+            <span class="user-role">KETUA</span>
+          </div>
+        </div>
+
+        <!-- Navigasi -->
+        <nav class="sidebar-nav">
+          <!-- Grup: Utama -->
+          <div class="nav-group-label">Utama</div>
+
+          <a href="dashboard.html" class="nav-item active">
+            <span class="nav-item-icon">
+              <img
+                src="../assets/icons/home-analytics-line.svg"
+                alt="Dashboard"
+              />
+            </span>
+            Dashboard
+          </a>
+
+          <a href="produk.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img src="../assets/icons/box-line.svg" alt="Produk" />
+            </span>
+            Produk
+          </a>
+
+          <a href="stok.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img src="../assets/icons/pulse.svg" alt="Stok" />
+            </span>
+            Stok
+          </a>
+
+          <a href="pesanan.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img src="../assets/icons/receipt-text-line.svg" alt="Pesanan" />
+            </span>
+            Pesanan
+          </a>
+
+          <a href="cashier/cashier.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img src="../assets/icons/monitor-line.svg" alt="Kasir" />
+            </span>
+            Kasir
+          </a>
+
+          <!-- Grup: Keuangan & Stok -->
+          <div class="nav-group-label">Keuangan</div>
+
+          <a href="keuangan.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img
+                src="../assets/icons/dollar-circle-line.svg"
+                alt="Keuangan"
+              />
+            </span>
+            Keuangan
+          </a>
+
+          <a href="pembayaran.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img src="../assets/icons/creditcard-line.svg" alt="Pembayaran" />
+            </span>
+            Pembayaran
+          </a>
+
+          <a href="diskon.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img src="../assets/icons/tag-line.svg" alt="Diskon & Voucher" />
+            </span>
+            Diskon & Voucher
+          </a>
+
+          <!-- Grup: Lainnya -->
+          <div class="nav-group-label">Lainnya</div>
+
+          <a href="users/users.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img src="../assets/icons/users-line.svg" alt="Pengguna" />
+            </span>
+            Pengguna
+          </a>
+
+          <a href="laporan.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img src="../assets/icons/analytics-line.svg" alt="" />
+            </span>
+            Laporan
+          </a>
+
+          <a href="pengaturan.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img src="../assets/icons/settings-cog-line.svg" alt="" />
+            </span>
+            Pengaturan
+          </a>
+        </nav>
+
+        <!-- Tombol Logout -->
+        <div class="sidebar-footer">
+          <button class="btn-logout">
+            <img src="../assets/icons/logout-half-circle-line.svg" alt="" />
+            Keluar
+          </button>
+        </div>
+      </aside>
+      <!-- END .sidebar -->
+
+      <!-- ====================================================
+         AREA UTAMA (Navbar + Konten)
+    ==================================================== -->
+      <div class="area-main">
+        <!-- --------------------------------------------------
+           NAVBAR
+      -------------------------------------------------- -->
+        <header class="navbar">
+          <!-- Tombol hamburger (hanya tampil di mobile) -->
+          <button class="btn-menu-toggle" onclick="toggleSidebar()">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+            >
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          </button>
+
+          <!-- Judul halaman -->
+          <div class="navbar-left">
+            <div class="navbar-page-title">Dashboard</div>
+            <div class="navbar-breadcrumb">
+              Rekaps / <span class="breadcrumb-active">Overview</span>
+            </div>
+          </div>
+
+          <!-- Kanan: search, notifikasi, avatar -->
+          <div class="navbar-right">
+            <div class="navbar-search">
+              <img src="../assets/icons/search-line.svg" alt="" />
+              <input type="text" placeholder="Cari..." />
+            </div>
+
+            <button class="icon-btn">
+              <img src="../assets/icons/bell-line.svg" alt="" />
+              <span class="notif-dot"></span>
+            </button>
+
+            <div class="navbar-avatar">A</div>
+          </div>
+        </header>
+        <!-- END .navbar -->
+
+        <!-- KONTEN DASHBOARD -->
+        <main class="content">
+          <!-- Welcome Banner -->
+          <div class="welcome-banner">
+            <div class="welcome-left">
+              <div class="welcome-greeting">Selamat Datang Kembali 👋</div>
+              <div class="welcome-title">
+                Halo, <span class="welcome-title-accent">Admin!</span>
+              </div>
+              <div class="welcome-desc">
+                Pantau performa toko kamu hari ini.
+              </div>
+            </div>
+            <div class="welcome-stats">
+              <div class="welcome-stat">
+                <div class="welcome-stat-value welcome-stat-accent">12</div>
+                <div class="welcome-stat-label">Pesanan Baru</div>
+              </div>
+              <div class="welcome-stat">
+                <div class="welcome-stat-value">Rp4.2jt</div>
+                <div class="welcome-stat-label">Pendapatan Hari Ini</div>
+              </div>
+              <div class="welcome-stat">
+                <div class="welcome-stat-value">3</div>
+                <div class="welcome-stat-label">Stok Kritis</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STAT CARDS -->
+          <div class="stats-grid">
+            <div class="stat-card stat-card--purple">
+              <div class="stat-card-accent"></div>
+              <div class="stat-icon stat-icon--purple">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                >
+                  <line x1="12" y1="1" x2="12" y2="23" />
+                  <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
+                </svg>
+              </div>
+              <div class="stat-label">Pendapatan Bulan Ini</div>
+              <div class="stat-value"><sub>Rp</sub>18.4jt</div>
+              <div class="stat-change stat-change--up">▲ 12.5%</div>
+            </div>
+
+            <div class="stat-card stat-card--lime">
+              <div class="stat-card-accent"></div>
+              <div class="stat-icon stat-icon--lime">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                >
+                  <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                  <line x1="3" y1="6" x2="21" y2="6" />
+                  <path d="M16 10a4 4 0 01-8 0" />
+                </svg>
+              </div>
+              <div class="stat-label">Total Pesanan</div>
+              <div class="stat-value">247</div>
+              <div class="stat-change stat-change--up">▲ 8.3%</div>
+            </div>
+
+            <div class="stat-card stat-card--red">
+              <div class="stat-card-accent"></div>
+              <div class="stat-icon stat-icon--red">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                >
+                  <path
+                    d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"
+                  />
+                  <line x1="7" y1="7" x2="7.01" y2="7" />
+                </svg>
+              </div>
+              <div class="stat-label">Total Produk</div>
+              <div class="stat-value">58</div>
+              <div class="stat-change stat-change--down">▼ 2 produk</div>
+            </div>
+
+            <div class="stat-card stat-card--teal">
+              <div class="stat-card-accent"></div>
+              <div class="stat-icon stat-icon--teal">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                >
+                  <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M23 21v-2a4 4 0 00-3-3.87" />
+                  <path d="M16 3.13a4 4 0 010 7.75" />
+                </svg>
+              </div>
+              <div class="stat-label">Pembeli Aktif</div>
+              <div class="stat-value">134</div>
+              <div class="stat-change stat-change--up">▲ 5.1%</div>
+            </div>
+          </div>
+          <!-- END .stats-grid -->
+
+          <!-- GRID 2 KOLOM: Chart + Panel Kanan -->
+          <div class="dashboard-grid">
+            <!-- KIRI: Grafik Penjualan -->
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Grafik Penjualan</div>
+                  <div class="card-subtitle">
+                    Perbandingan pendapatan &amp; pesanan
+                  </div>
+                </div>
+                <span class="card-link">Lihat Laporan →</span>
+              </div>
+
+              <div class="chart-tabs">
+                <span class="chart-tab chart-tab--active">Minggu</span>
+                <span class="chart-tab">Bulan</span>
+                <span class="chart-tab">Tahun</span>
+              </div>
+
+              <div class="chart-container">
+                <div class="chart-bars">
+                  <div class="chart-bar-group">
+                    <div class="chart-bar-area">
+                      <div
+                        class="chart-bar chart-bar--filled"
+                        style="height: 55%"
+                      ></div>
+                      <div
+                        class="chart-bar chart-bar--accent chart-bar--filled"
+                        style="height: 40%"
+                      ></div>
+                    </div>
+                    <span class="chart-bar-label">Sen</span>
+                  </div>
+
+                  <div class="chart-bar-group">
+                    <div class="chart-bar-area">
+                      <div
+                        class="chart-bar chart-bar--filled"
+                        style="height: 75%"
+                      ></div>
+                      <div
+                        class="chart-bar chart-bar--accent chart-bar--filled"
+                        style="height: 55%"
+                      ></div>
+                    </div>
+                    <span class="chart-bar-label">Sel</span>
+                  </div>
+
+                  <div class="chart-bar-group">
+                    <div class="chart-bar-area">
+                      <div
+                        class="chart-bar chart-bar--filled"
+                        style="height: 60%"
+                      ></div>
+                      <div
+                        class="chart-bar chart-bar--accent chart-bar--filled"
+                        style="height: 45%"
+                      ></div>
+                    </div>
+                    <span class="chart-bar-label">Rab</span>
+                  </div>
+
+                  <div class="chart-bar-group">
+                    <div class="chart-bar-area">
+                      <div
+                        class="chart-bar chart-bar--filled"
+                        style="height: 90%"
+                      ></div>
+                      <div
+                        class="chart-bar chart-bar--accent chart-bar--filled"
+                        style="height: 70%"
+                      ></div>
+                    </div>
+                    <span class="chart-bar-label">Kam</span>
+                  </div>
+
+                  <div class="chart-bar-group">
+                    <div class="chart-bar-area">
+                      <div
+                        class="chart-bar chart-bar--filled"
+                        style="height: 80%"
+                      ></div>
+                      <div
+                        class="chart-bar chart-bar--accent chart-bar--filled"
+                        style="height: 60%"
+                      ></div>
+                    </div>
+                    <span class="chart-bar-label">Jum</span>
+                  </div>
+
+                  <div class="chart-bar-group">
+                    <div class="chart-bar-area">
+                      <div class="chart-bar" style="height: 100%"></div>
+                      <div
+                        class="chart-bar chart-bar--accent"
+                        style="height: 85%"
+                      ></div>
+                    </div>
+                    <span class="chart-bar-label">Sab</span>
+                  </div>
+
+                  <div class="chart-bar-group">
+                    <div class="chart-bar-area">
+                      <div class="chart-bar" style="height: 50%"></div>
+                      <div
+                        class="chart-bar chart-bar--accent"
+                        style="height: 38%"
+                      ></div>
+                    </div>
+                    <span class="chart-bar-label">Min</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="chart-legend">
+                <div class="legend-item">
+                  <div class="legend-dot legend-dot--purple"></div>
+                  Pendapatan
+                </div>
+                <div class="legend-item">
+                  <div class="legend-dot legend-dot--lime"></div>
+                  Pesanan
+                </div>
+              </div>
+            </div>
+            <!-- END card grafik -->
+
+            <!-- KANAN: Quick Actions + Stok Kritis -->
+            <div class="panel-kanan">
+              <!-- Quick Actions -->
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title">Aksi Cepat</div>
+                </div>
+                <div class="quick-actions">
+                  <button class="quick-btn">
+                    <div class="quick-btn-icon">➕</div>
+                    <div class="quick-btn-label">Tambah Produk</div>
+                  </button>
+                  <button class="quick-btn">
+                    <div class="quick-btn-icon">🧾</div>
+                    <div class="quick-btn-label">Buat Pesanan</div>
+                  </button>
+                  <button class="quick-btn">
+                    <div class="quick-btn-icon">💰</div>
+                    <div class="quick-btn-label">Catat Keuangan</div>
+                  </button>
+                  <button class="quick-btn">
+                    <div class="quick-btn-icon">📦</div>
+                    <div class="quick-btn-label">Tambah Stok</div>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Stok Kritis -->
+              <div class="card">
+                <div class="card-header">
+                  <div>
+                    <div class="card-title">⚠️ Stok Kritis</div>
+                    <div class="card-subtitle">Produk perlu restock segera</div>
+                  </div>
+                </div>
+                <div class="stock-alerts">
+                  <div class="alert-item alert-item--danger">
+                    <div class="alert-icon">📦</div>
+                    <div class="alert-info">
+                      <div class="alert-name">Kaos Ekraf Navy</div>
+                      <div class="alert-stock">Sisa: 2 pcs — Habis!</div>
+                    </div>
+                    <button class="alert-restock">Restock</button>
+                  </div>
+
+                  <div class="alert-item alert-item--warn">
+                    <div class="alert-icon">🧢</div>
+                    <div class="alert-info">
+                      <div class="alert-name">Topi Snapback</div>
+                      <div class="alert-stock">Sisa: 5 pcs — Menipis</div>
+                    </div>
+                    <button class="alert-restock">Restock</button>
+                  </div>
+
+                  <div class="alert-item alert-item--warn">
+                    <div class="alert-icon">👜</div>
+                    <div class="alert-info">
+                      <div class="alert-name">Totebag Canvas</div>
+                      <div class="alert-stock">Sisa: 7 pcs — Menipis</div>
+                    </div>
+                    <button class="alert-restock">Restock</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- END .panel-kanan -->
+          </div>
+          <!-- END .dashboard-grid -->
+
+          <!-- PESANAN TERBARU -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Pesanan Terbaru</div>
+                <div class="card-subtitle">5 transaksi terakhir hari ini</div>
+              </div>
+              <a href="pesanan.html" class="card-link">Lihat Semua →</a>
+            </div>
+            <div class="orders-list">
+              <div class="order-item">
+                <div class="order-avatar order-avatar--purple">RF</div>
+                <div class="order-info">
+                  <div class="order-name">Rizki Fadillah</div>
+                  <div class="order-product">Kaos Ekraf Navy × 2</div>
+                </div>
+                <div class="order-meta">
+                  <div class="order-amount">Rp180.000</div>
+                  <span class="order-status order-status--pending"
+                    >⏳ Pending</span
+                  >
+                </div>
+              </div>
+
+              <div class="order-item">
+                <div class="order-avatar order-avatar--green">SA</div>
+                <div class="order-info">
+                  <div class="order-name">Siti Aisyah</div>
+                  <div class="order-product">Totebag Canvas × 1</div>
+                </div>
+                <div class="order-meta">
+                  <div class="order-amount">Rp75.000</div>
+                  <span class="order-status order-status--valid">✅ Valid</span>
+                </div>
+              </div>
+
+              <div class="order-item">
+                <div class="order-avatar order-avatar--amber">BH</div>
+                <div class="order-info">
+                  <div class="order-name">Budi Hartono</div>
+                  <div class="order-product">Mug Custom × 3</div>
+                </div>
+                <div class="order-meta">
+                  <div class="order-amount">Rp225.000</div>
+                  <span class="order-status order-status--proses"
+                    >🔧 Proses</span
+                  >
+                </div>
+              </div>
+
+              <div class="order-item">
+                <div class="order-avatar order-avatar--teal">NR</div>
+                <div class="order-info">
+                  <div class="order-name">Nadia Rahayu</div>
+                  <div class="order-product">Topi Snapback × 1</div>
+                </div>
+                <div class="order-meta">
+                  <div class="order-amount">Rp95.000</div>
+                  <span class="order-status order-status--selesai"
+                    >✔ Selesai</span
+                  >
+                </div>
+              </div>
+
+              <div class="order-item">
+                <div class="order-avatar order-avatar--red">DP</div>
+                <div class="order-info">
+                  <div class="order-name">Dika Pratama</div>
+                  <div class="order-product">
+                    Kaos Ekraf Navy × 1, Totebag × 1
+                  </div>
+                </div>
+                <div class="order-meta">
+                  <div class="order-amount">Rp165.000</div>
+                  <span class="order-status order-status--pending"
+                    >⏳ Pending</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- END card pesanan -->
+        </main>
+        <!-- END .content -->
+      </div>
+      <!-- END .area-main -->
+    </div>
+    <!-- END .layout -->
+
+    <!-- Overlay gelap saat sidebar dibuka di mobile -->
+    <div
+      class="sidebar-overlay"
+      id="sidebarOverlay"
+      onclick="closeSidebar()"
+    ></div>
+
+    <!-- JAVASCRIPT - hanya untuk toggle sidebar di mobile -->
+    <script>
+      function toggleSidebar() {
+        document.getElementById("sidebar").classList.toggle("open");
+        document.getElementById("sidebarOverlay").classList.toggle("show");
+      }
+
+      function closeSidebar() {
+        document.getElementById("sidebar").classList.remove("open");
+        document.getElementById("sidebarOverlay").classList.remove("show");
+      }
+    </script>
+  </body>
+</html>
