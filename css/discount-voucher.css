@@ -42,12 +42,12 @@
   color: var(--color-neutral-50);
 }
 
-.btn.outline {
+.btn.secondary {
   border: 1px solid var(--brand);
   color: var(--brand);
 }
 
-.btn.outline:hover {
+.btn.secondary:hover {
   background: var(--brand);
   color: var(--color-neutral-50);
 }
