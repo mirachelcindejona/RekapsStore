@@ -37,47 +37,33 @@ body {
     outline: none;
 }
 
+.menu {
+    display: flex;
+    flex-direction: row;
+    scale: .8;
+    gap: 10px;
+}
+
 .rightnav {
     display: flex;
     gap: 60px;
     padding-left: 20px;
+    align-items: center;
 }
 
-.logreg {
+.account {
     display: flex;
+    align-items: center;
     gap: 10px;
 }
 
-.login {
-    background-color: transparent;
-    border: solid 1px #7d39eb;
-    padding: 8px 16px;
-    border-radius: 13px;
-    color: #7d39eb;
-    font-weight: 600;
+.accname {
+    font-size: var(--text-xs);
+    font-weight: var(--font-mediumxs);
 }
 
-.login:hover {
-    background-color: #D7C2F9;
-    border: solid 1px #5928a7;
-    /* color: #fafafa; */
-    cursor: pointer;
-}
+.accountpic {
 
-.register {
-    background-color: #7d39eb;
-    border: solid 2px #7d39eb;
-    padding: 8px 16px;
-    border-radius: 13px;
-    color: #fafafa;
-    font-weight: 600;
-}
-
-.register:hover {
-    background-color: #5928a7;
-    border: solid 2px #5928a7;
-    color: #fafafa;
-    cursor: pointer;
 }
 
 /* .cart {
