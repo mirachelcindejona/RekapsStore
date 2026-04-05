@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kasir — Rekaps Admin</title>
+
+    <link rel="stylesheet" href="../../css/global.css" />
+    <link rel="stylesheet" href="../../css/cashier.css" />
+    <link rel="stylesheet" href="../../css/layout-admin.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <!-- ====== SIDEBAR ====== -->
+      <aside class="sidebar" id="sidebar">
+        <!-- Logo / Brand -->
+        <div class="sidebar-brand">
+          <div class="brand-logo">
+            <img src="../../assets/icons/logo-rekaps.svg" alt="" />
+          </div>
+          <div class="brand-text">
+            <span class="brand-name">Rekaps Store</span>
+            <span class="brand-tagline">Admin Panel</span>
+          </div>
+        </div>
+
+        <!-- Info Pengguna -->
+        <div class="sidebar-user">
+          <div class="user-avatar">AR</div>
+          <div class="user-info">
+            <div class="user-name">Admin Rekaps</div>
+            <span class="user-role">KETUA</span>
+          </div>
+        </div>
+
+        <!-- Navigasi -->
+        <nav class="sidebar-nav">
+          <!-- Grup: Utama -->
+          <div class="nav-group-label">Utama</div>
+
+          <a href="../dashboard.html" class="nav-item">
+            <span class="nav-item-icon">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M6.66683 10.8332V13.3332M10.0002 8.33317V13.3332M13.3335 12.4998V13.3332M16.6668 15.8332V8.74984C16.6668 8.62047 16.6367 8.49287 16.5789 8.37716C16.521 8.26145 16.437 8.16079 16.3335 8.08317L10.5002 3.70817C10.3559 3.59999 10.1805 3.5415 10.0002 3.5415C9.81985 3.5415 9.64441 3.59999 9.50016 3.70817L3.66683 8.08317C3.56333 8.16079 3.47933 8.26145 3.42147 8.37716C3.36362 8.49287 3.3335 8.62047 3.3335 8.74984V15.8332C3.3335 16.0542 3.42129 16.2661 3.57757 16.4224C3.73385 16.5787 3.94582 16.6665 4.16683 16.6665H15.8335C16.0545 16.6665 16.2665 16.5787 16.4228 16.4224C16.579 16.2661 16.6668 16.0542 16.6668 15.8332Z"
+                  stroke="#D7C2F9"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+            Dashboard
+          </a>
+
+          <a href="produk.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img src="../../assets/icons/box-line.svg" alt="Produk" />
+            </span>
+            Produk
+          </a>
+
+          <a href="stok.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img src="../../assets/icons/pulse.svg" alt="Stok" />
+            </span>
+            Stok
+          </a>
+
+          <a href="pesanan.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img
+                src="../../assets/icons/receipt-text-line.svg"
+                alt="Pesanan"
+              />
+            </span>
+            Pesanan
+          </a>
+
+          <a href="cashier/cashier.html" class="nav-item active">
+            <span class="nav-item-icon">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M10 13.3335H15.8333C16.2754 13.3335 16.6993 13.1579 17.0118 12.8453C17.3244 12.5328 17.5 12.1089 17.5 11.6668V5.00016C17.5 4.55814 17.3244 4.13421 17.0118 3.82165C16.6993 3.50909 16.2754 3.3335 15.8333 3.3335H4.16667C3.72464 3.3335 3.30072 3.50909 2.98816 3.82165C2.67559 4.13421 2.5 4.55814 2.5 5.00016V11.6668C2.5 12.1089 2.67559 12.5328 2.98816 12.8453C3.30072 13.1579 3.72464 13.3335 4.16667 13.3335H10ZM10 13.3335V16.6668M10 16.6668H13.3333M10 16.6668H6.66667"
+                  stroke="#C6FF33"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+            Kasir
+          </a>
+
+          <!-- Grup: Keuangan & Stok -->
+          <div class="nav-group-label">Keuangan</div>
+
+          <a href="keuangan.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img
+                src="../../assets/icons/dollar-circle-line.svg"
+                alt="Keuangan"
+              />
+            </span>
+            Keuangan
+          </a>
+
+          <a href="pembayaran.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img
+                src="../../assets/icons/creditcard-line.svg"
+                alt="Pembayaran"
+              />
+            </span>
+            Pembayaran
+          </a>
+
+          <a href="diskon.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img
+                src="../../assets/icons/tag-line.svg"
+                alt="Diskon & Voucher"
+              />
+            </span>
+            Diskon & Voucher
+          </a>
+
+          <!-- Grup: Lainnya -->
+          <div class="nav-group-label">Lainnya</div>
+
+          <a href="users/users.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img src="../../assets/icons/users-line.svg" alt="Pengguna" />
+            </span>
+            Pengguna
+          </a>
+
+          <a href="laporan.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img src="../../assets/icons/analytics-line.svg" alt="" />
+            </span>
+            Laporan
+          </a>
+
+          <a href="pengaturan.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img src="../../assets/icons/settings-cog-line.svg" alt="" />
+            </span>
+            Pengaturan
+          </a>
+        </nav>
+
+        <!-- Tombol Logout -->
+        <div class="sidebar-footer">
+          <button class="btn-logout">
+            <img src="../../assets/icons/logout-half-circle-line.svg" alt="" />
+            Keluar
+          </button>
+        </div>
+      </aside>
+      <!-- END .sidebar -->
+
+      <div class="area-main">
+        <!-- NAVBAR -->
+        <header class="navbar">
+          <!-- Tombol hamburger (hanya tampil di mobile) -->
+          <button class="btn-menu-toggle" onclick="toggleSidebar()">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+            >
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          </button>
+
+          <!-- Judul halaman -->
+          <div class="navbar-left">
+            <div class="navbar-page-title">Kasir</div>
+            <div class="navbar-breadcrumb">
+              Rekaps Store / <span class="breadcrumb-active">Kasir</span>
+            </div>
+          </div>
+
+          <!-- Kanan: search, notifikasi, avatar -->
+          <div class="navbar-right">
+            <button class="icon-btn">
+              <img src="../../assets/icons/bell-line.svg" alt="" />
+              <span class="notif-dot"></span>
+            </button>
+
+            <div class="navbar-avatar">A</div>
+          </div>
+        </header>
+        <!-- END .navbar -->
+
+        <!-- KONTEN CASHIER -->
+        <main class="content cashier-layout">
+          <!-- LEFT: PRODUK -->
+          <div class="cashier-products">
+            <!-- Search -->
+            <div class="cashier-search">
+              <img src="../../assets/icons/search-line.svg" alt="" />
+              <input type="text" placeholder="Cari..." />
+            </div>
+
+            <!-- Filter -->
+            <div class="cashier-filter">
+              <button class="filter-btn active">Semua (9)</button>
+              <button class="filter-btn">Merchandise (3)</button>
+              <button class="filter-btn">Aksesoris (4)</button>
+              <button class="filter-btn">Makanan (2)</button>
+            </div>
+
+            <!-- Grid Produk -->
+            <div class="product-grid">
+              <!-- CARD -->
+              <div class="product-card">
+                <div class="product-badge">
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 12 12"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M2.00008 2.00049H8.00053C8.00053 2.13311 8.05321 2.26029 8.14698 2.35407C8.24076 2.44784 8.36795 2.50053 8.50056 2.50053C8.63318 2.50053 8.76037 2.44784 8.85414 2.35407C8.94792 2.26029 9.0006 2.13311 9.0006 2.00049H10.0007C10.2659 2.00049 10.5203 2.10585 10.7078 2.2934C10.8954 2.48095 11.0008 2.73533 11.0008 3.00056V9.00101C11.0008 9.26625 10.8954 9.52062 10.7078 9.70817C10.5203 9.89573 10.2659 10.0011 10.0007 10.0011H9.0006C9.0006 9.86847 8.94792 9.74128 8.85414 9.64751C8.76037 9.55373 8.63318 9.50105 8.50056 9.50105C8.36795 9.50105 8.24076 9.55373 8.14698 9.64751C8.05321 9.74128 8.00053 9.86847 8.00053 10.0011H2.00008C1.73484 10.0011 1.48047 9.89573 1.29292 9.70817C1.10536 9.52062 1 9.26625 1 9.00101V3.00056C1 2.73533 1.10536 2.48095 1.29292 2.2934C1.48047 2.10585 1.73484 2.00049 2.00008 2.00049ZM9.0006 4.00114C9.0006 4.13376 8.94792 4.26094 8.85414 4.35472C8.76037 4.44849 8.63318 4.50118 8.50056 4.50118C8.36795 4.50118 8.24076 4.44849 8.14698 4.35472C8.05321 4.26094 8.00053 4.13376 8.00053 4.00114V4.00064C8.00053 3.86802 8.05321 3.74083 8.14698 3.64706C8.24076 3.55328 8.36795 3.5006 8.50056 3.5006C8.63318 3.5006 8.76037 3.55328 8.85414 3.64706C8.94792 3.74083 9.0006 3.86802 9.0006 4.00064V4.00114ZM8.50056 6.50133C8.63318 6.50133 8.76037 6.44864 8.85414 6.35487C8.94792 6.26109 9.0006 6.13391 9.0006 6.00129V6.00079C9.0006 5.86817 8.94792 5.74098 8.85414 5.64721C8.76037 5.55343 8.63318 5.50075 8.50056 5.50075C8.36795 5.50075 8.24076 5.55343 8.14698 5.64721C8.05321 5.74098 8.00053 5.86817 8.00053 6.00079V6.00129C8.00053 6.13391 8.05321 6.26109 8.14698 6.35487C8.24076 6.44864 8.36795 6.50133 8.50056 6.50133ZM9.0006 8.00144C9.0006 8.13406 8.94792 8.26124 8.85414 8.35502C8.76037 8.44879 8.63318 8.50148 8.50056 8.50148C8.36795 8.50148 8.24076 8.44879 8.14698 8.35502C8.05321 8.26124 8.00053 8.13406 8.00053 8.00144C8.00053 7.86882 8.05321 7.74113 8.14698 7.64736C8.24076 7.55358 8.36795 7.5009 8.50056 7.5009C8.63318 7.5009 8.76037 7.55358 8.85414 7.64736C8.94792 7.74113 9.0006 7.86882 9.0006 8.00144Z"
+                      fill="black"
+                    />
+                  </svg>
+
+                  -20%
+                </div>
+                <img src="../../assets/img/products/jersey.png" />
+
+                <div class="product-info">
+                  <div class="product-name">Product Name</div>
+                  <div class="product-price">Rp120.000</div>
+                  <div class="product-stock">Stok: 15</div>
+
+                  <button class="btn-add">Tambah</button>
+                </div>
+              </div>
+
+              <div class="product-card">
+                <div class="product-badge">
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 12 12"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M2.00008 2.00049H8.00053C8.00053 2.13311 8.05321 2.26029 8.14698 2.35407C8.24076 2.44784 8.36795 2.50053 8.50056 2.50053C8.63318 2.50053 8.76037 2.44784 8.85414 2.35407C8.94792 2.26029 9.0006 2.13311 9.0006 2.00049H10.0007C10.2659 2.00049 10.5203 2.10585 10.7078 2.2934C10.8954 2.48095 11.0008 2.73533 11.0008 3.00056V9.00101C11.0008 9.26625 10.8954 9.52062 10.7078 9.70817C10.5203 9.89573 10.2659 10.0011 10.0007 10.0011H9.0006C9.0006 9.86847 8.94792 9.74128 8.85414 9.64751C8.76037 9.55373 8.63318 9.50105 8.50056 9.50105C8.36795 9.50105 8.24076 9.55373 8.14698 9.64751C8.05321 9.74128 8.00053 9.86847 8.00053 10.0011H2.00008C1.73484 10.0011 1.48047 9.89573 1.29292 9.70817C1.10536 9.52062 1 9.26625 1 9.00101V3.00056C1 2.73533 1.10536 2.48095 1.29292 2.2934C1.48047 2.10585 1.73484 2.00049 2.00008 2.00049ZM9.0006 4.00114C9.0006 4.13376 8.94792 4.26094 8.85414 4.35472C8.76037 4.44849 8.63318 4.50118 8.50056 4.50118C8.36795 4.50118 8.24076 4.44849 8.14698 4.35472C8.05321 4.26094 8.00053 4.13376 8.00053 4.00114V4.00064C8.00053 3.86802 8.05321 3.74083 8.14698 3.64706C8.24076 3.55328 8.36795 3.5006 8.50056 3.5006C8.63318 3.5006 8.76037 3.55328 8.85414 3.64706C8.94792 3.74083 9.0006 3.86802 9.0006 4.00064V4.00114ZM8.50056 6.50133C8.63318 6.50133 8.76037 6.44864 8.85414 6.35487C8.94792 6.26109 9.0006 6.13391 9.0006 6.00129V6.00079C9.0006 5.86817 8.94792 5.74098 8.85414 5.64721C8.76037 5.55343 8.63318 5.50075 8.50056 5.50075C8.36795 5.50075 8.24076 5.55343 8.14698 5.64721C8.05321 5.74098 8.00053 5.86817 8.00053 6.00079V6.00129C8.00053 6.13391 8.05321 6.26109 8.14698 6.35487C8.24076 6.44864 8.36795 6.50133 8.50056 6.50133ZM9.0006 8.00144C9.0006 8.13406 8.94792 8.26124 8.85414 8.35502C8.76037 8.44879 8.63318 8.50148 8.50056 8.50148C8.36795 8.50148 8.24076 8.44879 8.14698 8.35502C8.05321 8.26124 8.00053 8.13406 8.00053 8.00144C8.00053 7.86882 8.05321 7.74113 8.14698 7.64736C8.24076 7.55358 8.36795 7.5009 8.50056 7.5009C8.63318 7.5009 8.76037 7.55358 8.85414 7.64736C8.94792 7.74113 9.0006 7.86882 9.0006 8.00144Z"
+                      fill="black"
+                    />
+                  </svg>
+
+                  -20%
+                </div>
+                <img src="../../assets/img/products/jersey.png" />
+
+                <div class="product-info">
+                  <div class="product-name">Product Name</div>
+                  <div class="product-price">Rp120.000</div>
+                  <div class="product-stock">Stok: 15</div>
+
+                  <button class="btn-add">Tambah</button>
+                </div>
+              </div>
+
+              <div class="product-card">
+                <div class="product-badge">
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 12 12"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M2.00008 2.00049H8.00053C8.00053 2.13311 8.05321 2.26029 8.14698 2.35407C8.24076 2.44784 8.36795 2.50053 8.50056 2.50053C8.63318 2.50053 8.76037 2.44784 8.85414 2.35407C8.94792 2.26029 9.0006 2.13311 9.0006 2.00049H10.0007C10.2659 2.00049 10.5203 2.10585 10.7078 2.2934C10.8954 2.48095 11.0008 2.73533 11.0008 3.00056V9.00101C11.0008 9.26625 10.8954 9.52062 10.7078 9.70817C10.5203 9.89573 10.2659 10.0011 10.0007 10.0011H9.0006C9.0006 9.86847 8.94792 9.74128 8.85414 9.64751C8.76037 9.55373 8.63318 9.50105 8.50056 9.50105C8.36795 9.50105 8.24076 9.55373 8.14698 9.64751C8.05321 9.74128 8.00053 9.86847 8.00053 10.0011H2.00008C1.73484 10.0011 1.48047 9.89573 1.29292 9.70817C1.10536 9.52062 1 9.26625 1 9.00101V3.00056C1 2.73533 1.10536 2.48095 1.29292 2.2934C1.48047 2.10585 1.73484 2.00049 2.00008 2.00049ZM9.0006 4.00114C9.0006 4.13376 8.94792 4.26094 8.85414 4.35472C8.76037 4.44849 8.63318 4.50118 8.50056 4.50118C8.36795 4.50118 8.24076 4.44849 8.14698 4.35472C8.05321 4.26094 8.00053 4.13376 8.00053 4.00114V4.00064C8.00053 3.86802 8.05321 3.74083 8.14698 3.64706C8.24076 3.55328 8.36795 3.5006 8.50056 3.5006C8.63318 3.5006 8.76037 3.55328 8.85414 3.64706C8.94792 3.74083 9.0006 3.86802 9.0006 4.00064V4.00114ZM8.50056 6.50133C8.63318 6.50133 8.76037 6.44864 8.85414 6.35487C8.94792 6.26109 9.0006 6.13391 9.0006 6.00129V6.00079C9.0006 5.86817 8.94792 5.74098 8.85414 5.64721C8.76037 5.55343 8.63318 5.50075 8.50056 5.50075C8.36795 5.50075 8.24076 5.55343 8.14698 5.64721C8.05321 5.74098 8.00053 5.86817 8.00053 6.00079V6.00129C8.00053 6.13391 8.05321 6.26109 8.14698 6.35487C8.24076 6.44864 8.36795 6.50133 8.50056 6.50133ZM9.0006 8.00144C9.0006 8.13406 8.94792 8.26124 8.85414 8.35502C8.76037 8.44879 8.63318 8.50148 8.50056 8.50148C8.36795 8.50148 8.24076 8.44879 8.14698 8.35502C8.05321 8.26124 8.00053 8.13406 8.00053 8.00144C8.00053 7.86882 8.05321 7.74113 8.14698 7.64736C8.24076 7.55358 8.36795 7.5009 8.50056 7.5009C8.63318 7.5009 8.76037 7.55358 8.85414 7.64736C8.94792 7.74113 9.0006 7.86882 9.0006 8.00144Z"
+                      fill="black"
+                    />
+                  </svg>
+
+                  -20%
+                </div>
+                <img src="../../assets/img/products/jersey.png" />
+
+                <div class="product-info">
+                  <div class="product-name">Product Name</div>
+                  <div class="product-price">Rp120.000</div>
+                  <div class="product-stock">Stok: 15</div>
+
+                  <button class="btn-add">Tambah</button>
+                </div>
+              </div>
+
+              <div class="product-card">
+                <div class="product-badge">
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 12 12"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M2.00008 2.00049H8.00053C8.00053 2.13311 8.05321 2.26029 8.14698 2.35407C8.24076 2.44784 8.36795 2.50053 8.50056 2.50053C8.63318 2.50053 8.76037 2.44784 8.85414 2.35407C8.94792 2.26029 9.0006 2.13311 9.0006 2.00049H10.0007C10.2659 2.00049 10.5203 2.10585 10.7078 2.2934C10.8954 2.48095 11.0008 2.73533 11.0008 3.00056V9.00101C11.0008 9.26625 10.8954 9.52062 10.7078 9.70817C10.5203 9.89573 10.2659 10.0011 10.0007 10.0011H9.0006C9.0006 9.86847 8.94792 9.74128 8.85414 9.64751C8.76037 9.55373 8.63318 9.50105 8.50056 9.50105C8.36795 9.50105 8.24076 9.55373 8.14698 9.64751C8.05321 9.74128 8.00053 9.86847 8.00053 10.0011H2.00008C1.73484 10.0011 1.48047 9.89573 1.29292 9.70817C1.10536 9.52062 1 9.26625 1 9.00101V3.00056C1 2.73533 1.10536 2.48095 1.29292 2.2934C1.48047 2.10585 1.73484 2.00049 2.00008 2.00049ZM9.0006 4.00114C9.0006 4.13376 8.94792 4.26094 8.85414 4.35472C8.76037 4.44849 8.63318 4.50118 8.50056 4.50118C8.36795 4.50118 8.24076 4.44849 8.14698 4.35472C8.05321 4.26094 8.00053 4.13376 8.00053 4.00114V4.00064C8.00053 3.86802 8.05321 3.74083 8.14698 3.64706C8.24076 3.55328 8.36795 3.5006 8.50056 3.5006C8.63318 3.5006 8.76037 3.55328 8.85414 3.64706C8.94792 3.74083 9.0006 3.86802 9.0006 4.00064V4.00114ZM8.50056 6.50133C8.63318 6.50133 8.76037 6.44864 8.85414 6.35487C8.94792 6.26109 9.0006 6.13391 9.0006 6.00129V6.00079C9.0006 5.86817 8.94792 5.74098 8.85414 5.64721C8.76037 5.55343 8.63318 5.50075 8.50056 5.50075C8.36795 5.50075 8.24076 5.55343 8.14698 5.64721C8.05321 5.74098 8.00053 5.86817 8.00053 6.00079V6.00129C8.00053 6.13391 8.05321 6.26109 8.14698 6.35487C8.24076 6.44864 8.36795 6.50133 8.50056 6.50133ZM9.0006 8.00144C9.0006 8.13406 8.94792 8.26124 8.85414 8.35502C8.76037 8.44879 8.63318 8.50148 8.50056 8.50148C8.36795 8.50148 8.24076 8.44879 8.14698 8.35502C8.05321 8.26124 8.00053 8.13406 8.00053 8.00144C8.00053 7.86882 8.05321 7.74113 8.14698 7.64736C8.24076 7.55358 8.36795 7.5009 8.50056 7.5009C8.63318 7.5009 8.76037 7.55358 8.85414 7.64736C8.94792 7.74113 9.0006 7.86882 9.0006 8.00144Z"
+                      fill="black"
+                    />
+                  </svg>
+
+                  -20%
+                </div>
+                <img src="../../assets/img/products/jersey.png" />
+
+                <div class="product-info">
+                  <div class="product-name">Product Name</div>
+                  <div class="product-price">Rp120.000</div>
+                  <div class="product-stock">Stok: 15</div>
+
+                  <button class="btn-add">Tambah</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: KERANJANG -->
+          <div class="cashier-cart">
+            <div class="cart-header">
+              <div class="header">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M2.5 2.5H4.16667L4.58333 5M4.58333 5L5.83333 12.5H15L17.5 5H4.58333Z"
+                    stroke="#C6FF33"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M6.66683 17.5002C7.12707 17.5002 7.50016 17.1271 7.50016 16.6668C7.50016 16.2066 7.12707 15.8335 6.66683 15.8335C6.20659 15.8335 5.8335 16.2066 5.8335 16.6668C5.8335 17.1271 6.20659 17.5002 6.66683 17.5002Z"
+                    stroke="#C6FF33"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M14.1668 17.5002C14.6271 17.5002 15.0002 17.1271 15.0002 16.6668C15.0002 16.2066 14.6271 15.8335 14.1668 15.8335C13.7066 15.8335 13.3335 16.2066 13.3335 16.6668C13.3335 17.1271 13.7066 17.5002 14.1668 17.5002Z"
+                    stroke="#C6FF33"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+
+                Keranjang
+              </div>
+              <p class="cart-caption">0 Item - Klik produk untuk menambah</p>
+            </div>
+
+            <div class="cart-empty">
+              <div class="cart-icon">
+                <svg
+                  width="59"
+                  height="59"
+                  viewBox="0 0 59 59"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M7.375 7.375H12.2917L13.5208 14.75M13.5208 14.75L17.2083 36.875H44.25L51.625 14.75H13.5208Z"
+                    stroke="#C6FF33"
+                    stroke-width="4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M19.6668 51.6252C21.0245 51.6252 22.1252 50.5245 22.1252 49.1668C22.1252 47.8091 21.0245 46.7085 19.6668 46.7085C18.3091 46.7085 17.2085 47.8091 17.2085 49.1668C17.2085 50.5245 18.3091 51.6252 19.6668 51.6252Z"
+                    stroke="#C6FF33"
+                    stroke-width="4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M41.7918 51.6252C43.1495 51.6252 44.2502 50.5245 44.2502 49.1668C44.2502 47.8091 43.1495 46.7085 41.7918 46.7085C40.4341 46.7085 39.3335 47.8091 39.3335 49.1668C39.3335 50.5245 40.4341 51.6252 41.7918 51.6252Z"
+                    stroke="#C6FF33"
+                    stroke-width="4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
+              <div class="is-empty">Belum ada produk</div>
+            </div>
+            <div class="cart-summary">
+              <div class="row">
+                <span>Subtotal</span>
+                <span>Rp0</span>
+              </div>
+              <div class="row">
+                <span>Diskon</span>
+                <span>-</span>
+              </div>
+              <div class="row">
+                <span>Voucher</span>
+                <span class="link">+ Masukkan kode</span>
+              </div>
+
+              <div class="row total">
+                <span>Total</span>
+                <span class="price">Rp0</span>
+              </div>
+            </div>
+
+            <button class="btn-checkout">Proses Pembayaran</button>
+          </div>
+        </main>
+        <!-- END .content -->
+      </div>
+      <!-- END .area-main -->
+    </div>
+    <!-- END .layout -->
+
+    <!-- Overlay gelap saat sidebar dibuka di mobile -->
+    <div
+      class="sidebar-overlay"
+      id="sidebarOverlay"
+      onclick="closeSidebar()"
+    ></div>
+
+    <!-- JAVASCRIPT - hanya untuk toggle sidebar di mobile -->
+    <script>
+      function toggleSidebar() {
+        document.getElementById("sidebar").classList.toggle("open");
+        document.getElementById("sidebarOverlay").classList.toggle("show");
+      }
+
+      function closeSidebar() {
+        document.getElementById("sidebar").classList.remove("open");
+        document.getElementById("sidebarOverlay").classList.remove("show");
+      }
+    </script>
+  </body>
+</html>
