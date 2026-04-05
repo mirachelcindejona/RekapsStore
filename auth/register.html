@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rekaps store register</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/register.css">
+</head>
+
+<body>
+    <!-- container utama -->
+     <div class="auth ">
+        <!-- register sebelah kiri -->
+         <div class="auth_left">
+            <div class="brand">
+                <img src="../assets/icons/rekaps-store-logo.svg"alt="logo">
+            </div>
+            
+            <div class="hero">
+                <h1>WELCOME TO <br>
+                <span>REKAPS</span> STORE</h1>
+                <p>Berkarya, berkolaborasi, dan berkembang bersama</p>
+            </div>
+         </div>
+
+         <div class="auth_right">
+            <div class="auth_card">
+                <h1 class="auth_title">REGISTER</h1>
+
+                <form>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" placeholder="Username" required 
+                    oninvalid="this.setCustomValidity('Username tidak boleh kosong')"
+                    oninput="this.setCustomValidity('')">
+                </div>
+
+                 <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="Email" required 
+                    oninvalid="this.setCustomValidity('Masukkan email dengan benar')"
+                    oninput="this.setCustomValidity('')">
+                </div>
+
+                 <div class="form-group">
+                    <label>Password</label>
+                    <div class="input-icon">
+                        <input type="password" placeholder="Password" required
+                        oninvalid="this.setCustomValidity('Password tidak boleh kosong')"
+                        oninput="this.setCustomValidity('')">
+                        <span class="icon"></span>
+                    </div>
+                </div>
+
+                <button class="btn-primary">Register</button>
+                <p class="auth_footer">Sudah punya akun?<a href="login.html" link class="link"> Login</a></p>
+                </form>
+            </div>
+         </div>
+
+     </div>
+
+</body>
+</html>
