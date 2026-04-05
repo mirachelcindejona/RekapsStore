@@ -10,7 +10,7 @@ body {
     display: flex;
     box-sizing: border-box;
     justify-content: space-between;
-    padding: 20px 50px;
+    padding: 10px 50px;
     box-shadow: 0 -2px 5px black;
     align-items: center;
     position: sticky;
