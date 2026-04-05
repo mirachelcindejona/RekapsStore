@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tambah Produk Baru — Rekaps Admin</title>
+    <title>Edit Produk — Rekaps Admin</title>
 
     <link rel="stylesheet" href="../../css/global.css" />
-    <link rel="stylesheet" href="../../css/add-product.css" />
+    <link rel="stylesheet" href="../../css/edit-product.css" />
     <link rel="stylesheet" href="../../css/layout-admin.css" />
   </head>
   <body>
@@ -180,10 +180,11 @@
 
           <!-- Judul halaman -->
           <div class="navbar-left">
-            <div class="navbar-page-title">Tambah Produk</div>
+            <div class="navbar-page-title">Edit Produk</div>
             <div class="navbar-breadcrumb">
-              Rekaps Store / Produk /
-              <span class="breadcrumb-active">Tambah Produk</span>
+              Rekaps Store / Produk /<span class="breadcrumb-active"
+                >Edit Produk</span
+              >
             </div>
           </div>
 
@@ -216,7 +217,7 @@
                 <path d="M19 12H5M12 19l-7-7 7-7" />
               </svg>
             </a>
-            <h1 class="page-title">Form Tambah Produk Baru</h1>
+            <h1 class="page-title">Form Edit Produk</h1>
           </div>
 
           <form action="" class="form-grid-wrapper">
@@ -225,33 +226,11 @@
                 <h3 class="section-title">Foto Produk</h3>
 
                 <div class="upload-box">
-                  <svg
-                    width="40"
-                    height="40"
-                    viewBox="0 0 40 40"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M5 30.0001V15.0001C5 14.116 5.35119 13.2682 5.97631 12.6431C6.60143 12.0179 7.44928 11.6667 8.33333 11.6667H9.88333C10.432 11.6668 10.9722 11.5315 11.4559 11.2727C11.9397 11.014 12.3522 10.6398 12.6567 10.1834L14.01 8.15008C14.3145 7.69369 14.7269 7.31952 15.2107 7.06076C15.6945 6.80201 16.2347 6.66667 16.7833 6.66675H23.2167C23.7653 6.66667 24.3055 6.80201 24.7893 7.06076C25.2731 7.31952 25.6855 7.69369 25.99 8.15008L27.3433 10.1834C27.6478 10.6398 28.0603 11.014 28.5441 11.2727C29.0278 11.5315 29.568 11.6668 30.1167 11.6667H31.6667C32.5507 11.6667 33.3986 12.0179 34.0237 12.6431C34.6488 13.2682 35 14.116 35 15.0001V30.0001C35 30.8841 34.6488 31.732 34.0237 32.3571C33.3986 32.9822 32.5507 33.3334 31.6667 33.3334H8.33333C7.44928 33.3334 6.60143 32.9822 5.97631 32.3571C5.35119 31.732 5 30.8841 5 30.0001Z"
-                      stroke="#7D39EB"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M20 26.6667C22.7614 26.6667 25 24.4282 25 21.6667C25 18.9053 22.7614 16.6667 20 16.6667C17.2386 16.6667 15 18.9053 15 21.6667C15 24.4282 17.2386 26.6667 20 26.6667Z"
-                      stroke="#7D39EB"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-
-                  <div class="upload-text">
-                    Drag & drop atau <span>klik untuk upload</span>
-                  </div>
-                  <div class="upload-hint">PNG, JPG max 5MB</div>
+                  <img
+                    src="../../assets/img/products/poster-jersey.png"
+                    alt=""
+                    width="100%"
+                  />
                 </div>
 
                 <div class="image-gallery">
@@ -269,22 +248,20 @@
                   <input
                     type="text"
                     class="form-control"
-                    placeholder="Masukkan nama produk"
+                    value="Jersey RPL Premium"
                   />
                 </div>
 
                 <div class="form-group">
                   <label class="form-label">DESKRIPSI PRODUK</label>
-                  <textarea
-                    class="form-control"
-                    placeholder="Deskripsi..."
-                  ></textarea>
+                  <textarea class="form-control">
+Jersey RPL Pink merupakan salah satu produk apparel unggulan yang dirancang khusus untuk mahasiswa dan komunitas Rekayasa Perangkat Lunak (RPL) yang ingin tampil lebih berani, ekspresif, dan tetap profesional.</textarea
+                  >
                 </div>
 
                 <div class="form-group">
                   <label class="form-label">KATEGORI</label>
                   <select class="form-control">
-                    <option>Pilih Kategori</option>
                     <option>Merchandise</option>
                     <option>Makanan</option>
                     <option>Produk Digital</option>
@@ -302,11 +279,7 @@
                   </div>
                   <div class="form-group">
                     <label class="form-label">KODE PRODUK</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="cth: PRDK01"
-                    />
+                    <input type="text" class="form-control" value="JRSY-021" />
                   </div>
                 </div>
 
@@ -315,7 +288,7 @@
                   <input
                     type="text"
                     class="form-control"
-                    placeholder="cth: 7 hari kerja"
+                    value="7 hari kerja"
                   />
                 </div>
               </div>
@@ -327,11 +300,11 @@
                 <div class="form-row">
                   <div class="form-group">
                     <label class="form-label">HARGA MODAL</label>
-                    <input type="number" class="form-control" placeholder="0" />
+                    <input type="number" class="form-control" value="130.000" />
                   </div>
                   <div class="form-group">
                     <label class="form-label">HARGA JUAL</label>
-                    <input type="number" class="form-control" placeholder="0" />
+                    <input type="number" class="form-control" value="140.000" />
                   </div>
                 </div>
 
@@ -340,23 +313,23 @@
                   <input
                     type="text"
                     class="form-control"
-                    value="Otomatis"
+                    value="10.000"
                     readonly
                   />
                 </div>
               </div>
 
               <div class="section-card">
-                <h3 class="section-title">Stok Awal</h3>
+                <h3 class="section-title">Stok</h3>
 
                 <div class="form-row">
                   <div class="form-group">
                     <label class="form-label">JUMLAH STOK</label>
-                    <input type="text" class="form-control" placeholder="0" />
+                    <input type="text" class="form-control" value="21" />
                   </div>
                   <div class="form-group">
                     <label class="form-label">STOK MINIMUM (NOTIFIKASI)</label>
-                    <input type="number" class="form-control" placeholder="0" />
+                    <input type="number" class="form-control" value="3" />
                   </div>
                 </div>
               </div>
@@ -379,11 +352,7 @@
                     </button>
                   </div>
 
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Contoh: Ukuran, Warna"
-                  />
+                  <input type="text" class="form-control" value="Ukuran" />
 
                   <div class="form-label">PILIHAN</div>
 
@@ -502,7 +471,7 @@
                     stroke-linejoin="round"
                   />
                 </svg>
-                Simpan Produk
+                Simpan Perubahan
               </button>
             </div>
           </form>
