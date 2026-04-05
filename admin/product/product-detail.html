@@ -1,0 +1,1124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detail Produk — Rekaps Admin</title>
+
+    <link rel="stylesheet" href="../../css/global.css" />
+    <link rel="stylesheet" href="../../css/product-detail-admin.css" />
+    <link rel="stylesheet" href="../../css/layout-admin.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <!-- ====== SIDEBAR ====== -->
+      <aside class="sidebar" id="sidebar">
+        <!-- Logo / Brand -->
+        <div class="sidebar-brand">
+          <div class="brand-logo">
+            <img src="../../assets/icons/logo-rekaps.svg" alt="" />
+          </div>
+          <div class="brand-text">
+            <span class="brand-name">Rekaps Store</span>
+            <span class="brand-tagline">Admin Panel</span>
+          </div>
+        </div>
+
+        <!-- Info Pengguna -->
+        <div class="sidebar-user">
+          <div class="user-avatar">AR</div>
+          <div class="user-info">
+            <div class="user-name">Admin Rekaps</div>
+            <span class="user-role">KETUA</span>
+          </div>
+        </div>
+
+        <!-- Navigasi -->
+        <nav class="sidebar-nav">
+          <!-- Grup: Utama -->
+          <div class="nav-group-label">Utama</div>
+
+          <a href="../dashboard.html" class="nav-item">
+            <span class="nav-item-icon">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M6.66683 10.8332V13.3332M10.0002 8.33317V13.3332M13.3335 12.4998V13.3332M16.6668 15.8332V8.74984C16.6668 8.62047 16.6367 8.49287 16.5789 8.37716C16.521 8.26145 16.437 8.16079 16.3335 8.08317L10.5002 3.70817C10.3559 3.59999 10.1805 3.5415 10.0002 3.5415C9.81985 3.5415 9.64441 3.59999 9.50016 3.70817L3.66683 8.08317C3.56333 8.16079 3.47933 8.26145 3.42147 8.37716C3.36362 8.49287 3.3335 8.62047 3.3335 8.74984V15.8332C3.3335 16.0542 3.42129 16.2661 3.57757 16.4224C3.73385 16.5787 3.94582 16.6665 4.16683 16.6665H15.8335C16.0545 16.6665 16.2665 16.5787 16.4228 16.4224C16.579 16.2661 16.6668 16.0542 16.6668 15.8332Z"
+                  stroke="#D7C2F9"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+            Dashboard
+          </a>
+
+          <a href="product.html" class="nav-item active">
+            <span class="nav-item-icon">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M3.3335 6.66667L10.0002 2.5L13.3335 4.58333M3.3335 6.66667V13.3333L10.0002 17.5M3.3335 6.66667L6.66683 8.75M13.3335 4.58333L16.6668 6.66667M13.3335 4.58333L6.66683 8.75M10.0002 17.5V10.8333M10.0002 17.5L16.6668 13.3333V6.66667M6.66683 8.75L10.0002 10.8333M10.0002 10.8333L16.6668 6.66667"
+                  stroke="#C6FF33"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+            Produk
+          </a>
+
+          <a href="../orders/orders.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img
+                src="../../assets/icons/receipt-text-line.svg"
+                alt="Pesanan"
+              />
+            </span>
+            Pesanan
+          </a>
+
+          <a href="../cashier/cashier.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img src="../../assets/icons/monitor-line.svg" alt="Kasir" />
+            </span>
+            Kasir
+          </a>
+
+          <!-- Grup: Keuangan & Stok -->
+          <div class="nav-group-label">Keuangan</div>
+
+          <a href="../finance/finance.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img
+                src="../../assets/icons/dollar-circle-line.svg"
+                alt="Keuangan"
+              />
+            </span>
+            Keuangan
+          </a>
+
+          <a href="pembayaran.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img
+                src="../../assets/icons/creditcard-line.svg"
+                alt="Pembayaran"
+              />
+            </span>
+            Pembayaran
+          </a>
+
+          <a href="../promo/promo.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img
+                src="../../assets/icons/tag-line.svg"
+                alt="Diskon & Voucher"
+              />
+            </span>
+            Diskon & Voucher
+          </a>
+
+          <!-- Grup: Lainnya -->
+          <div class="nav-group-label">Lainnya</div>
+
+          <a href="../users/users.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img src="../../assets/icons/users-line.svg" alt="Pengguna" />
+            </span>
+            Pengguna
+          </a>
+
+          <a href="laporan.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img src="../../assets/icons/analytics-line.svg" alt="" />
+            </span>
+            Laporan
+          </a>
+        </nav>
+
+        <!-- Tombol Logout -->
+        <div class="sidebar-footer">
+          <button class="btn-logout">
+            <img src="../../assets/icons/logout-half-circle-line.svg" alt="" />
+            Keluar
+          </button>
+        </div>
+      </aside>
+      <!-- END .sidebar -->
+
+      <div class="area-main">
+        <!-- NAVBAR -->
+        <header class="navbar">
+          <!-- Tombol hamburger (hanya tampil di mobile) -->
+          <button class="btn-menu-toggle" onclick="toggleSidebar()">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+            >
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          </button>
+
+          <!-- Judul halaman -->
+          <div class="navbar-left">
+            <div class="navbar-page-title">Detail Produk</div>
+            <div class="navbar-breadcrumb">
+              Rekaps Store / Produk /
+              <span class="breadcrumb-active">Detail Produk</span>
+            </div>
+          </div>
+
+          <!-- Kanan: search, notifikasi, avatar -->
+          <div class="navbar-right">
+            <button class="icon-btn">
+              <img src="../../assets/icons/bell-line.svg" alt="" />
+              <span class="notif-dot"></span>
+            </button>
+
+            <div class="navbar-avatar">AR</div>
+          </div>
+        </header>
+        <!-- END .navbar -->
+
+        <!-- KONTEN PRODUK -->
+        <main class="content">
+          <div class="header-detail-wrapper">
+            <div class="header-left">
+              <a href="product.html" class="btn-back">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+              </a>
+            </div>
+
+            <div class="header-actions">
+              <button
+                class="btn-delete-gradient"
+                onclick="openModal('modalConfirmDelete')"
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M7.49967 5.83325C7.49967 5.17021 7.76307 4.53433 8.23191 4.06549C8.70075 3.59664 9.33663 3.33325 9.99967 3.33325C10.6627 3.33325 11.2986 3.59664 11.7674 4.06549C12.2363 4.53433 12.4997 5.17021 12.4997 5.83325M7.49967 5.83325H12.4997M7.49967 5.83325H4.99967M12.4997 5.83325H14.9997M4.99967 5.83325H3.33301M4.99967 5.83325V14.9999C4.99967 15.4419 5.17527 15.8659 5.48783 16.1784C5.80039 16.491 6.22431 16.6666 6.66634 16.6666H13.333C13.775 16.6666 14.199 16.491 14.5115 16.1784C14.8241 15.8659 14.9997 15.4419 14.9997 14.9999V5.83325M14.9997 5.83325H16.6663"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+
+                Hapus
+              </button>
+              <a href="edit-product.html">
+                <button class="btn-edit-solid">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M14.655 1.66669C14.9675 1.35424 15.3914 1.17871 15.8333 1.17871C16.2753 1.17871 16.6991 1.35424 17.0117 1.66669L18.3333 2.98835C18.6458 3.3009 18.8213 3.72475 18.8213 4.16669C18.8213 4.60863 18.6458 5.03248 18.3333 5.34502L17.0117 6.66669L13.3333 2.98835L14.655 1.66669ZM12.155 4.16669L7.98833 8.33336C7.67575 8.64584 7.50009 9.0697 7.5 9.51169V10.8334C7.5 11.2754 7.6756 11.6993 7.98816 12.0119C8.30072 12.3244 8.72464 12.5 9.16667 12.5H10.4883C10.9303 12.4999 11.3542 12.3243 11.6667 12.0117L15.8333 7.84502L12.155 4.16669Z"
+                      fill="#FAFAFA"
+                    />
+                    <path
+                      d="M5 11.6667H4.16667C3.72464 11.6667 3.30072 11.8423 2.98816 12.1549C2.67559 12.4675 2.5 12.8914 2.5 13.3334C2.5 13.7754 2.67559 14.1994 2.98816 14.5119C3.30072 14.8245 3.72464 15.0001 4.16667 15.0001H15.8333C16.2754 15.0001 16.6993 15.1757 17.0118 15.4882C17.3244 15.8008 17.5 16.2247 17.5 16.6667C17.5 17.1088 17.3244 17.5327 17.0118 17.8453C16.6993 18.1578 16.2754 18.3334 15.8333 18.3334H12.5"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+
+                  Edit
+                </button>
+              </a>
+            </div>
+          </div>
+
+          <div class="product-detail-card">
+            <div class="detail-top-grid">
+              <div class="detail-image-section">
+                <img
+                  src="../../assets/img/products/poster-jersey.png"
+                  alt="Produk"
+                  class="main-image"
+                />
+                <div class="thumbnail-group">
+                  <img
+                    src="../../assets/img/products/jersey.png"
+                    class="thumbnail-img active"
+                    alt="Thumb"
+                  />
+                  <img
+                    src="../../assets/img/products/jersey.png"
+                    class="thumbnail-img"
+                    alt="Thumb"
+                  />
+                  <img
+                    src="../../assets/img/products/jersey.png"
+                    class="thumbnail-img"
+                    alt="Thumb"
+                  />
+                </div>
+              </div>
+
+              <div class="detail-info-section">
+                <div>
+                  <h1 class="product-title-large">Jersey RPL Super Premium</h1>
+
+                  <div class="info-row">
+                    <div class="badge-group">
+                      <span class="badge badge-purple">Ready Stok</span>
+                      <span class="badge badge-yellow">Merchandise</span>
+                      <span class="badge badge-green">Aktif</span>
+                    </div>
+                  </div>
+                  <div class="rating-box">
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6.83302 7.40458C7.14849 7.35265 7.42011 7.15301 7.56384 6.86743L9.11523 3.785C9.48556 3.0492 10.5369 3.05163 10.9038 3.78912L12.4415 6.87977C12.584 7.16626 12.8551 7.36724 13.1706 7.42041L16.0822 7.91109C16.8845 8.04632 17.1981 9.03216 16.6213 9.60608L13.984 12.2301C13.7153 12.4974 13.6209 12.8937 13.7401 13.2535L14.5534 15.7076C14.8337 16.5534 13.9514 17.3158 13.1552 16.9157L10.4319 15.5473C10.1509 15.4061 9.81974 15.4054 9.53804 15.5453L6.8076 16.9017C6.00976 17.2981 5.13096 16.532 5.41481 15.6876L6.23833 13.2375C6.3591 12.8783 6.26635 12.4816 5.9988 12.2131L3.37202 9.577C2.79782 9.00076 3.11527 8.01655 3.91795 7.88442L6.83302 7.40458Z"
+                        fill="#FFDF20"
+                      />
+                    </svg>
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6.83302 7.40458C7.14849 7.35265 7.42011 7.15301 7.56384 6.86743L9.11523 3.785C9.48556 3.0492 10.5369 3.05163 10.9038 3.78912L12.4415 6.87977C12.584 7.16626 12.8551 7.36724 13.1706 7.42041L16.0822 7.91109C16.8845 8.04632 17.1981 9.03216 16.6213 9.60608L13.984 12.2301C13.7153 12.4974 13.6209 12.8937 13.7401 13.2535L14.5534 15.7076C14.8337 16.5534 13.9514 17.3158 13.1552 16.9157L10.4319 15.5473C10.1509 15.4061 9.81974 15.4054 9.53804 15.5453L6.8076 16.9017C6.00976 17.2981 5.13096 16.532 5.41481 15.6876L6.23833 13.2375C6.3591 12.8783 6.26635 12.4816 5.9988 12.2131L3.37202 9.577C2.79782 9.00076 3.11527 8.01655 3.91795 7.88442L6.83302 7.40458Z"
+                        fill="#FFDF20"
+                      />
+                    </svg>
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6.83302 7.40458C7.14849 7.35265 7.42011 7.15301 7.56384 6.86743L9.11523 3.785C9.48556 3.0492 10.5369 3.05163 10.9038 3.78912L12.4415 6.87977C12.584 7.16626 12.8551 7.36724 13.1706 7.42041L16.0822 7.91109C16.8845 8.04632 17.1981 9.03216 16.6213 9.60608L13.984 12.2301C13.7153 12.4974 13.6209 12.8937 13.7401 13.2535L14.5534 15.7076C14.8337 16.5534 13.9514 17.3158 13.1552 16.9157L10.4319 15.5473C10.1509 15.4061 9.81974 15.4054 9.53804 15.5453L6.8076 16.9017C6.00976 17.2981 5.13096 16.532 5.41481 15.6876L6.23833 13.2375C6.3591 12.8783 6.26635 12.4816 5.9988 12.2131L3.37202 9.577C2.79782 9.00076 3.11527 8.01655 3.91795 7.88442L6.83302 7.40458Z"
+                        fill="#FFDF20"
+                      />
+                    </svg>
+
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6.83302 7.40458C7.14849 7.35265 7.42011 7.15301 7.56384 6.86743L9.11523 3.785C9.48556 3.0492 10.5369 3.05163 10.9038 3.78912L12.4415 6.87977C12.584 7.16626 12.8551 7.36724 13.1706 7.42041L16.0822 7.91109C16.8845 8.04632 17.1981 9.03216 16.6213 9.60608L13.984 12.2301C13.7153 12.4974 13.6209 12.8937 13.7401 13.2535L14.5534 15.7076C14.8337 16.5534 13.9514 17.3158 13.1552 16.9157L10.4319 15.5473C10.1509 15.4061 9.81974 15.4054 9.53804 15.5453L6.8076 16.9017C6.00976 17.2981 5.13096 16.532 5.41481 15.6876L6.23833 13.2375C6.3591 12.8783 6.26635 12.4816 5.9988 12.2131L3.37202 9.577C2.79782 9.00076 3.11527 8.01655 3.91795 7.88442L6.83302 7.40458Z"
+                        fill="#FFDF20"
+                      />
+                    </svg>
+
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M10.9038 3.78912C10.5369 3.05162 9.48556 3.0492 9.11524 3.785L7.56384 6.86743C7.42011 7.15301 7.14849 7.35265 6.83302 7.40458L3.91795 7.88442C3.11527 8.01655 2.79782 9.00076 3.37202 9.577L5.9988 12.2131C6.26635 12.4816 6.3591 12.8783 6.23833 13.2375L5.41481 15.6876C5.13096 16.532 6.00976 17.2981 6.8076 16.9017L9.53804 15.5453C9.81974 15.4054 10.1509 15.4061 10.4319 15.5473L12 16.3352V5.9924L10.9038 3.78912Z"
+                        fill="#FFDF20"
+                      />
+                      <path
+                        d="M16.6213 9.60608C17.1981 9.03216 16.8845 8.04632 16.0822 7.91109L13.1706 7.42041C12.8551 7.36724 12.584 7.16626 12.4415 6.87977L12 5.9924V16.3352L13.1552 16.9157C13.9514 17.3158 14.8337 16.5534 14.5534 15.7076L13.7401 13.2535C13.6209 12.8937 13.7153 12.4974 13.984 12.2301L16.6213 9.60608Z"
+                        fill="#FFF085"
+                      />
+                    </svg>
+
+                    4.8 (3 Ulasan)
+                  </div>
+                </div>
+
+                <div class="price-block">
+                  <div class="price-main">Rp 140.000</div>
+                  <div class="price-sub">
+                    Modal : Rp 130.000 &nbsp; Margin : Rp 10.000
+                  </div>
+                </div>
+
+                <div class="stats-grid">
+                  <div class="stat-item">
+                    <span class="stat-label">STOK SAAT INI</span>
+                    <span class="stat-value highlight">21</span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="stat-label">TOTAL PENJUALAN</span>
+                    <span class="stat-value">21</span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="stat-label">MIN. STOK</span>
+                    <span class="stat-value">3</span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="stat-label">KODE PRODUK</span>
+                    <span class="stat-value">JRSY-021</span>
+                  </div>
+                </div>
+
+                <div class="variant-block">
+                  <div class="variant-title">UKURAN</div>
+                  <div class="variant-pills">
+                    <div class="pill">S (2)</div>
+                    <div class="pill">M (10)</div>
+                    <div class="pill">L (8)</div>
+                    <div class="pill">XL (1)</div>
+                  </div>
+                </div>
+
+                <div class="stock-manager">
+                  <div class="stock-manager-title">Kelola Stok</div>
+                  <div class="stock-manager-inner">
+                    <div class="stock-big-number">21</div>
+                    <div class="stock-actions">
+                      <button
+                        class="btn-edit-solid"
+                        onclick="openModal('modalStokMasuk')"
+                      >
+                        + Stok Masuk
+                      </button>
+                      <button
+                        class="btn-outline-brand"
+                        onclick="openModal('modalStokKeluar')"
+                      >
+                        - Stok Keluar
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="detail-bottom">
+              <div class="detail-tabs-nav">
+                <div
+                  class="detail-tab active"
+                  onclick="switchTab(event, 'tab-deskripsi')"
+                >
+                  Deskripsi
+                </div>
+                <div
+                  class="detail-tab"
+                  onclick="switchTab(event, 'tab-ulasan')"
+                >
+                  Ulasan & Rating (3)
+                </div>
+                <div class="detail-tab" onclick="switchTab(event, 'tab-stok')">
+                  Riwayat Stok
+                </div>
+              </div>
+
+              <div class="tab-content-area">
+                <div id="tab-deskripsi" class="tab-content active">
+                  <p style="margin-top: 0">
+                    Jersey RPL Pink merupakan salah satu produk apparel unggulan
+                    yang dirancang khusus untuk mahasiswa dan komunitas Rekayasa
+                    Perangkat Lunak (RPL) yang ingin tampil lebih berani,
+                    ekspresif, dan tetap profesional.
+                  </p>
+                  <p style="margin-bottom: 8px; font-weight: bold">
+                    Spesifikasi Produk:
+                  </p>
+                  <ul
+                    style="
+                      padding-left: 20px;
+                      margin: 0;
+                      display: flex;
+                      flex-direction: column;
+                      gap: 6px;
+                    "
+                  >
+                    <li><strong>Jenis:</strong> Jersey Custom (Atasan)</li>
+                    <li>
+                      <strong>Bahan:</strong> Dryfit Premium (adem, ringan, dan
+                      menyerap keringat)
+                    </li>
+                    <li>
+                      <strong>Metode Cetak:</strong> Full Printing Sublimasi
+                    </li>
+                    <li><strong>Fit:</strong> Regular Fit</li>
+                    <li><strong>Ukuran:</strong> S, M, L, XL, XXL</li>
+                  </ul>
+                </div>
+
+                <div id="tab-ulasan" class="tab-content">
+                  <div class="review-stats-wrapper">
+                    <div class="rating-card-big">
+                      <div class="rating-value-big">4.8</div>
+                      <div class="rating-stars-row">★★★★★</div>
+                      <div class="rating-total-text">5 Ulasan</div>
+                    </div>
+
+                    <div class="rating-bars-card">
+                      <div class="bar-row">
+                        <div class="bar-label">5 ★</div>
+                        <div class="bar-track">
+                          <div class="bar-fill" style="width: 80%"></div>
+                        </div>
+                        <div class="bar-percentage">4</div>
+                      </div>
+                      <div class="bar-row">
+                        <div class="bar-label">4 ★</div>
+                        <div class="bar-track">
+                          <div class="bar-fill" style="width: 20%"></div>
+                        </div>
+                        <div class="bar-percentage">1</div>
+                      </div>
+                      <div class="bar-row">
+                        <div class="bar-label">3 ★</div>
+                        <div class="bar-track">
+                          <div class="bar-fill" style="width: 0%"></div>
+                        </div>
+                        <div class="bar-percentage">0</div>
+                      </div>
+                      <div class="bar-row">
+                        <div class="bar-label">2 ★</div>
+                        <div class="bar-track">
+                          <div class="bar-fill" style="width: 0%"></div>
+                        </div>
+                        <div class="bar-percentage">0</div>
+                      </div>
+                      <div class="bar-row">
+                        <div class="bar-label">1 ★</div>
+                        <div class="bar-track">
+                          <div class="bar-fill" style="width: 0%"></div>
+                        </div>
+                        <div class="bar-percentage">0</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="reviews-container">
+                    <div class="review-item-card">
+                      <div class="user-profile-row">
+                        <div
+                          class="user-avatar-circle"
+                          style="background: #7d39eb"
+                        >
+                          MS
+                        </div>
+                        <div class="user-info-text">
+                          <div class="name">Muhammad Sumbul</div>
+                          <div class="rating-stars-row" style="font-size: 12px">
+                            ★★★★★
+                          </div>
+                        </div>
+                      </div>
+                      <p class="comment-text">
+                        “Jerseynya bagus bangett minn bikin lagi yang lebih
+                        gacorrrrr😍😍”
+                      </p>
+                      <div class="reply-box-admin">
+                        <div class="reply-badge">
+                          <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <polyline points="9 17 4 12 9 7"></polyline>
+                            <path d="M20 18v-2a4 4 0 0 0-4-4H4"></path>
+                          </svg>
+                          Balasan Admin Rekaps
+                        </div>
+                        <p class="comment-text" style="color: #737373">
+                          “Makasii udah memesan di rekaps store tunggu produk
+                          gacor lainnya yaaa”
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="review-item-card">
+                      <div class="user-profile-row">
+                        <div
+                          class="user-avatar-circle"
+                          style="background: #9ae600"
+                        >
+                          US
+                        </div>
+                        <div class="user-info-text">
+                          <div class="name">Uum Sarwenah</div>
+                          <div class="rating-stars-row" style="font-size: 12px">
+                            ★★★★★
+                          </div>
+                        </div>
+                      </div>
+                      <p class="comment-text">
+                        “Kerennnnn bahannya adem dan premium wakkk🔥🔥🔥🔥”
+                      </p>
+                      <div class="reply-input-wrapper">
+                        <textarea
+                          class="form-control"
+                          placeholder="Deskripsi.."
+                          style="
+                            min-height: 60px;
+                            width: 100%;
+                            border-radius: 10px;
+                          "
+                        ></textarea>
+                        <div style="display: flex; gap: 12px">
+                          <button
+                            style="
+                              padding: 8px 16px;
+                              background: #d4d4d4;
+                              color: #868686;
+                              border-radius: 12px;
+                              font-weight: 700;
+                              font-size: 12px;
+                            "
+                          >
+                            Batal
+                          </button>
+                          <button
+                            style="
+                              padding: 8px 16px;
+                              background: #7d39eb;
+                              color: #fff;
+                              border-radius: 12px;
+                              font-weight: 700;
+                              font-size: 12px;
+                              box-shadow: 0 0 8px rgba(114, 52, 214, 0.35);
+                            "
+                          >
+                            Kirim
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="review-item-card">
+                      <div class="user-profile-row">
+                        <div
+                          class="user-avatar-circle"
+                          style="background: #00bc7d"
+                        >
+                          AS
+                        </div>
+                        <div class="user-info-text">
+                          <div class="name">Aku Siapa</div>
+                          <div class="rating-stars-row" style="font-size: 12px">
+                            ★★★★★
+                          </div>
+                        </div>
+                      </div>
+                      <p class="comment-text">
+                        “Baguss bangetttt tapi sayang PO nya aga lama yahhh”
+                      </p>
+                      <button class="btn-reply-action">
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <polyline points="9 17 4 12 9 7"></polyline>
+                          <path d="M20 18v-2a4 4 0 0 0-4-4H4"></path>
+                        </svg>
+                        Balas
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="tab-stok" class="tab-content">
+                  <div class="history-header-row">
+                    <h3 class="history-title">Riwayat Perubahan Stok</h3>
+                    <button class="btn-reply-action">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                        <path
+                          d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"
+                        ></path>
+                        <rect x="6" y="14" width="12" height="8"></rect>
+                      </svg>
+                      Export
+                    </button>
+                  </div>
+
+                  <div class="history-list-wrapper">
+                    <div class="history-entry-item">
+                      <div class="entry-left-content">
+                        <div class="entry-icon-box up">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="3"
+                          >
+                            <line x1="12" y1="19" x2="12" y2="5"></line>
+                            <polyline points="5 12 12 5 19 12"></polyline>
+                          </svg>
+                        </div>
+                        <div>
+                          <div class="entry-main-text">
+                            +15 pcs - Restok dari Produksi
+                          </div>
+                          <div class="entry-sub-text">
+                            Oleh: Admin Ekraf 2 April 2026, 08:50
+                          </div>
+                        </div>
+                      </div>
+                      <div class="entry-right-stats">
+                        <div class="qty-change plus">+15</div>
+                        <div class="balance-text">Saldo: 21</div>
+                      </div>
+                    </div>
+
+                    <div class="history-entry-item">
+                      <div class="entry-left-content">
+                        <div class="entry-icon-box down">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="3"
+                          >
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <polyline points="19 12 12 19 5 12"></polyline>
+                          </svg>
+                        </div>
+                        <div>
+                          <div class="entry-main-text">-3 pcs - Terjual</div>
+                          <div class="entry-sub-text">
+                            Otomatis: 1 April 2026, 08:30
+                          </div>
+                        </div>
+                      </div>
+                      <div class="entry-right-stats">
+                        <div class="qty-change minus">-3</div>
+                        <div class="balance-text">Saldo: 16</div>
+                      </div>
+                    </div>
+
+                    <div class="history-entry-item">
+                      <div class="entry-left-content">
+                        <div class="entry-icon-box up">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="3"
+                          >
+                            <line x1="12" y1="19" x2="12" y2="5"></line>
+                            <polyline points="5 12 12 5 19 12"></polyline>
+                          </svg>
+                        </div>
+                        <div>
+                          <div class="entry-main-text">
+                            +5 pcs - Restok Bazar
+                          </div>
+                          <div class="entry-sub-text">
+                            Oleh: Pengurus Ekraf 1 April 2026, 07:50
+                          </div>
+                        </div>
+                      </div>
+                      <div class="entry-right-stats">
+                        <div class="qty-change plus">+5</div>
+                        <div class="balance-text">Saldo: 19</div>
+                      </div>
+                    </div>
+
+                    <div class="history-entry-item">
+                      <div class="entry-left-content">
+                        <div class="entry-icon-box audit">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="3"
+                          >
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <polyline points="19 12 12 19 5 12"></polyline>
+                          </svg>
+                        </div>
+                        <div>
+                          <div class="entry-main-text">
+                            -1 Koreksi Stok - Audit Fisik
+                          </div>
+                          <div class="entry-sub-text">
+                            Oleh: Admin Ekraf 28 Maret 2026, 11:50 | Catatan: 1
+                            produk rusak
+                          </div>
+                        </div>
+                      </div>
+                      <div class="entry-right-stats">
+                        <div class="qty-change neutral">-1</div>
+                        <div class="balance-text">Saldo: 20</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+        <!-- END .content -->
+      </div>
+      <!-- END .area-main -->
+    </div>
+    <!-- END .layout -->
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modalStokMasuk">
+      <div class="modal-container">
+        <div class="modal-header">
+          <div class="modal-title-wrapper">
+            <div class="modal-icon in">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+              >
+                <line x1="12" y1="19" x2="12" y2="5"></line>
+                <polyline points="5 12 12 5 19 12"></polyline>
+              </svg>
+            </div>
+            <h3 class="modal-title">Stok Masuk</h3>
+          </div>
+          <button
+            class="btn-close-modal"
+            onclick="closeModal('modalStokMasuk')"
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3"
+            >
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Pilih Produk</label>
+            <select class="form-control">
+              <option>Jersey RPL Super Premium</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Kategori Stok Masuk</label>
+            <select class="form-control">
+              <option value="" disabled selected hidden>Pilih Kategori</option>
+              <option>Restok Produksi</option>
+              <option>Retur Pelanggan</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Jumlah Stok Masuk</label>
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Masukkan jumlah"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Tanggal Masuk</label>
+            <input type="date" class="form-control" />
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button
+            class="btn-modal-cancel"
+            onclick="closeModal('modalStokMasuk')"
+          >
+            Batal
+          </button>
+          <button class="btn-modal-submit" style="width: 157px">
+            Simpan Stok Masuk
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="modalStokKeluar">
+      <div class="modal-container">
+        <div class="modal-header">
+          <div class="modal-title-wrapper">
+            <div class="modal-icon out">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+              >
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <polyline points="19 12 12 19 5 12"></polyline>
+              </svg>
+            </div>
+            <h3 class="modal-title">Stok Keluar Manual</h3>
+          </div>
+          <button
+            class="btn-close-modal"
+            onclick="closeModal('modalStokKeluar')"
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3"
+            >
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Pilih Produk</label>
+            <select class="form-control">
+              <option>Jersey RPL Super Premium</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Kategori Stok Keluar</label>
+            <select class="form-control">
+              <option value="" disabled selected hidden>Pilih Kategori</option>
+              <option>Terjual Offline</option>
+              <option>Barang Rusak/Cacat</option>
+              <option>Sampel/Sponsorship</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Jumlah Stok Keluar</label>
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Masukkan jumlah"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Tanggal Keluar</label>
+            <input type="date" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Catatan</label>
+            <textarea class="form-control" placeholder="Deskripsi.."></textarea>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button
+            class="btn-modal-cancel"
+            onclick="closeModal('modalStokKeluar')"
+          >
+            Batal
+          </button>
+          <button class="btn-modal-submit" style="width: 156px">
+            Simpan Stok Keluar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="modalConfirmDelete">
+      <div class="modal-content confirm-delete">
+        <div class="alert-icon">
+          <svg
+            width="114"
+            height="114"
+            viewBox="0 0 114 114"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="57"
+              cy="57"
+              r="46.5"
+              stroke="#FB2C36"
+              stroke-width="7"
+            />
+            <path
+              d="M57 30V65"
+              stroke="#FB2C36"
+              stroke-width="7"
+              stroke-linecap="round"
+            />
+            <circle cx="57" cy="84" r="5" fill="#FB2C36" />
+          </svg>
+        </div>
+
+        <p class="confirm-text">
+          Anda yakin ingin menghapus produk Jersey RPL?
+        </p>
+
+        <div class="modal-actions-row">
+          <button
+            type="button"
+            class="btn-cancel-sm"
+            onclick="closeModal('modalConfirmDelete')"
+          >
+            Batal
+          </button>
+          <button type="button" class="btn-danger-sm" onclick="successDelete()">
+            Hapus
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="modalSuccessAction">
+      <div class="modal-content success-popup">
+        <div class="success-icon-large">
+          <svg
+            width="114"
+            height="114"
+            viewBox="0 0 114 114"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M104.5 57C104.5 83.2335 83.2335 104.5 57 104.5C30.7665 104.5 9.5 83.2335 9.5 57C9.5 30.7665 30.7665 9.5 57 9.5C83.2335 9.5 104.5 30.7665 104.5 57Z"
+              stroke="#C6FF33"
+              stroke-width="7"
+              stroke-miterlimit="1.50916"
+            />
+            <path
+              d="M42.75 57L52.25 66.5L71.25 47.5"
+              stroke="#C6FF33"
+              stroke-width="7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+
+        <h2 class="success-title">Produk berhasil dihapus!</h2>
+      </div>
+    </div>
+
+    <!-- Overlay sidebar mobile -->
+    <div
+      class="sidebar-overlay"
+      id="sidebarOverlay"
+      onclick="closeSidebar()"
+    ></div>
+
+    <script>
+      /* ---- Sidebar Toggle ---- */
+      function toggleSidebar() {
+        document.getElementById("sidebar").classList.toggle("open");
+        document.getElementById("sidebarOverlay").classList.toggle("show");
+      }
+      function closeSidebar() {
+        document.getElementById("sidebar").classList.remove("open");
+        document.getElementById("sidebarOverlay").classList.remove("show");
+      }
+
+      function openModal(id) {
+        document.getElementById(id).classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeModal(id) {
+        document.getElementById(id).classList.remove("active");
+        document.body.style.overflow = "auto";
+      }
+
+      function successDelete() {
+        closeModal("modalConfirmDelete");
+        openModal("modalSuccessAction");
+
+        setTimeout(function () {
+          closeModal("modalSuccessAction");
+        }, 2000);
+      }
+
+      window.onclick = function (event) {
+        if (event.target.classList.contains("modal")) {
+          event.target.classList.remove("active");
+          document.body.style.overflow = "auto";
+        }
+      };
+    </script>
+    <script src="../../js/products.js"></script>
+  </body>
+</html>

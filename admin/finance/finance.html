@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard — Rekaps Admin</title>
+
+    <link rel="stylesheet" href="../../css/global.css" />
+    <link rel="stylesheet" href="../../css/finance.css" />
+    <link rel="stylesheet" href="../../css/layout-admin.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <!-- ====== SIDEBAR ====== -->
+      <aside class="sidebar" id="sidebar">
+        <!-- Logo / Brand -->
+        <div class="sidebar-brand">
+          <div class="brand-logo">
+            <img src="../../../../assets/icons/logo-rekaps.svg" alt="" />
+          </div>
+          <div class="brand-text">
+            <span class="brand-name">Rekaps Store</span>
+            <span class="brand-tagline">Admin Panel</span>
+          </div>
+        </div>
+
+        <!-- Info Pengguna -->
+        <div class="sidebar-user">
+          <div class="user-avatar">AR</div>
+          <div class="user-info">
+            <div class="user-name">Admin Rekaps</div>
+            <span class="user-role">KETUA</span>
+          </div>
+        </div>
+
+        <!-- Navigasi -->
+        <nav class="sidebar-nav">
+          <!-- Grup: Utama -->
+          <div class="nav-group-label">Utama</div>
+
+          <a href="../dashboard.html" class="nav-item">
+            <span class="nav-item-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+              >
+                <path
+                  d="M6.66665 10.8333V13.3333M9.99998 8.33332V13.3333M13.3333 12.5V13.3333M16.6666 15.8333V8.74999C16.6666 8.62062 16.6365 8.49302 16.5787 8.37731C16.5208 8.2616 16.4368 8.16095 16.3333 8.08332L10.5 3.70832C10.3557 3.60014 10.1803 3.54166 9.99998 3.54166C9.81967 3.54166 9.64423 3.60014 9.49998 3.70832L3.66665 8.08332C3.56315 8.16095 3.47915 8.2616 3.42129 8.37731C3.36343 8.49302 3.33331 8.62062 3.33331 8.74999V15.8333C3.33331 16.0543 3.42111 16.2663 3.57739 16.4226C3.73367 16.5789 3.94563 16.6667 4.16665 16.6667H15.8333C16.0543 16.6667 16.2663 16.5789 16.4226 16.4226C16.5788 16.2663 16.6666 16.0543 16.6666 15.8333Z"
+                  stroke="#D7C2F9"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+            Dashboard
+          </a>
+
+          <a href="../product/product.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img src="../../assets/icons/box-line.svg" alt="Produk" />
+            </span>
+            Produk
+          </a>
+
+          <a href="../orders/orders.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img
+                src="../../assets/icons/receipt-text-line.svg"
+                alt="Pesanan"
+              />
+            </span>
+            Pesanan
+          </a>
+
+          <a href="cashier/cashier.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img src="../../assets/icons/monitor-line.svg" alt="Kasir" />
+            </span>
+            Kasir
+          </a>
+
+          <!-- Grup: Keuangan & Stok -->
+          <div class="nav-group-label">Manajemen</div>
+
+          <a href="finance.html" class="nav-item active">
+            <span class="nav-item-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+              >
+                <path
+                  d="M10 18.3333C14.6025 18.3333 18.3334 14.6025 18.3334 9.99996C18.3334 5.39746 14.6025 1.66663 10 1.66663C5.39752 1.66663 1.66669 5.39746 1.66669 9.99996C1.66669 14.6025 5.39752 18.3333 10 18.3333Z"
+                  stroke="#C6FF33"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M12.5 6.66667H10M10 6.66667H9.16667C8.72464 6.66667 8.30072 6.84226 7.98816 7.15482C7.6756 7.46738 7.5 7.89131 7.5 8.33333C7.5 8.77536 7.6756 9.19928 7.98816 9.51184C8.30072 9.8244 8.72464 10 9.16667 10H10.8333C11.2754 10 11.6993 10.1756 12.0118 10.4882C12.3244 10.8007 12.5 11.2246 12.5 11.6667C12.5 12.1087 12.3244 12.5326 12.0118 12.8452C11.6993 13.1577 11.2754 13.3333 10.8333 13.3333H10M10 6.66667V5M7.5 13.3333H10M10 13.3333V15"
+                  stroke="#C6FF33"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+            Keuangan
+          </a>
+
+          <a href="pembayaran.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img
+                src="../../assets/icons/creditcard-line.svg"
+                alt="Pembayaran"
+              />
+            </span>
+            Pembayaran
+          </a>
+
+          <a href="discount-voucher.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img
+                src="../../assets/icons/tag-line.svg"
+                alt="Diskon & Voucher"
+              />
+            </span>
+            Diskon & Voucher
+          </a>
+
+          <!-- Grup: Lainnya -->
+          <div class="nav-group-label">Lainnya</div>
+
+          <a href="../users/users.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img src="../../assets/icons/users-line.svg" alt="Pengguna" />
+            </span>
+            Pengguna
+          </a>
+
+          <a href="laporan.html" class="nav-item">
+            <span class="nav-item-icon">
+              <img src="../../assets/icons/analytics-line.svg" alt="" />
+            </span>
+            Laporan
+          </a>
+        </nav>
+
+        <!-- Tombol Logout -->
+        <div class="sidebar-footer">
+          <button class="btn-logout">
+            <img src="../../assets/icons/logout-half-circle-line.svg" alt="" />
+            Keluar
+          </button>
+        </div>
+      </aside>
+      <!-- END .sidebar -->
+
+      <div class="area-main">
+        <!-- NAVBAR -->
+        <header class="navbar">
+          <!-- Tombol hamburger (hanya tampil di mobile) -->
+          <button class="btn-menu-toggle" onclick="toggleSidebar()">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+            >
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          </button>
+
+          <!-- Judul halaman -->
+          <div class="navbar-left">
+            <div class="navbar-page-title">Dashboard</div>
+            <div class="navbar-breadcrumb">
+              Rekaps Store / <span class="breadcrumb-active">Overview</span>
+            </div>
+          </div>
+
+          <!-- Kanan: search, notifikasi, avatar -->
+          <div class="navbar-right">
+            <div class="navbar-search">
+              <img src="../../assets/icons/search-line.svg" alt="" />
+              <input type="text" placeholder="Cari..." />
+            </div>
+
+            <button class="icon-btn">
+              <img src="../../assets/icons/bell-line.svg" alt="" />
+              <span class="notif-dot"></span>
+            </button>
+
+            <div class="navbar-avatar">A</div>
+          </div>
+        </header>
+        <!-- END .navbar -->
+
+        <!-- KONTEN DASHBOARD -->
+        <main class="content">
+          <div class="top">
+            <section class="yearcategorysect">
+              <div class="yearcategorybar">
+                <ul class="yearcategories">
+                  <li class="filter active">Jan 2026</li>
+                  <li class="filter">Feb 2026</li>
+                  <li class="filter">Mar 2026</li>
+                  <li class="filter">Apr 2026</li>
+                </ul>
+              </div>
+            </section>
+            <div class="actions-top">
+              <button class="btn-outline">Import</button>
+
+              <button onclick="openModal()" class="btn-primary">
+                + Tambah Transaksi
+              </button>
+
+              <div id="overlay" class="overlay" onclick="closeModal()"></div>
+
+              <div id="modal" class="modal">
+                <h2>Tambah Transaksi</h2>
+
+                <div class="form-group">
+                  <label>Jumlah</label>
+                  <input type="number" placeholder="Rp. 0" />
+                </div>
+
+                <div class="form-group">
+                  <label>Tipe</label>
+                  <select>
+                    <option>Pemasukan</option>
+                    <option>Pengeluaran</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label>Tanggal</label>
+                  <input type="date" />
+                </div>
+
+                <div class="form-group">
+                  <label>Progam Kerja</label>
+                  <select>
+                    <option>Program kerja 1</option>
+                    <option>Program kerja 2</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label>Keterangan</label>
+                  <input type="text" placeholder="Contoh: Penjualan hari ini" />
+                </div>
+
+                <div class="actions-modal">
+                  <button class="btn-cancel" onclick="closeModal()">
+                    Batal
+                  </button>
+                  <button class="btn-save" onclick="saveData()">Simpan</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cards">
+            <div class="card income">
+              <p class="title">TOTAL PEMASUKAN</p>
+              <h2>Rp. 14.200.000</h2>
+              <span>+ 12.5% vs Bulan Lalu</span>
+            </div>
+
+            <div class="card expense">
+              <p class="title">TOTAL PENGELUARAN</p>
+              <h2>Rp. 5.800.000</h2>
+              <span>+ 3.2% vs Bulan Lalu</span>
+            </div>
+
+            <div class="card balance">
+              <p class="title">SALDO BERSIH</p>
+              <h2>Rp. 5.400.000</h2>
+              <span>Profit margin : 59.2%</span>
+            </div>
+          </div>
+          <div class="table-section">
+            <div class="table-header">
+              <h3>Riwayat Transaksi</h3>
+              <button class="btn-export" id="exportBtn">Ekspor Excel</button>
+            </div>
+
+            <table id="transaksiTable">
+              <thead>
+                <tr>
+                  <th>TANGGAL</th>
+                  <th>KETERANGAN</th>
+                  <th>KATEGORI</th>
+                  <th>TIPE</th>
+                  <th>JUMLAH</th>
+                  <th>SALDO</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>30 Mar</td>
+                  <td>Penjualan Bazar Kampus</td>
+                  <td><span class="badge purple">Proker Bazar</span></td>
+                  <td><span class="badge green">Pemasukkan</span></td>
+                  <td class="plus">+ Rp. 2.400.000</td>
+                  <td>Rp. 8.400.000</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </main>
+        <!-- END .content -->
+      </div>
+      <!-- END .area-main -->
+    </div>
+    <!-- END .layout -->
+
+    <!-- Overlay gelap saat sidebar dibuka di mobile -->
+    <div
+      class="sidebar-overlay"
+      id="sidebarOverlay"
+      onclick="closeSidebar()"
+    ></div>
+
+    <!-- JAVASCRIPT - hanya untuk toggle sidebar di mobile -->
+    <!-- <script>
+
+    </script> -->
+    <script src="../../js/finance.js"></script>
+  </body>
+</html>

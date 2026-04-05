@@ -337,3 +337,115 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
+/* ===== MODAL KONFIRMASI HAPUS & SUKSES ====== */
+
+/* CLASS DASAR MODAL (WAJIB ADA) */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999; /* Z-index tinggi agar tampil paling depan */
+}
+
+.modal.active {
+  display: flex;
+}
+
+/* BOX MODAL HAPUS */
+.modal-content.confirm-delete {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 28px;
+  gap: 24px;
+  width: 355px;
+  background: var(--color-neutral-50);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+}
+
+.alert-icon {
+  width: 114px;
+  height: 114px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirm-text {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+  color: var(--color-neutral-500);
+  margin: 0;
+}
+
+.modal-actions-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.btn-cancel-sm {
+  padding: 8px 16px;
+  width: 110px;
+  height: 32px;
+  background: var(--color-neutral-300);
+  border-radius: 12px;
+  color: #868686;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.btn-danger-sm {
+  padding: 8px 16px;
+  width: 110px;
+  height: 32px;
+  background: var(--color-red-600);
+  box-shadow:
+    0px 40px 80px -16px rgba(62, 52, 69, 0.16),
+    0px 2px 4px rgba(62, 52, 69, 0.25);
+  border-radius: 12px;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+/* BOX MODAL SUKSES */
+.modal-content.success-popup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 20px;
+  gap: 20px;
+  width: 391px;
+  background: var(--color-neutral-50);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+}
+
+.success-icon-large {
+  width: 114px;
+  height: 114px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.success-title {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  text-align: center;
+  color: #404040;
+  margin: 0;
+}

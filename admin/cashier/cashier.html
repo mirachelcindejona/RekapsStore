@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="id">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -59,21 +59,14 @@
             Dashboard
           </a>
 
-          <a href="produk.html" class="nav-item">
+          <a href="../../admin/product/product.html" class="nav-item">
             <span class="nav-item-icon">
               <img src="../../assets/icons/box-line.svg" alt="Produk" />
             </span>
             Produk
           </a>
 
-          <a href="stok.html" class="nav-item">
-            <span class="nav-item-icon">
-              <img src="../../assets/icons/pulse.svg" alt="Stok" />
-            </span>
-            Stok
-          </a>
-
-          <a href="pesanan.html" class="nav-item">
+          <a href="../orders/orders.html" class="nav-item">
             <span class="nav-item-icon">
               <img
                 src="../../assets/icons/receipt-text-line.svg"
@@ -83,7 +76,7 @@
             Pesanan
           </a>
 
-          <a href="cashier/cashier.html" class="nav-item active">
+          <a href="cashier.html" class="nav-item active">
             <span class="nav-item-icon">
               <svg
                 width="20"
@@ -107,7 +100,7 @@
           <!-- Grup: Keuangan & Stok -->
           <div class="nav-group-label">Keuangan</div>
 
-          <a href="keuangan.html" class="nav-item">
+          <a href="../finance/finance.html" class="nav-item">
             <span class="nav-item-icon">
               <img
                 src="../../assets/icons/dollar-circle-line.svg"
@@ -127,7 +120,7 @@
             Pembayaran
           </a>
 
-          <a href="diskon.html" class="nav-item">
+          <a href="../promo/promo.html" class="nav-item">
             <span class="nav-item-icon">
               <img
                 src="../../assets/icons/tag-line.svg"
@@ -140,7 +133,7 @@
           <!-- Grup: Lainnya -->
           <div class="nav-group-label">Lainnya</div>
 
-          <a href="users/users.html" class="nav-item">
+          <a href="../users/users.html" class="nav-item">
             <span class="nav-item-icon">
               <img src="../../assets/icons/users-line.svg" alt="Pengguna" />
             </span>
@@ -152,13 +145,6 @@
               <img src="../../assets/icons/analytics-line.svg" alt="" />
             </span>
             Laporan
-          </a>
-
-          <a href="pengaturan.html" class="nav-item">
-            <span class="nav-item-icon">
-              <img src="../../assets/icons/settings-cog-line.svg" alt="" />
-            </span>
-            Pengaturan
           </a>
         </nav>
 
@@ -439,7 +425,9 @@
               </div>
               <div class="row">
                 <span>Voucher</span>
-                <span class="link">+ Masukkan kode</span>
+                <span class="link" onclick="openModal('modalVoucher')"
+                  >+ Masukkan kode</span
+                >
               </div>
 
               <div class="row total">
@@ -448,7 +436,9 @@
               </div>
             </div>
 
-            <button class="btn-checkout">Proses Pembayaran</button>
+            <button class="btn-checkout" onclick="openModal('modalCheckout')">
+              Proses Pembayaran
+            </button>
           </div>
         </main>
         <!-- END .content -->
@@ -456,6 +446,236 @@
       <!-- END .area-main -->
     </div>
     <!-- END .layout -->
+
+    <!-- ===== MODAL CHECKOUT ===== -->
+    <div class="modal" id="modalVoucher">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Masukkan Kode Voucher</h3>
+          <button onclick="closeModal('modalVoucher')">✕</button>
+        </div>
+
+        <div class="modal-body">
+          <!-- INPUT -->
+          <input type="text" placeholder="cth: EKRAF20" />
+
+          <!-- BUTTON -->
+          <div class="modal-actions">
+            <button class="btn-cancel" onclick="closeModal('modalVoucher')">
+              Batal
+            </button>
+            <button class="btn-confirm" onclick="closeModal('modalVoucher')">
+              Gunakan Voucher
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== MODAL CHECKOUT ===== -->
+    <div class="modal" id="modalCheckout">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Checkout</h3>
+          <button onclick="closeModal('modalCheckout')">✕</button>
+        </div>
+
+        <div class="modal-body">
+          <!-- RINCIAN -->
+          <div class="checkout-box">
+            <div class="checkout-title">RINCIAN PESANAN</div>
+
+            <div class="checkout-item">
+              <div>
+                <span class="checkout-product">Basrenggg</span>
+                <span>Rp 5.000 x1</span>
+                <b>Rp 5.000</b>
+              </div>
+              <span class="checkout-notes">Catatan: pedesnya sedeng dikit</span>
+            </div>
+            <div class="checkout-item">
+              <div>
+                <span class="checkout-product">Basrenggg</span>
+                <span>Rp 5.000 x1</span>
+                <b>Rp 5.000</b>
+              </div>
+              <span class="checkout-notes">Catatan: pedesnya sedeng dikit</span>
+            </div>
+
+            <div class="checkout-total-promo">
+              <div class="total-checkout">
+                <span>Total</span>
+                <b>Rp 10.000</b>
+              </div>
+              <div class="checkout-discount">
+                <span>Diskon</span>
+                <b>-</b>
+              </div>
+            </div>
+
+            <div class="checkout-total">
+              <span>Total</span>
+              <b>Rp 10.000</b>
+            </div>
+          </div>
+
+          <!-- INPUT -->
+          <label>Nama Pelanggan (Opsional)</label>
+          <input type="text" placeholder="Masukan nama pelanggan.." />
+
+          <label>Metode Pembayaran</label>
+          <select>
+            <option>QRIS</option>
+            <option>Cash</option>
+          </select>
+
+          <label>Uang Diterima</label>
+          <input type="number" placeholder="Rp 0" />
+
+          <label>Catatan</label>
+          <textarea placeholder="Catatan transaksi..."></textarea>
+
+          <!-- BUTTON -->
+          <div class="modal-actions">
+            <button class="btn-cancel" onclick="closeModal('modalCheckout')">
+              Batal
+            </button>
+            <button class="btn-confirm" onclick="successCheckout()">
+              Konfirmasi Pembayaran
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== MODAL SUCCESS ===== -->
+    <div class="modal" id="modalSuccess">
+      <div class="modal-content success">
+        <div class="success-icon">
+          <svg
+            width="114"
+            height="114"
+            viewBox="0 0 114 114"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M104.5 57C104.5 83.2335 83.2335 104.5 57 104.5C30.7665 104.5 9.5 83.2335 9.5 57C9.5 30.7665 30.7665 9.5 57 9.5C83.2335 9.5 104.5 30.7665 104.5 57Z"
+              stroke="#C6FF33"
+              stroke-width="7"
+              stroke-miterlimit="1.50916"
+            />
+            <path
+              d="M42.75 57L52.25 66.5L71.25 47.5"
+              stroke="#C6FF33"
+              stroke-width="7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+
+        <h2>Transaksi Berhasil!</h2>
+        <p>Pembayaran telah dikonfirmasi</p>
+
+        <div class="struk">
+          <div class="struk-title">
+            <div class="struk-logo">
+              <img src="../../assets/icons/logo-small.svg" alt="" />
+              <span> Rekaps Store </span>
+            </div>
+            <span>DEPARTEMEN EKONOMI KREATIF HIMARPL</span>
+            <div class="struk-ig">
+              <span>@himarpl</span>
+              <span>@rekaps.store</span>
+            </div>
+          </div>
+          <hr />
+          <div class="struk-detail">
+            <div class="struk-row">
+              <span>No.Transaksi</span>
+              <span>#TRX-0342</span>
+            </div>
+            <div class="struk-row">
+              <span>Kasir</span>
+              <span>Admin Ekraf</span>
+            </div>
+            <div class="struk-row">
+              <span>Waktu</span>
+              <span>3/4/2006, 09:04:00</span>
+            </div>
+          </div>
+
+          <hr />
+
+          <div class="checkout-list">
+            <div class="checkout-item">
+              <div>
+                <span class="checkout-product">Basrenggg</span>
+                <span>Rp 5.000 x1</span>
+                <b>Rp 5.000</b>
+              </div>
+              <span class="checkout-notes">Catatan: pedesnya sedeng dikit</span>
+            </div>
+            <div class="checkout-item">
+              <div>
+                <span class="checkout-product">Basrenggg</span>
+                <span>Rp 5.000 x1</span>
+                <b>Rp 5.000</b>
+              </div>
+              <span class="checkout-notes">Catatan: pedesnya sedeng dikit</span>
+            </div>
+          </div>
+
+          <div class="checkout-total-promo">
+            <div class="total-checkout">
+              <span>Total</span>
+              <b>Rp 10.000</b>
+            </div>
+            <div class="checkout-discount">
+              <span>Diskon</span>
+              <b>-</b>
+            </div>
+          </div>
+
+          <div class="checkout-total">
+            <span>Total</span>
+            <b>Rp 10.000</b>
+          </div>
+
+          <div class="struk-row">
+            <span>Metode Bayar</span>
+            <span>QRIS</span>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn-outline">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5.83333 14.1667V12.5C5.83333 12.058 6.00893 11.634 6.32149 11.3215C6.63405 11.0089 7.05797 10.8333 7.5 10.8333H12.5C12.942 10.8333 13.366 11.0089 13.6785 11.3215C13.9911 11.634 14.1667 12.058 14.1667 12.5V14.1667M5.83333 14.1667V15.8333C5.83333 16.2754 6.00893 16.6993 6.32149 17.0118C6.63405 17.3244 7.05797 17.5 7.5 17.5H12.5C12.942 17.5 13.366 17.3244 13.6785 17.0118C13.9911 16.6993 14.1667 16.2754 14.1667 15.8333V14.1667M5.83333 14.1667H4.16667C3.72464 14.1667 3.30072 13.9911 2.98816 13.6785C2.67559 13.366 2.5 12.942 2.5 12.5V7.5C2.5 7.05797 2.67559 6.63405 2.98816 6.32149C3.30072 6.00893 3.72464 5.83333 4.16667 5.83333H5M14.1667 14.1667H15.8333C16.2754 14.1667 16.6993 13.9911 17.0118 13.6785C17.3244 13.366 17.5 12.942 17.5 12.5V7.5C17.5 7.05797 17.3244 6.63405 17.0118 6.32149C16.6993 6.00893 16.2754 5.83333 15.8333 5.83333H15M5 5.83333V4.16667C5 3.72464 5.17559 3.30072 5.48816 2.98816C5.80072 2.67559 6.22464 2.5 6.66667 2.5H13.3333C13.7754 2.5 14.1993 2.67559 14.5118 2.98816C14.8244 3.30072 15 3.72464 15 4.16667V5.83333M5 5.83333H15M5.83333 8.33333H6.66667"
+                stroke="#7D39EB"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            Cetak Struk
+          </button>
+          <button class="btn-primary" onclick="closeModal('modalSuccess')">
+            Selesai
+          </button>
+        </div>
+      </div>
+    </div>
 
     <!-- Overlay gelap saat sidebar dibuka di mobile -->
     <div
@@ -476,5 +696,6 @@
         document.getElementById("sidebarOverlay").classList.remove("show");
       }
     </script>
+    <script src="../../js/cashier.js"></script>
   </body>
 </html>
