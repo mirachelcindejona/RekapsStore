@@ -12,7 +12,7 @@
 }
 
 /* Lingkaran ungu */
-.welcome-banner::before {
+/* .welcome-banner::before {
   content: "";
   position: absolute;
   top: -40px;
@@ -23,7 +23,7 @@
   border-radius: 50%;
   opacity: 0.28;
   pointer-events: none;
-}
+} */
 
 /* Teks besar watermark "REKAPS" */
 .welcome-banner::after {
