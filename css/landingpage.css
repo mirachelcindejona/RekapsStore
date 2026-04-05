@@ -237,6 +237,11 @@ body {
     gap: 5px;
 }
 
+.disctxt {
+    font-size: var(--text-base);
+    font-weight: var(--font-semibold);
+}
+
 .discount img {
     width: 20px;
 }
@@ -254,12 +259,13 @@ body {
 }
 
 .name {
-    font-weight: 600;
+    font-size: var(--text-base);
+    font-weight: var(--font-semibold);
 }
 
 .price {
-    font-weight: 700;
-    font-size: 22px;
+    font-weight: var(--font-bold);
+    font-size: var(--text-lg);
     color: #7d39eb;
 }
 
@@ -268,6 +274,11 @@ body {
     gap: 7px;
 }
 
+.rating span {
+    color: var(--color-neutral-500);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+}
 /* .star {
 
 }
@@ -282,6 +293,8 @@ body {
 
 .totalsold {
     color: #8db524;
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
 }
 
 .footer {
