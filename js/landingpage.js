@@ -21,3 +21,14 @@ filters.forEach(filter =>
     filter.classList.add('active');
   })
 )
+
+const cart = document.querySelector('.cart');
+
+cart.addEventListener('mouseenter', () => {
+    cart.src = 'assets/icons/cart-hover.svg';
+    cart.style.cursor = 'pointer';
+});
+
+cart.addEventListener('mouseleave', () => {
+    cart.src = 'assets/icons/cart.svg';
+});

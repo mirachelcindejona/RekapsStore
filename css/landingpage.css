@@ -80,10 +80,14 @@ body {
     cursor: pointer;
 }
 
+/* .cart {
+    content: url("assets/icons/cart.svg");
+}
+
 .cart:hover {
     content: url("assets/icons/cart-hover.svg");
     cursor: pointer;
-}
+} */
 
 .hero {
     display: flex;
@@ -253,8 +257,8 @@ body {
 .productdetails {
     display: flex;
     flex-direction: column;
+    justify-content: end;
     padding: 8px;
-    padding-bottom: 30px;
     gap: 5px;
 }
 
@@ -291,8 +295,12 @@ body {
 
 } */
 
+
+
 .totalsold {
     color: #8db524;
+    width: 100%;
+    text-align: right;
     font-size: var(--text-sm);
     font-weight: var(--font-medium);
 }
