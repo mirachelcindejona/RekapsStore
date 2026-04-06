@@ -222,3 +222,200 @@ body {
 .checkout:hover {
     background-color: var(--color-primary-600);
 }
+
+@media (max-width: 1024px) {
+
+  /* container jangan kepinggir */
+  .container {
+    padding: 0 40px;
+  }
+
+  /* grid dipadatkan */
+  .cart-header,
+  .cart-item {
+    grid-template-columns: 2fr 0.5fr 1fr 0.7fr 1fr;
+    gap: 10px;
+  }
+
+  /* gambar lebih kecil */
+  .product img {
+    width: 100px;
+  }
+
+  /* teks lebih compact */
+  .desc {
+    width: auto;
+  }
+
+  .desc span:first-child {
+    font-size: 14px;
+  }
+
+  .variation {
+    font-size: 12px;
+  }
+
+  /* angka-angka */
+  .price,
+  .qty,
+  .subtotal {
+    font-size: 14px;
+  }
+
+  .subtotal {
+    font-size: 16px;
+  }
+
+  /* footer tetap rapi */
+  .cart-footer {
+    padding: 15px;
+  }
+
+  .cart-footer > span b {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .container {
+    padding: 0 20px;
+  }
+
+  .navland>img {
+    content: url("../assets/icons/logo-rekaps.svg");
+  }
+
+  /* navbar */
+  .navland {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .navland form {
+    width: 100%;
+  }
+
+  .accname {
+    display: none;
+  }
+
+  /* header hilang */
+  .cart-header {
+    display: none;
+  }
+
+  /* item jadi card */
+  .cart-item {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  /* product (gambar + teks) */
+  .product {
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  .product img {
+    width: 80px;
+  }
+
+  .desc {
+    width: auto;
+  }
+
+  /* info jadi baris */
+  .price,
+  .qty,
+  .subtotal {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .price::before {
+    content: "Harga";
+    color: gray;
+  }
+
+  .qty::before {
+    content: "Jumlah";
+    color: gray;
+  }
+
+  .subtotal::before {
+    content: "Subtotal";
+    color: gray;
+  }
+
+  /* footer */
+  .cart-footer {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+
+  .checkout {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .container {
+    padding: 0 12px;
+  }
+
+  .navland>img {
+    width: 35px;
+  }
+
+  .navland>form>input {
+    font-size: 8px;
+  }
+
+  .cart-item {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .product img {
+    width: 60px;
+  }
+
+  .desc span:first-child {
+    font-size: 13px;
+  }
+
+  .variation {
+    font-size: 12px;
+  }
+
+  .price,
+  .qty,
+  .subtotal {
+    font-size: 13px;
+  }
+
+  .subtotal {
+    font-weight: bold;
+  }
+
+  .cart-footer span {
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .cart-footer > span b {
+    font-size: 16px;
+  }
+
+  .checkout {
+    padding: 10px;
+    font-size: 14px;
+  }
+}

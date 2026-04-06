@@ -2,7 +2,7 @@ body {
     background-color: var(--color-neutral-100);
 }
 
-.navland {
+.navland { 
     display: flex;
     box-sizing: border-box;
     justify-content: space-between;
@@ -238,4 +238,194 @@ body {
 
 .checkout:hover {
     background-color: var(--color-primary-600);
+}
+
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 40px;
+  }
+
+  .cart-item,
+  .cart-header {
+    grid-template-columns: 30px 2fr 1fr 1fr 1fr 80px;
+    gap: 10px;
+  }
+
+  .delete {
+    display: flex;
+    justify-content: center;
+  }
+
+  .product img {
+    width: 100px;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .container {
+    padding: 0 20px;
+  }
+
+  .navland>img {
+    content: url("../assets/icons/logo-rekaps.svg");
+  }
+
+  .navland {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .navland form {
+    width: 100%;
+  }
+
+  .accname {
+    display: none;
+  }
+
+  .menu {
+    scale: 0.9;
+  }
+
+  .cart-header {
+    display: none;
+  }
+
+  .cart-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .cart-item > input[type="checkbox"] {
+    align-self: flex-end;
+  }
+
+  .product {
+    width: 100%;
+  }
+
+  .product img {
+    width: 80px;
+  }
+
+  .variant,
+  .price,
+  .qty-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .variant::before {
+    content: "Varian: ";
+    color: gray;
+  }
+
+  .price::before {
+    content: "Harga: ";
+    color: gray;
+  }
+
+  .qty-container::before {
+    content: "Jumlah: ";
+    color: gray;
+  }
+
+  .delete {
+    width: 100%;
+    text-align: center;
+  }
+
+  .cart-footer {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+
+  .checkout {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .container {
+    padding: 0 12px;
+  }
+
+  .navland>img {
+    width: 35px;
+  }
+
+  .navland>form>input {
+    font-size: 8px;
+  }
+
+  .navland {
+    padding: 8px;
+  }
+
+  .menu {
+    scale: 0.8;
+  }
+
+  .cart-item {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .product img {
+    width: 60px;
+  }
+
+  .product span {
+    font-size: 13px;
+    line-height: 1.2;
+  }
+
+  .variant {
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+    background-color: transparent;
+    color: var(--color-neutral-950);
+  }
+
+  .btn {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+
+  .qty-input {
+    width: 24px;
+    font-size: 14px;
+  }
+
+  .variant::before,
+  .price::before,
+  .qty-container::before {
+    font-size: 12px;
+  }
+
+  .delete {
+    padding: 8px;
+    font-size: 13px;
+  }
+
+  .cart-footer span {
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .checkout {
+    padding: 10px;
+    font-size: 14px;
+  }
 }
