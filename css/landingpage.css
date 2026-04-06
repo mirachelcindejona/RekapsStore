@@ -402,7 +402,11 @@ body {
   }
 
   .logreg {
-    display: none;
+    gap: 5px;
+  }
+
+  .logreg button {
+    border-radius: 7px;
   }
 
   .hero {
