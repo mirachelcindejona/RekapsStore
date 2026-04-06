@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rekaps Store</title>
+    <link rel="stylesheet" href="../css/global.css" type="text/css">
+    <link rel="stylesheet" href="../css/order-history.css" type="text/css">
+</head>
+<body>
+    <nav class="navland">
+      <img
+        src="../assets/icons/logo-rekaps-text.svg"
+        alt=""
+        class="rekaplogo"
+      />
+      <form action="">
+        <img src="../assets/icons/search-line.svg" alt="" class="magnify" />
+        <input type="text" placeholder="Cari di Rekaps Store" />
+      </form>
+      <div class="rightnav">
+        <div class="menu">
+          <a href="../client/cart.html">
+            <img src="../assets/icons/cart.svg" alt="" class="cart" />
+          </a>
+          <img src="../assets/icons/bell-index.svg" alt="" class="bell" />
+          <img src="../assets/icons/history-index-h.svg" alt="" class="history.active" />
+        </div>
+        <div class="account">
+          <span class="accname">Grace Ashcroft</span>
+          <div class="accountpic">
+            <img src="../assets/icons/profile.svg" alt="" />
+          </div>
+        </div>
+      </div>
+    </nav>
+    <section class="container">
+        <div class="back">
+            <a href="./cart.html" onclick="history.back(); return false;">
+                <img src="../assets/icons/back.svg" alt="" />
+                <span>Kembali</span>
+            </a>
+        </div>
+        <div class="searchproduct"> 
+            <form action="#">
+                <button>
+                    <img src="../assets/icons/search-line.svg" alt="">
+                </button>
+                <input type="text" placeholder="Cari Produk">
+            </form>
+        </div>
+        <div class="order-card">
+            <div class="product-list">
+                <div class="product-item">
+                    <img src="../assets/img/products/pinkjersey.png" alt="Jersey RPL Pink">
+                    <div class="product-info">
+                        <h4>Jersey RPL Pink</h4>
+                        <p>Variasi: S</p>
+                        <p>Jumlah: 1</p>
+                    </div>
+                    <div class="product-price">120.000</div>
+                </div>
+                <div class="product-item">
+                    <img src="../assets/img/products/pinkjersey.png" alt="Jersey RPL Pink">
+                    <div class="product-info">
+                        <h4>Jersey RPL Pink</h4>
+                        <p>Variasi: M</p>
+                        <p>Jumlah: 1</p>
+                    </div>
+                    <div class="product-price">120.000</div>
+                </div>
+                <div class="product-item">
+                    <img src="../assets/img/products/pinkjersey.png" alt="Jersey RPL Pink">
+                    <div class="product-info">
+                        <h4>Jersey RPL Pink</h4>
+                        <p>Variasi: L</p>
+                        <p>Jumlah: 1</p>
+                    </div>
+                    <div class="product-price">120.000</div>
+                </div>
+                <div class="product-item">
+                    <img src="../assets/img/products/pinkjersey.png" alt="Jersey RPL Pink">
+                    <div class="product-info">
+                        <h4>Jersey RPL Pink</h4>
+                        <p>Variasi: XL</p>
+                        <p>Jumlah: 1</p>
+                    </div>
+                    <div class="product-price">120.000</div>
+                </div>
+                <div class="product-item">
+                    <img src="../assets/img/products/pinkjersey.png" alt="Jersey RPL Pink">
+                    <div class="product-info">
+                        <h4>Jersey RPL Pink</h4>
+                        <p>Variasi: XXL</p>
+                        <p>Jumlah: 1</p>
+                    </div>
+                    <div class="product-price">120.000</div>
+                </div>
+            </div>
+            <div class="total">
+                <span>Rp600.000</span>
+            </div>
+            <div class="order-footer">
+                <span class="status-verif">Admin Memeriksa Pembayaran</span>
+                <button class="btn disabled">Selesai</button>
+            </div>
+        </div>
+        <div class="order-card">
+            <div class="product-list">
+                <div class="product-item">
+                    <img src="../assets/img/products/skyjersey.png" alt="Jersey RPL Pink">
+                    <div class="product-info">
+                        <h4>Jersey RPL SKy Blue</h4>
+                        <p>Variasi: M</p>
+                        <p>Jumlah: 2</p>
+                    </div>
+                    <div class="product-price">105.000</div>
+                </div>
+            </div>
+            <div class="total">
+                <span>Rp210.000</span>
+            </div>
+            <div class="order-footer">
+                <span class="status-preorder">Sedang Diproduksi | Estimasi selesai: 8 hari</span>
+                <button class="btn disabled">Selesai</button>
+            </div>
+        </div>
+        <div class="order-card">
+            <div class="product-list">
+                <div class="product-item">
+                    <img src="../assets/img/products/pinkjersey.png" alt="Jersey RPL Pink">
+                    <div class="product-info">
+                        <h4>Jersey RPL Pink</h4>
+                        <p>Variasi: S</p>
+                        <p>Jumlah: 1</p>
+                    </div>
+                    <div class="product-price">480.000</div>
+                </div>
+            </div>
+            <div class="total">
+                <span>Rp120.000</span>
+            </div>
+            <div class="order-footer">
+                <span class="status-done">Pesanan Selesai</span>
+                <div class="buttons">
+                    <button class="btn2">Beri Rating</button>
+                    <form action="product-detail.html">
+                        <button class="btn">Beli Lagi</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="../js/order-history.js"></script>
+</body>
+</html>

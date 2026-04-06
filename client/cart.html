@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rekaps Store</title>
+    <link rel="stylesheet" href="../css/cart.css">
+    <link rel="stylesheet" href="../css/global.css">
+</head>
+<body>
+    <nav class="navland">
+        <img src="../assets/icons/logo-rekaps-text.svg" alt="" class="rekaplogo">
+        <form action="">
+            <img src="../assets/icons/search-line.svg" alt="" class="magnify">
+            <input type="text" placeholder="Cari di Rekaps Store">
+        </form>
+        <div class="rightnav">
+            <div class="menu">
+                <img src="../assets/icons/cart-hover.svg" alt="" class="cart">
+                <img src="../assets/icons/bell-index.svg" alt="" class="bell">
+                <a href="../client/order-history.html">
+                    <img src="../assets/icons/history-index.svg" alt="" class="history" />
+                </a>
+            </div>
+            <div class="account">
+                <span class="accname">Grace Ashcroft</span>
+                <div class="accountpic">
+                    <img src="../assets/icons/profile.svg" alt="">
+                </div>
+            </div>
+        </div>
+    </nav>
+    <section class="container">
+        <a href="../client/index.html"  onclick="history.back(); return false;" class="back">
+            <img src="../assets/icons/back.svg" alt="">
+            <span>Kembali</span>
+        </a>
+        <div class="cart-header">
+            <input type="checkbox">
+            <span>Produk</span>
+            <span>Varian</span>
+            <span>Harga</span>
+            <span>Jumlah</span>
+            <span></span>
+        </div>
+        <div class="cart-container">
+            <div class="cart-item">
+                <input type="checkbox">
+                <a href="product-detail.html">
+                    <div class="product">
+                        <img src="../assets/img/products/pinkjersey.png" alt="">
+                        <span>Jersey RPL Pink</span>
+                    </div>
+                </a>
+                <div class="variant">S</div>
+                <div class="price">Rp120.000</div>
+                <div class="qty-container">
+                    <div class="qty-box">
+                        <button class="btn minus">-</button>
+                        <input type="text" value="1" class="qty-input" />
+                        <button class="btn plus">+</button>
+                    </div>
+                </div>
+                <button class="delete">Hapus</button>
+            </div>
+            <div class="cart-item">
+                <input type="checkbox">
+                <a href="product-detail.html">
+                    <div class="product">
+                        <img src="../assets/img/products/pinkjersey.png" alt="">
+                        <span>Jersey RPL Pink</span>
+                    </div>
+                </a>
+                <div class="variant">M</div>
+                <div class="price">Rp120.000</div>
+                <div class="qty-container">
+                    <div class="qty-box">
+                        <button class="btn minus">-</button>
+                        <input type="text" value="1" class="qty-input" />
+                        <button class="btn plus">+</button>
+                    </div>
+                </div>
+                <button class="delete">Hapus</button>
+            </div>
+            <div class="cart-item">
+                <input type="checkbox">
+                <a href="product-detail.html">
+                    <div class="product">
+                        <img src="../assets/img/products/pinkjersey.png" alt="">
+                        <span>Jersey RPL Pink</span>
+                    </div>
+                </a>
+                <div class="variant">L</div>
+                <div class="price">Rp120.000</div>
+                <div class="qty-container">
+                    <div class="qty-box">
+                        <button class="btn minus">-</button>
+                        <input type="text" value="1" class="qty-input" />
+                        <button class="btn plus">+</button>
+                    </div>
+                </div>
+                <button class="delete">Hapus</button>
+            </div>
+            <div class="cart-item">
+                <input type="checkbox">
+                <a href="product-detail.html">
+                    <div class="product">
+                        <img src="../assets/img/products/pinkjersey.png" alt="">
+                        <span>Jersey RPL Pink</span>
+                    </div>
+                </a>
+                <div class="variant">XL</div>
+                <div class="price">Rp120.000</div>
+                <div class="qty-container">
+                    <div class="qty-box">
+                        <button class="btn minus">-</button>
+                        <input type="text" value="1" class="qty-input" />
+                        <button class="btn plus">+</button>
+                    </div>
+                </div>
+                <button class="delete">Hapus</button>
+            </div>
+            <div class="cart-item">
+                <input type="checkbox">
+                <a href="product-detail.html">
+                    <div class="product">
+                        <img src="../assets/img/products/pinkjersey.png" alt="">
+                        <span>Jersey RPL Pink</span>
+                    </div>
+                </a>
+                <div class="variant">XXL</div>
+                <div class="price">Rp120.000</div>
+                <div class="qty-container">
+                    <div class="qty-box">
+                        <button class="btn minus">-</button>
+                        <input type="text" value="1" class="qty-input" />
+                        <button class="btn plus">+</button>
+                    </div>
+                </div>
+                <button class="delete">Hapus</button>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <span>Total Harga Keseluruhan: <b>Rp240.000</b></span>
+            <form action="checkout.html">
+                <button class="checkout">Checkout</button>
+            </form>
+        </div>
+    </section>
+    <script src="../js/cart.js"></script>
+</body>
+</html>
