@@ -239,3 +239,143 @@ body {
     background: var(--color-primary-100);
     cursor: pointer;
 }
+
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 40px;
+  }
+
+  .product-item img {
+    width: 120px;
+  }
+
+  .product-info h4 {
+    font-size: 14px;
+  }
+
+  .product-info p {
+    font-size: 12px;
+  }
+
+  .total {
+    font-size: var(--text-xl);
+  }
+}
+
+@media (max-width: 768px) {
+  .navland > img {
+    content: url("../assets/icons/logo-rekaps.svg");
+  }
+
+  .navland {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px 20px;
+  }
+
+  .navland form {
+    width: 100%;
+  }
+
+  .accname {
+    display: none;
+  }
+
+  .product-item {
+    align-items: flex-start;
+  }
+
+  .product-item img {
+    width: 100px;
+  }
+
+  .product-price {
+    font-size: 12px;
+  }
+
+  .order-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .buttons {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .buttons button {
+    flex: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .navland > img {
+    content: url("../assets/icons/logo-rekaps.svg");
+    width: 35px;
+  }
+
+  .navland > form > input {
+    font-size: 8px;
+  }
+
+  .navland {
+    padding: 10px;
+  }
+
+  .container {
+    padding: 0 15px;
+  }
+
+  .product-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .product-item img {
+    width: 100%;
+    max-width: 200px;
+  }
+
+  .product-info {
+    width: 100%;
+  }
+
+  .product-price {
+    width: 100%;
+    text-align: right;
+    font-size: 12px;
+  }
+
+  .total {
+    justify-content: flex-start;
+    font-size: var(--text-lg);
+  }
+
+  .order-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .buttons {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .btn,
+  .btn2 {
+    width: 100%;
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .searchproduct form {
+    padding: 8px;
+  }
+
+  .searchproduct input {
+    font-size: 12px;
+  }
+}

@@ -3,7 +3,7 @@ body {
 }
 
 .navland {
-  display: flex;
+  display: flex; 
   box-sizing: border-box;
   justify-content: space-between;
   padding: 10px 50px;
@@ -219,4 +219,138 @@ body {
 .verif>form>button:hover {
     background-color: var(--color-secondary-600);
     cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 40px;
+  }
+
+  .pay-cont {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .qr-cont {
+    width: 100%;
+  }
+
+  .qr-cont img {
+    max-width: 250px;
+  }
+
+  .pay-right {
+    width: 100%;
+  }
+
+  .instruction,
+  .verif {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .navland > img {
+    content: url("../assets/icons/logo-rekaps.svg");
+  }
+
+  .navland {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px 20px;
+  }
+
+  .navland form {
+    width: 100%;
+  }
+
+  .accname {
+    display: none;
+  }
+
+  .pay-cont {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .qr-cont {
+    padding: 20px;
+  }
+
+  .qr-cont span {
+    font-size: var(--text-lg);
+  }
+
+  .instruction {
+    padding: 20px;
+    font-size: var(--text-sm);
+  }
+
+  .verif {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navland > img {
+    content: url("../assets/icons/logo-rekaps.svg");
+    width: 35px;
+  }
+
+  .navland > form > input {
+    font-size: 8px;
+  }
+
+  .navland {
+    padding: 10px;
+  }
+
+  .container {
+    padding: 0 15px;
+  }
+
+  .pay-cont {
+    padding: 10px;
+    gap: 15px;
+  }
+
+  .qr-cont {
+    padding: 15px;
+  }
+
+  .qr-cont img {
+    width: 180px;
+  }
+
+  .instruction {
+    padding: 50px;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .instruction p {
+    font-size: 14px;
+  }
+
+  .rekaplogo-cont {
+    width: auto;
+  }
+
+  .verif {
+    padding: 15px;
+  }
+
+  .price {
+    font-size: var(--text-lg);
+  }
+
+  .file-upload {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .verif > form > button {
+    font-size: 12px;
+    padding: 8px;
+  }
 }
