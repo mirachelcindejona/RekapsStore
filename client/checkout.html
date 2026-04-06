@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rekaps Store</title>
+    <link rel="stylesheet" href="../css/global.css" type="text/css">
+    <link rel="stylesheet" href="../css/checkout.css" type="text/css">
+</head>
+<body>
+    <nav class="navland">
+      <img
+        src="../assets/icons/logo-rekaps-text.svg"
+        alt=""
+        class="rekaplogo"
+      />
+      <form action="">
+        <img src="../assets/icons/search-line.svg" alt="" class="magnify" />
+        <input type="text" placeholder="Cari di Rekaps Store" />
+      </form>
+      <div class="rightnav">
+        <div class="menu">
+          <a href="../client/cart.html">
+            <img src="../assets/icons/cart.svg" alt="" class="cart" />
+          </a>
+          <img src="../assets/icons/bell-index.svg" alt="" class="bell" />
+          <a href="../client/order-history.html">
+              <img src="../assets/icons/history-index.svg" alt="" class="history" />
+          </a>>
+        </div>
+        <div class="account">
+          <span class="accname">Grace Ashcroft</span>
+          <div class="accountpic">
+            <img src="../assets/icons/profile.svg" alt="" />
+          </div>
+        </div>
+      </div>
+    </nav>
+    <section class="container">
+        <div class="back">
+            <a href="./cart.html" onclick="history.back(); return false;">
+                <img src="../assets/icons/back.svg" alt="" />
+                <span>Kembali</span>
+            </a>
+        </div>
+        <div class="cart-header">
+            <span>Produk di-order</span>
+            <span></span>
+            <span>Harga</span>
+            <span>Jumlah</span>
+            <span>Subtotal</span>
+        </div>
+        <div class="cart-container">
+            <div class="cart-item">
+                <div class="product">
+                    <img src="../assets/img/products/pinkjersey.png" alt="">
+                    <div class="desc">
+                        <span>Jersey RPL Pink</span>
+                        <span class="variation">Variasi: XL</span>
+                    </div>
+                </div>
+                <div></div>
+                <div class="price">Rp120.000</div>
+                <div class="qty">1</div>
+                <div class="subtotal">Rp.120.000</div>
+            </div>
+            <div class="cart-item">
+                <div class="product">
+                    <img src="../assets/img/products/pinkjersey.png" alt="">
+                    <div class="desc">
+                        <span>Jersey RPL Pink</span>
+                        <span class="variation">Variasi: L</span>
+                    </div>
+                </div>
+                <div></div>
+                <div class="price">Rp120.000</div>
+                <div class="qty">1</div>
+                <div class="subtotal">Rp.120.000</div>
+            </div>
+            <div class="cart-item">
+                <div class="product">
+                    <img src="../assets/img/products/pinkjersey.png" alt="">
+                    <div class="desc">
+                        <span>Jersey RPL Pink</span>
+                        <span class="variation">Variasi: M</span>
+                    </div>
+                </div>
+                <div></div>
+                <div class="price">Rp120.000</div>
+                <div class="qty">1</div>
+                <div class="subtotal">Rp.120.000</div>
+            </div>
+            <div class="cart-item">
+                <div class="product">
+                    <img src="../assets/img/products/pinkjersey.png" alt="">
+                    <div class="desc">
+                        <span>Jersey RPL Pink</span>
+                        <span class="variation">Variasi: S</span>
+                    </div>
+                </div>
+                <div></div>
+                <div class="price">Rp120.000</div>
+                <div class="qty">1</div>
+                <div class="subtotal">Rp.120.000</div>
+            </div>
+            <div class="cart-item">
+                <div class="product">
+                    <img src="../assets/img/products/pinkjersey.png" alt="">
+                    <div class="desc">
+                        <span>Jersey RPL Pink</span>
+                        <span class="variation">Variasi: XXL</span>
+                    </div>
+                </div>
+                <div></div>
+                <div class="price">Rp120.000</div>
+                <div class="qty">1</div>
+                <div class="subtotal">Rp.120.000</div>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <span>Total Harga: <b>Rp600.000</b></span>
+            <form action="payment.html">
+                <button class="checkout">Bayar</button>
+            </form>
+        </div>
+    </section>
+    <script src="../js/checkout.js"></script>
+</body>
+</html>

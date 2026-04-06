@@ -66,6 +66,10 @@ body {
   font-weight: var(--font-mediumxs);
 }
 
+.content {
+  padding-top: 0;
+}
+
 /* .cart {
     content: url("assets/icons/cart.svg");
 }
