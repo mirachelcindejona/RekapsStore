@@ -1,293 +1,336 @@
 <!doctype html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>admin — users</title>
 
-    <link rel="stylesheet" href="../../css/global.css" />
-    <link rel="stylesheet" href="../../css/users.css" />
-    <link rel="stylesheet" href="../../css/layout-admin.css"/>
-  </head>
-  <body>
-        <div class="layout">
-      <!-- ====== SIDEBAR ====== -->
-      <aside class="sidebar" id="sidebar">
-        <!-- Logo / Brand -->
-        <div class="sidebar-brand">
-          <div class="brand-logo">
-            <img src="../../assets/icons/logo-rekaps.svg" alt="icon logo" />
-          </div>
-          <div class="brand-text">
-            <span class="brand-name">Rekaps Store</span>
-            <span class="brand-tagline">Admin Panel</span>
-          </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>admin — users</title>
+
+  <link rel="stylesheet" href="../../css/global.css" />
+  <link rel="stylesheet" href="../../css/users.css" />
+  <link rel="stylesheet" href="../../css/layout-admin.css" />
+</head>
+
+<body>
+  <div class="layout">
+    <!-- ====== SIDEBAR ====== -->
+    <aside class="sidebar" id="sidebar">
+      <!-- Logo / Brand -->
+      <div class="sidebar-brand">
+        <div class="brand-logo">
+          <img src="../../assets/icons/logo-rekaps.svg" alt="icon logo" />
         </div>
-
-        <!-- Info Pengguna -->
-        <div class="sidebar-user">
-          <div class="user-avatar">AR</div>
-          <div class="user-info">
-            <div class="user-name">Admin Rekaps</div>
-            <span class="user-role">KETUA</span>
-          </div>
+        <div class="brand-text">
+          <span class="brand-name">Rekaps Store</span>
+          <span class="brand-tagline">Admin Panel</span>
         </div>
+      </div>
 
-        <!-- Navigasi -->
-        <nav class="sidebar-nav">
-          <!-- Grup: Utama -->
-          <div class="nav-group-label">Utama</div>
-
-          <a href="../dashboard.html" class="nav-item">
-            <span class="nav-item-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M4.33333 8.29167V10.7917M7.66667 5.79167V10.7917M11 9.95833V10.7917M14.3333 13.2917V6.20833C14.3333 6.07896 14.3032 5.95137 14.2454 5.83566C14.1875 5.71994 14.1035 5.61929 14 5.54167L8.16667 1.16667C8.02242 1.05848 7.84698 1 7.66667 1C7.48636 1 7.31091 1.05848 7.16667 1.16667L1.33333 5.54167C1.22984 5.61929 1.14583 5.71994 1.08798 5.83566C1.03012 5.95137 1 6.07896 1 6.20833V13.2917C1 13.5127 1.0878 13.7246 1.24408 13.8809C1.40036 14.0372 1.61232 14.125 1.83333 14.125H13.5C13.721 14.125 13.933 14.0372 14.0893 13.8809C14.2455 13.7246 14.3333 13.5127 14.3333 13.2917Z" stroke="#D7C2F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-            Dashboard
-          </a>
-
-          <a href="../product/product.html" class="nav-item">
-            <span class="nav-item-icon">
-              <img src="../../assets/icons/box-line.svg" alt="Produk" />
-            </span>
-            Produk
-          </a>
-
-          <a href="../orders/orders.html" class="nav-item">
-            <span class="nav-item-icon">
-              <img src="../../assets/icons/receipt-text-line.svg" alt="Pesanan" />
-            </span>
-            Pesanan
-          </a>
-
-          <a href="../cashier/cashier.html" class="nav-item">
-            <span class="nav-item-icon">
-              <img src="../../assets/icons/monitor-line.svg" alt="Kasir" />
-            </span>
-            Kasir
-          </a>
-
-          <!-- Grup: Keuangan & Stok -->
-          <div class="nav-group-label">Keuangan</div>
-
-          <a href="../finance/finance.html" class="nav-item">
-            <span class="nav-item-icon">
-              <img
-                src="../../assets/icons/dollar-circle-line.svg"
-                alt="Keuangan"
-              />
-            </span>
-            Keuangan
-          </a>
-
-          <a href="pembayaran.html" class="nav-item">
-            <span class="nav-item-icon">
-              <img src="../../assets/icons/creditcard-line.svg" alt="Pembayaran" />
-            </span>
-            Pembayaran
-          </a>
-
-          <a href="../promo/promo.html" class="nav-item ">
-            <span class="nav-item-icon">
-              <img src="../../assets/icons/tag-line.svg" alt="Diskon & Voucher">
-            </span>
-            Diskon & Voucher
-          </a>
-
-          <!-- Grup: Lainnya -->
-          <div class="nav-group-label">Lainnya</div>
-
-          <a href="users.html" class="nav-item active">
-            <span class="nav-item-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <path d="M7.50008 10.8337C9.34103 10.8337 10.8334 9.34127 10.8334 7.50033C10.8334 5.65938 9.34103 4.16699 7.50008 4.16699C5.65913 4.16699 4.16675 5.65938 4.16675 7.50033C4.16675 9.34127 5.65913 10.8337 7.50008 10.8337Z" stroke="#C6FF33" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M13.3334 15.8337C13.3334 13.072 10.7217 10.8337 7.50008 10.8337C4.27841 10.8337 1.66675 13.072 1.66675 15.8337M12.5001 10.8337C13.0571 10.8336 13.6052 10.694 14.0943 10.4276C14.5834 10.1612 14.998 9.77644 15.3002 9.30853C15.6023 8.84061 15.7824 8.30444 15.8239 7.749C15.8655 7.19357 15.7672 6.63657 15.538 6.12891C15.3089 5.62125 14.9562 5.1791 14.5121 4.84286C14.0681 4.50663 13.5468 4.28703 12.996 4.20412C12.4453 4.12122 11.8825 4.17765 11.3591 4.36827C10.8358 4.55889 10.3685 4.87762 10.0001 5.29533" stroke="#C6FF33" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M18.3333 15.8339C18.3333 13.0722 15.7217 10.8339 12.5 10.8339C11.8275 10.8339 10.7475 10.5897 10 9.80469" stroke="#C6FF33" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </span>
-            Pengguna
-          </a>
-
-          <a href="laporan.html" class="nav-item">
-            <span class="nav-item-icon">
-              <img src="../../assets/icons/analytics-line.svg" alt="" />
-            </span>
-            Laporan
-          </a>
-        </nav>
-
-        <!-- Tombol Logout -->
-        <div class="sidebar-footer">
-          <button class="btn-logout">
-            <img src="../../assets/icons/logout-half-circle-line.svg" alt="" />
-            Keluar
-          </button>
+      <!-- Info Pengguna -->
+      <div class="sidebar-user">
+        <div class="user-avatar">AR</div>
+        <div class="user-info">
+          <div class="user-name">Admin Rekaps</div>
+          <span class="user-role">KETUA</span>
         </div>
-      </aside>
-      <!-- END .sidebar -->
+      </div>
 
-      <!-- ====================================================
+      <!-- Navigasi -->
+      <nav class="sidebar-nav">
+        <!-- Grup: Utama -->
+        <div class="nav-group-label">Utama</div>
+
+        <a href="../dashboard.html" class="nav-item">
+          <span class="nav-item-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path
+                d="M4.33333 8.29167V10.7917M7.66667 5.79167V10.7917M11 9.95833V10.7917M14.3333 13.2917V6.20833C14.3333 6.07896 14.3032 5.95137 14.2454 5.83566C14.1875 5.71994 14.1035 5.61929 14 5.54167L8.16667 1.16667C8.02242 1.05848 7.84698 1 7.66667 1C7.48636 1 7.31091 1.05848 7.16667 1.16667L1.33333 5.54167C1.22984 5.61929 1.14583 5.71994 1.08798 5.83566C1.03012 5.95137 1 6.07896 1 6.20833V13.2917C1 13.5127 1.0878 13.7246 1.24408 13.8809C1.40036 14.0372 1.61232 14.125 1.83333 14.125H13.5C13.721 14.125 13.933 14.0372 14.0893 13.8809C14.2455 13.7246 14.3333 13.5127 14.3333 13.2917Z"
+                stroke="#D7C2F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </span>
+          Dashboard
+        </a>
+
+        <a href="../product/product.html" class="nav-item">
+          <span class="nav-item-icon">
+            <img src="../../assets/icons/box-line.svg" alt="Produk" />
+          </span>
+          Produk
+        </a>
+
+        <a href="../orders/orders.html" class="nav-item">
+          <span class="nav-item-icon">
+            <img src="../../assets/icons/receipt-text-line.svg" alt="Pesanan" />
+          </span>
+          Pesanan
+        </a>
+
+        <a href="../cashier/cashier.html" class="nav-item">
+          <span class="nav-item-icon">
+            <img src="../../assets/icons/monitor-line.svg" alt="Kasir" />
+          </span>
+          Kasir
+        </a>
+
+        <!-- Grup: Keuangan & Stok -->
+        <div class="nav-group-label">Keuangan</div>
+
+        <a href="../finance/finance.html" class="nav-item">
+          <span class="nav-item-icon">
+            <img src="../../assets/icons/dollar-circle-line.svg" alt="Keuangan" />
+          </span>
+          Keuangan
+        </a>
+
+        <a href="pembayaran.html" class="nav-item">
+          <span class="nav-item-icon">
+            <img src="../../assets/icons/creditcard-line.svg" alt="Pembayaran" />
+          </span>
+          Pembayaran
+        </a>
+
+        <a href="../promo/promo.html" class="nav-item ">
+          <span class="nav-item-icon">
+            <img src="../../assets/icons/tag-line.svg" alt="Diskon & Voucher">
+          </span>
+          Diskon & Voucher
+        </a>
+
+        <!-- Grup: Lainnya -->
+        <div class="nav-group-label">Lainnya</div>
+
+        <a href="users.html" class="nav-item active">
+          <span class="nav-item-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path
+                d="M7.50008 10.8337C9.34103 10.8337 10.8334 9.34127 10.8334 7.50033C10.8334 5.65938 9.34103 4.16699 7.50008 4.16699C5.65913 4.16699 4.16675 5.65938 4.16675 7.50033C4.16675 9.34127 5.65913 10.8337 7.50008 10.8337Z"
+                stroke="#C6FF33" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <path
+                d="M13.3334 15.8337C13.3334 13.072 10.7217 10.8337 7.50008 10.8337C4.27841 10.8337 1.66675 13.072 1.66675 15.8337M12.5001 10.8337C13.0571 10.8336 13.6052 10.694 14.0943 10.4276C14.5834 10.1612 14.998 9.77644 15.3002 9.30853C15.6023 8.84061 15.7824 8.30444 15.8239 7.749C15.8655 7.19357 15.7672 6.63657 15.538 6.12891C15.3089 5.62125 14.9562 5.1791 14.5121 4.84286C14.0681 4.50663 13.5468 4.28703 12.996 4.20412C12.4453 4.12122 11.8825 4.17765 11.3591 4.36827C10.8358 4.55889 10.3685 4.87762 10.0001 5.29533"
+                stroke="#C6FF33" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <path
+                d="M18.3333 15.8339C18.3333 13.0722 15.7217 10.8339 12.5 10.8339C11.8275 10.8339 10.7475 10.5897 10 9.80469"
+                stroke="#C6FF33" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </span>
+          Pengguna
+        </a>
+
+        <a href="laporan.html" class="nav-item">
+          <span class="nav-item-icon">
+            <img src="../../assets/icons/analytics-line.svg" alt="" />
+          </span>
+          Laporan
+        </a>
+      </nav>
+
+      <!-- Tombol Logout -->
+      <div class="sidebar-footer">
+        <button class="btn-logout">
+          <img src="../../assets/icons/logout-half-circle-line.svg" alt="" />
+          Keluar
+        </button>
+      </div>
+    </aside>
+    <!-- END .sidebar -->
+
+    <!-- ====================================================
          AREA UTAMA (Navbar + Konten)
     ==================================================== -->
-      <div class="area-main">
-        <!-- --------------------------------------------------
+    <div class="area-main">
+      <!-- --------------------------------------------------
            NAVBAR
       -------------------------------------------------- -->
-        <header class="navbar">
-          <!-- Tombol hamburger (hanya tampil di mobile) -->
-          <button class="btn-menu-toggle" onclick="toggleSidebar()">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.5"
-              stroke-linecap="round"
-            >
-              <line x1="3" y1="6" x2="21" y2="6" />
-              <line x1="3" y1="12" x2="21" y2="12" />
-              <line x1="3" y1="18" x2="21" y2="18" />
-            </svg>
+      <header class="navbar">
+        <!-- Tombol hamburger (hanya tampil di mobile) -->
+        <button class="btn-menu-toggle" onclick="toggleSidebar()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+
+        <!-- Judul halaman -->
+        <div class="navbar-left">
+          <div class="navbar-page-title">Manajemen Pengguna</div>
+          <div class="navbar-breadcrumb">
+            Rekaps / <span class="breadcrumb-active">Pengguna</span>
+          </div>
+        </div>
+
+        <!-- Kanan: search, notifikasi, avatar -->
+        <div class="navbar-right">
+          <div class="navbar-search">
+            <img src="../../assets/icons/search-line.svg" alt="" />
+            <input type="text" placeholder="Cari..." />
+          </div>
+
+          <button class="icon-btn">
+            <img src="../../assets/icons/bell-line.svg" alt="" />
+            <span class="notif-dot"></span>
           </button>
 
-          <!-- Judul halaman -->
-          <div class="navbar-left">
-            <div class="navbar-page-title">Manajemen Pengguna</div>
-            <div class="navbar-breadcrumb">
-              Rekaps / <span class="breadcrumb-active">Pengguna</span>
-            </div>
-          </div>
-
-          <!-- Kanan: search, notifikasi, avatar -->
-          <div class="navbar-right">
-            <div class="navbar-search">
-              <img src="../../assets/icons/search-line.svg" alt="" />
-              <input type="text" placeholder="Cari..." />
-            </div>
-
-            <button class="icon-btn">
-              <img src="../../assets/icons/bell-line.svg" alt="" />
-              <span class="notif-dot"></span>
-            </button>
-
-            <div class="navbar-avatar">A</div>
-          </div>
-        </header>
-        <!-- END .navbar -->
-
-        <!-- KONTEN DASHBOARD -->
-        <main class="content">
-          <!-- header -->
-           <div class="page-header">
-            <h2>Manajemen Pengguna</h2>
-            
-            <button class="btn primary">+ Tambah Pengguna</button>
+          <div class="navbar-avatar">A</div>
         </div>
-        
+      </header>
+      <!-- END .navbar -->
+
+      <!-- KONTEN DASHBOARD -->
+      <main class="content">
+        <!-- header -->
+        <div class="page-header">
+          <h2>Manajemen Pengguna</h2>
+
+          <button class="btn primary" onclick="openAddModal()">+ Tambah Pengguna</button>
+        </div>
+
         <!-- table card -->
-         <div class="table-card">
-            <table class="user-table">
-                <thead>
-                    <tr>
-                        <th>Nama</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Bergabung</th>
-                        <th>Status</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                
-                <tbody>
-                    <tr>
-                        <td>Admin</td>
-                        <td>adminrekaf@gmail.com</td>
-                        <td><span class="badge role admin">Admin</span></td>
-                        <td>Januari 2026</td>
-                        <td><span class="badge status ready">Ready</span></td>
-                        <td class="action-cell">
-                            <button class="icon-btn edit">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                    <path d="M13.3333 4.16654L15.2442 2.25571C15.4004 2.09948 15.6124 2.01172 15.8333 2.01172C16.0543 2.01172 16.2662 2.09948 16.4225 2.25571L17.7442 3.57737C17.9004 3.73365 17.9882 3.94557 17.9882 4.16654C17.9882 4.38751 17.9004 4.59943 17.7442 4.75571L15.8333 6.66654M13.3333 4.16654L8.5775 8.92237C8.42121 9.07862 8.33338 9.29055 8.33333 9.51154V10.8332C8.33333 11.0542 8.42113 11.2662 8.57741 11.4225C8.73369 11.5787 8.94565 11.6665 9.16667 11.6665H10.4883C10.7093 11.6665 10.9213 11.5787 11.0775 11.4224L15.8333 6.66654M13.3333 4.16654L15.8333 6.66654M5 11.6665H4.16667C3.72464 11.6665 3.30072 11.8421 2.98816 12.1547C2.67559 12.4673 2.5 12.8912 2.5 13.3332C2.5 13.7752 2.67559 14.1992 2.98816 14.5117C3.30072 14.8243 3.72464 14.9999 4.16667 14.9999H15.8333C16.2754 14.9999 16.6993 15.1755 17.0118 15.488C17.3244 15.8006 17.5 16.2245 17.5 16.6665C17.5 17.1086 17.3244 17.5325 17.0118 17.8451C16.6993 18.1576 16.2754 18.3332 15.8333 18.3332H12.5" stroke="#7D39EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
-                            <button class="icon-btn delete">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                    <path d="M7.49998 5.83301C7.49998 5.16997 7.76337 4.53408 8.23221 4.06524C8.70105 3.5964 9.33694 3.33301 9.99998 3.33301C10.663 3.33301 11.2989 3.5964 11.7677 4.06524C12.2366 4.53408 12.5 5.16997 12.5 5.83301M7.49998 5.83301H12.5M7.49998 5.83301H4.99998M12.5 5.83301H15M4.99998 5.83301H3.33331M4.99998 5.83301V14.9997C4.99998 15.4417 5.17557 15.8656 5.48813 16.1782C5.8007 16.4907 6.22462 16.6663 6.66665 16.6663H13.3333C13.7753 16.6663 14.1993 16.4907 14.5118 16.1782C14.8244 15.8656 15 15.4417 15 14.9997V5.83301M15 5.83301H16.6666" stroke="#E7000B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
-                        </td>
-                    </tr>
-                    
-                    <tr>
-                        <td>Pengurus</td>
-                        <td>pengurusrekaf@gmail.com</td>
-                        <td><span class="badge role pengurus">Pengurus</span></td>
-                        <td>Januari 2026</td>
-                        <td><span class="badge status inactive">Nonaktif</span></td>
-                        <td class="action-cell">
-                            <button class="icon-btn edit">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                    <path d="M13.3333 4.16654L15.2442 2.25571C15.4004 2.09948 15.6124 2.01172 15.8333 2.01172C16.0543 2.01172 16.2662 2.09948 16.4225 2.25571L17.7442 3.57737C17.9004 3.73365 17.9882 3.94557 17.9882 4.16654C17.9882 4.38751 17.9004 4.59943 17.7442 4.75571L15.8333 6.66654M13.3333 4.16654L8.5775 8.92237C8.42121 9.07862 8.33338 9.29055 8.33333 9.51154V10.8332C8.33333 11.0542 8.42113 11.2662 8.57741 11.4225C8.73369 11.5787 8.94565 11.6665 9.16667 11.6665H10.4883C10.7093 11.6665 10.9213 11.5787 11.0775 11.4224L15.8333 6.66654M13.3333 4.16654L15.8333 6.66654M5 11.6665H4.16667C3.72464 11.6665 3.30072 11.8421 2.98816 12.1547C2.67559 12.4673 2.5 12.8912 2.5 13.3332C2.5 13.7752 2.67559 14.1992 2.98816 14.5117C3.30072 14.8243 3.72464 14.9999 4.16667 14.9999H15.8333C16.2754 14.9999 16.6993 15.1755 17.0118 15.488C17.3244 15.8006 17.5 16.2245 17.5 16.6665C17.5 17.1086 17.3244 17.5325 17.0118 17.8451C16.6993 18.1576 16.2754 18.3332 15.8333 18.3332H12.5" stroke="#7D39EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
-                            <button class="icon-btn delete">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                    <path d="M7.49998 5.83301C7.49998 5.16997 7.76337 4.53408 8.23221 4.06524C8.70105 3.5964 9.33694 3.33301 9.99998 3.33301C10.663 3.33301 11.2989 3.5964 11.7677 4.06524C12.2366 4.53408 12.5 5.16997 12.5 5.83301M7.49998 5.83301H12.5M7.49998 5.83301H4.99998M12.5 5.83301H15M4.99998 5.83301H3.33331M4.99998 5.83301V14.9997C4.99998 15.4417 5.17557 15.8656 5.48813 16.1782C5.8007 16.4907 6.22462 16.6663 6.66665 16.6663H13.3333C13.7753 16.6663 14.1993 16.4907 14.5118 16.1782C14.8244 15.8656 15 15.4417 15 14.9997V5.83301M15 5.83301H16.6666" stroke="#E7000B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
-                        </td>
-                    </tr>
-                    
-                    <tr>
-                        <td>Arlan</td>
-                        <td>arlanstore@gmail.com</td>
-                        <td><span class="badge role user">Pengguna</span></td>
-                        <td>Januari 2026</td>
-                        <td><span class="badge status ready">Ready</span></td>
-                        <td class="action-cell">
-                            <button class="icon-btn edit">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                    <path d="M13.3333 4.16654L15.2442 2.25571C15.4004 2.09948 15.6124 2.01172 15.8333 2.01172C16.0543 2.01172 16.2662 2.09948 16.4225 2.25571L17.7442 3.57737C17.9004 3.73365 17.9882 3.94557 17.9882 4.16654C17.9882 4.38751 17.9004 4.59943 17.7442 4.75571L15.8333 6.66654M13.3333 4.16654L8.5775 8.92237C8.42121 9.07862 8.33338 9.29055 8.33333 9.51154V10.8332C8.33333 11.0542 8.42113 11.2662 8.57741 11.4225C8.73369 11.5787 8.94565 11.6665 9.16667 11.6665H10.4883C10.7093 11.6665 10.9213 11.5787 11.0775 11.4224L15.8333 6.66654M13.3333 4.16654L15.8333 6.66654M5 11.6665H4.16667C3.72464 11.6665 3.30072 11.8421 2.98816 12.1547C2.67559 12.4673 2.5 12.8912 2.5 13.3332C2.5 13.7752 2.67559 14.1992 2.98816 14.5117C3.30072 14.8243 3.72464 14.9999 4.16667 14.9999H15.8333C16.2754 14.9999 16.6993 15.1755 17.0118 15.488C17.3244 15.8006 17.5 16.2245 17.5 16.6665C17.5 17.1086 17.3244 17.5325 17.0118 17.8451C16.6993 18.1576 16.2754 18.3332 15.8333 18.3332H12.5" stroke="#7D39EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
-                            <button class="icon-btn delete">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                    <path d="M7.49998 5.83301C7.49998 5.16997 7.76337 4.53408 8.23221 4.06524C8.70105 3.5964 9.33694 3.33301 9.99998 3.33301C10.663 3.33301 11.2989 3.5964 11.7677 4.06524C12.2366 4.53408 12.5 5.16997 12.5 5.83301M7.49998 5.83301H12.5M7.49998 5.83301H4.99998M12.5 5.83301H15M4.99998 5.83301H3.33331M4.99998 5.83301V14.9997C4.99998 15.4417 5.17557 15.8656 5.48813 16.1782C5.8007 16.4907 6.22462 16.6663 6.66665 16.6663H13.3333C13.7753 16.6663 14.1993 16.4907 14.5118 16.1782C14.8244 15.8656 15 15.4417 15 14.9997V5.83301M15 5.83301H16.6666" stroke="#E7000B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="table-card">
+          <table class="user-table">
+            <thead>
+              <tr>
+                <th>Nama</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Bergabung</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>Admin</td>
+                <td>adminrekaf@gmail.com</td>
+                <td><span class="badge role admin">Admin</span></td>
+                <td>Januari 2026</td>
+                <td><span class="badge status ready">Ready</span></td>
+                <td class="action-cell">
+
+                  <!-- <a href="edit-product.html"> -->
+                    <button class="btn-icon-edit">
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M13.3333 4.16678L15.2442 2.25595C15.4004 2.09973 15.6124 2.01196 15.8333 2.01196C16.0543 2.01196 16.2662 2.09973 16.4225 2.25595L17.7442 3.57762C17.9004 3.73389 17.9882 3.94581 17.9882 4.16678C17.9882 4.38776 17.9004 4.59968 17.7442 4.75595L15.8333 6.66679M13.3333 4.16678L8.5775 8.92262C8.42121 9.07886 8.33338 9.29079 8.33333 9.51179V10.8335C8.33333 11.0545 8.42113 11.2664 8.57741 11.4227C8.73369 11.579 8.94565 11.6668 9.16667 11.6668H10.4883C10.7093 11.6667 10.9213 11.5789 11.0775 11.4226L15.8333 6.66679M13.3333 4.16678L15.8333 6.66679M5 11.6668H4.16667C3.72464 11.6668 3.30072 11.8424 2.98816 12.1549C2.67559 12.4675 2.5 12.8914 2.5 13.3335C2.5 13.7755 2.67559 14.1994 2.98816 14.512C3.30072 14.8245 3.72464 15.0001 4.16667 15.0001H15.8333C16.2754 15.0001 16.6993 15.1757 17.0118 15.4883C17.3244 15.8008 17.5 16.2248 17.5 16.6668C17.5 17.1088 17.3244 17.5327 17.0118 17.8453C16.6993 18.1579 16.2754 18.3335 15.8333 18.3335H12.5"
+                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </button>
+                  </a>
+
+                  <button class="btn-icon-delete">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M7.50016 5.83325C7.50016 5.17021 7.76355 4.53433 8.2324 4.06549C8.70124 3.59664 9.33712 3.33325 10.0002 3.33325C10.6632 3.33325 11.2991 3.59664 11.7679 4.06549C12.2368 4.53433 12.5002 5.17021 12.5002 5.83325M7.50016 5.83325H12.5002M7.50016 5.83325H5.00016M12.5002 5.83325H15.0002M5.00016 5.83325H3.3335M5.00016 5.83325V14.9999C5.00016 15.4419 5.17576 15.8659 5.48832 16.1784C5.80088 16.491 6.2248 16.6666 6.66683 16.6666H13.3335C13.7755 16.6666 14.1994 16.491 14.512 16.1784C14.8246 15.8659 15.0002 15.4419 15.0002 14.9999V5.83325M15.0002 5.83325H16.6668"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </button>
         </div>
-        </main>
-        <!-- END .content -->
-      </div>
-      <!-- END .area-main -->
+        </td>
+        </tr>
+
+        <tr>
+          <td>Pengurus</td>
+          <td>pengurusrekaf@gmail.com</td>
+          <td><span class="badge role pengurus">Pengurus</span></td>
+          <td>Januari 2026</td>
+          <td><span class="badge status inactive">Nonaktif</span></td>
+          <td class="action-cell">
+            <!-- <a href="edit-product.html"> -->
+              <button class="btn-icon-edit">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M13.3333 4.16678L15.2442 2.25595C15.4004 2.09973 15.6124 2.01196 15.8333 2.01196C16.0543 2.01196 16.2662 2.09973 16.4225 2.25595L17.7442 3.57762C17.9004 3.73389 17.9882 3.94581 17.9882 4.16678C17.9882 4.38776 17.9004 4.59968 17.7442 4.75595L15.8333 6.66679M13.3333 4.16678L8.5775 8.92262C8.42121 9.07886 8.33338 9.29079 8.33333 9.51179V10.8335C8.33333 11.0545 8.42113 11.2664 8.57741 11.4227C8.73369 11.579 8.94565 11.6668 9.16667 11.6668H10.4883C10.7093 11.6667 10.9213 11.5789 11.0775 11.4226L15.8333 6.66679M13.3333 4.16678L15.8333 6.66679M5 11.6668H4.16667C3.72464 11.6668 3.30072 11.8424 2.98816 12.1549C2.67559 12.4675 2.5 12.8914 2.5 13.3335C2.5 13.7755 2.67559 14.1994 2.98816 14.512C3.30072 14.8245 3.72464 15.0001 4.16667 15.0001H15.8333C16.2754 15.0001 16.6993 15.1757 17.0118 15.4883C17.3244 15.8008 17.5 16.2248 17.5 16.6668C17.5 17.1088 17.3244 17.5327 17.0118 17.8453C16.6993 18.1579 16.2754 18.3335 15.8333 18.3335H12.5"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+            </a>
+
+            <button class="btn-icon-delete">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M7.50016 5.83325C7.50016 5.17021 7.76355 4.53433 8.2324 4.06549C8.70124 3.59664 9.33712 3.33325 10.0002 3.33325C10.6632 3.33325 11.2991 3.59664 11.7679 4.06549C12.2368 4.53433 12.5002 5.17021 12.5002 5.83325M7.50016 5.83325H12.5002M7.50016 5.83325H5.00016M12.5002 5.83325H15.0002M5.00016 5.83325H3.3335M5.00016 5.83325V14.9999C5.00016 15.4419 5.17576 15.8659 5.48832 16.1784C5.80088 16.491 6.2248 16.6666 6.66683 16.6666H13.3335C13.7755 16.6666 14.1994 16.491 14.512 16.1784C14.8246 15.8659 15.0002 15.4419 15.0002 14.9999V5.83325M15.0002 5.83325H16.6668"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+          </td>
+        </tr>
+
+        <tr>
+          <td>Arlan</td>
+          <td>arlanstore@gmail.com</td>
+          <td><span class="badge role user">Pengguna</span></td>
+          <td>Januari 2026</td>
+          <td><span class="badge status ready">Ready</span></td>
+          <td class="action-cell">
+            <!-- <a href="edit-product.html"> -->
+              <button class="btn-icon-edit">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M13.3333 4.16678L15.2442 2.25595C15.4004 2.09973 15.6124 2.01196 15.8333 2.01196C16.0543 2.01196 16.2662 2.09973 16.4225 2.25595L17.7442 3.57762C17.9004 3.73389 17.9882 3.94581 17.9882 4.16678C17.9882 4.38776 17.9004 4.59968 17.7442 4.75595L15.8333 6.66679M13.3333 4.16678L8.5775 8.92262C8.42121 9.07886 8.33338 9.29079 8.33333 9.51179V10.8335C8.33333 11.0545 8.42113 11.2664 8.57741 11.4227C8.73369 11.579 8.94565 11.6668 9.16667 11.6668H10.4883C10.7093 11.6667 10.9213 11.5789 11.0775 11.4226L15.8333 6.66679M13.3333 4.16678L15.8333 6.66679M5 11.6668H4.16667C3.72464 11.6668 3.30072 11.8424 2.98816 12.1549C2.67559 12.4675 2.5 12.8914 2.5 13.3335C2.5 13.7755 2.67559 14.1994 2.98816 14.512C3.30072 14.8245 3.72464 15.0001 4.16667 15.0001H15.8333C16.2754 15.0001 16.6993 15.1757 17.0118 15.4883C17.3244 15.8008 17.5 16.2248 17.5 16.6668C17.5 17.1088 17.3244 17.5327 17.0118 17.8453C16.6993 18.1579 16.2754 18.3335 15.8333 18.3335H12.5"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+            </a>
+
+            <button class="btn-icon-delete">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M7.50016 5.83325C7.50016 5.17021 7.76355 4.53433 8.2324 4.06549C8.70124 3.59664 9.33712 3.33325 10.0002 3.33325C10.6632 3.33325 11.2991 3.59664 11.7679 4.06549C12.2368 4.53433 12.5002 5.17021 12.5002 5.83325M7.50016 5.83325H12.5002M7.50016 5.83325H5.00016M12.5002 5.83325H15.0002M5.00016 5.83325H3.3335M5.00016 5.83325V14.9999C5.00016 15.4419 5.17576 15.8659 5.48832 16.1784C5.80088 16.491 6.2248 16.6666 6.66683 16.6666H13.3335C13.7755 16.6666 14.1994 16.491 14.512 16.1784C14.8246 15.8659 15.0002 15.4419 15.0002 14.9999V5.83325M15.0002 5.83325H16.6668"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+        </table>
     </div>
-    <!-- END .layout -->
 
-    <!-- Overlay gelap saat sidebar dibuka di mobile -->
-    <div
-      class="sidebar-overlay"
-      id="sidebarOverlay"
-      onclick="closeSidebar()"
-    ></div>
+    <!--tambah pengguna -->
+    <div class="user-overlay" id="userModal">
+      <div class="user-box">
 
-    <!-- JAVASCRIPT - hanya untuk toggle sidebar di mobile -->
-    <script>
-      function toggleSidebar() {
-        document.getElementById("sidebar").classList.toggle("open");
-        document.getElementById("sidebarOverlay").classList.toggle("show");
-      }
+        <h3 id="modalTitle">Tambah Pengguna</h3>
 
-      function closeSidebar() {
-        document.getElementById("sidebar").classList.remove("open");
-        document.getElementById("sidebarOverlay").classList.remove("show");
-      }
-    </script>
-  </body>
+        <div class="form-group">
+          <label>Nama Pengguna</label>
+          <input type="text" id="namaInput" placeholder="Nama">
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="emailInput" placeholder="Email">
+        </div>
+
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="passwordInput" placeholder="Password">
+        </div>
+
+        <div class="user-actions">
+          <button class="btn btn-cancel" onclick="closeModal()">Batal</button>
+          <button class="btn btn-primary" onclick="submitForm()" id="submitBtn">
+            Tambah Pengguna
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    </main>
+    <!-- END .content -->
+  </div>
+  <!-- END .area-main -->
+  </div>
+  <!-- END .layout -->
+
+  <!-- Overlay gelap saat sidebar dibuka di mobile -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+  <!-- JAVASCRIPT - hanya untuk toggle sidebar di mobile -->
+  <script src="../../js/users.js">
+  </script>
+</body>
+
 </html>
