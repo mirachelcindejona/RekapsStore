@@ -42,13 +42,13 @@
 /* ===== CARD STYLING ===== */
 .section-card {
   background: var(--color-neutral-50, var(--color-neutral-50));
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1); /* Disesuaikan agar tidak terlalu gelap */
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
   padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 15px;
-  margin-bottom: 20px; /* Jarak antar card jika di-stack */
+  margin-bottom: 20px;
 }
 
 .section-title {
@@ -212,7 +212,7 @@ textarea.form-control {
 }
 
 .btn-delete-variant {
-  background: linear-gradient(135deg, #951806, #fe6e4c);
+  background: var(--color-red-600);
   color: white;
   padding: 6px 12px;
   border-radius: 10px;

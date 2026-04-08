@@ -47,7 +47,7 @@
   align-items: center;
   gap: 6px;
   padding: 8px 16px;
-  background: linear-gradient(135deg, #951806, #fe6e4c);
+  background: var(--color-red-600);
   color: var(--color-neutral-50);
   border-radius: 12px;
   font-size: 12px;
@@ -403,14 +403,6 @@
     transform: translateY(0);
   }
 }
-
-/* Container utama tiap isi tab (Background putihvar(--color-neutral-50)) */
-/* .tab-content-area {
-  background: var(--color-neutral-50);
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
-  border-radius: 16px;
-  padding: 24px 32px;
-} */
 
 /* --- 2. Isi Tab Ulasan & Rating --- */
 .review-stats-wrapper {
@@ -817,7 +809,7 @@
 
 .form-control:focus {
   border-color: var(--brand);
-  background: var(--color-neutral-50);
+  box-shadow: 0 0 0 3px rgba(125, 57, 235, 0.15);
 }
 
 .form-control::placeholder {
