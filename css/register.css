@@ -160,3 +160,76 @@ input:focus {
     text-align: center;
 }
 
+
+/* responsive dekstop */
+@media (max-width: 1040px) {
+    .auth {
+        flex-direction: column;
+    }
+    .auth_left {
+        clip-path: none;
+        display: none;
+        padding: 32px;
+    }
+
+    .auth_left,
+    .auth_right {
+        width: 100%;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+    }
+}
+
+/* responsive mobile*/
+@media (max-width: 768px) {
+
+    .auth {
+        flex-direction: column;
+    }
+
+    .auth_left,
+    .auth_right {
+        width: 100%;
+    }
+
+    .auth_left {
+        display: none;
+        padding: 24px;
+    }
+
+    .auth_right {
+        padding: 40px 20px;
+        clip-path: none; 
+    }
+
+    .auth_card {
+        max-width: 100%;
+    }
+
+    .hero h1 {
+        font-size: 26px;
+    }
+}
+
+/* responsive mobile kecil */
+@media (max-width: 480px) {
+
+    .auth_left {
+        display: none;
+        padding: 16px;
+    }
+
+    .hero h1 {
+        font-size: 22px;
+    }
+
+    input {
+        padding: 10px;
+    }
+
+    .btn-primary {
+        padding: 10px;
+    }
+}

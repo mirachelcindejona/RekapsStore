@@ -38,6 +38,7 @@ body {
 }
 
 .auth_card{
+    align-items: center;
     max-width: 320px;
 }
 
@@ -167,13 +168,14 @@ input:focus {
 
 
 /* responsive dekstop */
-@media (max-width: 1024px) {
+@media (max-width: 1040px) {
     .auth_left {
         width: 50%;
         padding: 32px;
     }
 
     .auth_right {
+        display: none;
         width: 50%;
     }
 
@@ -199,6 +201,7 @@ input:focus {
     }
 
     .auth_right {
+        display: none;
         padding: 40px 20px;
         clip-path: none; 
     }
