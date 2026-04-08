@@ -1,0 +1,381 @@
+body {
+  background-color: var(--color-neutral-100);
+}
+
+.navland {
+  display: flex;
+  box-sizing: border-box;
+  justify-content: space-between;
+  padding: 10px 50px;
+  box-shadow: 0 -2px 5px black;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background-color: var(--color-neutral-50);
+  z-index: 1000;
+}
+.navland form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #e5e5e5;
+  padding: 7px 9px;
+  border-radius: 7px;
+  flex: 1;
+  max-width: 1200px;
+  min-width: 0;
+}
+
+.navland form > input {
+  border: none;
+  background-color: transparent;
+  outline: none;
+}
+
+.menu {
+  display: flex;
+  flex-direction: row;
+  scale: 0.8;
+  gap: 10px;
+}
+
+.rightnav {
+  display: flex;
+  gap: 60px;
+  padding-left: 20px;
+  align-items: center;
+}
+
+.account {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.accname {
+  font-size: var(--text-xs);
+  font-weight: var(--font-mediumxs);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: fit-content;
+  justify-content: center;
+  align-items: center;
+  padding: 0 15%;
+  gap: 10px;
+}
+
+.back {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px 0;
+  gap: 5px;
+}
+
+.back a {
+  display: flex;
+  align-items: center;
+}
+
+.back span {
+  color: var(--color-neutral-500);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+}
+
+.searchproduct {
+    width: 100%;
+}
+
+.searchproduct form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--color-neutral-50);
+    border: solid 1px var(--color-neutral-300);
+    padding: 10px 13px;
+    border-radius: 7px;
+    flex: 1;
+    min-width: 0;
+}
+
+.searchproduct form>input {
+    border: none;
+    background-color: transparent;
+    outline: none;
+    width: 100%;
+}
+
+.searchproduct form>button {
+    border: none;
+    background-color: transparent;
+    outline: none;
+    cursor: pointer;
+}
+
+.order-card {
+  width: 100%;
+  background: var(--color-neutral-50);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 0 2px var(--color-neutral-500);
+}
+
+.product-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.product-item img {
+  width: 150px;
+  height: auto;
+  margin-right: 15px;
+}
+
+.product-info {
+  flex: 1;
+}
+
+.product-info h4 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.product-info p {
+  margin: 2px 0;
+  font-size: 13px;
+  color: var(--color-neutral-600);
+}
+
+.product-price {
+  font-weight: 500;
+  color: var(--color-neutral-500);
+}
+
+.order-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.status-verif {
+    background: var(--color-teal-100);
+    color: var(--color-teal-500);
+    font-weight: var(--font-semibold);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.status-preorder {
+    background: var(--color-amber-100);
+    color: var(--color-amber-500);
+    font-weight: var(--font-semibold);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.status-done {
+    background: var(--color-emerald-100);
+    color: var(--color-emerald-500);
+    font-weight: var(--font-semibold);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.total {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    background: var(--color-primary-500);
+    border: none;
+    padding: 10px 18px;
+    border-radius: 10px;
+    color: var(--color-neutral-50);
+}
+
+.btn:hover {
+    background: var(--color-primary-600);
+    cursor: pointer;
+}
+
+.btn.disabled {
+    background: var(--color-neutral-300);
+    color: var(--color-neutral-50);
+    cursor: not-allowed;
+}
+
+.btn2 {
+    background: var(--color-primary-50);
+    border: solid 1px var(--color-primary-500);
+    padding: 10px 18px;
+    border-radius: 10px;
+    color: var(--color-primary-500);
+}
+
+.btn2:hover {
+    background: var(--color-primary-100);
+    cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 40px;
+  }
+
+  .product-item img {
+    width: 120px;
+  }
+
+  .product-info h4 {
+    font-size: 14px;
+  }
+
+  .product-info p {
+    font-size: 12px;
+  }
+
+  .total {
+    font-size: var(--text-xl);
+  }
+}
+
+@media (max-width: 768px) {
+  .navland > img {
+    content: url("../assets/icons/logo-rekaps.svg");
+  }
+
+  .navland {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px 20px;
+  }
+
+  .navland form {
+    width: 100%;
+  }
+
+  .accname {
+    display: none;
+  }
+
+  .product-item {
+    align-items: flex-start;
+  }
+
+  .product-item img {
+    width: 100px;
+  }
+
+  .product-price {
+    font-size: 12px;
+  }
+
+  .order-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .buttons {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .buttons button {
+    flex: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .navland > img {
+    content: url("../assets/icons/logo-rekaps.svg");
+    width: 35px;
+  }
+
+  .navland > form > input {
+    font-size: 8px;
+  }
+
+  .navland {
+    padding: 10px;
+  }
+
+  .container {
+    padding: 0 15px;
+  }
+
+  .product-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .product-item img {
+    width: 100%;
+    max-width: 200px;
+  }
+
+  .product-info {
+    width: 100%;
+  }
+
+  .product-price {
+    width: 100%;
+    text-align: right;
+    font-size: 12px;
+  }
+
+  .total {
+    justify-content: flex-start;
+    font-size: var(--text-lg);
+  }
+
+  .order-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .buttons {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .btn,
+  .btn2 {
+    width: 100%;
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .searchproduct form {
+    padding: 8px;
+  }
+
+  .searchproduct input {
+    font-size: 12px;
+  }
+}

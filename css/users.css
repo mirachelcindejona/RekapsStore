@@ -1,4 +1,4 @@
-/* ===== HEADER ===== */
+/* header */
 .page-header {
   display: flex;
   justify-content: space-between;
@@ -68,12 +68,13 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.65);
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(4px);
 
   display: none;
   align-items: center;
   justify-content: center;
-  z-index: 999;
+  z-index: 10;
 }
 
 /* box */
@@ -131,6 +132,7 @@
 /* Hover row */
 .user-table tbody tr:hover {
   background: var(--color-neutral-100);
+  backdrop-filter: blur(4px);
 }
 
 /* badge*/
@@ -175,7 +177,15 @@
   gap: 6px;
 }
 
-.icon-btn {
+/* ----- Aksi Buttons ----- */
+.btn-icon-edit {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-icon-edit,
+.btn-icon-delete {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -184,36 +194,33 @@
   border-radius: var(--radius-md);
   cursor: pointer;
   transition:
-    background var(--color-primary-100),
-    color var(--color-primary-100),
+    background var(--transition),
+    color var(--transition),
     box-shadow var(--transition);
   flex-shrink: 0;
 }
 
-/* edir */
-.icon-btn.edit {
-    background: var(--color-neutral-50);
-    border: 1px solid var(--color-primary-100);
-    color: var(--brand);
-    box-shadow: 0px 2px 4px rgba(62, 52, 69, 0.25);
+.btn-icon-edit {
+  background: var(--color-neutral-50);
+  border: 1px solid var(--brand);
+  color: var(--brand);
+  box-shadow: 0px 2px 4px rgba(62, 52, 69, 0.25);
 }
 
-.icon-btn-edit:hover {
-    background: var(--brand);
-    color: var(--color-neutral-50);
-    box-shadow: 0px 4px 12px rgba(125, 57, 235, 0.3);
+.btn-icon-edit:hover {
+  background: var(--brand);
+  color: var(--color-neutral-50);
+  box-shadow: 0px 4px 12px rgba(125, 57, 235, 0.3);
 }
 
-/* delete */
-.icon-btn.delete {
-    background: var(--color-neutral-50);
-    border: 1px solid var(--color-red-500);
-    color: var(--color-red-500);
+.btn-icon-delete {
+  background: var(--color-neutral-50);
+  border: 1px solid var(--color-red-500);
+  color: var(--color-red-500);
 }
 
-.icon-btn-delete:hover {
-      background: var(--color-red-500);
-      color: var(--color-neutral-50);
-      box-shadow: 0px 4px 12px rgba(231, 0, 11, 0.3);
-
+.btn-icon-delete:hover {
+  background: var(--color-red-500);
+  color: var(--color-neutral-50);
+  box-shadow: 0px 4px 12px rgba(231, 0, 11, 0.3);
 }

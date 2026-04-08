@@ -21,6 +21,7 @@ function openAddModal() {
 
   clearForm();
   showModal();
+
 }
 
 function openEditModal(id) {

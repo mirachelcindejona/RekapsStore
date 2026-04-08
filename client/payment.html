@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rekaps Store</title>
+    <link rel="stylesheet" href="../css/global.css" type="text/css">
+    <link rel="stylesheet" href="../css/payment.css" type="text/css">
+</head>
+<body> 
+    <nav class="navland">
+      <img
+        src="../assets/icons/logo-rekaps-text.svg"
+        alt=""
+        class="rekaplogo"
+      />
+      <form action="">
+        <img src="../assets/icons/search-line.svg" alt="" class="magnify" />
+        <input type="text" placeholder="Cari di Rekaps Store" />
+      </form>
+      <div class="rightnav">
+        <div class="menu">
+          <a href="../client/cart.html">
+            <img src="../assets/icons/cart.svg" alt="" class="cart" />
+          </a>
+          <img src="../assets/icons/bell-index.svg" alt="" class="bell" />
+          <a href="../client/order-history.html">
+              <img src="../assets/icons/history-index.svg" alt="" class="history" />
+          </a>
+        </div>
+        <div class="account">
+          <span class="accname">Grace Ashcroft</span>
+          <div class="accountpic">
+            <img src="../assets/icons/profile.svg" alt="" />
+          </div>
+        </div>
+      </div>
+    </nav>
+    <section class="container">
+        <div class="back">
+            <a href="./cart.html" onclick="history.back(); return false;">
+                <img src="../assets/icons/back.svg" alt="" />
+                <span>Kembali</span>
+            </a>
+        </div>
+        <div class="pay-cont">
+            <div class="qr-cont">
+                <span>Scan untuk membayar</span>
+                <img src="../assets/icons/qr-dummy.svg" alt="">
+                <div class="rekaplogo-cont">
+                    <img src="../assets/icons/rekaps-store-logo-lw.svg" alt="">
+                </div>
+            </div>
+            <div class="pay-right">
+                <div class="instruction">
+                    <p>Langkah Pembayaran dengan QRIS</p>
+                    <ol>
+                        <li>Scan QR code menggunakan aplikasi seperti GoPay, OVO, DANA, atau mobile banking</li>
+                        <li>Pastikan nominal sesuai dengan total pembayaran</li>
+                        <li>Konfirmasi dan masukkan PIN</li>
+                        <li>Klik “Saya Sudah Bayar” setelah pembayaran selesai</li>
+                    </ol>
+                </div>
+                <div class="verif">
+                    <div class="nominal">
+                        <span class="txt">Bayar sebesar: </span>
+                        <span class="price">Rp.600.000</span>
+                    </div>
+                    <form action="order-history.html">
+                        <label class="file-upload">
+                            <input type="file" hidden>
+                            <span>Upload bukti pembayaran</span>
+                        </label>
+                        <button>Saya sudah bayar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="../js/payment.js"></script>
+</body>
+</html>
