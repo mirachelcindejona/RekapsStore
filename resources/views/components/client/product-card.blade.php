@@ -1,10 +1,13 @@
-<a href="{{ $link }}" class="flex h-full">
-  <div class="product bg-[#fafafa] border border-[var(--color-neutral-200)] rounded-[12px]
+<a href="{{ $link }}"
+   class="product-card flex h-full"
+   data-category="{{ $category }}">
+
+  <div class="bg-[#fafafa] border border-[var(--color-neutral-200)] rounded-[12px]
               hover:border-[var(--color-neutral-300)] hover:cursor-pointer
               flex flex-col h-full overflow-hidden transition-all duration-300">
 
     {{-- discount --}}
-    <div class="discountframe flex bg-[#f5f5f5] justify-end min-h-[12px]">
+    <div class="discountframe flex bg-[#f5f5f5] justify-end h-[20px]">
       @if ($discount > 0)
       <div class="discount bg-[#c6ff33] px-2 py-1 text-[#000000]
                   rounded-bl-[6px] flex items-center gap-1">
@@ -26,7 +29,7 @@
                 flex items-center justify-center overflow-hidden">
 
       <img src="{{ asset($image) }}"
-           class="productimg w-full h-full object-contain p-2" />
+           class="productimg w-full h-full object-contain" />
     </div>
 
     {{-- details --}}

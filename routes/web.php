@@ -12,6 +12,7 @@ Route::get('/', function () {
         "price" => "Rp120.000",
         "rating" => 4.7,
         "reviews" => 47,
+        "category" => "Merchandise",
     ],
     [
         "link" => "#",
@@ -21,6 +22,7 @@ Route::get('/', function () {
         "price" => "Rp207.000",
         "rating" => 4.9,
         "reviews" => 49,
+        "category" => "Merchandise",
     ],
     [
         "link" => "#",
@@ -30,6 +32,7 @@ Route::get('/', function () {
         "price" => "Rp105.000",
         "rating" => 4.7,
         "reviews" => 47,
+        "category" => "Merchandise",
     ],
     [
         "link" => "#",
@@ -39,6 +42,7 @@ Route::get('/', function () {
         "price" => "Rp10.000",
         "rating" => 4.7,
         "reviews" => 47,
+        "category" => "Aksesoris",
     ],
     [
         "link" => "#",
@@ -48,6 +52,7 @@ Route::get('/', function () {
         "price" => "Rp10.000",
         "rating" => 4.7,
         "reviews" => 47,
+        "category" => "Aksesoris",
     ],
     [
         "link" => "#",
@@ -57,6 +62,7 @@ Route::get('/', function () {
         "price" => "Rp120.000",
         "rating" => 4.7,
         "reviews" => 47,
+        "category" => "Merchandise",
     ],
     [
         "link" => "#",
@@ -66,6 +72,7 @@ Route::get('/', function () {
         "price" => "Rp207.000",
         "rating" => 4.9,
         "reviews" => 49,
+        "category" => "Merchandise",
     ],
     [
         "link" => "#",
@@ -75,6 +82,7 @@ Route::get('/', function () {
         "price" => "Rp105.000",
         "rating" => 4.7,
         "reviews" => 47,
+        "category" => "Merchandise",
     ],
     [
         "link" => "#",
@@ -84,6 +92,7 @@ Route::get('/', function () {
         "price" => "Rp10.000",
         "rating" => 4.7,
         "reviews" => 47,
+        "category" => "Aksesoris",
     ],
     [
         "link" => "#",
@@ -93,6 +102,7 @@ Route::get('/', function () {
         "price" => "Rp10.000",
         "rating" => 4.7,
         "reviews" => 47,
+        "category" => "Aksesoris",
     ],
     [
             "link" => "#",
@@ -102,6 +112,7 @@ Route::get('/', function () {
         "price" => "Rp120.000",
         "rating" => 4.7,
         "reviews" => 47,
+        "category" => "Merchandise",
     ],
     [
         "link" => "#",
@@ -111,6 +122,7 @@ Route::get('/', function () {
         "price" => "Rp207.000",
         "rating" => 4.9,
         "reviews" => 49,
+        "category" => "Merchandise",
     ],
     [
         "link" => "#",
@@ -120,6 +132,7 @@ Route::get('/', function () {
         "price" => "Rp105.000",
         "rating" => 4.7,
         "reviews" => 47,
+        "category" => "Merchandise",
     ],
     [
         "link" => "#",
@@ -129,6 +142,7 @@ Route::get('/', function () {
         "price" => "Rp10.000",
         "rating" => 4.7,
         "reviews" => 47,
+        "category" => "Aksesoris",
     ],
     [
         "link" => "#",
@@ -138,6 +152,7 @@ Route::get('/', function () {
         "price" => "Rp10.000",
         "rating" => 4.7,
         "reviews" => 47,
+        "category" => "Aksesoris",
     ],
     [
         "link" => "#",
@@ -147,6 +162,7 @@ Route::get('/', function () {
         "price" => "Rp120.000",
         "rating" => 4.7,
         "reviews" => 47,
+        "category" => "Merchandise",
     ],
     ];
     return view('index', compact('products'));
