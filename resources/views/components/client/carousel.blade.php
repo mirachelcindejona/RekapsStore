@@ -1,4 +1,4 @@
-<section class="carousel-cont w-full flex justify-center items-center mb-[10px]">
+<section class="carousel-cont w-full flex justify-center items-center">
         <div class="carousel w-[1400px] overflow-hidden relative flex justify-center items-center rounded-[20px] sm:rounded-[30px]">
             <div class="slides flex w-[1400px] [transition:transform_0.8s_ease-in-out] rounded-[30px]">
             <div class="slide flex-[0_0_100%] w-full overflow-hidden relative"><img class="w-full h-auto block" src="assets/icons/slide1.svg" /></div>

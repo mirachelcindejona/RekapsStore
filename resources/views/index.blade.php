@@ -12,11 +12,13 @@
     {{-- navbar --}}
     <x-client.navbar-index></x-client.navbar-index>
     {{-- main-content --}}
-    <main class="pt-27 sm:pt-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <main class="pt-23 sm:pt-19 max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         {{-- carousel --}}
         <div class="hidden sm:flex"> 
             <x-client.carousel />
         </div>
+        {{-- category-filter --}}
+        <x-client.category-filter></x-client.category-filter>
         {{-- products --}}
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-2 items-stretch">
             @foreach ($products as $product)
@@ -28,6 +30,7 @@
                 :price="$product['price']"
                 :rating="$product['rating']"
                 :reviews="$product['reviews']"
+                :category="$product['category']"
             />
             @endforeach
         </div>
