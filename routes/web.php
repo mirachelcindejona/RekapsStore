@@ -14,3 +14,12 @@ Route::get('/admin', function () {
 Route::get('/admin/product', function () {
     return view('admin/product');
 });
+Route::get('/admin/product-add', function () {
+    return view('admin/product-add');
+});
+Route::get('/admin/product-edit', function () {
+    return view('admin/product-edit');
+});
+Route::get('/admin/product-detail', function () {
+    return view('admin/product-detail');
+});

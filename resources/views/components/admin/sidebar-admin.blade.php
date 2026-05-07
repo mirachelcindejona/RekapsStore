@@ -1,32 +1,43 @@
 <!-- ====== SIDEBAR ====== -->
-<aside class="sidebar" id="sidebar">
-    <!-- Logo / Brand -->
-    <div class="sidebar-brand">
-        <div class="brand-logo">
-            <img src="{{ asset('assets/icons/logo-rekaps.svg') }}" alt="" />
+<aside id="sidebar"
+    class="fixed inset-y-0 left-0 w-[270px] bg-neutral-950 flex flex-col z-[100] overflow-hidden isolate -translate-x-full min-[900px]:translate-x-0 transition-transform duration-[250ms] ease-[cubic-bezier(0.4,0,0.2,1)]">
+
+    <div
+        class="absolute -top-[60px] -right-[60px] w-[180px] h-[180px] bg-primary-500 rounded-full opacity-[0.12] pointer-events-none -z-10">
+    </div>
+
+    <div class="px-[22px] pt-[24px] pb-[18px] border-b border-white/5 flex items-center justify-center shrink-0">
+        <div class="rounded-xl flex items-center justify-center shrink-0 relative overflow-hidden mr-2">
+            <img src="{{ asset('assets/icons/logo-rekaps.svg') }}" alt="Logo" class="relative z-10" />
         </div>
-        <div class="brand-text">
-            <span class="brand-name">Rekaps Store</span>
-            <span class="brand-tagline">Admin Panel</span>
+        <div class="flex flex-col">
+            <span class="font-['Carattere',cursive] text-[22px] text-neutral-50 leading-none">Rekaps Store</span>
+            <span class="text-[9px] font-extrabold tracking-[2px] text-secondary-500 uppercase">Admin Panel</span>
         </div>
     </div>
 
-    <!-- Info Pengguna -->
-    <div class="sidebar-user">
-        <div class="user-avatar">AR</div>
-        <div class="user-info">
-            <div class="user-name">Admin Rekaps</div>
-            <span class="user-role">KETUA</span>
+    <div
+        class="mx-[18px] my-[14px] bg-primary-500/18 border border-primary-500/28 rounded-xl p-[10px_12px] flex items-center gap-[10px] shrink-0">
+        <div
+            class="w-[34px] h-[34px] bg-gradient-to-br from-primary-500 to-primary-300 rounded-full flex items-center justify-center text-[13px] font-bold text-neutral-50 shrink-0">
+            AR</div>
+        <div class="flex-1 min-w-0">
+            <div class="text-[11px] font-bold text-neutral-50 whitespace-nowrap overflow-hidden text-ellipsis">Admin
+                Rekaps</div>
+            <span
+                class="inline-flex items-center bg-secondary-500 text-neutral-950 text-[8px] font-extrabold tracking-[1px] uppercase px-[7px] py-[2px] rounded-full mt-[3px]">KETUA</span>
         </div>
     </div>
 
-    <!-- Navigasi -->
-    <nav class="sidebar-nav">
-        <!-- Grup: Utama -->
-        <div class="nav-group-label">Utama</div>
+    <nav
+        class="flex flex-col flex-1 overflow-y-auto px-[14px] gap-[4px] [&::-webkit-scrollbar]:w-[5px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-neutral-300 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-primary-500">
 
-        <a href="{{ url('/admin') }}" class="nav-item {{ request()->is('admin') ? 'active' : '' }}">
-            <span class="nav-item-icon">
+        <div class="text-[9px] font-extrabold tracking-[2px] uppercase text-neutral-500 pt-[10px] px-[8px] pb-[5px]">
+            Utama</div>
+
+        <a href="{{ url('/admin') }}"
+            class="flex items-center gap-[10px] p-[10px] rounded-lg text-[14px] transition-colors duration-[250ms] mb-[2px] outline-none {{ request()->is('admin') ? 'bg-primary-500 text-neutral-50 shadow-[0_4px_14px_rgba(125,57,235,0.38)] font-bold' : 'text-[#d7c2f9] font-semibold hover:bg-primary-500/20 hover:text-neutral-50' }}">
+            <span class="w-[18px] shrink-0 flex items-center justify-center">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -38,8 +49,9 @@
             Dashboard
         </a>
 
-        <a href="{{ url('/admin/product') }}" class="nav-item {{ request()->is('admin/product*') ? 'active' : '' }}">
-            <span class="nav-item-icon">
+        <a href="{{ url('/admin/product') }}"
+            class="flex items-center gap-[10px] p-[10px] rounded-lg text-[14px] transition-colors duration-[250ms] mb-[2px] outline-none {{ request()->is('admin/product*') ? 'bg-primary-500 text-neutral-50 shadow-[0_4px_14px_rgba(125,57,235,0.38)] font-bold' : 'text-[#d7c2f9] font-semibold hover:bg-primary-500/20 hover:text-neutral-50' }}">
+            <span class="w-[18px] shrink-0 flex items-center justify-center">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -51,23 +63,26 @@
             Produk
         </a>
 
-        <a href="{{ url('/admin/orders') }}" class="nav-item {{ request()->is('admin/orders*') ? 'active' : '' }}">
-            <span class="nav-item-icon">
+        <a href="{{ url('/admin/orders') }}"
+            class="flex items-center gap-[10px] p-[10px] rounded-lg text-[14px] transition-colors duration-[250ms] mb-[2px] outline-none {{ request()->is('admin/orders*') ? 'bg-primary-500 text-neutral-50 shadow-[0_4px_14px_rgba(125,57,235,0.38)] font-bold' : 'text-[#d7c2f9] font-semibold hover:bg-primary-500/20 hover:text-neutral-50' }}">
+            <span class="w-[18px] shrink-0 flex items-center justify-center">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M6.66665 5.83333H13.3333M6.66665 9.16667H13.3333M6.66665 12.5H9.99998M16.6666 17.5V4.16667C16.6666 3.72464 16.4911 3.30072 16.1785 2.98816C15.8659 2.67559 15.442 2.5 15 2.5H4.99998C4.55795 2.5 4.13403 2.67559 3.82147 2.98816C3.50891 3.30072 3.33331 3.72464 3.33331 4.16667V17.5L5.41665 15.8333L7.91665 17.5L9.99998 15.8333L12.0833 17.5L14.5833 15.8333L16.6666 17.5Z"
-                        stroke="{{ request()->is('admin/orders*') ? '#C6FF33' : '#D7C2F9' }} stroke-width="2"
+                        stroke="{{ request()->is('admin/orders*') ? '#C6FF33' : '#D7C2F9' }}" stroke-width="2"
                         stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
             </span>
             Pesanan
         </a>
 
-        <div class="nav-group-label">Keuangan</div>
+        <div class="text-[9px] font-extrabold tracking-[2px] uppercase text-neutral-500 pt-[10px] px-[8px] pb-[5px]">
+            Keuangan</div>
 
-        <a href="{{ url('/admin/finance') }}" class="nav-item {{ request()->is('admin/finance*') ? 'active' : '' }}">
-            <span class="nav-item-icon">
+        <a href="{{ url('/admin/finance') }}"
+            class="flex items-center gap-[10px] p-[10px] rounded-lg text-[14px] transition-colors duration-[250ms] mb-[2px] outline-none {{ request()->is('admin/finance*') ? 'bg-primary-500 text-neutral-50 shadow-[0_4px_14px_rgba(125,57,235,0.38)] font-bold' : 'text-[#d7c2f9] font-semibold hover:bg-primary-500/20 hover:text-neutral-50' }}">
+            <span class="w-[18px] shrink-0 flex items-center justify-center">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -83,8 +98,9 @@
             Keuangan
         </a>
 
-        <a href="{{ url('/admin/promo') }}" class="nav-item {{ request()->is('admin/promo*') ? 'active' : '' }}">
-            <span class="nav-item-icon">
+        <a href="{{ url('/admin/promo') }}"
+            class="flex items-center gap-[10px] p-[10px] rounded-lg text-[14px] transition-colors duration-[250ms] mb-[2px] outline-none {{ request()->is('admin/promo*') ? 'bg-primary-500 text-neutral-50 shadow-[0_4px_14px_rgba(125,57,235,0.38)] font-bold' : 'text-[#d7c2f9] font-semibold hover:bg-primary-500/20 hover:text-neutral-50' }}">
+            <span class="w-[18px] shrink-0 flex items-center justify-center">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -96,10 +112,12 @@
             Diskon & Voucher
         </a>
 
-        <div class="nav-group-label">Lainnya</div>
+        <div class="text-[9px] font-extrabold tracking-[2px] uppercase text-neutral-500 pt-[10px] px-[8px] pb-[5px]">
+            Lainnya</div>
 
-        <a href="{{ url('/admin/users') }}" class="nav-item {{ request()->is('admin/users*') ? 'active' : '' }}">
-            <span class="nav-item-icon">
+        <a href="{{ url('/admin/users') }}"
+            class="flex items-center gap-[10px] p-[10px] rounded-lg text-[14px] transition-colors duration-[250ms] mb-[2px] outline-none {{ request()->is('admin/users*') ? 'bg-primary-500 text-neutral-50 shadow-[0_4px_14px_rgba(125,57,235,0.38)] font-bold' : 'text-[#d7c2f9] font-semibold hover:bg-primary-500/20 hover:text-neutral-50' }}">
+            <span class="w-[18px] shrink-0 flex items-center justify-center">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -120,8 +138,8 @@
         </a>
 
         <a href="{{ url('/admin/reports') }}"
-            class="nav-item {{ request()->is('admin/reports*') ? 'active' : '' }}">
-            <span class="nav-item-icon">
+            class="flex items-center gap-[10px] p-[10px] rounded-lg text-[14px] transition-colors duration-[250ms] mb-[2px] outline-none {{ request()->is('admin/reports*') ? 'bg-primary-500 text-neutral-50 shadow-[0_4px_14px_rgba(125,57,235,0.38)] font-bold' : 'text-[#d7c2f9] font-semibold hover:bg-primary-500/20 hover:text-neutral-50' }}">
+            <span class="w-[18px] shrink-0 flex items-center justify-center">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -134,10 +152,10 @@
         </a>
     </nav>
 
-    <!-- Tombol Logout -->
-    <div class="sidebar-footer">
-        <button class="btn-logout">
-            <img src="{{ asset('assets/icons/logout-half-circle-line.svg') }}" alt="" />
+    <div class="p-[14px] border-t border-white/5 shrink-0">
+        <button
+            class="flex items-center gap-[10px] w-full px-[12px] py-[9px] rounded-lg text-neutral-400 text-[12px] font-semibold transition-colors duration-[250ms] hover:bg-[#c10007]/15 hover:text-red-400 border-none outline-none cursor-pointer">
+            <img src="{{ asset('assets/icons/logout-half-circle-line.svg') }}" alt="Logout" />
             Keluar
         </button>
     </div>

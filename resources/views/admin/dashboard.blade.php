@@ -330,9 +330,6 @@
 @endsection
 
 @section('footer')
-    <!-- Overlay gelap saat sidebar dibuka di mobile -->
-    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
-
     <!-- JAVASCRIPT - hanya untuk toggle sidebar di mobile -->
     <script>
         function toggleSidebar() {
