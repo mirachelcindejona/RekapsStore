@@ -26,7 +26,7 @@
                 flex items-center justify-center overflow-hidden">
 
       <img src="{{ asset($image) }}"
-           class="productimg w-full h-full object-contain p-2" />
+           class="productimg w-full h-full object-contain" />
     </div>
 
     {{-- details --}}
