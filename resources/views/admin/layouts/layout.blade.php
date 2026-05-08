@@ -17,9 +17,15 @@
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}" />
     {{-- <link rel="stylesheet" href="{{ asset('css/layout-admin.css') }}" /> --}}
     <link rel="stylesheet" href="{{ asset('css/product.css') }}" />
+
     <link rel="stylesheet" href="{{ asset('css/product-add.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/product-edit.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/product-detail.css') }}" />
+
+    <link rel="stylesheet" href="{{ asset('css/layout-admin.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/promo.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('css/users.css') }}"/>
+
 </head>
 
 <body class="font-['Montserrat',sans-serif] bg-neutral-50 text-neutral-950 min-h-dvh overflow-x-hidden">

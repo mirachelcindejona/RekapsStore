@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\admin\auth\LoginAdminController;
+use App\Http\Controllers\auth\LoginController;
+use App\Http\Controllers\auth\registerController;
 
 Route::get('/', function () {
     $products = [
@@ -179,6 +182,7 @@ Route::get('/admin', function () {
 Route::get('/admin/product', function () {
     return view('admin/product');
 });
+
 Route::get('/admin/product-add', function () {
     return view('admin/product-add');
 });
@@ -188,3 +192,21 @@ Route::get('/admin/product-edit', function () {
 Route::get('/admin/product-detail', function () {
     return view('admin/product-detail');
 });
+
+Route::get('/admin/promo', function () {
+    return view('admin/promo'); 
+});
+
+Route::get('/admin/users', function () {
+    return view('admin/users'); 
+
+});
+
+// Route Admin
+Route::get('/admin/login', [LoginAdminController::class, 'index'])->name('admin.login');
+//submit form
+Route::post('/admin/login', [LoginAdminController::class, 'login'])->name('admin.login.submit');
+
+// Route User/Client
+Route::get('/login', [LoginController::class, 'index'])->name('login');
+Route::get('/register', [RegisterController::class, 'index'])->name('register');

@@ -1,0 +1,381 @@
+/* nav-item */
+.nav-item-icon {
+  color:var(--color-primary-100)
+}
+
+/* page header */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.page-header h2 {
+  font-size: 20px;
+  font-weight: var(--font-bold);
+  color: var(--color-neutral-950);
+}
+.action-group {
+  display: flex;
+  gap: 10px;
+}
+
+/* BASE BUTTON */
+.btn {
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* PRIMARY (ungu) */
+.btn-primary {
+  background: linear-gradient(135deg, #7d39eb, #9761ef);
+  color: white;
+  box-shadow: 0 4px 10px rgba(125, 57, 235, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(125, 57, 235, 0.4);
+}
+
+
+.btn-secondary {
+  background: #e5e5e5;
+  color: #333;
+}
+
+.btn-secondary:hover {
+  background: #d4d4d4;
+  transform: translateY(-2px);
+}
+
+
+/* grid= */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* card wrapper*/
+.card {
+  background: var(--color-neutral-50);
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+.card h3 {
+  margin-bottom: 14px;
+}
+
+/* card box */
+.card-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; 
+  padding: 22px 26px;
+  border-radius: var(--radius-md);
+  min-height: 120px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+/* diskon */
+.card-box.discount {
+  background: linear-gradient(135deg, #7d39eb, #a855f7);
+  color: var(--color-neutral-50);
+}
+
+/*voucher */
+.card-box.voucher {
+  background: transparent;
+  border: 2px dashed var(--color-primary-500);
+}
+
+/* lefft content */
+.card-left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: center;
+}
+
+.card-left h2 {
+  text-align: left;
+  font-size: var(--text-3xl);
+  font-weight: 800;
+}
+
+.card-left h3 {
+  font-size: var(--text-xl);
+  font-weight: var(--font-extrabold);
+  color: var(--color-primary-500);
+}
+
+.card-left h4 {
+  font-size: var(--text-sm);
+  font-weight: var(--font-bold);
+  color: var(--color-neutral-50);
+  text-align: left;
+}
+
+.card-left p {
+  font-size: var(--text-xs);
+}
+
+.quota {
+  font-size: var(--text-xs);
+  color: var(--color-neutral-500);
+}
+
+/* right button */
+.card-action {
+  display: flex;
+  align-items: center;
+}
+
+/* button */
+.btn.small {
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--color-primary-100);
+  color: var(--color-primary-500);
+}
+
+.btn.small:hover {
+  background: var(--brand);
+  color: var(--color-neutral-50);
+}
+
+.btn.small.outline {
+  background: var(--color-primary-100);
+  border: 1px solid var(--color-primary-500);
+  color: var(--color-primary-500);
+}
+
+.btn.small.outline:hover {
+  background: var(--brand);
+  color: var(--color-neutral-50);
+}
+
+/* OVERLAY */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(4px);
+  display: none;
+  z-index: 10;
+}
+
+.overlay.active {
+  display: block;
+}
+
+/* popup confirm */
+.confirm-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.3s;
+  z-index: 2000;
+}
+
+.confirm-popup.active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.confirm-box {
+  background: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  width: 300px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.confirm-box h3 {
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.confirm-box p {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 16px;
+}
+
+.confirm-action {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btn-confirm {
+  background: #7d39eb;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-cancel {
+  background: #eee;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+
+/* MODAL */
+.diskon,
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  
+  background: #f9f9f9;
+  width: 90%;
+  max-width: 600px;
+  border-radius: 16px;
+  padding: 24px;
+  max-height: 70vh;
+  overflow-y: auto;
+
+  display: none;
+  z-index: 11;
+  transition: 0.25s ease;
+}
+
+.diskon.active,
+.modal.active {
+  display: block;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* HEADER */
+.diskon-header,
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.close {
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* BODY GRID */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* FORM */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+/* FOOTER */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn-cancel {
+  background: #ddd;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.btn-save {
+  background: #c6ff33;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+
+/* responsive*/
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* RESPONSIVE */
+@media (max-width: 480px) {
+  .action-group {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+/* TABLET */
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 480px) {
+  .modal {
+    width: 95%;
+    padding: 16px;
+  }
+
+  .modal-footer {
+    flex-direction: column;
+  }
+
+  .btn-save,
+  .btn-cancel {
+    width: 100%;
+  }
+}
