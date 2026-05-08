@@ -1,3 +1,14 @@
+@props([
+    'link',
+    'discount',
+    'image',
+    'name',
+    'price',
+    'rating',
+    'reviews',
+    'category'
+])
+
 <a href="{{ $link }}"
    class="product-card flex h-full"
    data-category="{{ $category }}">
