@@ -8,11 +8,11 @@
     <link rel="icon" href="{{ asset('assets/icons/logo-rekaps.svg') }}">
     <title>Rekaps Store</title>
 </head>
-<body class="bg-[#f2ebfd]">
+<body class="bg-primary-50">
     {{-- navbar --}}
     <x-client.navbar-index></x-client.navbar-index>
     {{-- main-content --}}
-    <main class="pt-23 sm:pt-19 max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+    <main class="pt-23 sm:pt-19 max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 h-full">
         {{-- carousel --}}
         <div class="hidden sm:flex"> 
             <x-client.carousel />

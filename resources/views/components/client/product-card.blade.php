@@ -2,14 +2,14 @@
    class="product-card flex h-full"
    data-category="{{ $category }}">
 
-  <div class="bg-[#fafafa] border border-[var(--color-neutral-200)] rounded-[12px]
-              hover:border-[var(--color-neutral-300)] hover:cursor-pointer
+  <div class="bg-neutral-50 border border-neutral-200 rounded-[12px]
+              hover:border-neutral-300 hover:cursor-pointer
               flex flex-col h-full overflow-hidden transition-all duration-300">
 
     {{-- discount --}}
-    <div class="discountframe flex bg-[#f5f5f5] justify-end h-[20px]">
+    <div class="discountframe flex bg-neutral-100 justify-end h-[20px]">
       @if ($discount > 0)
-      <div class="discount bg-[#c6ff33] px-2 py-1 text-[#000000]
+      <div class="discount bg-secondary-500 px-2 py-1 text-neutral-950
                   rounded-bl-[6px] flex items-center gap-1">
 
         <img src="{{ asset('assets/icons/discount.svg') }}"
@@ -24,7 +24,7 @@
     </div>
 
     {{-- image --}}
-    <div class="imgcont bg-[#f5f5f5]
+    <div class="imgcont bg-neutral-100
                 h-[180px] sm:h-[220px] lg:h-[260px]
                 flex items-center justify-center overflow-hidden">
 
@@ -39,11 +39,11 @@
         {{ $name }}
       </span>
 
-      <span class="price font-bold text-base sm:text-xl text-[#7d39eb]">
+      <span class="price font-bold text-base sm:text-xl text-primary-500">
         {{ $price }}
       </span>
 
-      <div class="rating flex gap-2 items-center text-[#525252] text-sm">
+      <div class="rating flex gap-2 items-center text-neutral-600 text-sm">
 
         <img src="{{ asset('assets/icons/star.svg') }}"
              class="star w-4" />
