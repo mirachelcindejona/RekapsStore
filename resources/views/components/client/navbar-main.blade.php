@@ -21,6 +21,9 @@
             <div class="w-[40px] h-[40px] historybox flex p-2 items-center justify-center bg-neutral-200 rounded-lg sm:rounded-xl hover:bg-primary-500 cursor-pointer">
                 <img class="history cursor-pointer" src="{{ asset('assets/icons/history-home.svg') }}" alt="">
             </div>
+            <div class="w-[40px] h-[40px] notifbox flex p-2 items-center justify-center bg-neutral-200 rounded-lg sm:rounded-xl hover:bg-primary-500 cursor-pointer">
+                <img class="notif cursor-pointer" src="{{ asset('assets/icons/bell-nav.svg') }}" alt="">
+            </div>
             <div class="text-neutral-50 w-[40px] h-[40px] text-sm font-medium historybox flex p-2 items-center justify-center bg-teal-600 rounded-lg sm:rounded-xl cursor-pointer">
                 <span>GA</span>
             </div>
@@ -50,5 +53,17 @@
 
     historybox.addEventListener('mouseleave', () => {
         history.src = 'assets/icons/history-home.svg';
+    });
+
+    const historybox = document.querySelector('.historybox');
+    const history = document.querySelector('.history');
+
+    notifbox.addEventListener('mouseenter', () => {
+        notif.src = 'assets/icons/bell-nav-h.svg';
+        notif.style.cursor = 'pointer';
+    });
+
+    notifbox.addEventListener('mouseleave', () => {
+        notif.src = 'assets/icons/bell-nav.svg';
     });
 </script>
