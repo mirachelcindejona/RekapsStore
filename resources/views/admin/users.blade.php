@@ -2,12 +2,10 @@
 
 @section('content')
 <!-- CONTENT -->
-<main class="p-6 max-w-7xl mx-auto">
 
   <!-- HEADER -->
-  <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-5 mb-6">
+  <div class="flex items-center justify-between mb-[20px] gap-[12px] flex-wrap max-[900px]:flex-col max-[900px]:items-start">
     <div>
-      <h1 class="text-2xl font-bold text-gray-900 mb-4">Manajemen Pengguna</h1>
 
       <!-- TABS -->
       <div class="flex gap-3">
@@ -41,16 +39,15 @@
     <table class="w-full border-collapse">
       <thead>
         <tr class="text-left border-b border-gray-100">
-          <th class="p-4 text-sm font-semibold text-gray-500">Nama</th>
-          <th class="p-4 text-sm font-semibold text-gray-500">Email</th>
-          <th class="p-4 text-sm font-semibold text-gray-500">Role</th>
-          <th class="p-4 text-sm font-semibold text-gray-500">Bergabung</th>
-          <th class="p-4 text-sm font-semibold text-gray-500">Status</th>
-          <th class="p-4 text-sm font-semibold text-gray-500 text-center">Aksi</th>
+          <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">Nama</th>
+          <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">Email</th>
+          <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">Role</th>
+          <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">Bergabung</th>
+          <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">Status</th>
+          <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">Aksi</th>
         </tr>
       </thead>
       <tbody id="userTableBody" class="divide-y divide-gray-100">
-        <!-- Baris akan diisi oleh JS, contoh row: -->
         <tr class="hover:bg-gray-50 transition">
           <td class="p-4 text-sm text-gray-800">Budi Santoso</td>
           <td class="p-4 text-sm text-gray-800">budi@example.com</td>
@@ -70,7 +67,6 @@
     </table>
   </div>
 
-</main>
 
 <!-- MODAL INPUT -->
 <div id="userModal" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-[9999] p-4">

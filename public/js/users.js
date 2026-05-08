@@ -162,6 +162,7 @@ function renderTable() {
 
 }
 
+
 function filterUsers(role, el) {
 
   currentRole = role;
