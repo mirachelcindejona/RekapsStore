@@ -188,3 +188,7 @@ Route::get('/admin/product-edit', function () {
 Route::get('/admin/product-detail', function () {
     return view('admin/product-detail');
 });
+
+Route::get('/admin/finance', function () {
+    return view('admin/finance');
+});
