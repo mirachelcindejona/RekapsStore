@@ -8,7 +8,7 @@
                 py-1
                 shadow-sm
                 rounded-[15px]
-                bg-[#fafafa]
+                bg-neutral-50
                 mb-2">
 
         {{-- TITLE --}}
@@ -21,7 +21,7 @@
                    overflow-x-auto
                    scrollbar-hide
                    whitespace-nowrap
-                   text-[#737373]
+                   text-neutral-500
                    font-black
                    w-full sm:w-auto">
 
@@ -65,13 +65,13 @@
     }
 
     .filter:hover {
-        background: #d7c2f9;
-        color: #7d39eb;
+        background: var(--color-primary-100);
+        color: var(--color-primary-500);
     }
 
     .filter.active {
-        background: #7d39eb;
-        color: white;
+        background: var(--color-primary-500);
+        color: var(--color-neutral-50);
     }
 
     /* Hide scrollbar */
