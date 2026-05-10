@@ -1,4 +1,4 @@
-<nav class="flex flex-col shadow-md gap-2 px-2 sm:px-5 py-2 fixed bg-white w-full box-border z-50">
+<nav class="flex flex-col shadow-md gap-2 px-2 sm:px-5 py-2 fixed bg-neutral-50 w-full box-border z-50">
     <div class="flex gap-2">
         {{-- navbar-logo --}}
         <div class="hidden md:flex">
@@ -6,7 +6,7 @@
         </div>
         {{-- navbar-searchbar --}}
         <div class="flex flex-2 md:flex-6 justify-start sm:justify-end items-center flex-2">
-            <form action="#" method="GET" class="h-[40px] flex w-full bg-gray-200 items-center px-2 py-2 rounded-lg gap-2">
+            <form action="#" method="GET" class="h-[40px] flex w-full bg-neutral-200 items-center px-2 py-2 rounded-lg gap-2">
                 <button type="submit" class="cursor-pointer">
                     <img src="{{ asset('assets/icons/search-line.svg') }}" alt="">
                 </button>
@@ -15,13 +15,16 @@
         </div>
         {{-- navbar-menu --}}
         <div class="flex flex-1 md:flex-1 justify-end items-center gap-1.5">
-            <div class="w-[40px] h-[40px] flex cartbox p-2 items-center justify-center bg-gray-200 rounded-lg sm:rounded-xl hover:bg-[#7d39eb] cursor-pointer">
+            <div class="w-[40px] h-[40px] flex cartbox p-2 items-center justify-center bg-neutral-200 rounded-lg sm:rounded-xl hover:bg-primary-500 cursor-pointer">
                 <img class="cart cursor-pointer" src="{{ asset('assets/icons/cart-line.svg') }}" alt="">
             </div>
-            <div class="w-[40px] h-[40px] historybox flex p-2 items-center justify-center bg-gray-200 rounded-lg sm:rounded-xl hover:bg-[#7d39eb] cursor-pointer">
+            <div class="w-[40px] h-[40px] historybox flex p-2 items-center justify-center bg-neutral-200 rounded-lg sm:rounded-xl hover:bg-primary-500 cursor-pointer">
                 <img class="history cursor-pointer" src="{{ asset('assets/icons/history-home.svg') }}" alt="">
             </div>
-            <div class="text-[#fafafa] w-[40px] h-[40px] text-sm font-medium historybox flex p-2 items-center justify-center bg-teal-600 rounded-lg sm:rounded-xl cursor-pointer">
+            <div class="w-[40px] h-[40px] notifbox flex p-2 items-center justify-center bg-neutral-200 rounded-lg sm:rounded-xl hover:bg-primary-500 cursor-pointer">
+                <img class="notif cursor-pointer" src="{{ asset('assets/icons/bell-nav.svg') }}" alt="">
+            </div>
+            <div class="text-neutral-50 w-[40px] h-[40px] text-sm font-medium historybox flex p-2 items-center justify-center bg-teal-600 rounded-lg sm:rounded-xl cursor-pointer">
                 <span>GA</span>
             </div>
         </div>
@@ -50,5 +53,17 @@
 
     historybox.addEventListener('mouseleave', () => {
         history.src = 'assets/icons/history-home.svg';
+    });
+
+    const historybox = document.querySelector('.historybox');
+    const history = document.querySelector('.history');
+
+    notifbox.addEventListener('mouseenter', () => {
+        notif.src = 'assets/icons/bell-nav-h.svg';
+        notif.style.cursor = 'pointer';
+    });
+
+    notifbox.addEventListener('mouseleave', () => {
+        notif.src = 'assets/icons/bell-nav.svg';
     });
 </script>
