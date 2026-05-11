@@ -358,7 +358,7 @@ Route::get('/admin/product-detail', function () {
 Route::get('/admin/finance', function () {
     return view('admin/finance');
 });
-=======
+
 Route::get('/admin/promo', function () {
     return view('admin/promo'); 
 });
