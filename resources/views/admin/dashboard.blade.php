@@ -1,345 +1,505 @@
-@extends('admin.layouts.layout')
+@extends('admin.layouts.layout') 
 
 @section('content')
-    <!-- Welcome Banner -->
-    <div class="welcome-banner">
-        <div class="welcome-left">
-            <div class="welcome-greeting">Selamat Datang Kembali 👋</div>
-            <div class="welcome-title">
-                Halo, <span class="welcome-title-accent">Admin!</span>
-            </div>
-            <div class="welcome-desc">
-                Pantau performa toko kamu hari ini.
-            </div>
-        </div>
-        <div class="welcome-stats">
-            <div class="welcome-stat">
-                <div class="welcome-stat-value welcome-stat-accent">12</div>
-                <div class="welcome-stat-label">Pesanan Baru</div>
-            </div>
-            <div class="welcome-stat">
-                <div class="welcome-stat-value">Rp4.2jt</div>
-                <div class="welcome-stat-label">Pendapatan Hari Ini</div>
-            </div>
-            <div class="welcome-stat">
-                <div class="welcome-stat-value">3</div>
-                <div class="welcome-stat-label">Stok Kritis</div>
-            </div>
-        </div>
+<div class="space-y-6">
+  <!-- WELCOME BANNER -->
+  <div
+    class="relative overflow-hidden rounded-3xl bg-neutral-950 px-8 py-7 flex items-center justify-between">
+    <!-- LEFT -->
+    <div class="relative z-10">
+      <p
+        class="text-[11px] font-semibold uppercase tracking-[1px] text-neutral-400 mb-1">
+        Selamat Datang Kembali 👋
+      </p>
+
+      <h1 class="text-[26px] font-black text-white leading-tight mb-1">
+        Halo, <span class="text-lime-400">Admin!</span>
+      </h1>
+
+      <p class="text-[12px] font-medium text-neutral-400">
+        Pantau performa toko kamu hari ini.
+      </p>
     </div>
 
-    <!-- STAT CARDS -->
-    <div class="stats-grid">
-        <div class="stat-card stat-card--purple">
-            <div class="stat-card-accent"></div>
-            <div class="stat-icon stat-icon--purple">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2.5" stroke-linecap="round">
-                    <line x1="12" y1="1" x2="12" y2="23" />
-                    <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
-                </svg>
-            </div>
-            <div class="stat-label">Pendapatan Bulan Ini</div>
-            <div class="stat-value"><sub>Rp</sub>18.4jt</div>
-            <div class="stat-change stat-change--up">▲ 12.5%</div>
+    <!-- RIGHT STATS -->
+    <div class="relative z-10 hidden md:flex gap-5">
+      <div
+        class="text-center rounded-2xl border border-white/10 bg-white/5 px-5 py-4"
+      >
+        <div class="text-[22px] font-black text-lime-400 leading-none">12</div>
+        <div
+          class="mt-1 text-[10px] uppercase tracking-[1px] font-semibold text-neutral-400"
+        >
+          Pesanan Baru
         </div>
+      </div>
 
-        <div class="stat-card stat-card--lime">
-            <div class="stat-card-accent"></div>
-            <div class="stat-icon stat-icon--lime">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2.5" stroke-linecap="round">
-                    <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
-                    <line x1="3" y1="6" x2="21" y2="6" />
-                    <path d="M16 10a4 4 0 01-8 0" />
-                </svg>
-            </div>
-            <div class="stat-label">Total Pesanan</div>
-            <div class="stat-value">247</div>
-            <div class="stat-change stat-change--up">▲ 8.3%</div>
+      <div
+        class="text-center rounded-2xl border border-white/10 bg-white/5 px-5 py-4">
+        <div class="text-[22px] font-black text-white leading-none">
+          Rp4.2jt
         </div>
+        <div
+          class="mt-1 text-[10px] uppercase tracking-[1px] font-semibold text-neutral-400">
+          Pendapatan Hari Ini
+        </div>
+      </div>
 
-        <div class="stat-card stat-card--red">
-            <div class="stat-card-accent"></div>
-            <div class="stat-icon stat-icon--red">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2.5" stroke-linecap="round">
-                    <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" />
-                    <line x1="7" y1="7" x2="7.01" y2="7" />
-                </svg>
-            </div>
-            <div class="stat-label">Total Produk</div>
-            <div class="stat-value">58</div>
-            <div class="stat-change stat-change--down">▼ 2 produk</div>
+      <div
+        class="text-center rounded-2xl border border-white/10 bg-white/5 px-5 py-4">
+        <div class="text-[22px] font-black text-white leading-none">3</div>
+        <div
+          class="mt-1 text-[10px] uppercase tracking-[1px] font-semibold text-neutral-400">
+          Stok Kritis
         </div>
-
-        <div class="stat-card stat-card--teal">
-            <div class="stat-card-accent"></div>
-            <div class="stat-icon stat-icon--teal">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2.5" stroke-linecap="round">
-                    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-                    <circle cx="9" cy="7" r="4" />
-                    <path d="M23 21v-2a4 4 0 00-3-3.87" />
-                    <path d="M16 3.13a4 4 0 010 7.75" />
-                </svg>
-            </div>
-            <div class="stat-label">Pembeli Aktif</div>
-            <div class="stat-value">134</div>
-            <div class="stat-change stat-change--up">▲ 5.1%</div>
-        </div>
+      </div>
     </div>
-    <!-- END .stats-grid -->
+  </div>
 
-    <!-- GRID 2 KOLOM: Chart + Panel Kanan -->
-    <div class="dashboard-grid">
-        <!-- KIRI: Grafik Penjualan -->
-        <div class="card">
-            <div class="card-header">
-                <div>
-                    <div class="card-title">Grafik Penjualan</div>
-                    <div class="card-subtitle">
-                        Perbandingan pendapatan &amp; pesanan
-                    </div>
-                </div>
-                <span class="card-link">Lihat Laporan →</span>
-            </div>
+  <!-- STAT CARDS -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+    <!-- CARD -->
+    <div
+      class="relative overflow-hidden rounded-3xl bg-white p-5 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all">
+      <div
+        class="absolute top-0 right-0 h-20 w-20 rounded-bl-[100%] bg-violet-500/15"></div>
 
-            <div class="chart-tabs">
-                <span class="chart-tab chart-tab--active">Minggu</span>
-                <span class="chart-tab">Bulan</span>
-                <span class="chart-tab">Tahun</span>
-            </div>
+      <div
+        class="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-violet-100 text-violet-600">
+        💰
+      </div>
 
-            <div class="chart-container">
-                <div class="chart-bars">
-                    <div class="chart-bar-group">
-                        <div class="chart-bar-area">
-                            <div class="chart-bar chart-bar--filled" style="height: 55%"></div>
-                            <div class="chart-bar chart-bar--accent chart-bar--filled" style="height: 40%"></div>
-                        </div>
-                        <span class="chart-bar-label">Sen</span>
-                    </div>
+      <p
+        class="mb-1 text-[10px] font-extrabold uppercase tracking-[1px] text-neutral-400">
+        Pendapatan Bulan Ini
+      </p>
 
-                    <div class="chart-bar-group">
-                        <div class="chart-bar-area">
-                            <div class="chart-bar chart-bar--filled" style="height: 75%"></div>
-                            <div class="chart-bar chart-bar--accent chart-bar--filled" style="height: 55%"></div>
-                        </div>
-                        <span class="chart-bar-label">Sel</span>
-                    </div>
+      <h2 class="text-3xl font-black text-neutral-950">
+        <span class="text-sm font-bold">Rp</span>18.4jt
+      </h2>
 
-                    <div class="chart-bar-group">
-                        <div class="chart-bar-area">
-                            <div class="chart-bar chart-bar--filled" style="height: 60%"></div>
-                            <div class="chart-bar chart-bar--accent chart-bar--filled" style="height: 45%"></div>
-                        </div>
-                        <span class="chart-bar-label">Rab</span>
-                    </div>
-
-                    <div class="chart-bar-group">
-                        <div class="chart-bar-area">
-                            <div class="chart-bar chart-bar--filled" style="height: 90%"></div>
-                            <div class="chart-bar chart-bar--accent chart-bar--filled" style="height: 70%"></div>
-                        </div>
-                        <span class="chart-bar-label">Kam</span>
-                    </div>
-
-                    <div class="chart-bar-group">
-                        <div class="chart-bar-area">
-                            <div class="chart-bar chart-bar--filled" style="height: 80%"></div>
-                            <div class="chart-bar chart-bar--accent chart-bar--filled" style="height: 60%"></div>
-                        </div>
-                        <span class="chart-bar-label">Jum</span>
-                    </div>
-
-                    <div class="chart-bar-group">
-                        <div class="chart-bar-area">
-                            <div class="chart-bar" style="height: 100%"></div>
-                            <div class="chart-bar chart-bar--accent" style="height: 85%"></div>
-                        </div>
-                        <span class="chart-bar-label">Sab</span>
-                    </div>
-
-                    <div class="chart-bar-group">
-                        <div class="chart-bar-area">
-                            <div class="chart-bar" style="height: 50%"></div>
-                            <div class="chart-bar chart-bar--accent" style="height: 38%"></div>
-                        </div>
-                        <span class="chart-bar-label">Min</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="chart-legend">
-                <div class="legend-item">
-                    <div class="legend-dot legend-dot--purple"></div>
-                    Pendapatan
-                </div>
-                <div class="legend-item">
-                    <div class="legend-dot legend-dot--lime"></div>
-                    Pesanan
-                </div>
-            </div>
-        </div>
-        <!-- END card grafik -->
-
-        <!-- KANAN: Quick Actions + Stok Kritis -->
-        <div class="panel-kanan">
-            <!-- Quick Actions -->
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Aksi Cepat</div>
-                </div>
-                <div class="quick-actions">
-                    <button class="quick-btn">
-                        <div class="quick-btn-icon">➕</div>
-                        <div class="quick-btn-label">Tambah Produk</div>
-                    </button>
-                    <button class="quick-btn">
-                        <div class="quick-btn-icon">🧾</div>
-                        <div class="quick-btn-label">Buat Pesanan</div>
-                    </button>
-                    <button class="quick-btn">
-                        <div class="quick-btn-icon">💰</div>
-                        <div class="quick-btn-label">Catat Keuangan</div>
-                    </button>
-                    <button class="quick-btn">
-                        <div class="quick-btn-icon">📦</div>
-                        <div class="quick-btn-label">Tambah Stok</div>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Stok Kritis -->
-            <div class="card">
-                <div class="card-header">
-                    <div>
-                        <div class="card-title">⚠️ Stok Kritis</div>
-                        <div class="card-subtitle">Produk perlu restock segera</div>
-                    </div>
-                </div>
-                <div class="stock-alerts">
-                    <div class="alert-item alert-item--danger">
-                        <div class="alert-icon">📦</div>
-                        <div class="alert-info">
-                            <div class="alert-name">Kaos Ekraf Navy</div>
-                            <div class="alert-stock">Sisa: 2 pcs — Habis!</div>
-                        </div>
-                        <button class="alert-restock">Restock</button>
-                    </div>
-
-                    <div class="alert-item alert-item--warn">
-                        <div class="alert-icon">🧢</div>
-                        <div class="alert-info">
-                            <div class="alert-name">Topi Snapback</div>
-                            <div class="alert-stock">Sisa: 5 pcs — Menipis</div>
-                        </div>
-                        <button class="alert-restock">Restock</button>
-                    </div>
-
-                    <div class="alert-item alert-item--warn">
-                        <div class="alert-icon">👜</div>
-                        <div class="alert-info">
-                            <div class="alert-name">Totebag Canvas</div>
-                            <div class="alert-stock">Sisa: 7 pcs — Menipis</div>
-                        </div>
-                        <button class="alert-restock">Restock</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- END .panel-kanan -->
+      <span
+        class="mt-3 inline-flex items-center rounded-full bg-lime-100 px-2 py-1 text-[10px] font-bold text-lime-800">
+        ▲ 12.5% dari bulan lalu
+      </span>
     </div>
-    <!-- END .dashboard-grid -->
 
-    <!-- PESANAN TERBARU -->
-    <div class="card">
-        <div class="card-header">
-            <div>
-                <div class="card-title">Pesanan Terbaru</div>
-                <div class="card-subtitle">5 transaksi terakhir hari ini</div>
-            </div>
-            <a href="pesanan.html" class="card-link">Lihat Semua →</a>
-        </div>
-        <div class="orders-list">
-            <div class="order-item">
-                <div class="order-avatar order-avatar--purple">RF</div>
-                <div class="order-info">
-                    <div class="order-name">Rizki Fadillah</div>
-                    <div class="order-product">Kaos Ekraf Navy × 2</div>
-                </div>
-                <div class="order-meta">
-                    <div class="order-amount">Rp180.000</div>
-                    <span class="order-status order-status--pending">⏳ Pending</span>
-                </div>
-            </div>
+    <!-- CARD -->
+    <div
+      class="relative overflow-hidden rounded-3xl bg-white p-5 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all"
+    >
+      <div
+        class="absolute top-0 right-0 h-20 w-20 rounded-bl-[100%] bg-lime-500/15"
+      ></div>
 
-            <div class="order-item">
-                <div class="order-avatar order-avatar--green">SA</div>
-                <div class="order-info">
-                    <div class="order-name">Siti Aisyah</div>
-                    <div class="order-product">Totebag Canvas × 1</div>
-                </div>
-                <div class="order-meta">
-                    <div class="order-amount">Rp75.000</div>
-                    <span class="order-status order-status--valid">✅ Valid</span>
-                </div>
-            </div>
+      <div
+        class="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-lime-100 text-lime-700"
+      >
+        📦
+      </div>
 
-            <div class="order-item">
-                <div class="order-avatar order-avatar--amber">BH</div>
-                <div class="order-info">
-                    <div class="order-name">Budi Hartono</div>
-                    <div class="order-product">Mug Custom × 3</div>
-                </div>
-                <div class="order-meta">
-                    <div class="order-amount">Rp225.000</div>
-                    <span class="order-status order-status--proses">🔧 Proses</span>
-                </div>
-            </div>
+      <p
+        class="mb-1 text-[10px] font-extrabold uppercase tracking-[1px] text-neutral-400"
+      >
+        Total Pesanan
+      </p>
 
-            <div class="order-item">
-                <div class="order-avatar order-avatar--teal">NR</div>
-                <div class="order-info">
-                    <div class="order-name">Nadia Rahayu</div>
-                    <div class="order-product">Topi Snapback × 1</div>
-                </div>
-                <div class="order-meta">
-                    <div class="order-amount">Rp95.000</div>
-                    <span class="order-status order-status--selesai">✔ Selesai</span>
-                </div>
-            </div>
+      <h2 class="text-3xl font-black text-neutral-950">247</h2>
 
-            <div class="order-item">
-                <div class="order-avatar order-avatar--red">DP</div>
-                <div class="order-info">
-                    <div class="order-name">Dika Pratama</div>
-                    <div class="order-product">
-                        Kaos Ekraf Navy × 1, Totebag × 1
-                    </div>
-                </div>
-                <div class="order-meta">
-                    <div class="order-amount">Rp165.000</div>
-                    <span class="order-status order-status--pending">⏳ Pending</span>
-                </div>
-            </div>
-        </div>
+      <span
+        class="mt-3 inline-flex items-center rounded-full bg-lime-100 px-2 py-1 text-[10px] font-bold text-lime-800"
+      >
+        ▲ 8.3% dari bulan lalu
+      </span>
     </div>
-    <!-- END card pesanan -->
-@endsection
 
-@section('footer')
-    <!-- JAVASCRIPT - hanya untuk toggle sidebar di mobile -->
-    <script>
-        function toggleSidebar() {
-            document.getElementById("sidebar").classList.toggle("open");
-            document.getElementById("sidebarOverlay").classList.toggle("show");
-        }
+    <!-- CARD -->
+    <div
+      class="relative overflow-hidden rounded-3xl bg-white p-5 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all"
+    >
+      <div
+        class="absolute top-0 right-0 h-20 w-20 rounded-bl-[100%] bg-red-500/15"
+      ></div>
 
-        function closeSidebar() {
-            document.getElementById("sidebar").classList.remove("open");
-            document.getElementById("sidebarOverlay").classList.remove("show");
-        }
-    </script>
-@endsection
+      <div
+        class="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-red-100 text-red-600"
+      >
+        🏷️
+      </div>
+
+      <p
+        class="mb-1 text-[10px] font-extrabold uppercase tracking-[1px] text-neutral-400"
+      >
+        Total Produk
+      </p>
+
+      <h2 class="text-3xl font-black text-neutral-950">58</h2>
+
+      <span
+        class="mt-3 inline-flex items-center rounded-full bg-red-100 px-2 py-1 text-[10px] font-bold text-red-700"
+      >
+        ▼ 2 produk
+      </span>
+    </div>
+
+    <!-- CARD -->
+    <div
+      class="relative overflow-hidden rounded-3xl bg-white p-5 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all"
+    >
+      <div
+        class="absolute top-0 right-0 h-20 w-20 rounded-bl-[100%] bg-teal-500/15"
+      ></div>
+
+      <div
+        class="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-teal-100 text-teal-600"
+      >
+        👥
+      </div>
+
+      <p
+        class="mb-1 text-[10px] font-extrabold uppercase tracking-[1px] text-neutral-400"
+      >
+        Pembeli Aktif
+      </p>
+
+      <h2 class="text-3xl font-black text-neutral-950">134</h2>
+
+      <span
+        class="mt-3 inline-flex items-center rounded-full bg-lime-100 px-2 py-1 text-[10px] font-bold text-lime-800"
+      >
+        ▲ 5.1% dari bulan lalu
+      </span>
+    </div>
+  </div>
+
+  <!-- GRID -->
+  <div class="grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-5">
+    <!-- CHART -->
+    <div class="overflow-hidden rounded-3xl bg-white shadow-sm">
+      <div class="flex items-start justify-between px-5 pt-5 mb-4">
+        <div>
+          <h3 class="text-sm font-extrabold text-neutral-950">
+            Grafik Penjualan
+          </h3>
+
+          <p class="mt-1 text-[11px] text-neutral-400">
+            Perbandingan pendapatan & pesanan
+          </p>
+        </div>
+
+        <a
+          href="{{ url('/admin/reports') }}"
+          class="rounded-lg px-3 py-1 text-[11px] font-bold text-violet-600 hover:bg-violet-100"
+        >
+          Lihat Laporan →
+        </a>
+      </div>
+
+      <!-- Tabs -->
+      <div class="flex gap-1 px-5 mb-4">
+        <button
+          class="rounded-lg bg-violet-600 px-4 py-1 text-[11px] font-bold text-white"
+        >
+          Minggu
+        </button>
+
+        <button
+          class="rounded-lg px-4 py-1 text-[11px] font-bold text-neutral-400"
+        >
+          Bulan
+        </button>
+
+        <button
+          class="rounded-lg px-4 py-1 text-[11px] font-bold text-neutral-400"
+        >
+          Tahun
+        </button>
+      </div>
+
+      <!-- Chart -->
+      <div class="px-5 pb-5">
+        <div class="flex h-[155px] items-end gap-2">
+          @php $data = [ 
+            ['Sen',55,40], 
+            ['Sel',75,55], 
+            ['Rab',60,45],
+            ['Kam',90,70], 
+            ['Jum',80,60], 
+            ['Sab',100,85], 
+            ['Min',50,38], 
+            ];
+          @endphp @foreach ($data as [$hari, $pendapatan, $pesanan])
+          <div class="flex flex-1 flex-col items-center gap-2 h-full">
+            <div class="flex flex-1 items-end gap-1 w-full">
+              <div
+                class="w-full rounded-t-md bg-violet-600"
+                style="height: {{ $pendapatan }}%; opacity: .9"
+              ></div>
+
+              <div
+                class="w-full rounded-t-md bg-lime-400"
+                style="height: {{ $pesanan }}%"
+              ></div>
+            </div>
+
+            <span class="text-[9px] font-bold text-neutral-400">
+              {{ $hari }}
+            </span>
+          </div>
+          @endforeach
+        </div>
+      </div>
+
+      <!-- Legend -->
+      <div class="flex gap-4 px-5 pb-5">
+        <div
+          class="flex items-center gap-2 text-[11px] font-semibold text-neutral-500"
+        >
+          <div class="h-2 w-2 rounded-full bg-violet-600"></div>
+          Pendapatan
+        </div>
+
+        <div
+          class="flex items-center gap-2 text-[11px] font-semibold text-neutral-500"
+        >
+          <div class="h-2 w-2 rounded-full bg-lime-400"></div>
+          Pesanan
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="flex flex-col gap-5">
+      <!-- QUICK ACTION -->
+      <div class="overflow-hidden rounded-3xl bg-white shadow-sm">
+        <div class="px-5 pt-5">
+          <h3 class="text-sm font-extrabold text-neutral-950">Aksi Cepat</h3>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 p-5">
+          <button
+            class="rounded-2xl border-2 border-transparent bg-neutral-100 p-4 text-left transition hover:border-violet-600 hover:bg-violet-100"
+          >
+            <div
+              class="mb-3 flex h-8 w-8 items-center justify-center rounded-xl bg-white shadow-sm"
+            >
+              ➕
+            </div>
+
+            <p class="text-[11px] font-bold text-neutral-950">Tambah Produk</p>
+          </button>
+
+          <button
+            class="rounded-2xl border-2 border-transparent bg-neutral-100 p-4 text-left transition hover:border-violet-600 hover:bg-violet-100"
+          >
+            <div
+              class="mb-3 flex h-8 w-8 items-center justify-center rounded-xl bg-white shadow-sm"
+            >
+              🧾
+            </div>
+
+            <p class="text-[11px] font-bold text-neutral-950">Buat Pesanan</p>
+          </button>
+
+          <button
+            class="rounded-2xl border-2 border-transparent bg-neutral-100 p-4 text-left transition hover:border-violet-600 hover:bg-violet-100"
+          >
+            <div
+              class="mb-3 flex h-8 w-8 items-center justify-center rounded-xl bg-white shadow-sm"
+            >
+              💰
+            </div>
+
+            <p class="text-[11px] font-bold text-neutral-950">Catat Keuangan</p>
+          </button>
+
+          <button
+            class="rounded-2xl border-2 border-transparent bg-neutral-100 p-4 text-left transition hover:border-violet-600 hover:bg-violet-100"
+          >
+            <div
+              class="mb-3 flex h-8 w-8 items-center justify-center rounded-xl bg-white shadow-sm"
+            >
+              📦
+            </div>
+
+            <p class="text-[11px] font-bold text-neutral-950">Tambah Stok</p>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- PESANAN TERBARU -->
+  <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+    <!-- Header -->
+    <div class="flex items-start justify-between px-5 pt-5 mb-4">
+      <div>
+        <h3 class="text-sm font-extrabold text-neutral-950">Pesanan Terbaru</h3>
+
+        <p class="text-[11px] font-medium text-neutral-400 mt-0.5">
+          5 transaksi terakhir hari ini
+        </p>
+      </div>
+
+      <a
+        href="{{ url('/admin/orders') }}"
+        class="text-[11px] font-bold text-violet-600 hover:bg-violet-100 px-2.5 py-1 rounded-md transition"
+      >
+        Lihat Semua →
+      </a>
+    </div>
+
+    <!-- Orders -->
+    <div class="px-5 pb-5">
+      <!-- ITEM -->
+      <div class="flex items-center gap-3 py-3 border-b border-neutral-100">
+        <!-- Avatar -->
+        <div
+          class="w-9 h-9 rounded-md bg-violet-100 text-violet-600 flex items-center justify-center text-xs font-extrabold flex-shrink-0"
+        >
+          RF
+        </div>
+
+        <!-- Info -->
+        <div class="flex-1 min-w-0">
+          <div class="text-[12px] font-bold text-neutral-950">
+            Rizki Fadillah
+          </div>
+
+          <div class="text-[10px] text-neutral-400 font-medium truncate">
+            Kaos Ekraf Navy × 2
+          </div>
+        </div>
+
+        <!-- Meta -->
+        <div class="text-right flex-shrink-0">
+          <div class="text-[12px] font-extrabold text-neutral-950">
+            Rp180.000
+          </div>
+
+          <span
+            class="inline-flex items-center text-[9px] font-bold px-2 py-0.5 rounded-full mt-1 bg-amber-100 text-amber-800"
+          >
+            ⏳ Pending
+          </span>
+        </div>
+      </div>
+
+      <!-- ITEM -->
+      <div class="flex items-center gap-3 py-3 border-b border-neutral-100">
+        <div
+          class="w-9 h-9 rounded-md bg-green-100 text-green-700 flex items-center justify-center text-xs font-extrabold flex-shrink-0"
+        >
+          SA
+        </div>
+
+        <div class="flex-1 min-w-0">
+          <div class="text-[12px] font-bold text-neutral-950">Siti Aisyah</div>
+
+          <div class="text-[10px] text-neutral-400 font-medium truncate">
+            Totebag Canvas × 1
+          </div>
+        </div>
+
+        <div class="text-right flex-shrink-0">
+          <div class="text-[12px] font-extrabold text-neutral-950">
+            Rp75.000
+          </div>
+
+          <span
+            class="inline-flex items-center text-[9px] font-bold px-2 py-0.5 rounded-full mt-1 bg-lime-100 text-lime-800"
+          >
+            ✅ Valid
+          </span>
+        </div>
+      </div>
+
+      <!-- ITEM -->
+      <div class="flex items-center gap-3 py-3 border-b border-neutral-100">
+        <div
+          class="w-9 h-9 rounded-md bg-amber-100 text-amber-700 flex items-center justify-center text-xs font-extrabold flex-shrink-0"
+        >
+          BH
+        </div>
+
+        <div class="flex-1 min-w-0">
+          <div class="text-[12px] font-bold text-neutral-950">Budi Hartono</div>
+
+          <div class="text-[10px] text-neutral-400 font-medium truncate">
+            Mug Custom × 3
+          </div>
+        </div>
+
+        <div class="text-right flex-shrink-0">
+          <div class="text-[12px] font-extrabold text-neutral-950">
+            Rp225.000
+          </div>
+
+          <span
+            class="inline-flex items-center text-[9px] font-bold px-2 py-0.5 rounded-full mt-1 bg-violet-100 text-violet-600"
+          >
+            🔧 Proses
+          </span>
+        </div>
+      </div>
+
+      <!-- ITEM -->
+      <div class="flex items-center gap-3 py-3 border-b border-neutral-100">
+        <div
+          class="w-9 h-9 rounded-md bg-teal-100 text-teal-700 flex items-center justify-center text-xs font-extrabold flex-shrink-0"
+        >
+          NR
+        </div>
+
+        <div class="flex-1 min-w-0">
+          <div class="text-[12px] font-bold text-neutral-950">Nadia Rahayu</div>
+
+          <div class="text-[10px] text-neutral-400 font-medium truncate">
+            Topi Snapback × 1
+          </div>
+        </div>
+
+        <div class="text-right flex-shrink-0">
+          <div class="text-[12px] font-extrabold text-neutral-950">
+            Rp95.000
+          </div>
+
+          <span
+            class="inline-flex items-center text-[9px] font-bold px-2 py-0.5 rounded-full mt-1 bg-teal-100 text-teal-700"
+          >
+            ✔ Selesai
+          </span>
+        </div>
+      </div>
+
+      <!-- ITEM -->
+      <div class="flex items-center gap-3 py-3">
+        <div
+          class="w-9 h-9 rounded-md bg-red-100 text-red-600 flex items-center justify-center text-xs font-extrabold flex-shrink-0"
+        >
+          DP
+        </div>
+
+        <div class="flex-1 min-w-0">
+          <div class="text-[12px] font-bold text-neutral-950">Dika Pratama</div>
+
+          <div class="text-[10px] text-neutral-400 font-medium truncate">
+            Kaos Ekraf Navy × 1, Totebag × 1
+          </div>
+        </div>
+
+        <div class="text-right flex-shrink-0">
+          <div class="text-[12px] font-extrabold text-neutral-950">
+            Rp165.000
+          </div>
+
+          <span
+            class="inline-flex items-center text-[9px] font-bold px-2 py-0.5 rounded-full mt-1 bg-amber-100 text-amber-800"
+          >
+            ⏳ Pending
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+@endsection 
