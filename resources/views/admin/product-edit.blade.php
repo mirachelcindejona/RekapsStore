@@ -1,5 +1,11 @@
 @extends('admin.layouts.layout')
 
+@section('title', 'Edit Produk')
+
+@section('page_title', 'Edit Produk')
+
+@section('page_breadcrumb', 'Edit Produk')
+
 @section('content')
     <!-- HEADER -->
     <div class="flex items-center gap-[14px] mb-[24px]">

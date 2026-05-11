@@ -14,9 +14,9 @@
     </button>
 
     <div class="flex-1 flex flex-col gap-[1px]">
-        <div class="text-[18px] font-bold text-neutral-950 leading-none">Dashboard</div>
+        <div class="text-[18px] font-bold text-neutral-950 leading-none">@yield('page_title', 'Dashboard')</div>
         <div class="text-[12px] text-neutral-400 font-medium">
-            Rekaps Store / <span class="text-primary-500">Overview</span>
+            Rekaps Store / <span class="text-primary-500">@yield('page_breadcrumb', 'Overview')</span>
         </div>
     </div>
 

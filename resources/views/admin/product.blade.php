@@ -1,5 +1,11 @@
 @extends('admin.layouts.layout')
 
+@section('title', 'Daftar Produk')
+
+@section('page_title', 'Daftar Produk')
+
+@section('page_breadcrumb', 'Daftar Produk')
+
 @section('content')
     <!-- HEADER -->
     <div
