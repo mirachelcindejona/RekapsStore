@@ -174,7 +174,10 @@
       Rp. 14.200.000
     </h2>
 
-    <span class="text-[12px] text-neutral-400"> +12.5% vs Bulan Lalu </span>
+    <span
+        class="mt-3 inline-flex items-center rounded-full bg-lime-100 px-2 py-1 text-[10px] font-bold text-lime-800">
+        ▲ 12.5% dari bulan lalu
+      </span>
   </div>
 
   <!-- PENGELUARAN -->
@@ -187,7 +190,10 @@
       Rp. 5.800.000
     </h2>
 
-    <span class="text-[12px] text-neutral-400"> +3.2% vs Bulan Lalu </span>
+    <span
+        class="mt-3 inline-flex items-center rounded-full bg-lime-100 px-2 py-1 text-[10px] font-bold text-lime-800">
+        ▲ 3.5% dari bulan lalu
+      </span>
   </div>
 
   <!-- SALDO -->
@@ -200,7 +206,10 @@
       Rp. 5.400.000
     </h2>
 
-    <span class="text-[12px] text-neutral-400"> Profit margin : 59.2% </span>
+    <span
+        class="mt-3 inline-flex items-center rounded-full bg-lime-100 px-2 py-1 text-[10px] font-bold text-lime-800">
+        Profit margin : 59.2% 
+      </span>
   </div>
 </div>
 
