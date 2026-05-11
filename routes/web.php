@@ -355,6 +355,10 @@ Route::get('/admin/product-detail', function () {
     return view('admin/product-detail');
 });
 
+Route::get('/admin/finance', function () {
+    return view('admin/finance');
+});
+=======
 Route::get('/admin/promo', function () {
     return view('admin/promo'); 
 });
