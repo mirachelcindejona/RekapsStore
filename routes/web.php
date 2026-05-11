@@ -357,6 +357,12 @@ Route::get('/admin/product-detail', function () {
 Route::get('/pengurus/cashier', function () {
     return view('pengurus/cashier');
 });
+Route::get('/pengurus/cashier-orders', function () {
+    return view('pengurus/cashier-orders');
+});
+Route::get('/pengurus/cashier-recap', function () {
+    return view('pengurus/cashier-recap');
+});
 
 Route::get('/admin/finance', function () {
     return view('admin/finance');
