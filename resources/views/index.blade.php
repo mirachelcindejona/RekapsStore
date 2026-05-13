@@ -8,7 +8,7 @@
     <link rel="icon" href="{{ asset('assets/icons/logo-rekaps.svg') }}">
     <title>Rekaps Store</title>
 </head>
-<body class="bg-primary-50">
+<body class="bg-primary-50 font-sans">
     {{-- navbar --}}
     <x-client.navbar-index></x-client.navbar-index>
     {{-- main-content --}}
@@ -23,7 +23,7 @@
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-2 items-stretch">
             @foreach ($products as $product)
             <x-client.product-card
-                :link="$product['link']"
+                :link="route('login')"
                 :discount="$product['discount']"
                 :image="$product['image']"
                 :name="$product['name']"
