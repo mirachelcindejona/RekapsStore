@@ -49,10 +49,20 @@
       <span class="name text-sm sm:text-lg font-semibold line-clamp-2">
         {{ $name }}
       </span>
+      
+      <div class="flex flex-col">
+        @if ($discount > 0)
 
-      <span class="price font-bold text-base sm:text-xl text-primary-500">
-        {{ $price }}
-      </span>
+        <span class="price font-medium text-lg text-neutral-500 line-through">
+          Rp{{ number_format($price, 0, ',', '.') }}
+        </span>
+
+        @endif
+
+        <span class="price font-bold text-base sm:text-xl text-primary-500">
+          Rp{{ number_format(($price-($price*$discount/100)), 0, ',', '.') }}
+              </span>
+      </div>
 
       <div class="rating flex gap-2 items-center text-neutral-600 text-sm">
 
