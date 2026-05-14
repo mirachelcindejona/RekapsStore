@@ -9,19 +9,54 @@
 @section('content')
     <div class="flex flex-col gap-[24px] pb-[40px] w-full">
 
-        <div class="flex justify-between items-center w-full gap-[16px]">
-            <h1 class="text-[20px] md:text-[24px] font-bold text-black leading-none">Rekap Hari Ini</h1>
-            <button
-                class="flex items-center gap-[6px] px-[16px] py-[8px] rounded-[12px] shadow-sm hover:opacity-90 transition-opacity shrink-0"
-                style="background: conic-gradient(from 160.29deg at 84% -40%, #951806 0deg, #FE6E4C 360deg);">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="12" y1="8" x2="12" y2="12"></line>
-                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                </svg>
-                <span class="text-[12px] font-semibold text-white">Reset Data</span>
-            </button>
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center w-full gap-[16px]">
+
+            <div class="flex flex-wrap gap-[12px]">
+                <button
+                    class="px-[16px] py-[8px] bg-[#7D39EB] shadow-[0_0_8px_rgba(125,57,235,0.35)] rounded-full text-white text-[14px] font-bold transition-colors">
+                    Hari ini
+                </button>
+                <button
+                    class="px-[16px] py-[8px] bg-[#E5E5E5] rounded-full text-[#404040] text-[14px] font-bold hover:bg-[#d4d4d4] transition-colors cursor-pointer">
+                    7 hari
+                </button>
+                <button
+                    class="px-[16px] py-[8px] bg-[#E5E5E5] rounded-full text-[#404040] text-[14px] font-bold hover:bg-[#d4d4d4] transition-colors cursor-pointer">
+                    1 bulan
+                </button>
+                <button
+                    class="px-[16px] py-[8px] bg-[#E5E5E5] rounded-full text-[#404040] text-[14px] font-bold hover:bg-[#d4d4d4] transition-colors cursor-pointer">
+                    Pilih tanggal
+                </button>
+            </div>
+
+            <div class="flex items-center gap-[12px]">
+                <button
+                    class="w-[36px] h-[36px] flex justify-center items-center hover:bg-gray-200 rounded-full transition-colors cursor-pointer">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+
+                <div class="text-[18px] text-black min-w-[150px] text-center">
+                    <span class="font-bold">
+                        Rabu
+                    </span>
+                    <span>
+                        13/05/2026
+                    </span>
+                </div>
+
+                <button
+                    class="w-[36px] h-[36px] flex justify-center items-center hover:bg-gray-200 rounded-full transition-colors cursor-pointer">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[16px] w-full">
@@ -164,7 +199,8 @@
                             <td class="py-[16px] px-[16px] text-[12px] font-bold text-primary-500 whitespace-nowrap">
                                 #TRX-001
                             </td>
-                            <td class="py-[16px] px-[16px] text-[12px] font-medium text-neutral-700 whitespace-nowrap">09.30
+                            <td class="py-[16px] px-[16px] text-[12px] font-medium text-neutral-700 whitespace-nowrap">
+                                09.30
                             </td>
                             <td class="py-[16px] px-[16px] text-[12px] font-medium text-neutral-700 whitespace-nowrap">Umum
                             </td>
@@ -182,7 +218,8 @@
                             </td>
                             <td class="py-[16px] px-[16px] whitespace-nowrap text-center">
                                 <button
-                                    class="w-[36px] h-[36px] mx-auto bg-neutral-50 border border-primary-500 rounded-[12px] shadow-[0_2px_4px_rgba(62,52,69,0.25)] flex justify-center items-center hover:bg-primary-500 hover:text-white text-primary-500 transition-colors group">
+                                    class="w-[36px] h-[36px] mx-auto bg-neutral-50 border border-primary-500 rounded-[12px] shadow-[0_2px_4px_rgba(62,52,69,0.25)] flex justify-center items-center hover:bg-primary-500 hover:text-white text-primary-500 transition-colors group cursor-pointer"
+                                    onclick="openModal('modalDetailPesanan')">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                                         stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                         stroke-linejoin="round">
@@ -216,7 +253,8 @@
                             </td>
                             <td class="py-[16px] px-[16px] whitespace-nowrap text-center">
                                 <button
-                                    class="w-[36px] h-[36px] mx-auto bg-neutral-50 border border-primary-500 rounded-[12px] shadow-[0_2px_4px_rgba(62,52,69,0.25)] flex justify-center items-center hover:bg-primary-500 hover:text-white text-primary-500 transition-colors group">
+                                    class="w-[36px] h-[36px] mx-auto bg-neutral-50 border border-primary-500 rounded-[12px] shadow-[0_2px_4px_rgba(62,52,69,0.25)] flex justify-center items-center hover:bg-primary-500 hover:text-white text-primary-500 transition-colors group cursor-pointer"
+                                    onclick="openModal('modalDetailPesanan')">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                                         stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                         stroke-linejoin="round">
@@ -236,5 +274,126 @@
 @endsection
 
 @section('footer')
-    <script></script>
+    <!-- MODAL DETAIL PESANAN / STRUK KASIR -->
+    <div id="modalDetailPesanan" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 hidden">
+        <div
+            class="bg-[#FAFAFA] w-full max-w-[550px] rounded-[20px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] p-[20px] flex flex-col items-center gap-[20px]">
+
+            <!-- Receipt Box (Same as Modal 5) -->
+            <div class="bg-[#F5F5F5] rounded-[12px] p-[28px_20px] flex flex-col gap-[8px] w-full">
+                <div class="flex flex-col items-center gap-[4px] w-full pb-[16px] border-b-[0.2px] border-black">
+                    <span class="font-['Carattere'] text-[32px] text-[#7D39EB] text-center leading-[1] italic">Rekaps
+                        Store</span>
+                    <span class="font-['Montserrat'] text-[12px] font-normal text-[#737373] text-center">DEPARTEMEN EKONOMI
+                        KREATIF</span>
+                    <div class="flex items-center gap-[12px]">
+                        <span class="font-['Montserrat'] text-[12px] font-semibold text-[#737373]">@himarpl</span>
+                        <span class="font-['Montserrat'] text-[12px] font-semibold text-[#737373]">@rekaps.store</span>
+                    </div>
+                </div>
+
+                <!-- Details Table -->
+                <div class="flex flex-col gap-[4px] w-full py-[10px] border-b-[0.2px] border-dashed border-black">
+                    <div class="flex justify-between items-center w-full">
+                        <span class="font-['Montserrat'] text-[12px] font-medium text-black">No.Transaksi</span>
+                        <span class="font-['Montserrat'] text-[12px] font-medium text-black">#TRX-0342</span>
+                    </div>
+                    <div class="flex justify-between items-center w-full">
+                        <span class="font-['Montserrat'] text-[12px] font-medium text-black">Kasir</span>
+                        <span class="font-['Montserrat'] text-[12px] font-medium text-black">Admin Ekraf</span>
+                    </div>
+                    <div class="flex justify-between items-center w-full">
+                        <span class="font-['Montserrat'] text-[12px] font-medium text-black">Waktu</span>
+                        <span class="font-['Montserrat'] text-[12px] font-medium text-black">3/4/2026, 09.04.00</span>
+                    </div>
+                </div>
+
+                <!-- Items -->
+                <div class="flex flex-col gap-[4px] w-full py-[10px] border-b-[0.2px] border-dashed border-black">
+                    <div class="flex flex-col w-full pb-[8px]">
+                        <div class="flex justify-between items-center w-full">
+                            <span class="font-['Montserrat'] text-[12px] font-medium text-black">Basrenggg</span>
+                            <span class="font-['Montserrat'] text-[12px] font-normal text-black">Rp 5.000 x 1</span>
+                            <span class="font-['Montserrat'] text-[12px] font-bold text-black text-right min-w-[60px]">Rp
+                                5.000</span>
+                        </div>
+                        <span class="font-['Montserrat'] text-[10px] font-normal text-black">Catatan: pedesnya sedeng
+                            dikit</span>
+                    </div>
+                    <div class="flex flex-col w-full">
+                        <div class="flex justify-between items-center w-full">
+                            <span class="font-['Montserrat'] text-[12px] font-medium text-black">Basrenggg</span>
+                            <span class="font-['Montserrat'] text-[12px] font-normal text-black">Rp 5.000 x 1</span>
+                            <span class="font-['Montserrat'] text-[12px] font-bold text-black text-right min-w-[60px]">Rp
+                                5.000</span>
+                        </div>
+                        <span class="font-['Montserrat'] text-[10px] font-normal text-black">Catatan: pedesnya sedeng
+                            dikit</span>
+                    </div>
+                </div>
+
+                <!-- Total Calculation -->
+                <div class="flex flex-col gap-[4px] w-full py-[10px] border-b-[0.2px] border-black">
+                    <div class="flex justify-between items-center w-full mb-[4px]">
+                        <span class="font-['Montserrat'] text-[12px] font-semibold text-black">Catatan Transaksi</span>
+                        <span class="font-['Montserrat'] text-[12px] font-normal text-black">Nitip dulu barangnya</span>
+                    </div>
+                    <div class="flex justify-between items-center w-full">
+                        <span class="font-['Montserrat'] text-[12px] font-semibold text-black">Total pesanan</span>
+                        <span class="font-['Montserrat'] text-[12px] font-bold text-black">Rp 10.000</span>
+                    </div>
+                    <div class="flex justify-between items-center w-full">
+                        <span class="font-['Montserrat'] text-[12px] font-semibold text-black">Diskon</span>
+                        <span class="font-['Montserrat'] text-[12px] font-semibold text-black">—</span>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center w-full pt-[8px]">
+                    <span class="font-['Montserrat'] text-[14px] font-bold text-black">Total</span>
+                    <span class="font-['Montserrat'] text-[14px] font-bold text-[#7D39EB]">Rp 10.000</span>
+                </div>
+                <div class="flex justify-between items-center w-full mt-[4px]">
+                    <span class="font-['Montserrat'] text-[12px] font-medium text-black">Metode Bayar</span>
+                    <span class="font-['Montserrat'] text-[12px] font-medium text-black">QRIS</span>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="flex gap-[12px] w-full mt-[10px]">
+                <button
+                    class="flex-1 h-[48px] bg-[#FAFAFA] border border-[#7D39EB] shadow-[0_2px_4px_rgba(62,52,69,0.25)] rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-[#7D39EB] flex justify-center items-center hover:bg-[#7D39EB] hover:text-white transition-colors cursor-pointer"
+                    onclick="closeModal('modalDetailPesanan')">Kembali</button>
+                <button
+                    class="flex-1 h-[48px] bg-[#7D39EB] shadow-[0_0_8px_rgba(114,52,214,0.35)] rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-white flex justify-center items-center gap-[8px] hover:opacity-90 transition-opacity cursor-pointer">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                        <rect x="6" y="14" width="12" height="8"></rect>
+                    </svg>
+                    Cetak Struk
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* ---- Modal Scripts ---- */
+
+        // Fungsi untuk membuka modal
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('hidden');
+            }
+        }
+
+        // Fungsi untuk menutup modal
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('hidden');
+            }
+        }
+    </script>
 @endsection

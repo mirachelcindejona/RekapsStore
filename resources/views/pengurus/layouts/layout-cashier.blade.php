@@ -40,6 +40,31 @@
             -webkit-appearance: none;
             margin: 0;
         }
+
+        /* Custom Scrollbar 2*/
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+            border-radius: 10px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #D4D4D4;
+            border-radius: 10px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background-color: #A1A1A1;
+        }
+
+        .custom-scrollbar {
+            scrollbar-width: thin;
+            scrollbar-color: #D4D4D4 transparent;
+        }
     </style>
 </head>
 
@@ -192,7 +217,7 @@
         </header>
 
         <main
-            class="flex-1 flex flex-col min-[900px]:flex-row gap-[20px] p-[14px] min-[560px]:p-[20px] overflow-hidden min-h-0">
+            class="flex-1 flex flex-col min-[900px]:flex-row gap-[20px] p-[14px] min-[560px]:p-[20px] overflow-y-auto min-h-0">
             @yield('content')
         </main>
     </div>

@@ -19,7 +19,9 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('product_code', 50)->unique();
             $table->enum('product_type', ['Ready Stok', 'PO', 'Jasa'])->default('Ready Stok');
+            $table->boolean('is_processed')->default(true);
             $table->string('estimation', 100)->nullable(); // cth: 7 hari kerja
+            $table->text('pickup_info')->nullable();
             $table->decimal('cost_price', 15, 2)->default(0);
             $table->decimal('selling_price', 15, 2)->default(0);
             $table->integer('discount')->default(0); // 0-100%
