@@ -153,11 +153,14 @@
     </nav>
 
     <div class="p-[14px] border-t border-white/5 shrink-0">
-        <button
-            class="flex items-center gap-[10px] w-full px-[12px] py-[9px] rounded-lg text-neutral-400 text-[12px] font-semibold transition-colors duration-[250ms] hover:bg-[#c10007]/15 hover:text-red-400 border-none outline-none cursor-pointer">
-            <img src="{{ asset('assets/icons/logout-half-circle-line.svg') }}" alt="Logout" />
-            Keluar
-        </button>
+        <form action="{{ route('admin.logout') }}" method="POST">
+            @csrf
+            <button type="submit"
+                class="flex items-center gap-[10px] w-full px-[12px] py-[9px] rounded-lg text-neutral-400 text-[12px] font-semibold transition-colors duration-[250ms] hover:bg-[#c10007]/15 hover:text-red-400 border-none outline-none cursor-pointer">
+                <img src="{{ asset('assets/icons/logout-half-circle-line.svg') }}" alt="Logout" />
+                Keluar
+            </button>
+        </form>
     </div>
 </aside>
 <!-- END .sidebar -->
