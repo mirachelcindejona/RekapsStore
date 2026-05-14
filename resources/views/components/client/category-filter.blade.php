@@ -92,7 +92,7 @@
     }
 </style>
 <script>
-document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", () => {
 
     const filters = document.querySelectorAll(".filter");
     const cards = document.querySelectorAll(".product-card");
