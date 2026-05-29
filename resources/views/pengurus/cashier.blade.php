@@ -81,7 +81,7 @@
 
             <div class="bg-neutral-950 border border-secondary-500 rounded-[10px] px-[15px] py-[10px] flex items-center">
                 <input type="text" placeholder="Nama pembeli (opsional)"
-                    class="bg-transparent border-none outline-none text-[14px] text-white w-full placeholder:text-[#525252]">
+                    class="bg-transparent border-none outline-none text-[14px] text-white w-full placeholder:text-neutral-600">
             </div>
         </div>
 
@@ -155,7 +155,7 @@
                     <div class="bg-neutral-950 border border-secondary-500 rounded-[10px] px-[15px] py-[10px]">
                         <input type="number" id="inputUang" oninput="hitungKembalian(); clearActiveNominal()"
                             placeholder="Uang diterima..."
-                            class="bg-transparent border-none outline-none text-[14px] text-white w-full placeholder:text-[#525252]">
+                            class="bg-transparent border-none outline-none text-[14px] text-white w-full placeholder:text-neutral-600">
                     </div>
 
                     <div class="flex gap-[7px] overflow-x-auto pos-scroll pb-[4px]">
@@ -200,7 +200,7 @@
             <!-- Header -->
             <div class="flex justify-between items-center w-full">
                 <h2 class="font-['Montserrat'] text-[18px] font-bold text-black leading-[28px]">Checkout</h2>
-                <button class="text-[#7D39EB] hover:opacity-70 transition-opacity cursor-pointer"
+                <button class="text-primary-500 hover:opacity-70 transition-opacity cursor-pointer"
                     onclick="closeModal('modalCheckout')">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -213,7 +213,7 @@
             <!-- Body -->
             <div class="flex flex-col items-end gap-[12px] w-full">
                 <!-- Rincian Box -->
-                <div class="bg-[#F5F5F5] rounded-[12px] p-[12px_16px] flex flex-col gap-[8px] w-full">
+                <div class="bg-neutral-100 rounded-[12px] p-[12px_16px] flex flex-col gap-[8px] w-full">
                     <span class="font-['Montserrat'] text-[14px] font-bold text-black text-left">RINCIAN PESANAN</span>
 
                     <div class="flex flex-col gap-[4px] w-full">
@@ -255,7 +255,7 @@
                         </div>
                         <div class="flex justify-between items-center w-full border-t-[0.2px] border-black pt-[8px]">
                             <span class="font-['Montserrat'] text-[14px] font-bold text-black">Total</span>
-                            <span class="font-['Montserrat'] text-[14px] font-bold text-[#7D39EB]">Rp 10.000</span>
+                            <span class="font-['Montserrat'] text-[14px] font-bold text-primary-500">Rp 10.000</span>
                         </div>
                     </div>
                 </div>
@@ -265,16 +265,16 @@
                     <span class="font-['Montserrat'] text-[14px] font-normal text-black uppercase text-left">Catatan
                         Transaksi</span>
                     <textarea placeholder="cth: Bayar 2 kali, atau titip barang"
-                        class="w-full bg-[#FAFAFA] border border-[#737373] rounded-[10px] p-[12px_15px] font-['Montserrat'] text-[14px] text-black placeholder-[#A1A1A1] h-[85px] focus:outline-none focus:border-[#7D39EB]"></textarea>
+                        class="w-full bg-neutral-50 border border-neutral-500 rounded-[10px] p-[12px_15px] font-['Montserrat'] text-[14px] text-black placeholder-neutral-400 h-[85px] focus:outline-none focus:border-primary-500"></textarea>
                 </div>
 
                 <!-- Buttons -->
                 <div class="flex gap-[16px] w-full mt-[10px]">
                     <button
-                        class="w-[150px] h-[48px] bg-[#D4D4D4] rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-[#868686] flex justify-center items-center hover:bg-[#c4c4c4] transition-colors cursor-pointer"
+                        class="w-[150px] h-[48px] bg-neutral-300 rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-[#868686] flex justify-center items-center hover:bg-[#c4c4c4] transition-colors cursor-pointer"
                         onclick="closeModal('modalCheckout')">Batal</button>
                     <button
-                        class="flex-1 h-[48px] bg-[#C6FF33] shadow-[0_0_8px_rgba(180,232,46,0.35)] rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-black flex justify-center items-center hover:opacity-90 transition-opacity cursor-pointer"
+                        class="flex-1 h-[48px] bg-secondary-500 shadow-[0_0_8px_rgba(180,232,46,0.35)] rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-black flex justify-center items-center hover:opacity-90 transition-opacity cursor-pointer"
                         onclick="proceedToPayment()">Konfirmasi
                         Pembayaran</button>
                 </div>
@@ -286,12 +286,12 @@
     <!-- MODAL TAMBAH CATATAN -->
     <div id="modalTambahCatatan" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 hidden">
         <div
-            class="bg-[#FAFAFA] w-full max-w-[550px] rounded-[20px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] p-[20px] flex flex-col gap-[20px]">
+            class="bg-neutral-50 w-full max-w-[550px] rounded-[20px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] p-[20px] flex flex-col gap-[20px]">
 
             <div class="flex justify-between items-center w-full">
                 <h2 class="font-['Montserrat'] text-[18px] font-bold text-black leading-[28px]">Masukkan catatan untuk
                     Basreng</h2>
-                <button class="text-[#7D39EB] hover:opacity-70 transition-opacity cursor-pointer"
+                <button class="text-primary-500 hover:opacity-70 transition-opacity cursor-pointer"
                     onclick="closeModal('modalTambahCatatan')">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -302,14 +302,14 @@
             </div>
 
             <textarea placeholder="cth: Pedesnya sedeng dikit"
-                class="w-full bg-[#FAFAFA] border border-[#737373] rounded-[10px] p-[12px_15px] font-['Montserrat'] text-[14px] text-black placeholder-[#A1A1A1] h-[85px] focus:outline-none focus:border-[#7D39EB]"></textarea>
+                class="w-full bg-neutral-50 border border-neutral-500 rounded-[10px] p-[12px_15px] font-['Montserrat'] text-[14px] text-black placeholder-neutral-400 h-[85px] focus:outline-none focus:border-primary-500"></textarea>
 
             <div class="flex gap-[12px] w-full">
                 <button
-                    class="flex-1 h-[48px] bg-[#D4D4D4] rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-[#868686] flex justify-center items-center hover:bg-[#c4c4c4] transition-colors cursor-pointer"
+                    class="flex-1 h-[48px] bg-neutral-300 rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-[#868686] flex justify-center items-center hover:bg-[#c4c4c4] transition-colors cursor-pointer"
                     onclick="closeModal('modalTambahCatatan')">Batal</button>
                 <button
-                    class="flex-1 h-[48px] bg-[#C6FF33] shadow-[0_0_8px_rgba(180,232,46,0.35)] rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-black flex justify-center items-center hover:opacity-90 transition-opacity cursor-pointer">Tambah</button>
+                    class="flex-1 h-[48px] bg-secondary-500 shadow-[0_0_8px_rgba(180,232,46,0.35)] rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-black flex justify-center items-center hover:opacity-90 transition-opacity cursor-pointer">Tambah</button>
             </div>
         </div>
     </div>
@@ -318,11 +318,11 @@
     <!-- MODAL PAKAI VOUCHER (Pakai-Voucher) -->
     <div id="modalPakaiVoucher" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 hidden">
         <div
-            class="bg-[#FAFAFA] w-full max-w-[391px] rounded-[20px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] p-[20px] flex flex-col gap-[20px]">
+            class="bg-neutral-50 w-full max-w-[391px] rounded-[20px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] p-[20px] flex flex-col gap-[20px]">
 
             <div class="flex justify-between items-center w-full">
                 <h2 class="font-['Montserrat'] text-[18px] font-bold text-black leading-[28px]">Masukkan Kode Voucher</h2>
-                <button class="text-[#7D39EB] hover:opacity-70 transition-opacity cursor-pointer"
+                <button class="text-primary-500 hover:opacity-70 transition-opacity cursor-pointer"
                     onclick="closeModal('modalPakaiVoucher')">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -333,14 +333,14 @@
             </div>
 
             <input type="text" placeholder="cth : EKRAF20"
-                class="w-full h-[44px] bg-[#FAFAFA] border border-[#737373] rounded-[10px] p-[12px_15px] font-['Montserrat'] text-[14px] text-black placeholder-[#A1A1A1] focus:outline-none focus:border-[#7D39EB]">
+                class="w-full h-[44px] bg-neutral-50 border border-neutral-500 rounded-[10px] p-[12px_15px] font-['Montserrat'] text-[14px] text-black placeholder-neutral-400 focus:outline-none focus:border-primary-500">
 
             <div class="flex gap-[12px] w-full">
                 <button
-                    class="flex-1 h-[48px] bg-[#D4D4D4] rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-[#868686] flex justify-center items-center hover:bg-[#c4c4c4] transition-colors cursor-pointer"
+                    class="flex-1 h-[48px] bg-neutral-300 rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-[#868686] flex justify-center items-center hover:bg-[#c4c4c4] transition-colors cursor-pointer"
                     onclick="closeModal('modalPakaiVoucher')">Batal</button>
                 <button
-                    class="flex-1 h-[48px] bg-[#C6FF33] shadow-[0_0_8px_rgba(180,232,46,0.35)] rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-black flex justify-center items-center hover:opacity-90 transition-opacity cursor-pointer">Gunakan
+                    class="flex-1 h-[48px] bg-secondary-500 shadow-[0_0_8px_rgba(180,232,46,0.35)] rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-black flex justify-center items-center hover:opacity-90 transition-opacity cursor-pointer">Gunakan
                     voucher</button>
             </div>
         </div>
@@ -350,7 +350,7 @@
     <!-- MODAL SCAN QRIS -->
     <div id="modalScanQRIS" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 hidden">
         <div
-            class="bg-[#FAFAFA] w-full max-w-[550px] rounded-[20px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] p-[20px] flex flex-col items-center gap-[20px] max-h-[96dvh] overflow-y-auto">
+            class="bg-neutral-50 w-full max-w-[550px] rounded-[20px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] p-[20px] flex flex-col items-center gap-[20px] max-h-[96dvh] overflow-y-auto">
 
             <div class="flex flex-col items-center gap-[18px] w-full max-w-[346px]">
                 <h2 class="font-['Montserrat'] text-[24px] font-bold text-black text-center">Scan untuk membayar</h2>
@@ -358,7 +358,7 @@
                     <span class="text-red-600">10:00</span></span>
 
                 <!-- Tempat QR Code image -->
-                <div class="w-[220px] h-[220px] bg-[#7D39EB] rounded-[16px] flex justify-center items-center overflow-hidden"
+                <div class="w-[220px] h-[220px] bg-primary-500 rounded-[16px] flex justify-center items-center overflow-hidden"
                     onclick="successPayment()">
                     <!-- Ganti img src ini dengan QR aslimu -->
                     <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=contoh&color=ffffff&bgcolor=7D39EB"
@@ -366,7 +366,7 @@
                 </div>
 
                 <!-- Badge Rekaps Store -->
-                <div class="flex items-center justify-center gap-[10px] w-[286px] h-[52px] bg-[#7D39EB] rounded-[24px]">
+                <div class="flex items-center justify-center gap-[10px] w-[286px] h-[52px] bg-primary-500 rounded-[24px]">
                     <svg width="37" height="29" viewBox="0 0 37 29" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <ellipse cx="12.8439" cy="15.2845" rx="2.07365" ry="2.07352" fill="#FAFAFA" />
@@ -388,7 +388,7 @@
             </div>
 
             <div
-                class="bg-[#FAFAFA] border border-[#E5E5E5] shadow-[0_0_3px_rgba(0,0,0,0.25)] rounded-[24px] w-full p-[30px] flex flex-col gap-[20px]">
+                class="bg-neutral-50 border border-[#E5E5E5] shadow-[0_0_3px_rgba(0,0,0,0.25)] rounded-[24px] w-full p-[30px] flex flex-col gap-[20px]">
                 <h3 class="font-['Montserrat'] text-[16px] font-bold text-black text-center">Langkah Pembayaran dengan QRIS
                 </h3>
                 <ol
@@ -401,7 +401,7 @@
             </div>
 
             <button
-                class="w-full h-[48px] min-h-[48px] bg-[#FAFAFA] border border-[#7D39EB] shadow-[0_2px_4px_rgba(62,52,69,0.25)] rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-[#7D39EB] flex justify-center items-center hover:bg-[#7D39EB] hover:text-white transition-colors cursor-pointer"
+                class="w-full h-[48px] min-h-[48px] bg-neutral-50 border border-primary-500 shadow-[0_2px_4px_rgba(62,52,69,0.25)] rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-primary-500 flex justify-center items-center hover:bg-primary-500 hover:text-white transition-colors cursor-pointer"
                 onclick="closeModal('modalScanQRIS')">
                 Batal
             </button>
@@ -412,12 +412,12 @@
     <!-- MODAL TRANSAKSI BERHASIL -->
     <div id="modalTransaksiBerhasil" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 hidden">
         <div
-            class="custom-scrollbar bg-[#FAFAFA] w-full max-w-[550px] rounded-[20px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] p-[20px] flex flex-col items-center gap-[20px] max-h-[96dvh] overflow-y-auto">
+            class="custom-scrollbar bg-neutral-50 w-full max-w-[550px] rounded-[20px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] p-[20px] flex flex-col items-center gap-[20px] max-h-[96dvh] overflow-y-auto">
 
             <!-- Header Checkmark -->
             <div class="flex flex-col items-center gap-[13px] pt-[10px]">
                 <div
-                    class="w-[114px] h-[114px] rounded-full border-[7px] border-[#C6FF33] flex justify-center items-center bg-white">
+                    class="w-[114px] h-[114px] rounded-full border-[7px] border-secondary-500 flex justify-center items-center bg-white">
                     <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#C6FF33"
                         stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="20 6 9 17 4 12"></polyline>
@@ -425,21 +425,22 @@
                 </div>
                 <div class="flex flex-col items-center gap-[4px]">
                     <h2 class="font-['Montserrat'] text-[24px] font-bold text-black text-center">Transaksi Berhasil!</h2>
-                    <span class="font-['Montserrat'] text-[14px] font-medium text-[#525252] text-center">Pembayaran telah
+                    <span class="font-['Montserrat'] text-[14px] font-medium text-neutral-600 text-center">Pembayaran telah
                         dikonfirmasi</span>
                 </div>
             </div>
 
             <!-- Receipt Box -->
-            <div class="bg-[#F5F5F5] rounded-[12px] p-[28px_20px] flex flex-col gap-[8px] w-full">
+            <div class="bg-neutral-100 rounded-[12px] p-[28px_20px] flex flex-col gap-[8px] w-full">
                 <div class="flex flex-col items-center gap-[4px] w-full pb-[16px] border-b-[0.2px] border-black">
-                    <span class="font-['Carattere'] text-[32px] text-[#7D39EB] text-center leading-[1] italic">Rekaps
+                    <span class="font-['Carattere'] text-[32px] text-primary-500 text-center leading-[1] italic">Rekaps
                         Store</span>
-                    <span class="font-['Montserrat'] text-[12px] font-normal text-[#737373] text-center">DEPARTEMEN EKONOMI
+                    <span class="font-['Montserrat'] text-[12px] font-normal text-neutral-500 text-center">DEPARTEMEN
+                        EKONOMI
                         KREATIF</span>
                     <div class="flex items-center gap-[12px]">
-                        <span class="font-['Montserrat'] text-[12px] font-semibold text-[#737373]">@himarpl</span>
-                        <span class="font-['Montserrat'] text-[12px] font-semibold text-[#737373]">@rekaps.store</span>
+                        <span class="font-['Montserrat'] text-[12px] font-semibold text-neutral-500">@himarpl</span>
+                        <span class="font-['Montserrat'] text-[12px] font-semibold text-neutral-500">@rekaps.store</span>
                     </div>
                 </div>
 
@@ -501,7 +502,7 @@
 
                 <div class="flex justify-between items-center w-full pt-[8px]">
                     <span class="font-['Montserrat'] text-[14px] font-bold text-black">Total</span>
-                    <span class="font-['Montserrat'] text-[14px] font-bold text-[#7D39EB]">Rp 10.000</span>
+                    <span class="font-['Montserrat'] text-[14px] font-bold text-primary-500">Rp 10.000</span>
                 </div>
                 <div class="flex justify-between items-center w-full mt-[4px]">
                     <span class="font-['Montserrat'] text-[12px] font-medium text-black">Metode Bayar</span>
@@ -512,7 +513,7 @@
             <!-- Buttons -->
             <div class="flex gap-[12px] w-full mt-[10px]">
                 <button
-                    class="flex-1 h-[48px] bg-[#FAFAFA] border border-[#7D39EB] shadow-[0_2px_4px_rgba(62,52,69,0.25)] rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-[#7D39EB] flex justify-center items-center gap-[8px] hover:bg-[#7D39EB] hover:text-white transition-colors group cursor-pointer">
+                    class="flex-1 h-[48px] bg-neutral-50 border border-primary-500 shadow-[0_2px_4px_rgba(62,52,69,0.25)] rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-primary-500 flex justify-center items-center gap-[8px] hover:bg-primary-500 hover:text-white transition-colors group cursor-pointer">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="6 9 6 2 18 2 18 9"></polyline>
@@ -522,7 +523,7 @@
                     Cetak Struk
                 </button>
                 <button
-                    class="flex-1 h-[48px] bg-[#7D39EB] shadow-[0_0_8px_rgba(114,52,214,0.35)] rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-white flex justify-center items-center hover:opacity-90 transition-opacity cursor-pointer"
+                    class="flex-1 h-[48px] bg-primary-500 shadow-[0_0_8px_rgba(114,52,214,0.35)] rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-white flex justify-center items-center hover:opacity-90 transition-opacity cursor-pointer"
                     onclick="closeModal('modalTransaksiBerhasil')">Selesai</button>
             </div>
         </div>

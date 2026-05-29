@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete(); // Relasi ke pencatat (Admin/Pengurus)
             $table->enum('mutation_type', ['in', 'out']);
             $table->string('category', 100);
-            $table->integer('qty'); // Jumlah pergerakan
+            $table->integer('quantity'); // Jumlah pergerakan
             $table->integer('balance'); // Sisa stok saat itu
             $table->text('notes')->nullable();
             $table->timestamps();

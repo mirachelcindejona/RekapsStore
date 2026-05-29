@@ -25,7 +25,6 @@ return new class extends Migration
             $table->decimal('cost_price', 15, 2)->default(0);
             $table->decimal('selling_price', 15, 2)->default(0);
             $table->integer('discount')->default(0); // 0-100%
-            $table->string('voucher_code', 50)->nullable();
             $table->enum('status', ['Aktif', 'Non-Aktif'])->default('Aktif');
             $table->timestamps();
         });

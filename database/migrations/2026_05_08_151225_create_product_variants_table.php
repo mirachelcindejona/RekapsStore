@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->string('variant_name', 100);
             $table->json('variant_values'); // cth: ["S", "M", "L"]
+            $table->json('variant_stock'); // cth: ["1", "4", "2"]
             $table->timestamps();
         });
     }
