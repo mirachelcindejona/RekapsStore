@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 class LoginAdminController extends Controller
@@ -17,14 +16,19 @@ class LoginAdminController extends Controller
 
     public function login(Request $request)
     {
-        $request->validate([
-            'username' => 'required',
-            'password' => 'required',
-        ], [
-            'username.required' => 'Username wajib diisi',
-            'password.required' => 'Password wajib diisi',
-        ]);
+        // validasi
+        $request->validate(
+            [
+                'username' => 'required',
+                'password' => 'required',
+            ],
+            [
+                'username.required' => 'Username wajib diisi',
+                'password.required' => 'Password wajib diisi',
+            ]
+        );
 
+        // cek user
         $user = User::where(
             'username',
             $request->username
@@ -35,27 +39,41 @@ class LoginAdminController extends Controller
             return back()->withErrors([
                 'username' => 'Username tidak ditemukan'
             ])->withInput();
+
         }
 
-        if (!Hash::check(
-            $request->password,
-            $user->password
-        )) {
+        // cek login
+        if (!Auth::attempt([
+            'username' => $request->username,
+            'password' => $request->password
+        ])) {
 
             return back()->withErrors([
                 'password' => 'Password salah'
             ])->withInput();
+
         }
 
-        if ($user->role == 'customer') {
+        // refresh user
+        $user = Auth::user();
+
+        // cek role admin/pengurus
+        if (
+            !$user->hasAnyRole([
+                'admin',
+                'pengurus'
+            ])
+        ) {
+
+            Auth::logout();
 
             return back()->withErrors([
                 'username' => 'Akun ini bukan admin'
             ]);
+
         }
 
-        Auth::login($user);
-
+        // regenerate session
         $request->session()->regenerate();
 
         return redirect('/admin');
@@ -72,4 +90,3 @@ class LoginAdminController extends Controller
         return redirect('/admin/login');
     }
 }
-

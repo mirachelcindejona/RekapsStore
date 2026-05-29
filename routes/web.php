@@ -10,7 +10,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\admin\auth\ForgotPasswordAdminController;
 use App\Http\Controllers\admin\auth\VerificationCodeAdminController;
 use App\Http\Controllers\admin\auth\ResetPasswordAdminController;
-
+use App\Http\Controllers\Admin\PengurusController;
 
 Route::get('/', function () {
     $products = [
@@ -344,44 +344,123 @@ Route::get('/home', function () {
     return view('home', compact('products'));
 });
 
-Route::get('/admin', function () {
-    return view('admin/dashboard');
-})->middleware('auth');
+//pengurus dan admin
+Route::prefix('admin')
+    ->middleware([
+        'auth',
+        'role:admin|pengurus'
+    ])
+    ->group(function () {
 
-Route::get('/admin/product', function () {
-    return view('admin/product');
-});
+        //dashboard
+        Route::get('/', function () {
+            return view('admin/dashboard');
+        })->name('admin.dashboard');
 
-Route::get('/admin/product-add', function () {
-    return view('admin/product-add');
-});
-Route::get('/admin/product-edit', function () {
-    return view('admin/product-edit');
-});
-Route::get('/admin/product-detail', function () {
-    return view('admin/product-detail');
-});
-Route::get('/pengurus/cashier', function () {
-    return view('pengurus/cashier');
-});
-Route::get('/pengurus/cashier-orders', function () {
-    return view('pengurus/cashier-orders');
-});
-Route::get('/pengurus/cashier-recap', function () {
-    return view('pengurus/cashier-recap');
-});
 
-Route::get('/admin/finance', function () {
-    return view('admin/finance');
-});
+        Route::middleware([
+            'permission:produk'
+        ])->group(function () {
 
-Route::get('/admin/promo', function () {
-    return view('admin/promo');
-});
+            Route::get('/product', function () {
+                return view('admin/product');
+            })->name('admin.product');
 
-Route::get('/admin/users', function () {
-    return view('admin/users');
-});
+            Route::get('/product-add', function () {
+                return view('admin/product-add');
+            })->name('admin.product.add');
+
+            Route::get('/product-edit', function () {
+                return view('admin/product-edit');
+            })->name('admin.product.edit');
+
+            Route::get('/product-detail', function () {
+                return view('admin/product-detail');
+            })->name('admin.product.detail');
+        });
+
+
+        Route::middleware([
+            'permission:pengguna'
+        ])->group(function () {
+
+            Route::get(
+                '/pengurus',
+                [PengurusController::class, 'index']
+            )->name('admin.pengurus');
+
+            Route::post(
+                '/pengurus/store',
+                [PengurusController::class, 'store']
+            )->name('admin.pengurus.store');
+        });
+
+        Route::middleware([
+            'permission:keuangan'
+        ])->group(function () {
+
+            Route::get('/finance', function () {
+                return view('admin/finance');
+            })->name('admin.finance');
+        });
+
+
+        Route::middleware([
+            'permission:pengguna'
+        ])->group(function () {
+
+            // halaman users
+            Route::get(
+                '/users',
+                [PengurusController::class, 'index']
+            )->name('admin.users');
+
+            // toggle status
+            Route::patch(
+                '/users/{user}/toggle-status',
+                [PengurusController::class, 'toggleStatus']
+            )->name('admin.users.toggleStatus');
+
+            // update pengurus
+            Route::put(
+                '/pengurus/{user}',
+                [PengurusController::class, 'update']
+            )->name('admin.pengurus.update');
+
+            // hapus pengurus
+            Route::delete(
+                '/pengurus/{user}',
+                [PengurusController::class, 'destroy']
+            )->name('admin.pengurus.destroy');
+        });
+
+        Route::middleware([
+            'permission:diskon'
+        ])->group(function () {
+
+            Route::get('/promo', function () {
+                return view('admin/promo');
+            })->name('admin.promo');
+        });
+    });
+
+//pengurus kasir
+Route::prefix('pengurus')
+    ->middleware([
+        'auth',
+        'role:admin|pengurus'
+    ])
+    ->group(function () {
+        Route::get('/cashier', function () {
+            return view('pengurus/cashier');
+        })->name('pengurus.cashier');
+        Route::get('/cashier-orders', function () {
+            return view('pengurus/cashier-orders');
+        })->name('pengurus.cashier.orders');
+        Route::get('/cashier-recap', function () {
+            return view('pengurus/cashier-recap');
+        })->name('pengurus.cashier.recap');
+    });
 
 // Route Admin
 Route::get(
@@ -433,48 +512,59 @@ Route::prefix('admin')->group(function () {
         '/reset-password',
         [ResetPasswordAdminController::class, 'update']
     )->name('admin.reset.password.update');
-
 });
+
+
 
 // Route User/Client
 Route::get(
-    '/login', [LoginController::class, 'index']
-    )->name('login');
+    '/login',
+    [LoginController::class, 'index']
+)->name('login');
 //submit user
 Route::post(
-    '/login', [LoginController::class, 'login']
-    )->name('login.submit');
+    '/login',
+    [LoginController::class, 'login']
+)->name('login.submit');
 //lupa password 
 Route::get(
-    '/forgot-password', [ForgotPasswordController::class, 'index']
-    )->name('forgot.password');
+    '/forgot-password',
+    [ForgotPasswordController::class, 'index']
+)->name('forgot.password');
 
 Route::post(
-    '/forgot-password', [ForgotPasswordController::class, 'sendCode']
-    )->name('forgot.password.send');
+    '/forgot-password',
+    [ForgotPasswordController::class, 'sendCode']
+)->name('forgot.password.send');
 
 // verification code
 Route::get(
-    '/verification-code', [VerificationCodeController::class, 'index']
-    )->name('verification.code');
+    '/verification-code',
+    [VerificationCodeController::class, 'index']
+)->name('verification.code');
 
 Route::post(
-    '/verification-code', [VerificationCodeController::class, 'verify']
-    )->name('verification.code.verify');
+    '/verification-code',
+    [VerificationCodeController::class, 'verify']
+)->name('verification.code.verify');
 
 // reset password
 Route::get(
-    '/reset-password', [ResetPasswordController::class, 'index']
-    )->name('reset.password');
+    '/reset-password',
+    [ResetPasswordController::class, 'index']
+)->name('reset.password');
 
 Route::post(
-    '/reset-password', [ResetPasswordController::class, 'update']
-    )->name('reset.password.update');
+    '/reset-password',
+    [ResetPasswordController::class, 'update']
+)->name('reset.password.update');
 
 Route::get(
-    '/register', [RegisterController::class, 'index']
-    )->name('register');
+    '/register',
+    [RegisterController::class, 'index']
+)->name('register');
 
 Route::post(
-    '/register', [RegisterController::class, 'register']
-    )->name('register.submit');
+    '/register',
+    [RegisterController::class, 'register']
+)->name('register.submit');

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin\auth;
+namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -32,17 +32,27 @@ class ResetPasswordAdminController extends Controller
             ]
         );
 
+        // ambil user
         $user = User::where(
             'email',
             session('admin_reset_email')
         )->first();
 
+        // cek user
+        if (!$user) {
+
+            return redirect('/admin/login');
+
+        }
+
+        // update password
         $user->password = Hash::make(
             $request->password
         );
 
         $user->save();
 
+        // hapus session
         session()->forget([
             'admin_reset_email',
             'admin_verification_code'
@@ -51,7 +61,7 @@ class ResetPasswordAdminController extends Controller
         return redirect('/admin/login')
             ->with(
                 'success',
-                'Password admin berhasil diubah'
+                'Password berhasil diubah'
             );
     }
 }

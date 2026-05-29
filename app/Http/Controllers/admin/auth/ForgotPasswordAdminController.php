@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin\auth;
+namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -16,6 +16,7 @@ class ForgotPasswordAdminController extends Controller
 
     public function sendCode(Request $request)
     {
+        // validasi
         $request->validate(
             [
                 'email' => 'required|email'
@@ -26,10 +27,13 @@ class ForgotPasswordAdminController extends Controller
             ]
         );
 
-        // cek admin
-        $user = User::where('email', $request->email)
-            ->where('role', 'admin')
-            ->first();
+        // cek admin / pengurus
+        $user = User::role([
+            'admin',
+            'pengurus'
+        ])
+        ->where('email', $request->email)
+        ->first();
 
         if (!$user) {
 
@@ -39,7 +43,7 @@ class ForgotPasswordAdminController extends Controller
 
         }
 
-        // generate otp
+        // generate OTP
         $code = rand(100000, 999999);
 
         // simpan session

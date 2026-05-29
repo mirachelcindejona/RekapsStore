@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin\auth;
+namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -20,13 +20,18 @@ class VerificationCodeAdminController extends Controller
                 'code.*' => 'required'
             ],
             [
-                'code.required' => 'Kode verifikasi wajib diisi',
-                'code.*.required' => 'Kode verifikasi wajib diisi'
+                'code.required' =>
+                    'Kode verifikasi wajib diisi',
+
+                'code.*.required' =>
+                    'Kode verifikasi wajib diisi'
             ]
         );
 
+        // gabung otp
         $code = implode('', $request->code);
 
+        // cek otp
         if (
             $code != session('admin_verification_code')
         ) {
