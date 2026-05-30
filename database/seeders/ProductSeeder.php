@@ -1,0 +1,353 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+class ProductSeeder extends Seeder
+{
+    public function run(): void
+    {
+        $merchandise = DB::table('categories_product')->where('name', 'Merchandise')->value('id');
+        $aksesoris   = DB::table('categories_product')->where('name', 'Aksesoris')->value('id');
+        $makanan     = DB::table('categories_product')->where('name', 'Makanan')->value('id');
+        $jasa        = DB::table('categories_product')->where('name', 'Jasa')->value('id');
+        $digital     = DB::table('categories_product')->where('name', 'Produk Digital')->value('id');
+
+        $products = [
+            // 1
+            [
+                'category_product_id' => $merchandise,
+                'name'         => 'Jersey RPL Pink',
+                'slug'         => 'jersey-rpl-pink',
+                'description'  => 'Jersey RPL Pink merupakan produk apparel unggulan untuk komunitas RPL.',
+                'product_code' => 'PRD-001',
+                'product_type' => 'Ready Stok',
+                'is_processed' => true,
+                'estimation'   => null,
+                'pickup_info'  => null,
+                'cost_price'   => 100000,
+                'selling_price'=> 150000,
+                'discount'     => 20,
+                'voucher_code' => null,
+                'status'       => 'Aktif',
+                'created_at'   => now(),
+                'updated_at'   => now(),
+            ],
+            // 2
+            [
+                'category_product_id' => $aksesoris,
+                'name'         => 'Stiker Minnix Series',
+                'slug'         => 'stiker-minnix-series',
+                'description'  => 'Stiker karakter eksklusif dengan desain lucu dan unik.',
+                'product_code' => 'PRD-002',
+                'product_type' => 'Ready Stok',
+                'is_processed' => false,
+                'estimation'   => null,
+                'pickup_info'  => null,
+                'cost_price'   => 5000,
+                'selling_price'=> 10000,
+                'discount'     => 0,
+                'voucher_code' => null,
+                'status'       => 'Aktif',
+                'created_at'   => now(),
+                'updated_at'   => now(),
+            ],
+            // 3
+            [
+                'category_product_id' => $merchandise,
+                'name'         => 'Work Jacket RPL',
+                'slug'         => 'work-jacket-rpl',
+                'description'  => 'Work Jacket RPL dengan desain casual modern.',
+                'product_code' => 'PRD-003',
+                'product_type' => 'Ready Stok',
+                'is_processed' => true,
+                'estimation'   => null,
+                'pickup_info'  => null,
+                'cost_price'   => 180000,
+                'selling_price'=> 230000,
+                'discount'     => 10,
+                'voucher_code' => null,
+                'status'       => 'Aktif',
+                'created_at'   => now(),
+                'updated_at'   => now(),
+            ],
+            // 4
+            [
+                'category_product_id' => $makanan,
+                'name'         => 'Snack Rekaps Box',
+                'slug'         => 'snack-rekaps-box',
+                'description'  => 'Kotak snack eksklusif khas event Rekaps, isi beragam camilan pilihan.',
+                'product_code' => 'PRD-004',
+                'product_type' => 'PO',
+                'is_processed' => true,
+                'estimation'   => '3 hari kerja',
+                'pickup_info'  => 'Ambil di sekretariat RPL',
+                'cost_price'   => 20000,
+                'selling_price'=> 35000,
+                'discount'     => 0,
+                'voucher_code' => null,
+                'status'       => 'Aktif',
+                'created_at'   => now(),
+                'updated_at'   => now(),
+            ],
+            // 5
+            [
+                'category_product_id' => $merchandise,
+                'name'         => 'Jersey RPL Sky Blue',
+                'slug'         => 'jersey-rpl-sky-blue',
+                'description'  => 'Jersey RPL Sky Blue dengan warna biru langit yang elegan.',
+                'product_code' => 'PRD-005',
+                'product_type' => 'Ready Stok',
+                'is_processed' => true,
+                'estimation'   => null,
+                'pickup_info'  => null,
+                'cost_price'   => 100000,
+                'selling_price'=> 150000,
+                'discount'     => 30,
+                'voucher_code' => null,
+                'status'       => 'Aktif',
+                'created_at'   => now(),
+                'updated_at'   => now(),
+            ],
+            // 6
+            [
+                'category_product_id' => $digital,
+                'name'         => 'Template CV Rekaps',
+                'slug'         => 'template-cv-rekaps',
+                'description'  => 'Template CV profesional desain eksklusif dari tim Rekaps, siap pakai format Word dan PDF.',
+                'product_code' => 'PRD-006',
+                'product_type' => 'Ready Stok',
+                'is_processed' => false,
+                'estimation'   => null,
+                'pickup_info'  => null,
+                'cost_price'   => 5000,
+                'selling_price'=> 15000,
+                'discount'     => 0,
+                'voucher_code' => null,
+                'status'       => 'Aktif',
+                'created_at'   => now(),
+                'updated_at'   => now(),
+            ],
+            // 7
+            [
+                'category_product_id' => $aksesoris,
+                'name'         => 'Stiker Devoria Series',
+                'slug'         => 'stiker-devoria-series',
+                'description'  => 'Stiker aesthetic dan modern untuk mempercantik barang favoritmu.',
+                'product_code' => 'PRD-007',
+                'product_type' => 'Ready Stok',
+                'is_processed' => false,
+                'estimation'   => null,
+                'pickup_info'  => null,
+                'cost_price'   => 5000,
+                'selling_price'=> 10000,
+                'discount'     => 0,
+                'voucher_code' => null,
+                'status'       => 'Aktif',
+                'created_at'   => now(),
+                'updated_at'   => now(),
+            ],
+            // 8
+            [
+                'category_product_id' => $jasa,
+                'name'         => 'Jasa Desain Poster',
+                'slug'         => 'jasa-desain-poster',
+                'description'  => 'Jasa pembuatan desain poster event, organisasi, atau keperluan pribadi oleh tim kreatif Rekaps.',
+                'product_code' => 'PRD-008',
+                'product_type' => 'Jasa',
+                'is_processed' => true,
+                'estimation'   => '5 hari kerja',
+                'pickup_info'  => null,
+                'cost_price'   => 30000,
+                'selling_price'=> 75000,
+                'discount'     => 15,
+                'voucher_code' => null,
+                'status'       => 'Aktif',
+                'created_at'   => now(),
+                'updated_at'   => now(),
+            ],
+            // 9
+            [
+                'category_product_id' => $merchandise,
+                'name'         => 'Tote Bag RPL',
+                'slug'         => 'tote-bag-rpl',
+                'description'  => 'Tote bag kanvas premium dengan logo RPL, cocok untuk aktivitas kampus sehari-hari.',
+                'product_code' => 'PRD-009',
+                'product_type' => 'PO',
+                'is_processed' => true,
+                'estimation'   => '7 hari kerja',
+                'pickup_info'  => 'Ambil di sekretariat RPL',
+                'cost_price'   => 25000,
+                'selling_price'=> 55000,
+                'discount'     => 0,
+                'voucher_code' => null,
+                'status'       => 'Aktif',
+                'created_at'   => now(),
+                'updated_at'   => now(),
+            ],
+            // 10
+            [
+                'category_product_id' => $aksesoris,
+                'name'         => 'Gantungan Kunci RPL',
+                'slug'         => 'gantungan-kunci-rpl',
+                'description'  => 'Gantungan kunci akrilik dengan logo RPL, ringan dan tahan lama.',
+                'product_code' => 'PRD-010',
+                'product_type' => 'Ready Stok',
+                'is_processed' => false,
+                'estimation'   => null,
+                'pickup_info'  => null,
+                'cost_price'   => 8000,
+                'selling_price'=> 20000,
+                'discount'     => 10,
+                'voucher_code' => null,
+                'status'       => 'Aktif',
+                'created_at'   => now(),
+                'updated_at'   => now(),
+            ],
+            // 11
+            [
+                'category_product_id' => $makanan,
+                'name'         => 'Minuman Boba Rekaps',
+                'slug'         => 'minuman-boba-rekaps',
+                'description'  => 'Minuman boba segar khas event Rekaps dengan berbagai pilihan rasa.',
+                'product_code' => 'PRD-011',
+                'product_type' => 'Ready Stok',
+                'is_processed' => false,
+                'estimation'   => null,
+                'pickup_info'  => 'Ambil langsung di booth',
+                'cost_price'   => 8000,
+                'selling_price'=> 18000,
+                'discount'     => 0,
+                'voucher_code' => null,
+                'status'       => 'Aktif',
+                'created_at'   => now(),
+                'updated_at'   => now(),
+            ],
+            // 12
+            [
+                'category_product_id' => $digital,
+                'name'         => 'E-Book Panduan PKL',
+                'slug'         => 'ebook-panduan-pkl',
+                'description'  => 'E-book lengkap panduan PKL untuk mahasiswa RPL, mencakup tips, contoh laporan, dan lebih.',
+                'product_code' => 'PRD-012',
+                'product_type' => 'Ready Stok',
+                'is_processed' => false,
+                'estimation'   => null,
+                'pickup_info'  => null,
+                'cost_price'   => 10000,
+                'selling_price'=> 25000,
+                'discount'     => 20,
+                'voucher_code' => null,
+                'status'       => 'Aktif',
+                'created_at'   => now(),
+                'updated_at'   => now(),
+            ],
+            // 13
+            [
+                'category_product_id' => $jasa,
+                'name'         => 'Jasa Pembuatan Website',
+                'slug'         => 'jasa-pembuatan-website',
+                'description'  => 'Jasa pembuatan website company profile, portofolio, atau toko online oleh tim developer Rekaps.',
+                'product_code' => 'PRD-013',
+                'product_type' => 'Jasa',
+                'is_processed' => true,
+                'estimation'   => '14 hari kerja',
+                'pickup_info'  => null,
+                'cost_price'   => 200000,
+                'selling_price'=> 500000,
+                'discount'     => 10,
+                'voucher_code' => null,
+                'status'       => 'Aktif',
+                'created_at'   => now(),
+                'updated_at'   => now(),
+            ],
+            // 14
+            [
+                'category_product_id' => $merchandise,
+                'name'         => 'Hoodie RPL',
+                'slug'         => 'hoodie-rpl',
+                'description'  => 'Hoodie RPL bahan fleece premium, hangat dan nyaman untuk aktivitas indoor maupun outdoor.',
+                'product_code' => 'PRD-014',
+                'product_type' => 'PO',
+                'is_processed' => true,
+                'estimation'   => '10 hari kerja',
+                'pickup_info'  => 'Ambil di sekretariat RPL',
+                'cost_price'   => 120000,
+                'selling_price'=> 250000,
+                'discount'     => 5,
+                'voucher_code' => null,
+                'status'       => 'Aktif',
+                'created_at'   => now(),
+                'updated_at'   => now(),
+            ],
+            // 15
+            [
+                'category_product_id' => $aksesoris,
+                'name'         => 'Pin Enamel RPL',
+                'slug'         => 'pin-enamel-rpl',
+                'description'  => 'Pin enamel eksklusif dengan desain logo RPL, cocok sebagai koleksi atau aksesoris tas.',
+                'product_code' => 'PRD-015',
+                'product_type' => 'Ready Stok',
+                'is_processed' => false,
+                'estimation'   => null,
+                'pickup_info'  => null,
+                'cost_price'   => 10000,
+                'selling_price'=> 25000,
+                'discount'     => 0,
+                'voucher_code' => null,
+                'status'       => 'Aktif',
+                'created_at'   => now(),
+                'updated_at'   => now(),
+            ],
+        ];
+
+        $images = [
+            'jersey-rpl-pink'       => 'assets/img/products/pinkjersey.png',
+            'stiker-minnix-series'  => 'assets/img/products/stiker1.png',
+            'work-jacket-rpl'       => 'assets/img/products/workjacket.png',
+            'snack-rekaps-box'      => 'assets/img/products/stiker1.png',
+            'jersey-rpl-sky-blue'   => 'assets/img/products/skyjersey.png',
+            'template-cv-rekaps'    => 'assets/img/products/stiker2.png',
+            'stiker-devoria-series' => 'assets/img/products/stiker2.png',
+            'jasa-desain-poster'    => 'assets/img/products/stiker1.png',
+            'tote-bag-rpl'          => 'assets/img/products/workjacket.png',
+            'gantungan-kunci-rpl'   => 'assets/img/products/stiker2.png',
+            'minuman-boba-rekaps'   => 'assets/img/products/stiker1.png',
+            'ebook-panduan-pkl'     => 'assets/img/products/stiker2.png',
+            'jasa-pembuatan-website'=> 'assets/img/products/stiker1.png',
+            'hoodie-rpl'            => 'assets/img/products/workjacket.png',
+            'pin-enamel-rpl'        => 'assets/img/products/stiker2.png',
+        ];
+
+        $variants = [
+            'jersey-rpl-pink'     => ['S', 'M', 'L', 'XL', 'XXL'],
+            'jersey-rpl-sky-blue' => ['S', 'M', 'L', 'XL', 'XXL'],
+            'work-jacket-rpl'     => ['M', 'L', 'XL', 'XXL'],
+            'tote-bag-rpl'        => ['One Size'],
+            'hoodie-rpl'          => ['S', 'M', 'L', 'XL', 'XXL'],
+        ];
+
+        foreach ($products as $product) {
+            $id = DB::table('products')->insertGetId($product);
+
+            DB::table('product_images')->insert([
+                'product_id' => $id,
+                'image_path' => $images[$product['slug']],
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            if (isset($variants[$product['slug']])) {
+                DB::table('product_variants')->insert([
+                    'product_id'     => $id,
+                    'variant_name'   => 'Ukuran',
+                    'variant_values' => json_encode($variants[$product['slug']]),
+                    'created_at'     => now(),
+                    'updated_at'     => now(),
+                ]);
+            }
+        }
+    }
+}
