@@ -9,6 +9,7 @@ class Product extends Model
 {
     use HasFactory;
 
+    // Kolom id dijaga, kolom lainnya bebas diisi (Mass Assignment)
     protected $guarded = ['id'];
 
     public function category()

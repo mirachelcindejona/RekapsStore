@@ -9,7 +9,7 @@
 </head>
 <body class="bg-primary-50 font-sans min-h-screen flex flex-col gap-10">
     @yield('navbar')
-    <main class="pt-16 sm:pt-16 max-w-7xl mx-auto px-2 flex-1 w-full flex flex-col gap-1 sm:gap-1 mb-4">
+    <main class="pt-24 sm:pt-16 max-w-7xl mx-auto px-2 flex-1 w-full flex flex-col gap-2">
         @yield('content')
     </main>
     @yield('footer')
