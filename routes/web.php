@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\auth\LoginAdminController;
 use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\auth\registerController;
+use App\Http\Controllers\admin\ProductController;
+use App\Http\Controllers\Admin\CategoryProductController;
 
 $products = [
     [
@@ -123,13 +125,15 @@ Route::get('/admin', function () {
     return view('admin/dashboard');
 });
 
-Route::get('/admin/product', function () {
-    return view('admin/product');
+
+Route::prefix('admin')->group(function () {
+    Route::resource('product', ProductController::class);
+    
+    Route::get('categories', [CategoryProductController::class, 'index']);
+    Route::post('categories', [CategoryProductController::class, 'store']);
+    Route::delete('categories/{id}', [CategoryProductController::class, 'destroy']);
 });
 
-Route::get('/admin/product-add', function () {
-    return view('admin/product-add');
-});
 Route::get('/admin/product-edit', function () {
     return view('admin/product-edit');
 });

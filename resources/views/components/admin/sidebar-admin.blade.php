@@ -63,6 +63,35 @@
             Produk
         </a>
 
+        <a href="{{ url('/admin/categories') }}"
+            class="flex items-center gap-[10px] p-[10px] rounded-lg text-[14px] transition-colors duration-[250ms] mb-[2px] outline-none {{ request()->is('admin/categories*') ? 'bg-primary-500 text-neutral-50 shadow-[0_4px_14px_rgba(125,57,235,0.38)] font-bold' : 'text-[#d7c2f9] font-semibold hover:bg-primary-500/20 hover:text-neutral-50' }}">
+            <span class="w-[18px] shrink-0 flex items-center justify-center">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.16669 4.16667H17.5M9.16669 10H17.5M9.16669 15.8333H17.5"
+                        stroke="{{ request()->is('admin/categories*') ? '#C6FF33' : '#D7C2F9' }}" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                    <path
+                        d="M4.16667 5.83333C5.08714 5.83333 5.83333 5.08714 5.83333 4.16667C5.83333 3.24619 5.08714 2.5 4.16667 2.5C3.24619 2.5 2.5 3.24619 2.5 4.16667C2.5 5.08714 3.24619 5.83333 4.16667 5.83333Z"
+                        stroke="{{ request()->is('admin/categories*') ? '#C6FF33' : '#D7C2F9' }}" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                    <path
+                        d="M4.16667 5.83333C5.08714 5.83333 5.83333 5.08714 5.83333 4.16667C5.83333 3.24619 5.08714 2.5 4.16667 2.5C3.24619 2.5 2.5 3.24619 2.5 4.16667C2.5 5.08714 3.24619 5.83333 4.16667 5.83333Z"
+                        stroke="{{ request()->is('admin/categories*') ? '#C6FF33' : '#D7C2F9' }}" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                    <path
+                        d="M4.16667 11.6667C5.08714 11.6667 5.83333 10.9205 5.83333 9.99999C5.83333 9.07952 5.08714 8.33333 4.16667 8.33333C3.24619 8.33333 2.5 9.07952 2.5 9.99999C2.5 10.9205 3.24619 11.6667 4.16667 11.6667Z"
+                        stroke="{{ request()->is('admin/categories*') ? '#C6FF33' : '#D7C2F9' }}" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                    <path
+                        d="M4.16667 17.5C5.08714 17.5 5.83333 16.7538 5.83333 15.8333C5.83333 14.9129 5.08714 14.1667 4.16667 14.1667C3.24619 14.1667 2.5 14.9129 2.5 15.8333C2.5 16.7538 3.24619 17.5 4.16667 17.5Z"
+                        stroke="{{ request()->is('admin/categories*') ? '#C6FF33' : '#D7C2F9' }}" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </span>
+            Kategori Produk
+        </a>
+
         <a href="{{ url('/admin/orders') }}"
             class="flex items-center gap-[10px] p-[10px] rounded-lg text-[14px] transition-colors duration-[250ms] mb-[2px] outline-none {{ request()->is('admin/orders*') ? 'bg-primary-500 text-neutral-50 shadow-[0_4px_14px_rgba(125,57,235,0.38)] font-bold' : 'text-[#d7c2f9] font-semibold hover:bg-primary-500/20 hover:text-neutral-50' }}">
             <span class="w-[18px] shrink-0 flex items-center justify-center">

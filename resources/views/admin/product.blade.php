@@ -25,7 +25,7 @@
                 (1)</button>
         </div>
 
-        <a href="{{ url('/admin/product-add') }}">
+        <a href="{{ url('/admin/product/create') }}">
             <button
                 class="flex items-center justify-center gap-[6px] px-[16px] py-[8px] bg-primary-500 text-neutral-50 rounded-xl text-[12px] font-bold shadow-[0_0_8px_rgba(114,52,214,0.35)] border-none cursor-pointer transition-all duration-[250ms] whitespace-nowrap shrink-0 hover:bg-[#5928a7] hover:shadow-[0_4px_14px_rgba(125,57,235,0.45)] max-[900px]:hidden">
                 + Tambah Produk
