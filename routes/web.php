@@ -94,6 +94,41 @@ Route::get('/admin/users', function () {
 
 });
 
+Route::get('/admin/reports', function () {
+    return view('admin/reports'); 
+
+});
+
+Route::get('/admin/report-sales', function () {
+    return view('admin/report-sales'); 
+
+});
+
+Route::get('/admin/report-finance', function () {
+    return view('admin/report-finance'); 
+
+});
+
+Route::get('/admin/report-stock', function () {
+    return view('admin/report-stock'); 
+
+});
+
+Route::get('/admin/report-transaction', function () {
+    return view('admin/report-transaction'); 
+
+});
+
+Route::get('/admin/report-review', function () {
+    return view('admin/report-review'); 
+
+});
+
+Route::get('/admin/report-discount', function () {
+    return view('admin/report-discount'); 
+
+});
+
 // Route Admin
 Route::get('/admin/login', [LoginAdminController::class, 'index'])->name('admin.login');
 //submit form
