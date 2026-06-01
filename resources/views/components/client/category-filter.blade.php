@@ -1,59 +1,24 @@
-<section class="flex justify-center items-center mt-2">
+<div class="flex justify-center items-center">
 
-    <div class="w-full max-w-[1400px]
-                flex flex-col sm:flex-row
-                sm:justify-between sm:items-center
-                gap-3
-                px-1 sm:px-4
-                py-1
-                shadow-sm
-                rounded-[15px]
-                bg-neutral-50
-                mb-2">
+    <div class="w-full max-w-[1400px] flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 px-1 md:px-4 py-1 shadow-sm rounded-xl bg-neutral-50">
 
-        {{-- TITLE --}}
-        <span class="font-black hidden sm:flex whitespace-nowrap">
+        {{-- category-title --}}
+        <span class="font-bold text-neutral-800 text-[12px] lg:text-[14px] hidden md:flex whitespace-nowrap">
             Kategori
         </span>
 
-        {{-- FILTERS --}}
-        <ul class="flex gap-2
-                   overflow-x-auto
-                   scrollbar-hide
-                   whitespace-nowrap
-                   text-neutral-500
-                   font-black
-                   w-full sm:w-auto">
-
-            <li class="filter active" data-category="Semua">
-                Semua
-            </li>
-
-            <li class="filter" data-category="Merchandise">
-                Merchandise
-            </li>
-
-            <li class="filter" data-category="Aksesoris">
-                Aksesoris
-            </li>
-
-            <li class="filter" data-category="Makanan">
-                Makanan
-            </li>
-
-            <li class="filter" data-category="Jasa">
-                Jasa
-            </li>
-
-            <li class="filter" data-category="Produk Digital">
-                Produk Digital
-            </li>
-
+        {{-- category-filters --}}
+        <ul class="flex gap-2 overflow-x-auto scrollbar-hide whitespace-nowrap text-neutral-500 font-bold w-full sm:w-auto">
+            <li class="filter text-[12px] lg:text-[14px]  active" data-category="Semua">Semua</li>
+            <li class="filter text-[12px] lg:text-[14px] " data-category="Merchandise">Merchandise</li>
+            <li class="filter text-[12px] lg:text-[14px] " data-category="Aksesoris">Aksesoris</li>
+            <li class="filter text-[12px] lg:text-[14px] " data-category="Makanan">Makanan</li>
+            <li class="filter text-[12px] lg:text-[14px] " data-category="Jasa">Jasa</li>
+            <li class="filter text-[12px] lg:text-[14px] " data-category="Produk Digital">Produk Digital</li>
         </ul>
-
+        
     </div>
-
-</section>
+</div>
 
 <style>
     .filter {
@@ -74,7 +39,7 @@
         color: var(--color-neutral-50);
     }
 
-    /* Hide scrollbar */
+    /* hide-scrollbar */
     .scrollbar-hide::-webkit-scrollbar {
         display: none;
     }
@@ -84,52 +49,55 @@
         scrollbar-width: none;
     }
 
-    @media (max-width: 640px) {
-        .filter {
-            padding: 7px 14px;
-            font-size: 14px;
-        }
-    }
 </style>
+
 <script>
     document.addEventListener("DOMContentLoaded", () => {
 
-    const filters = document.querySelectorAll(".filter");
-    const cards = document.querySelectorAll(".product-card");
+        const filters = document.querySelectorAll(".filter");
+        const cards = document.querySelectorAll(".product-card");
+        const grid = document.querySelector(".product-grid");
 
-    filters.forEach(filter => {
+        // empty state element
+        const emptyState = document.createElement("div");
+        emptyState.id = "empty-state";
+        emptyState.className = "hidden col-span-full flex flex-col items-center justify-center py-16 gap-2 text-center";
+        emptyState.innerHTML = `
+            <p class="text-neutral-500 text-sm font-semibold">Oops! Belum ada produk untuk kategori ini.</p>
+            <p class="text-neutral-400 text-xs">Coba pilih kategori lain atau kembali lagi nanti.</p>
+        `;
+        grid.appendChild(emptyState);
 
-        filter.addEventListener("click", function () {
+        filters.forEach(filter => {
+            filter.addEventListener("click", function () {
 
-            // ACTIVE BUTTON
-            filters.forEach(item => {
-                item.classList.remove("active");
-            });
+                // active-button
+                filters.forEach(item => item.classList.remove("active"));
+                this.classList.add("active");
 
-            this.classList.add("active");
+                const category = this.dataset.category;
+                let visibleCount = 0;
 
-            // CATEGORY YANG DIPILIH
-            const category = this.dataset.category;
+                // filter-products
+                cards.forEach(card => {
+                    const cardCategory = card.dataset.category;
+                    if (category === "Semua" || cardCategory === category) {
+                        card.style.display = "flex";
+                        visibleCount++;
+                    } else {
+                        card.style.display = "none";
+                    }
+                });
 
-            // FILTER PRODUCT
-            cards.forEach(card => {
-
-                const cardCategory = card.dataset.category;
-
-                if (
-                    category === "Semua" ||
-                    cardCategory === category
-                ) {
-                    card.style.display = "flex";
+                // show/hide empty state
+                if (visibleCount === 0) {
+                    emptyState.classList.remove("hidden");
                 } else {
-                    card.style.display = "none";
+                    emptyState.classList.add("hidden");
                 }
 
             });
-
         });
 
     });
-
-});
 </script>
