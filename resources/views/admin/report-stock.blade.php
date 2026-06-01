@@ -1,0 +1,370 @@
+@extends('admin.layouts.layout')
+
+@section('title', 'Laporan Stok Barang')
+
+@section('page_title', 'Laporan & Rekap')
+
+@section('page_breadcrumb', 'Laporan Stok Barang')
+
+@section('content')
+
+    <!-- HEADER -->
+    <div class="flex items-center justify-between mb-[20px] flex-wrap gap-[12px]">
+
+        <div class="flex items-center gap-[14px] mb-[24px]">
+
+            <a href="{{ url('/admin/reports') }}"
+                class="flex items-center justify-center w-[38px] h-[38px] rounded-full bg-neutral-50 border border-primary-500 text-primary-500 shadow-[0_2px_8px_rgba(0,0,0,0.05)] transition-all duration-[250ms] hover:bg-primary-500 hover:text-neutral-50">
+
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+
+                </svg>
+
+            </a>
+
+            <h1 class="text-[20px] font-bold text-neutral-900 m-0">
+                Laporan Stok Barang
+            </h1>
+
+        </div>
+
+        <div class="flex items-center gap-[12px]">
+
+            <button
+                class="flex items-center gap-[8px] px-[18px] py-[10px] rounded-xl border border-primary-500 text-primary-500 bg-neutral-50 font-bold text-[13px] cursor-pointer transition-all duration-[250ms] hover:bg-primary-50">
+                🖨 Print
+            </button>
+
+            <button
+                class="flex items-center gap-[8px] px-[18px] py-[10px] rounded-xl bg-primary-500 text-neutral-50 font-bold text-[13px] shadow-[0_4px_14px_rgba(125,57,235,0.35)] cursor-pointer transition-all duration-[250ms] hover:bg-[#5928a7]">
+                ⬇ Export as Excel
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- FILTER -->
+    <div
+        class="bg-neutral-50 rounded-[20px] p-[18px] shadow-[0_2px_16px_rgba(0,0,0,0.07)] mb-[24px]">
+
+        <div class="flex items-center justify-between flex-wrap gap-[18px]">
+
+            <!-- DATE -->
+            <div class="flex items-center gap-[12px] flex-wrap">
+
+                <div>
+                    <p class="text-[13px] text-neutral-500 mb-[6px]">
+                        From
+                    </p>
+
+                    <input type="date"
+                        class="px-[14px] py-[10px] rounded-xl border border-neutral-200 outline-none text-[13px]">
+                </div>
+
+                <div>
+                    <p class="text-[13px] text-neutral-500 mb-[6px]">
+                        To
+                    </p>
+
+                    <input type="date"
+                        class="px-[14px] py-[10px] rounded-xl border border-neutral-200 outline-none text-[13px]">
+                </div>
+
+            </div>
+
+            <!-- SEARCH -->
+            <div class="flex items-center gap-[10px]">
+
+                <input type="text"
+                    placeholder="Cari ID Pembayaran atau ID Pelanggan"
+                    class="w-[280px] max-[560px]:w-full px-[16px] py-[11px] rounded-xl border border-neutral-200 outline-none text-[13px]">
+
+                <button
+                    class="px-[20px] py-[11px] bg-primary-500 text-neutral-50 rounded-xl font-bold text-[13px] hover:bg-[#5928a7] transition-all duration-[250ms]">
+                    Cari
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- STATISTIC CARD -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-[24px]">
+
+        <!-- CARD -->
+        <div
+            class="relative overflow-hidden rounded-3xl bg-white p-5 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all">
+
+            <div
+                class="absolute top-0 right-0 h-20 w-20 rounded-bl-[100%] bg-violet-500/15">
+            </div>
+
+            <div
+                class="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-violet-100 text-violet-600">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M8.66699 10.7637V17.0605L3.15625 13.6172C3.10847 13.5872 3.06933 13.5454 3.04199 13.4961C3.01464 13.4467 3.00005 13.3914 3 13.335V7.43066L8.66699 10.7637ZM17 13.335C16.9999 13.3914 16.9854 13.4467 16.958 13.4961C16.9307 13.5454 16.8915 13.5872 16.8438 13.6172L11.333 17.0605V10.7627L17 7.42969V13.335ZM10 2.16797C10.0625 2.16797 10.1238 2.18564 10.1768 2.21875L15.2305 5.37695L10 8.4541L4.76855 5.37695L9.82324 2.21875C9.87622 2.18564 9.93753 2.16797 10 2.16797Z" fill="#5928A7" stroke="#5928A7"/>
+                </svg>
+            </div>
+
+            <p
+                class="mb-1 text-[10px] font-extrabold uppercase tracking-[1px] text-neutral-400">
+                Total Produk
+            </p>
+
+            <h2 class="text-3xl font-black text-neutral-950">
+                57
+            </h2>
+
+        </div>
+
+        <!-- CARD -->
+        <div
+            class="relative overflow-hidden rounded-3xl bg-white p-5 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all">
+
+            <div
+                class="absolute top-0 right-0 h-20 w-20 rounded-bl-[100%] bg-red-500/15">
+            </div>
+
+            <div
+                class="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-red-100 text-red-600">
+                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
+                    <path d="M14.3333 14.3333H2.66667C1.33333 14.3333 1 13.2225 1 12.6667V2.66667C1 2.22464 1.17559 1.80072 1.48816 1.48816C1.80072 1.17559 2.22464 1 2.66667 1H11C11.442 1 11.866 1.17559 12.1785 1.48816C12.4911 1.80072 12.6667 2.22464 12.6667 2.66667V7.66667M14.3333 14.3333C13.7775 14.3333 12.6667 14 12.6667 12.6667V7.66667M14.3333 14.3333C15.6667 14.3333 16 13.2225 16 12.6667V7.66667H12.6667" stroke="#C10007" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+
+            <p
+                class="mb-1 text-[10px] font-extrabold uppercase tracking-[1px] text-neutral-400">
+                Total Stock
+            </p>
+
+            <h2 class="text-3xl font-black text-neutral-950">
+                168
+            </h2>
+
+        </div>
+
+        <!-- CARD -->
+        <div
+            class="relative overflow-hidden rounded-3xl bg-white p-5 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all">
+
+            <div
+                class="absolute top-0 right-0 h-20 w-20 rounded-bl-[100%] bg-lime-500/15">
+            </div>
+
+            <div
+                class="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-lime-100 text-lime-700">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M15.8327 4.16667L17.4993 2.5ZM15.8327 4.16667L14.166 2.5ZM15.8327 4.16667L17.4993 5.83333ZM15.8327 4.16667L14.166 5.83333Z" fill="#8DB524"/>
+                    <path d="M15.8327 4.16667L17.4993 2.5M15.8327 4.16667L14.166 2.5M15.8327 4.16667L17.4993 5.83333M15.8327 4.16667L14.166 5.83333" stroke="#8DB524" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M5 3H10.459C10.2885 3.78286 10.2878 4.59592 10.4658 5.38281C10.4688 5.39581 10.4726 5.40891 10.4756 5.42188C10.3251 5.36437 10.1642 5.33301 10 5.33301C9.64653 5.33301 9.30763 5.47379 9.05762 5.72363C8.80757 5.97368 8.66699 6.31337 8.66699 6.66699V13.333C8.66699 13.6866 8.80757 14.0263 9.05762 14.2764C9.30764 14.5262 9.64653 14.667 10 14.667C10.3535 14.667 10.6924 14.5262 10.9424 14.2764C11.1924 14.0263 11.333 13.6866 11.333 13.333V7.32812C11.5148 7.58693 11.7159 7.83306 11.9414 8.05859C12.676 8.79319 13.6039 9.30495 14.6172 9.53418C15.4041 9.71216 16.2171 9.71145 17 9.54102V15C17 15.5304 16.7891 16.039 16.4141 16.4141C16.039 16.7891 15.5304 17 15 17H5C4.46957 17 3.96101 16.7891 3.58594 16.4141C3.21086 16.039 3 15.5304 3 15V5C3 4.46957 3.21086 3.96101 3.58594 3.58594C3.96101 3.21086 4.46957 3 5 3ZM6.66699 7.83301C6.31337 7.83301 5.97368 7.97358 5.72363 8.22363C5.47358 8.47368 5.33301 8.81337 5.33301 9.16699V13.333C5.33301 13.6866 5.47358 14.0263 5.72363 14.2764C5.97368 14.5264 6.31337 14.667 6.66699 14.667C7.02042 14.6669 7.35942 14.5262 7.60938 14.2764C7.85942 14.0263 8 13.6866 8 13.333V9.16699C8 8.81337 7.85942 8.47368 7.60938 8.22363C7.35942 7.97376 7.02042 7.83309 6.66699 7.83301ZM13.333 10.333C12.9796 10.3331 12.6406 10.4738 12.3906 10.7236C12.1406 10.9737 12 11.3134 12 11.667V13.333C12 13.6866 12.1406 14.0263 12.3906 14.2764C12.6406 14.5262 12.9796 14.6669 13.333 14.667C13.6866 14.667 14.0263 14.5264 14.2764 14.2764C14.5264 14.0263 14.667 13.6866 14.667 13.333V11.667C14.667 11.3134 14.5264 10.9737 14.2764 10.7236C14.0263 10.4736 13.6866 10.333 13.333 10.333Z" fill="#8DB524" stroke="#8DB524"/>
+                </svg>
+            </div>
+
+            <p
+                class="mb-1 text-[10px] font-extrabold uppercase tracking-[1px] text-neutral-400">
+                Produk Low Stock
+            </p>
+
+            <h2 class="text-3xl font-black text-neutral-950">
+                9
+            </h2>
+
+        </div>
+
+        <!-- CARD -->
+        <div
+            class="relative overflow-hidden rounded-3xl bg-white p-5 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all">
+
+            <div
+                class="absolute top-0 right-0 h-20 w-20 rounded-bl-[100%] bg-teal-500/15">
+            </div>
+
+            <div
+                class="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-teal-100 text-teal-600">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M1.66602 6.66797C1.66602 6.00493 1.92941 5.36904 2.39825 4.9002C2.86709 4.43136 3.50297 4.16797 4.16602 4.16797H15.8327C16.4957 4.16797 17.1316 4.43136 17.6004 4.9002C18.0693 5.36904 18.3327 6.00493 18.3327 6.66797V13.3346C18.3327 13.9977 18.0693 14.6336 17.6004 15.1024C17.1316 15.5712 16.4957 15.8346 15.8327 15.8346H4.16602C3.50297 15.8346 2.86709 15.5712 2.39825 15.1024C1.92941 14.6336 1.66602 13.9977 1.66602 13.3346V6.66797ZM9.16602 10.0013C9.16602 9.78029 9.25381 9.56833 9.41009 9.41205C9.56637 9.25577 9.77834 9.16797 9.99935 9.16797C10.2204 9.16797 10.4323 9.25577 10.5886 9.41205C10.7449 9.56833 10.8327 9.78029 10.8327 10.0013C10.8327 10.2223 10.7449 10.4343 10.5886 10.5906C10.4323 10.7468 10.2204 10.8346 9.99935 10.8346C9.77834 10.8346 9.56637 10.7468 9.41009 10.5906C9.25381 10.4343 9.16602 10.2223 9.16602 10.0013ZM9.99935 7.5013C9.33631 7.5013 8.70042 7.76469 8.23158 8.23354C7.76274 8.70238 7.49935 9.33826 7.49935 10.0013C7.49935 10.6643 7.76274 11.3002 8.23158 11.7691C8.70042 12.2379 9.33631 12.5013 9.99935 12.5013C10.6624 12.5013 11.2983 12.2379 11.7671 11.7691C12.236 11.3002 12.4993 10.6643 12.4993 10.0013C12.4993 9.33826 12.236 8.70238 11.7671 8.23354C11.2983 7.76469 10.6624 7.5013 9.99935 7.5013Z" fill="#00786F"/>
+                </svg>
+            </div>
+
+            <p
+                class="mb-1 text-[10px] font-extrabold uppercase tracking-[1px] text-neutral-400">
+                % Keuntungan
+            </p>
+
+            <h2 class="text-3xl font-black text-neutral-950">
+                Rp 180.000
+            </h2>
+
+        </div>
+
+    </div>
+
+    <!-- TABLE -->
+    <div
+        class="w-full overflow-x-auto touch-pan-x [&::-webkit-scrollbar]:h-[6px] [&::-webkit-scrollbar-thumb]:bg-neutral-300 [&::-webkit-scrollbar-thumb]:rounded-full">
+
+        <table
+            class="w-full border-collapse bg-neutral-50 rounded-2xl overflow-hidden shadow-[0_2px_16px_rgba(0,0,0,0.07)] min-w-[1200px]">
+
+            <thead class="bg-neutral-100 border-b border-neutral-200">
+
+                <tr>
+
+                    <th
+                        class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
+                        PRODUK
+                    </th>
+
+                    <th
+                        class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
+                        KATEGORI
+                    </th>
+
+                    <th
+                        class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
+                        HARGA JUAL
+                    </th>
+
+                    <th
+                        class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
+                        MODAL
+                    </th>
+
+                    <th
+                        class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
+                        STOCK MASUK
+                    </th>
+
+                    <th
+                        class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
+                        STOCK KELUAR
+                    </th>
+
+                    <th
+                        class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
+                        STOCK
+                    </th>
+
+                    <th
+                        class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
+                        RATING
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <!-- ROW -->
+                <tr class="hover:bg-primary-50 transition-colors duration-[250ms]">
+
+                    <!-- PRODUK -->
+                    <td
+                        class="px-[16px] py-[14px] border-t border-neutral-200 whitespace-nowrap">
+
+                        <div class="flex items-center gap-[10px]">
+
+                            <img src="{{ asset('assets/img/products/jersey.png') }}"
+                                class="w-[42px] h-[42px] rounded-lg object-cover" />
+
+                            <div>
+
+                                <div class="text-[13px] font-bold text-neutral-900">
+                                    Jersey RPL
+                                </div>
+
+                                <div class="text-[11px] text-neutral-400">
+                                    By Rekaps
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+                    <!-- KATEGORI -->
+                    <td
+                        class="px-[16px] py-[14px] border-t border-neutral-200 whitespace-nowrap">
+
+                        <span
+                            class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-primary-500/15 text-primary-500">
+                            Ready
+                        </span>
+
+                    </td>
+
+                    <!-- HARGA -->
+                    <td
+                        class="px-[16px] py-[14px] text-[13px] font-bold text-neutral-900 border-t border-neutral-200 whitespace-nowrap">
+                        Rp75.000
+                    </td>
+
+                    <!-- MODAL -->
+                    <td
+                        class="px-[16px] py-[14px] text-[13px] text-neutral-500 border-t border-neutral-200 whitespace-nowrap">
+                        Rp45.000
+                    </td>
+
+                    <!-- MASUK -->
+                    <td
+                        class="px-[16px] py-[14px] border-t border-neutral-200 whitespace-nowrap">
+
+                        <span
+                            class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-[#c6ff33]/20 text-[#7ba600]">
+                            2 pcs
+                        </span>
+
+                    </td>
+
+                    <!-- KELUAR -->
+                    <td
+                        class="px-[16px] py-[14px] border-t border-neutral-200 whitespace-nowrap">
+
+                        <span
+                            class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-red-100 text-red-500">
+                            2 pcs
+                        </span>
+
+                    </td>
+
+                    <!-- STOCK -->
+                    <td
+                        class="px-[16px] py-[14px] border-t border-neutral-200 whitespace-nowrap">
+
+                        <span
+                            class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-red-100 text-red-500">
+                            2 pcs
+                        </span>
+
+                    </td>
+
+                    <!-- RATING -->
+                    <td
+                        class="px-[16px] py-[14px] text-[13px] border-t border-neutral-200 whitespace-nowrap">
+
+                        <div class="flex items-center gap-[4px] font-semibold">
+
+                            ⭐ 4.8
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+@endsection
