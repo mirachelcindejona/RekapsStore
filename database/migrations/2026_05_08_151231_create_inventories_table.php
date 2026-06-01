@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->integer('main_stock')->default(0);
-            $table->integer('bazaar_stock')->default(0);
+            $table->integer('bazar_stock')->default(0);
             $table->integer('min_stock')->default(0);
             $table->timestamps();
         });

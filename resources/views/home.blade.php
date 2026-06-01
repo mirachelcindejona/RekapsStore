@@ -1,5 +1,9 @@
 @extends('components.client.layout')
 
+@section('navbar')
+<x-client.navbar-main variant="search"></x-client.navbar-main>
+@endsection
+
 @section('content')
     {{-- carousel --}}
     <div class="hidden sm:flex"> 
@@ -8,17 +12,17 @@
     {{-- category-filter --}}
     <x-client.category-filter></x-client.category-filter>
     {{-- products --}}
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-2 items-stretch">
+    <div class="product-grid grid grid-cols-2 min-[480px]:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 items-stretch">
         @foreach ($products as $product)
         <x-client.product-card
-            :link="route('product-detail', $product['id'])"
-            :discount="$product['discount']"
-            :image="$product['image']"
-            :name="$product['name']"
-            :price="$product['price']"
-            :rating="$product['rating']"
-            :reviews="$product['reviews']"
-            :category="$product['category']"
+            :link="route('product-detail', $product->id)"
+            :discount="$product->discount"
+            :image="$product->images->first()->image_path ?? 'assets/images/placeholder.png'"
+            :name="$product->name"
+            :price="$product->selling_price"
+            :rating="$product->reviews->avg('rating') ?? 0"
+            :reviews="$product->reviews->count()"
+            :category="$product->category->name ?? '-'"
         />
         @endforeach
     </div>

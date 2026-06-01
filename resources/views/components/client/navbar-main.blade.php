@@ -1,69 +1,157 @@
-<nav class="flex flex-col shadow-md gap-2 px-2 sm:px-5 py-2 fixed bg-neutral-50 w-full box-border z-50">
-    <div class="flex gap-2">
+@props([
+    'variant' => 'search',
+    'title' => ''
+])
+
+<nav class="shadow-md px-2 sm:px-5 py-2 fixed bg-neutral-50 w-full box-border z-50">
+
+    {{-- ========================= --}}
+    {{-- MOBILE PAGE NAVBAR --}}
+    {{-- ========================= --}}
+    @if ($variant === 'page')
+
+        <div class="flex sm:hidden items-center justify-between gap-3">
+
+            {{-- LEFT --}}
+            <div class="flex items-center gap-3">
+                <a href="{{ url()->previous() }}" class="flex items-center justify-center">
+                    <img src="{{ asset('assets/icons/back-big.svg') }}" alt="">
+                </a>
+                <h1 class="font-semibold leading-4 text-sm text-neutral-700"> {{ $title }} </h1>
+            </div>
+
+            {{-- navbar-menu --}}
+            <div class="flex flex-1 justify-end items-center gap-1.5">
+
+                <a href="#" class="searchbox w-[40px] h-[40px] flex items-center justify-center bg-neutral-200 rounded-lg hover:bg-primary-500 transition-all duration-300 ease-in-out cursor-pointer">
+                    <img class="search" src="{{ asset('assets/icons/search-line.svg') }}" alt="">
+                </a>
+
+                <a href="#" class="historybox w-[40px] h-[40px] flex items-center justify-center bg-neutral-200 rounded-lg hover:bg-primary-500 transition-all duration-300 ease-in-out cursor-pointer">
+                    <img class="history" src="{{ asset('assets/icons/history-home.svg') }}" alt="">
+                </a>
+
+                <a href="#" class="notifbox w-[40px] h-[40px] flex items-center justify-center bg-neutral-200 rounded-lg hover:bg-primary-500 transition-all duration-300 ease-in-out cursor-pointer">
+                    <img class="notif" src="{{ asset('assets/icons/bell-nav.svg') }}" alt="">
+                </a>
+
+                <a href="#" class="text-neutral-50 w-[40px] h-[40px] text-sm font-medium flex items-center justify-center bg-teal-600 rounded-lg">
+                    <span>GA</span>
+                </a>
+
+            </div>
+
+        </div>
+
+    @endif
+
+    {{-- ========================= --}}
+    {{-- DESKTOP / DEFAULT NAVBAR --}}
+    {{-- ========================= --}}
+    <div class="{{ $variant === 'page' ? 'hidden sm:flex' : 'flex' }} gap-2">
+
         {{-- navbar-logo --}}
         <div class="hidden md:flex">
             <img src="{{ asset('assets/icons/logo-rekaps-text.svg') }}" width="180px" alt="">
         </div>
+
         {{-- navbar-searchbar --}}
-        <div class="flex flex-2 md:flex-6 justify-start sm:justify-end items-center flex-2">
+        <div class="flex flex-2 md:flex-6 justify-start sm:justify-end items-center">
+
             <form action="#" method="GET" class="h-[40px] flex w-full bg-neutral-200 items-center px-2 py-2 rounded-lg gap-2">
-                <button type="submit" class="cursor-pointer">
+
+                <button type="submit">
                     <img src="{{ asset('assets/icons/search-line.svg') }}" alt="">
                 </button>
-                <input type="text" name="search" id="search" placeholder="Cari di Rekaps Store" class="outline-none w-full text-[12px]">
+
+                <input type="text" placeholder="Cari di Rekaps Store" class="outline-none w-full text-[12px] bg-transparent">
+
             </form>
+
         </div>
+
         {{-- navbar-menu --}}
-        <div class="flex flex-1 md:flex-1 justify-end items-center gap-1.5">
-            <div class="w-[40px] h-[40px] flex cartbox p-2 items-center justify-center bg-neutral-200 rounded-lg sm:rounded-xl hover:bg-primary-500 cursor-pointer">
-                <img class="cart cursor-pointer" src="{{ asset('assets/icons/cart-line.svg') }}" alt="">
-            </div>
-            <div class="w-[40px] h-[40px] historybox flex p-2 items-center justify-center bg-neutral-200 rounded-lg sm:rounded-xl hover:bg-primary-500 cursor-pointer">
-                <img class="history cursor-pointer" src="{{ asset('assets/icons/history-home.svg') }}" alt="">
-            </div>
-            <div class="w-[40px] h-[40px] notifbox flex p-2 items-center justify-center bg-neutral-200 rounded-lg sm:rounded-xl hover:bg-primary-500 cursor-pointer">
-                <img class="notif cursor-pointer" src="{{ asset('assets/icons/bell-nav.svg') }}" alt="">
-            </div>
-            <div class="text-neutral-50 w-[40px] h-[40px] text-sm font-medium historybox flex p-2 items-center justify-center bg-teal-600 rounded-lg sm:rounded-xl cursor-pointer">
+        <div class="flex flex-1 justify-end items-center gap-1.5">
+
+            <a href="/cart" class="cartbox w-[40px] h-[40px] flex items-center justify-center bg-neutral-200 rounded-lg hover:bg-primary-500 transition-all duration-300 ease-in-out cursor-pointer">
+                <img class="cart" src="{{ asset('assets/icons/cart-line.svg') }}" alt="">
+            </a>
+
+            <a href="#" class="historybox w-[40px] h-[40px] flex items-center justify-center bg-neutral-200 rounded-lg hover:bg-primary-500 transition-all duration-300 ease-in-out cursor-pointer">
+                <img class="history" src="{{ asset('assets/icons/history-home.svg') }}" alt="">
+            </a>
+
+            <a href="#" class="notifbox w-[40px] h-[40px] flex items-center justify-center bg-neutral-200 rounded-lg hover:bg-primary-500 transition-all duration-300 ease-in-out cursor-pointer">
+                <img class="notif" src="{{ asset('assets/icons/bell-nav.svg') }}" alt="">
+            </a>
+
+            <a href="#" class="text-neutral-50 w-[40px] h-[40px] text-sm font-medium flex items-center justify-center bg-teal-600 rounded-lg">
                 <span>GA</span>
-            </div>
+            </a>
+
         </div>
+
     </div>
+
 </nav>
 <script>
-    const cartbox = document.querySelector('.cartbox');
-    const cart = document.querySelector('.cart');
+    // CART
+    document.querySelectorAll('.cartbox').forEach((box) => {
+        const icon = box.querySelector('.cart');
 
-    cartbox.addEventListener('mouseenter', () => {
-        cart.src = 'assets/icons/cart-lw.svg';
-        cart.style.cursor = 'pointer';
+        box.addEventListener('mouseenter', () => {
+            icon.src = '/assets/icons/cart-lw.svg';
+        });
+
+        box.addEventListener('mouseleave', () => {
+            setTimeout(() => {
+                icon.src = '/assets/icons/cart-line.svg';
+            }, 200);
+        });
     });
 
-    cartbox.addEventListener('mouseleave', () => {
-        cart.src = 'assets/icons/cart-line.svg';
+    // HISTORY
+    document.querySelectorAll('.historybox').forEach((box) => {
+        const icon = box.querySelector('.history');
+
+        box.addEventListener('mouseenter', () => {
+            icon.src = '/assets/icons/history-home-lw.svg';
+        });
+
+        box.addEventListener('mouseleave', () => {
+            setTimeout(() => {
+                icon.src = '/assets/icons/history-home.svg';
+            }, 200);
+        });
     });
 
-    const historybox = document.querySelector('.historybox');
-    const history = document.querySelector('.history');
+    // NOTIFICATION
+    document.querySelectorAll('.notifbox').forEach((box) => {
+        const icon = box.querySelector('.notif');
 
-    historybox.addEventListener('mouseenter', () => {
-        history.src = 'assets/icons/history-home-lw.svg';
-        history.style.cursor = 'pointer';
+        box.addEventListener('mouseenter', () => {
+            icon.src = '/assets/icons/bell-nav-h.svg';
+        });
+
+        box.addEventListener('mouseleave', () => {
+            setTimeout(() => {
+                icon.src = '/assets/icons/bell-nav.svg';
+            }, 200);
+        });
     });
 
-    historybox.addEventListener('mouseleave', () => {
-        history.src = 'assets/icons/history-home.svg';
-    });
+    // ACCOUNT
+    document.querySelectorAll('.accountbox').forEach((box) => {
+        const icon = box.querySelector('.account');
 
-    const historybox = document.querySelector('.historybox');
-    const history = document.querySelector('.history');
+        box.addEventListener('mouseenter', () => {
+            icon.src = '/assets/icons/user-anonymous-lw.svg';
+        });
 
-    notifbox.addEventListener('mouseenter', () => {
-        notif.src = 'assets/icons/bell-nav-h.svg';
-        notif.style.cursor = 'pointer';
-    });
-
-    notifbox.addEventListener('mouseleave', () => {
-        notif.src = 'assets/icons/bell-nav.svg';
+        box.addEventListener('mouseleave', () => {
+            setTimeout(() => {
+                icon.src = '/assets/icons/user-anonymous.svg';
+            }, 200);
+        });
     });
 </script>

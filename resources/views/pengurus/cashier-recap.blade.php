@@ -13,7 +13,7 @@
 
             <div class="flex flex-wrap gap-[12px]">
                 <button
-                    class="px-[16px] py-[8px] bg-[#7D39EB] shadow-[0_0_8px_rgba(125,57,235,0.35)] rounded-full text-white text-[14px] font-bold transition-colors">
+                    class="px-[16px] py-[8px] bg-primary-500 shadow-[0_0_8px_rgba(125,57,235,0.35)] rounded-full text-white text-[14px] font-bold transition-colors">
                     Hari ini
                 </button>
                 <button
@@ -277,18 +277,19 @@
     <!-- MODAL DETAIL PESANAN / STRUK KASIR -->
     <div id="modalDetailPesanan" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 hidden">
         <div
-            class="bg-[#FAFAFA] w-full max-w-[550px] rounded-[20px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] p-[20px] flex flex-col items-center gap-[20px]">
+            class="bg-neutral-50 w-full max-w-[550px] rounded-[20px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] p-[20px] flex flex-col items-center gap-[20px]">
 
             <!-- Receipt Box (Same as Modal 5) -->
-            <div class="bg-[#F5F5F5] rounded-[12px] p-[28px_20px] flex flex-col gap-[8px] w-full">
+            <div class="bg-neutral-100 rounded-[12px] p-[28px_20px] flex flex-col gap-[8px] w-full">
                 <div class="flex flex-col items-center gap-[4px] w-full pb-[16px] border-b-[0.2px] border-black">
-                    <span class="font-['Carattere'] text-[32px] text-[#7D39EB] text-center leading-[1] italic">Rekaps
+                    <span class="font-['Carattere'] text-[32px] text-primary-500 text-center leading-[1] italic">Rekaps
                         Store</span>
-                    <span class="font-['Montserrat'] text-[12px] font-normal text-[#737373] text-center">DEPARTEMEN EKONOMI
+                    <span class="font-['Montserrat'] text-[12px] font-normal text-neutral-500 text-center">DEPARTEMEN
+                        EKONOMI
                         KREATIF</span>
                     <div class="flex items-center gap-[12px]">
-                        <span class="font-['Montserrat'] text-[12px] font-semibold text-[#737373]">@himarpl</span>
-                        <span class="font-['Montserrat'] text-[12px] font-semibold text-[#737373]">@rekaps.store</span>
+                        <span class="font-['Montserrat'] text-[12px] font-semibold text-neutral-500">@himarpl</span>
+                        <span class="font-['Montserrat'] text-[12px] font-semibold text-neutral-500">@rekaps.store</span>
                     </div>
                 </div>
 
@@ -350,7 +351,7 @@
 
                 <div class="flex justify-between items-center w-full pt-[8px]">
                     <span class="font-['Montserrat'] text-[14px] font-bold text-black">Total</span>
-                    <span class="font-['Montserrat'] text-[14px] font-bold text-[#7D39EB]">Rp 10.000</span>
+                    <span class="font-['Montserrat'] text-[14px] font-bold text-primary-500">Rp 10.000</span>
                 </div>
                 <div class="flex justify-between items-center w-full mt-[4px]">
                     <span class="font-['Montserrat'] text-[12px] font-medium text-black">Metode Bayar</span>
@@ -361,10 +362,10 @@
             <!-- Buttons -->
             <div class="flex gap-[12px] w-full mt-[10px]">
                 <button
-                    class="flex-1 h-[48px] bg-[#FAFAFA] border border-[#7D39EB] shadow-[0_2px_4px_rgba(62,52,69,0.25)] rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-[#7D39EB] flex justify-center items-center hover:bg-[#7D39EB] hover:text-white transition-colors cursor-pointer"
+                    class="flex-1 h-[48px] bg-neutral-50 border border-primary-500 shadow-[0_2px_4px_rgba(62,52,69,0.25)] rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-primary-500 flex justify-center items-center hover:bg-primary-500 hover:text-white transition-colors cursor-pointer"
                     onclick="closeModal('modalDetailPesanan')">Kembali</button>
                 <button
-                    class="flex-1 h-[48px] bg-[#7D39EB] shadow-[0_0_8px_rgba(114,52,214,0.35)] rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-white flex justify-center items-center gap-[8px] hover:opacity-90 transition-opacity cursor-pointer">
+                    class="flex-1 h-[48px] bg-primary-500 shadow-[0_0_8px_rgba(114,52,214,0.35)] rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-white flex justify-center items-center gap-[8px] hover:opacity-90 transition-opacity cursor-pointer">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="6 9 6 2 18 2 18 9"></polyline>
