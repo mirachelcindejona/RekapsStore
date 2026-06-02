@@ -12,11 +12,26 @@ use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with(['category', 'inventory'])->latest()->get();
-        // Pastikan kamu punya view admin.product.index
-        return view('admin.product', compact('products'));
+        // Hitung total semua produk
+        $totalProducts = Product::count();
+
+        // Ambil data kategori beserta jumlah produk di masing-masing kategori
+        $categories = CategoryProduct::withCount('products')->get();
+
+        // Siapkan query produk utama (beserta relasi gambar, kategori, dan inventori)
+        $query = Product::with(['category', 'inventory', 'images'])->latest();
+
+        // Jika ada request filter kategori dari URL (?category=ID)
+        if ($request->has('category') && $request->category != '') {
+            $query->where('category_product_id', $request->category);
+        }
+
+        // Eksekusi query
+        $products = $query->get();
+
+        return view('admin.product', compact('products', 'categories', 'totalProducts'));
     }
 
     public function create()
