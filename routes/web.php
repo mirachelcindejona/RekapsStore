@@ -59,6 +59,8 @@ Route::get('/admin', function () {
 
 Route::prefix('admin')->group(function () {
     Route::resource('product', ProductController::class);
+    Route::get('product/{product}', [ProductController::class, 'show']);
+    Route::post('/product/{slug}/stock', [ProductController::class, 'updateStock']);
     
     Route::get('categories', [CategoryProductController::class, 'index']);
     Route::post('categories', [CategoryProductController::class, 'store']);

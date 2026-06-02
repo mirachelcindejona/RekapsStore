@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('stock_histories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete(); // Relasi ke pencatat (Admin/Pengurus)
-            $table->enum('mutation_type', ['in', 'out']);
-            $table->string('category', 100);
-            $table->integer('quantity'); // Jumlah pergerakan
-            $table->integer('balance'); // Sisa stok saat itu
-            $table->text('notes')->nullable();
+            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->foreignId('product_variant_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null'); 
+            $table->enum('type', ['Masuk', 'Keluar']);
+            $table->enum('location', ['Online', 'Bazar']);
+            $table->integer('qty');
+            $table->string('note');
             $table->timestamps();
         });
     }
