@@ -30,7 +30,7 @@ class ProductSeeder extends Seeder
                 'cost_price'   => 100000,
                 'selling_price'=> 150000,
                 'discount'     => 20,
-                'voucher_code' => null,
+                
                 'status'       => 'Aktif',
                 'created_at'   => now(),
                 'updated_at'   => now(),
@@ -49,7 +49,7 @@ class ProductSeeder extends Seeder
                 'cost_price'   => 5000,
                 'selling_price'=> 10000,
                 'discount'     => 0,
-                'voucher_code' => null,
+                
                 'status'       => 'Aktif',
                 'created_at'   => now(),
                 'updated_at'   => now(),
@@ -68,7 +68,7 @@ class ProductSeeder extends Seeder
                 'cost_price'   => 180000,
                 'selling_price'=> 230000,
                 'discount'     => 10,
-                'voucher_code' => null,
+                
                 'status'       => 'Aktif',
                 'created_at'   => now(),
                 'updated_at'   => now(),
@@ -87,7 +87,7 @@ class ProductSeeder extends Seeder
                 'cost_price'   => 20000,
                 'selling_price'=> 35000,
                 'discount'     => 0,
-                'voucher_code' => null,
+                
                 'status'       => 'Aktif',
                 'created_at'   => now(),
                 'updated_at'   => now(),
@@ -106,7 +106,7 @@ class ProductSeeder extends Seeder
                 'cost_price'   => 100000,
                 'selling_price'=> 150000,
                 'discount'     => 30,
-                'voucher_code' => null,
+                
                 'status'       => 'Aktif',
                 'created_at'   => now(),
                 'updated_at'   => now(),
@@ -125,7 +125,7 @@ class ProductSeeder extends Seeder
                 'cost_price'   => 5000,
                 'selling_price'=> 15000,
                 'discount'     => 0,
-                'voucher_code' => null,
+                
                 'status'       => 'Aktif',
                 'created_at'   => now(),
                 'updated_at'   => now(),
@@ -144,7 +144,7 @@ class ProductSeeder extends Seeder
                 'cost_price'   => 5000,
                 'selling_price'=> 10000,
                 'discount'     => 0,
-                'voucher_code' => null,
+                
                 'status'       => 'Aktif',
                 'created_at'   => now(),
                 'updated_at'   => now(),
@@ -163,7 +163,7 @@ class ProductSeeder extends Seeder
                 'cost_price'   => 30000,
                 'selling_price'=> 75000,
                 'discount'     => 15,
-                'voucher_code' => null,
+                
                 'status'       => 'Aktif',
                 'created_at'   => now(),
                 'updated_at'   => now(),
@@ -182,7 +182,7 @@ class ProductSeeder extends Seeder
                 'cost_price'   => 25000,
                 'selling_price'=> 55000,
                 'discount'     => 0,
-                'voucher_code' => null,
+                
                 'status'       => 'Aktif',
                 'created_at'   => now(),
                 'updated_at'   => now(),
@@ -201,7 +201,7 @@ class ProductSeeder extends Seeder
                 'cost_price'   => 8000,
                 'selling_price'=> 20000,
                 'discount'     => 10,
-                'voucher_code' => null,
+                
                 'status'       => 'Aktif',
                 'created_at'   => now(),
                 'updated_at'   => now(),
@@ -220,7 +220,7 @@ class ProductSeeder extends Seeder
                 'cost_price'   => 8000,
                 'selling_price'=> 18000,
                 'discount'     => 0,
-                'voucher_code' => null,
+                
                 'status'       => 'Aktif',
                 'created_at'   => now(),
                 'updated_at'   => now(),
@@ -239,7 +239,7 @@ class ProductSeeder extends Seeder
                 'cost_price'   => 10000,
                 'selling_price'=> 25000,
                 'discount'     => 20,
-                'voucher_code' => null,
+                
                 'status'       => 'Aktif',
                 'created_at'   => now(),
                 'updated_at'   => now(),
@@ -258,7 +258,7 @@ class ProductSeeder extends Seeder
                 'cost_price'   => 200000,
                 'selling_price'=> 500000,
                 'discount'     => 10,
-                'voucher_code' => null,
+                
                 'status'       => 'Aktif',
                 'created_at'   => now(),
                 'updated_at'   => now(),
@@ -277,7 +277,7 @@ class ProductSeeder extends Seeder
                 'cost_price'   => 120000,
                 'selling_price'=> 250000,
                 'discount'     => 5,
-                'voucher_code' => null,
+                
                 'status'       => 'Aktif',
                 'created_at'   => now(),
                 'updated_at'   => now(),
@@ -296,7 +296,7 @@ class ProductSeeder extends Seeder
                 'cost_price'   => 10000,
                 'selling_price'=> 25000,
                 'discount'     => 0,
-                'voucher_code' => null,
+                
                 'status'       => 'Aktif',
                 'created_at'   => now(),
                 'updated_at'   => now(),
@@ -344,6 +344,7 @@ class ProductSeeder extends Seeder
                     'product_id'     => $id,
                     'variant_name'   => 'Ukuran',
                     'variant_values' => json_encode($variants[$product['slug']]),
+                    'variant_stock' => json_encode(array_fill(0, count($variants[$product['slug']]), 10)),
                     'created_at'     => now(),
                     'updated_at'     => now(),
                 ]);

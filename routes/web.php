@@ -6,7 +6,11 @@ use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\auth\registerController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\Admin\CategoryProductController;
+use App\Models\FinanceTransactions;
 use App\Models\Product;
+use Illuminate\Http\Request;
+use App\Exports\FinanceExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 $vouchers = [
     [
@@ -81,8 +85,88 @@ Route::get('/pengurus/cashier-recap', function () {
     return view('pengurus/cashier-recap');
 });
 
-Route::get('/admin/finance', function () {
-    return view('admin/finance');
+Route::get('/admin/finance', function (Request $request) {
+
+    $transactions = FinanceTransactions::query()
+
+        ->when($request->search, function ($query) use ($request) {
+
+            $query->where('description', 'like', '%' . $request->search . '%')
+                  ->orWhere('category', 'like', '%' . $request->search . '%');
+
+        })
+
+        ->when($request->type && $request->type != 'Semua', function ($query) use ($request) {
+
+            $query->where('type', $request->type);
+
+        })
+
+        ->when($request->from_date, function ($query) use ($request) {
+
+            $query->whereDate('date', '>=', $request->from_date);
+
+        })
+
+        ->when($request->to_date, function ($query) use ($request) {
+
+            $query->whereDate('date', '<=', $request->to_date);
+
+        })
+
+        ->latest()
+        ->get();
+
+        $totalIncome = FinanceTransactions::where('type', 'Pemasukan')->sum('amount');
+
+        $totalExpense = FinanceTransactions::where('type', 'Pengeluaran')->sum('amount');
+
+        $balance = $totalIncome - $totalExpense;
+
+    return view(
+        'admin.finance',
+        compact('transactions',
+        'totalIncome',
+        'totalExpense',
+        'balance'
+        )
+    );
+});
+
+Route::post('/admin/finance/store', function (Request $request) {
+
+    FinanceTransactions::create([
+        'date' => $request->date,
+        'description' => $request->description,
+        'category' => $request->category,
+        'type' => $request->type,
+        'amount' => $request->amount,
+    ]);
+
+    return redirect('/admin/finance');
+
+});
+
+Route::delete('/admin/finance/delete/{id}', function ($id) {
+
+    FinanceTransactions::findOrFail($id)->delete();
+
+    return redirect('/admin/finance');
+
+});
+
+Route::post('/admin/finance/update/{id}', function (Illuminate\Http\Request $request, $id) {
+
+    FinanceTransactions::findOrFail($id)->update([
+        'amount' => $request->amount,
+        'type' => $request->type,
+        'date' => $request->date,
+        'category' => $request->category,
+        'description' => $request->description,
+    ]);
+
+    return redirect('/admin/finance');
+
 });
 
 Route::get('/admin/promo', function () {
@@ -106,6 +190,72 @@ Route::get('/admin/report-sales', function () {
 
 Route::get('/admin/report-finance', function () {
     return view('admin/report-finance'); 
+
+});
+
+Route::get('/admin/report-finance', function () {
+
+    $query = FinanceTransactions::query();
+
+    if (request('search')) {
+        $query->where(
+            'description',
+            'like',
+            '%' . request('search') . '%'
+        );
+    }
+
+    if (request('from_date')) {
+        $query->whereDate(
+            'date',
+            '>=',
+            request('from_date')
+        );
+    }
+
+    if (request('to_date')) {
+        $query->whereDate(
+            'date',
+            '<=',
+            request('to_date')
+        );
+    }
+
+    $transactions = $query
+        ->latest()
+        ->get();
+
+    $totalIncome = (clone $query)
+        ->where('type', 'Pemasukan')
+        ->sum('amount');
+
+    $totalExpense = (clone $query)
+        ->where('type', 'Pengeluaran')
+        ->sum('amount');
+
+    $balance = $totalIncome - $totalExpense;
+
+    $totalTransactions = $transactions->count();
+
+    return view(
+        'admin.report-finance',
+        compact(
+            'transactions',
+            'totalIncome',
+            'totalExpense',
+            'balance',
+            'totalTransactions'
+        )
+    );
+
+});
+
+Route::get('/admin/report-finance/export', function () {
+
+    return Excel::download(
+        new FinanceExport,
+        'laporan-keuangan.xlsx'
+    );
 
 });
 

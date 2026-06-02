@@ -26,5 +26,9 @@ class DatabaseSeeder extends Seeder
             CategoryProductSeeder::class,
             ProductSeeder::class,
         ]);
+
+        $this->call([
+            FinanceTransactionSeeder::class,
+        ]);
     }
 }
