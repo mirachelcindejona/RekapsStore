@@ -17,38 +17,38 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $request->validate([
+        $credentials = $request->validate([
             'username' => 'required',
             'password' => 'required',
         ]);
 
-        $user = User::query()
-            ->where('username', $request->username)
-            ->first();
+        $credentials['status'] = 'active';
 
-        if (!$user) {
+        if (Auth::attempt($credentials)) {
+            
+            $user = Auth::user();
+
+            // Cek role via Spatie
+            if (!$user->hasRole('customer')) {
+                Auth::logout();
+                return back()->withErrors([
+                    'username' => 'Silakan login melalui panel admin.'
+                ]);
+            }
+
+            $request->session()->regenerate();
+            return redirect('/');
+        }
+
+        $userExists = User::where('username', $request->username)->first();
+        if ($userExists && $userExists->status !== 'active') {
             return back()->withErrors([
-                'username' => 'Username tidak ditemukan'
+                'username' => 'Akun Anda dinonaktifkan atau diblokir.'
             ])->withInput();
         }
 
-        if (!Hash::check(
-            $request->password,
-            $user->password
-        )) {
-            return back()->withErrors([
-                'password' => 'Password salah'
-            ])->withInput();
-        }
-
-        if ($user->role != 'customer') {
-            return back()->withErrors([
-                'username' => 'Silakan login melalui admin'
-            ]);
-        }
-
-        Auth::login($user);
-        $request->session()->regenerate();
-        return redirect('/');
+        return back()->withErrors([
+            'username' => 'Username atau Password salah'
+        ])->withInput();
     }
 }

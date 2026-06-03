@@ -1,51 +1,44 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\admin\auth\LoginAdminController;
-use App\Http\Controllers\auth\LoginController;
-use App\Http\Controllers\auth\RegisterController;
-use App\Http\Controllers\admin\ProductController;
-use App\Http\Controllers\Admin\CategoryProductController;
 use App\Models\Product;
-use App\Http\Controllers\auth\ForgotPasswordController;
+
+// Controller Admin
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\CategoryProductController;
+use App\Http\Controllers\Admin\PengurusController;
+use App\Http\Controllers\Admin\Auth\LoginAdminController;
+use App\Http\Controllers\Admin\Auth\ForgotPasswordAdminController;
+use App\Http\Controllers\Admin\Auth\VerificationCodeAdminController;
+use App\Http\Controllers\Admin\Auth\ResetPasswordAdminController;
+
+// Controller User
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\VerificationCodeController;
 use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\admin\auth\ForgotPasswordAdminController;
-use App\Http\Controllers\admin\auth\VerificationCodeAdminController;
-use App\Http\Controllers\admin\auth\ResetPasswordAdminController;
-use App\Http\Controllers\Admin\PengurusController;
 
 $vouchers = [
-    [
-        "name" => "Diskon Bazaar",
-        "desc" => "Lorem ipsum dolor sit amet",
-        "off" => 10,
-        "value" => "bazaar",
-        "checked" => false,  
-        "disabled" => false
-    ],
-    [
-        "name" => "Diskon Diesnat",
-        "desc" => "Lorem ipsum dolor sit amet",
-        "off" => 10,
-        "value" => "bazaar",
-        "checked" => false,  
-        "disabled" => false
-    ],
+    ["name" => "Diskon Bazaar", "desc" => "Lorem ipsum dolor sit amet", "off" => 10, "value" => "bazaar", "checked" => false, "disabled" => false],
+    ["name" => "Diskon Diesnat", "desc" => "Lorem ipsum dolor sit amet", "off" => 10, "value" => "bazaar", "checked" => false, "disabled" => false],
 ];
+
+// 1. PUBLIC ROUTES (Halaman Pengunjung & Pembeli)
+Route::get('/', function () {
+    $products = Product::with(['category', 'images', 'variants', 'reviews'])->get();
+    return view('index', compact('products'));
+});
 
 Route::get('/home', function () {
     $products = Product::with(['category', 'images', 'variants', 'reviews'])->get();
     return view('home', compact('products'));
 });
 
-Route::get('/', function () {
-    $products = Product::with(['category', 'images', 'variants', 'reviews'])->get();
-    return view('index', compact('products'));
-});
-
-Route::get('/product/{id}', function ($id) {
-    $product = Product::with(['category', 'images', 'variants', 'reviews.user'])->findOrFail($id);
+Route::get('/product/{slug}', function ($slug) {
+    $product = Product::with(['category', 'images', 'variants', 'reviews.user'])
+                ->where('slug', $slug)
+                ->firstOrFail();
     return view('product-detail', compact('product'));
 })->name('product-detail');
 
@@ -59,267 +52,130 @@ Route::get('/checkout', function() use ($vouchers) {
     return view('checkout', compact('products', 'vouchers'));
 });
 
-//pengurus dan admin
-Route::prefix('admin')
-    ->middleware([
-        'auth',
-        'role:admin|pengurus'
-    ])
-    ->group(function () {
 
-    Route::get('/pengurus/cashier', function () {
-        return view('pengurus/cashier');
-    });
-    Route::get('/pengurus/cashier-orders', function () {
-        return view('pengurus/cashier-orders');
-    });
-    Route::get('/pengurus/cashier-recap', function () {
-        return view('pengurus/cashier-recap');
+// 2. AUTENTIKASI (Hanya bisa diakses jika BELUM login / Guest)
+Route::middleware('guest')->group(function () {
+
+    // --- AUTH USER / CUSTOMER ---
+    Route::controller(LoginController::class)->group(function () {
+        Route::get('/login', 'index')->name('login');
+        Route::post('/login', 'login')->name('login.submit');
     });
 
-        //dashboard
-        Route::get('/', function () {
-            return view('admin/dashboard');
+    Route::controller(RegisterController::class)->group(function () {
+        Route::get('/register', 'index')->name('register');
+        Route::post('/register', 'register')->name('register.submit');
+    });
+
+    Route::controller(ForgotPasswordController::class)->group(function () {
+        Route::get('/forgot-password', 'index')->name('forgot.password');
+        Route::post('/forgot-password', 'sendCode')->name('forgot.password.send');
+    });
+
+    Route::controller(VerificationCodeController::class)->group(function () {
+        Route::get('/verification-code', 'index')->name('verification.code');
+        Route::post('/verification-code', 'verify')->name('verification.code.verify');
+    });
+
+    Route::controller(ResetPasswordController::class)->group(function () {
+        Route::get('/reset-password', 'index')->name('reset.password');
+        Route::post('/reset-password', 'update')->name('reset.password.update');
+    });
+
+    // --- AUTH ADMIN ---
+    Route::prefix('admin')->group(function () {
+        Route::controller(LoginAdminController::class)->group(function () {
+            Route::get('/login', 'index')->name('admin.login');
+            Route::post('/login', 'login')->name('admin.login.submit');
+        });
+
+        Route::controller(ForgotPasswordAdminController::class)->group(function () {
+            Route::get('/forgot-password', 'index')->name('admin.forgot.password');
+            Route::post('/forgot-password', 'sendCode')->name('admin.forgot.password.send');
+        });
+
+        Route::controller(VerificationCodeAdminController::class)->group(function () {
+            Route::get('/verification-code', 'index')->name('admin.verification.code');
+            Route::post('/verification-code', 'verify')->name('admin.verification.code.verify');
+        });
+
+        Route::controller(ResetPasswordAdminController::class)->group(function () {
+            Route::get('/reset-password', 'index')->name('admin.reset.password');
+            Route::post('/reset-password', 'update')->name('admin.reset.password.update');
+        });
+    });
+});
+
+
+// 3. SECURE AREA (Hanya bisa diakses jika SUDAH login)
+
+Route::middleware(['auth', 'check.banned'])->group(function () {
+
+    // LOGOUT BERSAMA
+    Route::post('/admin/logout', [LoginAdminController::class, 'logout'])->name('admin.logout');
+
+    // PANEL ADMIN (Wajib Role Admin / Pengurus)
+    Route::prefix('admin')->middleware(['role:admin|pengurus'])->group(function () {
+        
+        Route::get('/', function () { 
+            return view('admin.dashboard'); 
         })->name('admin.dashboard');
 
-        Route::middleware([
-            'permission:produk'
-        ])->group(function () {
-
-            Route::resource('product', ProductController::class);
-            Route::get('product/{product}', [ProductController::class, 'show']);
+        // Modul Produk & Kategori
+        Route::middleware(['permission:produk'])->group(function () {
+            // Rute Custom Stock
             Route::post('/product/{slug}/stock', [ProductController::class, 'updateStock']);
             
-            Route::get('categories', [CategoryProductController::class, 'index']);
-            Route::post('categories', [CategoryProductController::class, 'store']);
-            Route::delete('categories/{id}', [CategoryProductController::class, 'destroy']);
+            Route::resource('product', ProductController::class)->parameters([
+                'product' => 'slug' 
+            ]);
 
-            Route::get('/product-edit', function () {
-                return view('admin/product-edit');
-            })->name('admin.product.edit');
+            Route::controller(CategoryProductController::class)->group(function () {
+                Route::get('categories', 'index');
+                Route::post('categories', 'store');
+                Route::delete('categories/{id}', 'destroy');
+            });
         });
 
-
-        Route::middleware([
-            'permission:pengguna'
-        ])->group(function () {
-
-            Route::get(
-                '/pengurus',
-                [PengurusController::class, 'index']
-            )->name('admin.pengurus');
-
-            Route::post(
-                '/pengurus/store',
-                [PengurusController::class, 'store']
-            )->name('admin.pengurus.store');
+        // Modul Pengguna (Pengurus & Pembeli)
+        Route::middleware(['permission:pengguna'])->group(function () {
+            Route::controller(PengurusController::class)->group(function () {
+                Route::get('/users', 'index')->name('admin.users');
+                Route::get('/pengurus', 'index')->name('admin.pengurus');
+                
+                Route::post('/pengurus/store', 'store')->name('admin.pengurus.store');
+                Route::put('/pengurus/{user}', 'update')->name('admin.pengurus.update');
+                Route::delete('/pengurus/{user}', 'destroy')->name('admin.pengurus.destroy');
+                Route::patch('/users/{user}/toggle-status', 'toggleStatus')->name('admin.users.toggleStatus');
+            });
         });
 
-        Route::middleware([
-            'permission:keuangan'
-        ])->group(function () {
-
-            Route::get('/finance', function () {
-                return view('admin/finance');
-            })->name('admin.finance');
+        // Modul Keuangan
+        Route::middleware(['permission:keuangan'])->group(function () {
+            Route::get('/finance', function () { return view('admin.finance'); })->name('admin.finance');
         });
 
-
-        Route::middleware([
-            'permission:pengguna'
-        ])->group(function () {
-
-            // halaman users
-            Route::get(
-                '/users',
-                [PengurusController::class, 'index']
-            )->name('admin.users');
-
-            // toggle status
-            Route::patch(
-                '/users/{user}/toggle-status',
-                [PengurusController::class, 'toggleStatus']
-            )->name('admin.users.toggleStatus');
-
-            // update pengurus
-            Route::put(
-                '/pengurus/{user}',
-                [PengurusController::class, 'update']
-            )->name('admin.pengurus.update');
-
-            // hapus pengurus
-            Route::delete(
-                '/pengurus/{user}',
-                [PengurusController::class, 'destroy']
-            )->name('admin.pengurus.destroy');
+        // Modul Promo / Diskon
+        Route::middleware(['permission:diskon'])->group(function () {
+            Route::get('/promo', function () { return view('admin.promo'); })->name('admin.promo');
         });
 
-        Route::middleware([
-            'permission:diskon'
-        ])->group(function () {
-
-            Route::get('/promo', function () {
-                return view('admin/promo');
-            })->name('admin.promo');
+        Route::middleware(['permission:laporan'])->group(function () {
+            Route::get('/reports', function () { return view('admin.reports'); });
+            Route::get('/report-sales', function () { return view('admin.report-sales'); });
+            Route::get('/report-finance', function () { return view('admin.report-finance'); });
+            Route::get('/report-stock', function () { return view('admin.report-stock'); });
+            Route::get('/report-transaction', function () { return view('admin.report-transaction'); });
+            Route::get('/report-review', function () { return view('admin.report-review'); });
+            Route::get('/report-discount', function () { return view('admin.report-discount'); });
         });
     });
 
-//pengurus kasir
-Route::prefix('pengurus')
-    ->middleware([
-        'auth',
-        'role:admin|pengurus'
-    ])
-    ->group(function () {
-        Route::get('/cashier', function () {
-            return view('pengurus/cashier');
-        })->name('pengurus.cashier');
-        Route::get('/cashier-orders', function () {
-            return view('pengurus/cashier-orders');
-        })->name('pengurus.cashier.orders');
-        Route::get('/cashier-recap', function () {
-            return view('pengurus/cashier-recap');
-        })->name('pengurus.cashier.recap');
+    // KASIR
+    Route::prefix('pengurus')->middleware(['role:admin|pengurus'])->group(function () {
+        Route::get('/cashier', function () { return view('pengurus.cashier'); })->name('pengurus.cashier');
+        Route::get('/cashier-orders', function () { return view('pengurus.cashier-orders'); })->name('pengurus.cashier.orders');
+        Route::get('/cashier-recap', function () { return view('pengurus.cashier-recap'); })->name('pengurus.cashier.recap');
     });
 
-Route::get('/admin/reports', function () {
-    return view('admin/reports'); 
-
 });
-
-Route::get('/admin/report-sales', function () {
-    return view('admin/report-sales'); 
-
-});
-
-Route::get('/admin/report-finance', function () {
-    return view('admin/report-finance'); 
-
-});
-
-Route::get('/admin/report-stock', function () {
-    return view('admin/report-stock'); 
-
-});
-
-Route::get('/admin/report-transaction', function () {
-    return view('admin/report-transaction'); 
-
-});
-
-Route::get('/admin/report-review', function () {
-    return view('admin/report-review'); 
-
-});
-
-Route::get('/admin/report-discount', function () {
-    return view('admin/report-discount'); 
-
-});
-
-// Route Admin
-Route::get(
-    '/admin/login',
-    [LoginAdminController::class, 'index']
-)->name('admin.login');
-//submit form
-Route::post(
-    '/admin/login',
-    [LoginAdminController::class, 'login']
-)->name('admin.login.submit');
-// rote logout 
-Route::post(
-    '/admin/logout',
-    [LoginAdminController::class, 'logout']
-)->name('admin.logout');
-
-Route::prefix('admin')->group(function () {
-
-    // forgot password
-    Route::get(
-        '/forgot-password',
-        [ForgotPasswordAdminController::class, 'index']
-    )->name('admin.forgot.password');
-
-    Route::post(
-        '/forgot-password',
-        [ForgotPasswordAdminController::class, 'sendCode']
-    )->name('admin.forgot.password.send');
-
-    // verification code
-    Route::get(
-        '/verification-code',
-        [VerificationCodeAdminController::class, 'index']
-    )->name('admin.verification.code');
-
-    Route::post(
-        '/verification-code',
-        [VerificationCodeAdminController::class, 'verify']
-    )->name('admin.verification.code.verify');
-
-    // reset password
-    Route::get(
-        '/reset-password',
-        [ResetPasswordAdminController::class, 'index']
-    )->name('admin.reset.password');
-
-    Route::post(
-        '/reset-password',
-        [ResetPasswordAdminController::class, 'update']
-    )->name('admin.reset.password.update');
-});
-
-
-
-// Route User/Client
-Route::get(
-    '/login',
-    [LoginController::class, 'index']
-)->name('login');
-//submit user
-Route::post(
-    '/login',
-    [LoginController::class, 'login']
-)->name('login.submit');
-//lupa password 
-Route::get(
-    '/forgot-password',
-    [ForgotPasswordController::class, 'index']
-)->name('forgot.password');
-
-Route::post(
-    '/forgot-password',
-    [ForgotPasswordController::class, 'sendCode']
-)->name('forgot.password.send');
-
-// verification code
-Route::get(
-    '/verification-code',
-    [VerificationCodeController::class, 'index']
-)->name('verification.code');
-
-Route::post(
-    '/verification-code',
-    [VerificationCodeController::class, 'verify']
-)->name('verification.code.verify');
-
-// reset password
-Route::get(
-    '/reset-password',
-    [ResetPasswordController::class, 'index']
-)->name('reset.password');
-
-Route::post(
-    '/reset-password',
-    [ResetPasswordController::class, 'update']
-)->name('reset.password.update');
-
-Route::get(
-    '/register',
-    [RegisterController::class, 'index']
-)->name('register');
-
-Route::post(
-    '/register',
-    [RegisterController::class, 'register']
-)->name('register.submit');

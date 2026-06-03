@@ -19,15 +19,19 @@ class RegisterController extends Controller
             'username' => 'required|unique:users', 
             'email' => 'required|email|unique:users', 
             'password' => 'required|min:6',
-            ]);
+        ]);
 
-        User::create([
+        // 1. Buat User baru (status otomatis 'active' dari default database)
+        $user = User::create([
             'name' => $request->name, 
             'username' => $request->username, 
             'email' => $request->email, 
-            'password' => $request->password, 
-            'role' => 'customer', 
-            'status' => 'active',]);
-        return redirect('/login');
+            'password' => $request->password, // Jika Laravel 11, cast 'hashed' sudah otomatis mengenkripsi ini
+        ]);
+
+        // 2. Berikan role menggunakan Spatie
+        $user->assignRole('customer'); 
+
+        return redirect('/login')->with('success', 'Pendaftaran berhasil!');
     }
 }
