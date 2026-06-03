@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Models\Product;
+use App\Models\Voucher;
 use Illuminate\Http\Request;
 use App\Exports\FinanceExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -23,10 +24,6 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\VerificationCodeController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 
-$vouchers = [
-    ["name" => "Diskon Bazaar", "desc" => "Lorem ipsum dolor sit amet", "off" => 10, "value" => "bazaar", "checked" => false, "disabled" => false],
-    ["name" => "Diskon Diesnat", "desc" => "Lorem ipsum dolor sit amet", "off" => 10, "value" => "bazaar", "checked" => false, "disabled" => false],
-];
 
 // 1. PUBLIC ROUTES (Halaman Pengunjung & Pembeli)
 Route::get('/', function () {
@@ -51,11 +48,63 @@ Route::get('/cart', function () {
     return view('cart', compact('products'));
 });
 
-Route::get('/checkout', function() use ($vouchers) {
-    $products = Product::with(['category', 'images', 'variants'])->get();
+Route::post('/checkout', function () {
+    $selectedIds = request('selected_products', []);
+
+    if (empty($selectedIds)) {
+        return redirect('/cart')->with('error', 'Pilih produk terlebih dahulu.');
+    }
+
+    session(['checkout_products' => $selectedIds]);
+
+    return redirect('/checkout');
+});
+
+Route::get('/checkout', function () {
+    $selectedIds = session('checkout_products', []);
+
+    if (empty($selectedIds)) {
+        return redirect('/cart');
+    }
+
+    $products = Product::with(['category', 'images', 'variants'])
+        ->whereIn('id', $selectedIds)
+        ->get();
+
+    $vouchers = Voucher::where('status', 'Aktif')
+        ->where('end_date', '>=', now())
+        ->get();
+
     return view('checkout', compact('products', 'vouchers'));
 });
 
+Route::post('/payment', function () {
+    $selectedIds = session('checkout_products', []);
+
+    if (empty($selectedIds)) {
+        return redirect('/cart');
+    }
+
+    $products = Product::with(['images'])
+        ->whereIn('id', $selectedIds)
+        ->get();
+
+    $total = $products->sum(fn($p) => $p->selling_price - ($p->selling_price * $p->discount / 100));
+
+    session(['payment_total' => $total]);
+
+    return redirect('/payment');
+});
+
+Route::get('/payment', function () {
+    $total = session('payment_total');
+
+    if (!$total) {
+        return redirect('/cart');
+    }
+
+    return view('payment', compact('total'));
+});
 
 // 2. AUTENTIKASI (Hanya bisa diakses jika BELUM login / Guest)
 Route::middleware('guest')->group(function () {
@@ -108,6 +157,10 @@ Route::middleware('guest')->group(function () {
             Route::post('/reset-password', 'update')->name('admin.reset.password.update');
         });
     });
+});
+
+Route::get('/admin', function () {
+    return view('admin/dashboard');
 });
 
 

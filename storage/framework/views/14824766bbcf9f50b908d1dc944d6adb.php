@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css', 'resources/js/app.js']); ?>
+    <link rel="icon" href="<?php echo e(asset('assets/icons/logo-rekaps.svg')); ?>">
+    <title>Rekaps Store</title>
+</head>
+<body class="bg-primary-50 font-sans min-h-screen flex flex-col gap-10">
+    <?php echo $__env->yieldContent('navbar'); ?>
+    <main class="pt-15 sm:pt-19 max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 flex-1 w-full flex flex-col gap-1">
+        <?php echo $__env->yieldContent('content'); ?>
+    </main>
+    <?php echo $__env->yieldContent('footer'); ?>
+</body>
+</html><?php /**PATH C:\Users\x395\OneDrive\Desktop\WEEBSPROJECT\RekapsStore\resources\views/components/client/layout.blade.php ENDPATH**/ ?>
