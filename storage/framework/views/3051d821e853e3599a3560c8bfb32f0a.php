@@ -1,12 +1,10 @@
-@extends('admin.layouts.layout')
+<?php $__env->startSection('title', 'Laporan Keuangan'); ?>
 
-@section('title', 'Laporan Keuangan')
+<?php $__env->startSection('page_title', 'Laporan & Rekap'); ?>
 
-@section('page_title', 'Laporan & Rekap')
+<?php $__env->startSection('page_breadcrumb', 'Laporan Keuangan'); ?>
 
-@section('page_breadcrumb', 'Laporan Keuangan')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 
     <div class="hidden print-header">
 
@@ -21,7 +19,8 @@
             </h2>
 
             <p class="mt-[6px] text-[14px] text-neutral-600">
-                Dicetak pada {{ now()->format('d F Y') }}
+                Dicetak pada <?php echo e(now()->format('d F Y')); ?>
+
             </p>
 
         </div>
@@ -33,7 +32,7 @@
 
         <div class="flex items-center gap-[14px] mb-[24px]">
 
-            <a href="{{ url('/admin/reports') }}"
+            <a href="<?php echo e(url('/admin/reports')); ?>"
                 class="flex items-center justify-center w-[38px] h-[38px] rounded-full bg-neutral-50 border border-primary-500 text-primary-500 shadow-[0_2px_8px_rgba(0,0,0,0.05)] transition-all duration-[250ms] hover:bg-primary-500 hover:text-neutral-50">
 
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
@@ -103,7 +102,8 @@
             </p>
 
             <h2 class="text-3xl font-black text-neutral-950">
-                <span class="text-sm font-bold">Rp</span>Rp {{ number_format($totalIncome,0,',','.') }}
+                <span class="text-sm font-bold">Rp</span>Rp <?php echo e(number_format($totalIncome,0,',','.')); ?>
+
             </h2>
 
         </div>
@@ -131,7 +131,8 @@
             </p>
 
             <h2 class="text-3xl font-black text-neutral-950">
-                <span class="text-sm font-bold">Rp</span> {{ number_format($totalExpense,0,',','.') }}
+                <span class="text-sm font-bold">Rp</span> <?php echo e(number_format($totalExpense,0,',','.')); ?>
+
             </h2>
 
         </div>
@@ -159,7 +160,8 @@
             </p>
 
             <h2 class="text-3xl font-black text-neutral-950">
-                Rp {{ number_format($balance,0,',','.') }}
+                Rp <?php echo e(number_format($balance,0,',','.')); ?>
+
             </h2>
 
         </div>
@@ -185,7 +187,8 @@
             </p>
 
             <h2 class="text-3xl font-black text-neutral-950">
-                {{ $totalTransactions }}
+                <?php echo e($totalTransactions); ?>
+
             </h2>
 
         </div>
@@ -207,7 +210,7 @@
                             From
                         </p>
 
-                        <input type="date" name="from_date" value="{{ request('from_date') }}" class="px-[14px] py-[10px] rounded-xl border border-neutral-200 outline-none text-[13px]">
+                        <input type="date" name="from_date" value="<?php echo e(request('from_date')); ?>" class="px-[14px] py-[10px] rounded-xl border border-neutral-200 outline-none text-[13px]">
                     </div>
 
                     <div>
@@ -215,7 +218,7 @@
                             To
                         </p>
 
-                        <input type="date" name="to_date" value="{{ request('to_date') }}" class="px-[14px] py-[10px] rounded-xl border border-neutral-200 outline-none text-[13px]">
+                        <input type="date" name="to_date" value="<?php echo e(request('to_date')); ?>" class="px-[14px] py-[10px] rounded-xl border border-neutral-200 outline-none text-[13px]">
                     </div>
 
                 </div>
@@ -223,7 +226,7 @@
                 <!-- SEARCH -->
                 <div class="flex items-center gap-[10px]">
 
-                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari keterangan transaksi..." class="w-[280px] max-[560px]:w-full px-[16px] py-[11px] rounded-xl border border-neutral-200 outline-none text-[13px]">
+                    <input type="text" name="search" value="<?php echo e(request('search')); ?>" placeholder="Cari keterangan transaksi..." class="w-[280px] max-[560px]:w-full px-[16px] py-[11px] rounded-xl border border-neutral-200 outline-none text-[13px]">
 
                     <button type="submit" class="px-[20px] py-[11px] bg-primary-500 text-neutral-50 rounded-xl font-bold text-[13px] hover:bg-[#5928a7] transition-all duration-[250ms] cursor-pointer">
                         Cari
@@ -283,33 +286,38 @@
 
             <tbody>
 
-                @foreach($transactions as $transaction)
+                <?php $__currentLoopData = $transactions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $transaction): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                 <tr>
 
                     <td class="px-[16px] py-[14px] border-t border-neutral-200">
-                        {{ $transaction->date }}
+                        <?php echo e($transaction->date); ?>
+
                     </td>
 
                     <td class="px-[16px] py-[14px] border-t border-neutral-200">
-                        {{ $transaction->description }}
+                        <?php echo e($transaction->description); ?>
+
                     </td>
 
                     <td class="px-[16px] py-[14px] border-t border-neutral-200">
-                        {{ $transaction->category }}
+                        <?php echo e($transaction->category); ?>
+
                     </td>
 
                     <td class="px-[16px] py-[14px] border-t border-neutral-200">
-                        {{ $transaction->type }}
+                        <?php echo e($transaction->type); ?>
+
                     </td>
 
                     <td class="px-[16px] py-[14px] border-t border-neutral-200 font-semibold">
-                        Rp {{ number_format($transaction->amount, 0, ',', '.') }}
+                        Rp <?php echo e(number_format($transaction->amount, 0, ',', '.')); ?>
+
                     </td>
 
                 </tr>
 
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
             </tbody>
 
@@ -333,13 +341,16 @@
 
                 <p class="text-sm text-neutral-500 mt-1">
                     Periode :
-                    {{ request('from_date') ? \Carbon\Carbon::parse(request('from_date'))->format('d M Y') : 'Awal Data' }}
+                    <?php echo e(request('from_date') ? \Carbon\Carbon::parse(request('from_date'))->format('d M Y') : 'Awal Data'); ?>
+
                     -
-                    {{ request('to_date') ? \Carbon\Carbon::parse(request('to_date'))->format('d M Y') : 'Akhir Data' }}
+                    <?php echo e(request('to_date') ? \Carbon\Carbon::parse(request('to_date'))->format('d M Y') : 'Akhir Data'); ?>
+
                 </p>
 
                 <p class="text-sm text-neutral-500 mt-2">
-                    Dicetak pada {{ now()->format('d F Y') }}
+                    Dicetak pada <?php echo e(now()->format('d F Y')); ?>
+
                 </p>
 
             </div>
@@ -355,28 +366,32 @@
                     <div class="flex justify-between">
                         <span>Total Pemasukan</span>
                         <span class="font-semibold">
-                            Rp {{ number_format($totalIncome,0,',','.') }}
+                            Rp <?php echo e(number_format($totalIncome,0,',','.')); ?>
+
                         </span>
                     </div>
 
                     <div class="flex justify-between">
                         <span>Total Pengeluaran</span>
                         <span class="font-semibold">
-                            Rp {{ number_format($totalExpense,0,',','.') }}
+                            Rp <?php echo e(number_format($totalExpense,0,',','.')); ?>
+
                         </span>
                     </div>
 
                     <div class="flex justify-between">
                         <span>Saldo Bersih</span>
                         <span class="font-semibold">
-                            Rp {{ number_format($balance,0,',','.') }}
+                            Rp <?php echo e(number_format($balance,0,',','.')); ?>
+
                         </span>
                     </div>
 
                     <div class="flex justify-between">
                         <span>Jumlah Transaksi</span>
                         <span class="font-semibold">
-                            {{ $totalTransactions }}
+                            <?php echo e($totalTransactions); ?>
+
                         </span>
                     </div>
 
@@ -420,33 +435,38 @@
 
                 <tbody>
 
-                    @foreach($transactions as $transaction)
+                    <?php $__currentLoopData = $transactions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $transaction): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                     <tr>
 
                         <td class="border border-neutral-300 px-3 py-2">
-                            {{ $transaction->date }}
+                            <?php echo e($transaction->date); ?>
+
                         </td>
 
                         <td class="border border-neutral-300 px-3 py-2">
-                            {{ $transaction->description }}
+                            <?php echo e($transaction->description); ?>
+
                         </td>
 
                         <td class="border border-neutral-300 px-3 py-2">
-                            {{ $transaction->category }}
+                            <?php echo e($transaction->category); ?>
+
                         </td>
 
                         <td class="border border-neutral-300 px-3 py-2">
-                            {{ $transaction->type }}
+                            <?php echo e($transaction->type); ?>
+
                         </td>
 
                         <td class="border border-neutral-300 px-3 py-2">
-                            Rp {{ number_format($transaction->amount,0,',','.') }}
+                            Rp <?php echo e(number_format($transaction->amount,0,',','.')); ?>
+
                         </td>
 
                     </tr>
 
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                 </tbody>
 
@@ -470,7 +490,7 @@
 
     </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
 <style>
 
@@ -527,3 +547,4 @@ function printReport() {
 }
 
 </script>
+<?php echo $__env->make('admin.layouts.layout', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\RekapsStore\resources\views/admin/report-finance.blade.php ENDPATH**/ ?>

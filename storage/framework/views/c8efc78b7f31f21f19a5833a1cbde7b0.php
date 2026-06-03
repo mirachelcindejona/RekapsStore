@@ -1,35 +1,25 @@
-@extends('admin.layouts.layout')
+<?php $__env->startSection('title', 'Laporan Penjualan'); ?>
 
-@section('title', 'Laporan Stok Barang')
+<?php $__env->startSection('page_title', 'Laporan & Rekap'); ?>
 
-@section('page_title', 'Laporan & Rekap')
+<?php $__env->startSection('page_breadcrumb', 'Laporan Penjualan'); ?>
 
-@section('page_breadcrumb', 'Laporan Stok Barang')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 
     <!-- HEADER -->
     <div class="flex items-center justify-between mb-[20px] flex-wrap gap-[12px]">
 
         <div class="flex items-center gap-[14px] mb-[24px]">
-
-            <a href="{{ url('/admin/reports') }}"
-                class="flex items-center justify-center w-[38px] h-[38px] rounded-full bg-neutral-50 border border-primary-500 text-primary-500 shadow-[0_2px_8px_rgba(0,0,0,0.05)] transition-all duration-[250ms] hover:bg-primary-500 hover:text-neutral-50">
-
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-
-                    <path d="M19 12H5M12 19l-7-7 7-7" />
-
-                </svg>
-
+            <a href="<?php echo e(url('/admin/reports')); ?>"
+             class="flex items-center justify-center w-[38px] h-[38px] rounded-full bg-neutral-50 border border-primary-500 text-primary-500 shadow-[0_2px_8px_rgba(0,0,0,0.05)] transition-all duration-[250ms] hover:bg-primary-500 hover:text-neutral-50">
+             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+             </svg>
             </a>
+            <h1 class="text-[20px] font-bold text-neutral-900 m-0">Laporan Penjualan</h1>
 
-            <h1 class="text-[20px] font-bold text-neutral-900 m-0">
-                Laporan Stok Barang
-            </h1>
-
+            
         </div>
 
         <div class="flex items-center gap-[12px]">
@@ -57,7 +47,7 @@
 
 
 
-    <!-- STATISTIC CARD -->
+     <!-- STATISTIC CARD -->
     <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-[24px]">
 
         <!-- CARD -->
@@ -71,43 +61,24 @@
             <div
                 class="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-violet-100 text-violet-600">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <path d="M8.66699 10.7637V17.0605L3.15625 13.6172C3.10847 13.5872 3.06933 13.5454 3.04199 13.4961C3.01464 13.4467 3.00005 13.3914 3 13.335V7.43066L8.66699 10.7637ZM17 13.335C16.9999 13.3914 16.9854 13.4467 16.958 13.4961C16.9307 13.5454 16.8915 13.5872 16.8438 13.6172L11.333 17.0605V10.7627L17 7.42969V13.335ZM10 2.16797C10.0625 2.16797 10.1238 2.18564 10.1768 2.21875L15.2305 5.37695L10 8.4541L4.76855 5.37695L9.82324 2.21875C9.87622 2.18564 9.93753 2.16797 10 2.16797Z" fill="#5928A7" stroke="#5928A7"/>
+                    <g clip-path="url(#clip0_3185_18466)">
+                        <path d="M10 0.832031V19.1654M14.1667 4.16536H7.91667C7.14312 4.16536 6.40125 4.47266 5.85427 5.01964C5.30729 5.56662 5 6.30848 5 7.08203C5 7.85558 5.30729 8.59745 5.85427 9.14443C6.40125 9.69141 7.14312 9.9987 7.91667 9.9987H12.0833C12.8569 9.9987 13.5987 10.306 14.1457 10.853C14.6927 11.4 15 12.1418 15 12.9154C15 13.6889 14.6927 14.4308 14.1457 14.9778C13.5987 15.5247 12.8569 15.832 12.0833 15.832H5" stroke="#5928A7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_3185_18466">
+                            <rect width="20" height="20" fill="white"/>
+                        </clipPath>
+                    </defs>
                 </svg>
             </div>
 
             <p
                 class="mb-1 text-[10px] font-extrabold uppercase tracking-[1px] text-neutral-400">
-                Total Produk
+                Total Pendapatan
             </p>
 
             <h2 class="text-3xl font-black text-neutral-950">
-                57
-            </h2>
-
-        </div>
-
-        <!-- CARD -->
-        <div
-            class="relative overflow-hidden rounded-3xl bg-white p-5 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all">
-
-            <div
-                class="absolute top-0 right-0 h-20 w-20 rounded-bl-[100%] bg-red-500/15">
-            </div>
-
-            <div
-                class="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-red-100 text-red-600">
-                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
-                    <path d="M14.3333 14.3333H2.66667C1.33333 14.3333 1 13.2225 1 12.6667V2.66667C1 2.22464 1.17559 1.80072 1.48816 1.48816C1.80072 1.17559 2.22464 1 2.66667 1H11C11.442 1 11.866 1.17559 12.1785 1.48816C12.4911 1.80072 12.6667 2.22464 12.6667 2.66667V7.66667M14.3333 14.3333C13.7775 14.3333 12.6667 14 12.6667 12.6667V7.66667M14.3333 14.3333C15.6667 14.3333 16 13.2225 16 12.6667V7.66667H12.6667" stroke="#C10007" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </div>
-
-            <p
-                class="mb-1 text-[10px] font-extrabold uppercase tracking-[1px] text-neutral-400">
-                Total Stock
-            </p>
-
-            <h2 class="text-3xl font-black text-neutral-950">
-                168
+                <span class="text-sm font-bold">Rp</span>18.4jt
             </h2>
 
         </div>
@@ -123,19 +94,43 @@
             <div
                 class="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-lime-100 text-lime-700">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <path d="M15.8327 4.16667L17.4993 2.5ZM15.8327 4.16667L14.166 2.5ZM15.8327 4.16667L17.4993 5.83333ZM15.8327 4.16667L14.166 5.83333Z" fill="#8DB524"/>
-                    <path d="M15.8327 4.16667L17.4993 2.5M15.8327 4.16667L14.166 2.5M15.8327 4.16667L17.4993 5.83333M15.8327 4.16667L14.166 5.83333" stroke="#8DB524" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M5 3H10.459C10.2885 3.78286 10.2878 4.59592 10.4658 5.38281C10.4688 5.39581 10.4726 5.40891 10.4756 5.42188C10.3251 5.36437 10.1642 5.33301 10 5.33301C9.64653 5.33301 9.30763 5.47379 9.05762 5.72363C8.80757 5.97368 8.66699 6.31337 8.66699 6.66699V13.333C8.66699 13.6866 8.80757 14.0263 9.05762 14.2764C9.30764 14.5262 9.64653 14.667 10 14.667C10.3535 14.667 10.6924 14.5262 10.9424 14.2764C11.1924 14.0263 11.333 13.6866 11.333 13.333V7.32812C11.5148 7.58693 11.7159 7.83306 11.9414 8.05859C12.676 8.79319 13.6039 9.30495 14.6172 9.53418C15.4041 9.71216 16.2171 9.71145 17 9.54102V15C17 15.5304 16.7891 16.039 16.4141 16.4141C16.039 16.7891 15.5304 17 15 17H5C4.46957 17 3.96101 16.7891 3.58594 16.4141C3.21086 16.039 3 15.5304 3 15V5C3 4.46957 3.21086 3.96101 3.58594 3.58594C3.96101 3.21086 4.46957 3 5 3ZM6.66699 7.83301C6.31337 7.83301 5.97368 7.97358 5.72363 8.22363C5.47358 8.47368 5.33301 8.81337 5.33301 9.16699V13.333C5.33301 13.6866 5.47358 14.0263 5.72363 14.2764C5.97368 14.5264 6.31337 14.667 6.66699 14.667C7.02042 14.6669 7.35942 14.5262 7.60938 14.2764C7.85942 14.0263 8 13.6866 8 13.333V9.16699C8 8.81337 7.85942 8.47368 7.60938 8.22363C7.35942 7.97376 7.02042 7.83309 6.66699 7.83301ZM13.333 10.333C12.9796 10.3331 12.6406 10.4738 12.3906 10.7236C12.1406 10.9737 12 11.3134 12 11.667V13.333C12 13.6866 12.1406 14.0263 12.3906 14.2764C12.6406 14.5262 12.9796 14.6669 13.333 14.667C13.6866 14.667 14.0263 14.5264 14.2764 14.2764C14.5264 14.0263 14.667 13.6866 14.667 13.333V11.667C14.667 11.3134 14.5264 10.9737 14.2764 10.7236C14.0263 10.4736 13.6866 10.333 13.333 10.333Z" fill="#8DB524" stroke="#8DB524"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M2.5 4.16797C2.5 3.50493 2.76339 2.86904 3.23223 2.4002C3.70107 1.93136 4.33696 1.66797 5 1.66797H15C15.663 1.66797 16.2989 1.93136 16.7678 2.4002C17.2366 2.86904 17.5 3.50493 17.5 4.16797V17.5013C17.4999 17.6583 17.4555 17.812 17.3718 17.9448C17.2882 18.0776 17.1688 18.1841 17.0273 18.2521C16.8858 18.32 16.728 18.3465 16.572 18.3287C16.4161 18.3109 16.2684 18.2494 16.1458 18.1513L14.5383 16.8663L12.5458 18.1946C12.3986 18.2929 12.224 18.3417 12.0472 18.3341C11.8704 18.3264 11.7007 18.2627 11.5625 18.1521L10 16.9013L8.4375 18.1513C8.29934 18.2619 8.12957 18.3256 7.95278 18.3332C7.77599 18.3409 7.60135 18.292 7.45417 18.1938L5.46167 16.8655L3.85333 18.1513C3.7308 18.2492 3.58314 18.3104 3.42734 18.3281C3.27153 18.3458 3.11389 18.3192 2.97254 18.2513C2.83119 18.1834 2.71187 18.077 2.62828 17.9443C2.54468 17.8117 2.50022 17.6581 2.5 17.5013V4.16797ZM6.66667 5.0013C6.44565 5.0013 6.23369 5.0891 6.07741 5.24538C5.92113 5.40166 5.83333 5.61362 5.83333 5.83464C5.83333 6.05565 5.92113 6.26761 6.07741 6.42389C6.23369 6.58017 6.44565 6.66797 6.66667 6.66797H13.3333C13.5543 6.66797 13.7663 6.58017 13.9226 6.42389C14.0789 6.26761 14.1667 6.05565 14.1667 5.83464C14.1667 5.61362 14.0789 5.40166 13.9226 5.24538C13.7663 5.0891 13.5543 5.0013 13.3333 5.0013H6.66667ZM6.66667 8.33464C6.44565 8.33464 6.23369 8.42243 6.07741 8.57871C5.92113 8.73499 5.83333 8.94695 5.83333 9.16797C5.83333 9.38898 5.92113 9.60094 6.07741 9.75722C6.23369 9.9135 6.44565 10.0013 6.66667 10.0013H13.3333C13.5543 10.0013 13.7663 9.9135 13.9226 9.75722C14.0789 9.60094 14.1667 9.38898 14.1667 9.16797C14.1667 8.94695 14.0789 8.73499 13.9226 8.57871C13.7663 8.42243 13.5543 8.33464 13.3333 8.33464H6.66667ZM6.66667 11.668C6.44565 11.668 6.23369 11.7558 6.07741 11.912C5.92113 12.0683 5.83333 12.2803 5.83333 12.5013C5.83333 12.7223 5.92113 12.9343 6.07741 13.0906C6.23369 13.2468 6.44565 13.3346 6.66667 13.3346H10C10.221 13.3346 10.433 13.2468 10.5893 13.0906C10.7455 12.9343 10.8333 12.7223 10.8333 12.5013C10.8333 12.2803 10.7455 12.0683 10.5893 11.912C10.433 11.7558 10.221 11.668 10 11.668H6.66667Z" fill="#8DB524"/>
                 </svg>
             </div>
 
             <p
                 class="mb-1 text-[10px] font-extrabold uppercase tracking-[1px] text-neutral-400">
-                Produk Low Stock
+                Total Pesanan
             </p>
 
             <h2 class="text-3xl font-black text-neutral-950">
-                9
+                247
+            </h2>
+
+        </div>
+
+        <!-- CARD -->
+        <div
+            class="relative overflow-hidden rounded-3xl bg-white p-5 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all">
+
+            <div
+                class="absolute top-0 right-0 h-20 w-20 rounded-bl-[100%] bg-red-500/15">
+            </div>
+
+            <div
+                class="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-red-100 text-red-600">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M17.5 5.0013V16.668C17.5 17.11 17.3244 17.5339 17.0118 17.8465C16.6993 18.159 16.2754 18.3346 15.8333 18.3346H4.16667C3.72464 18.3346 3.30072 18.159 2.98816 17.8465C2.67559 17.5339 2.5 17.11 2.5 16.668V5.0013L5 1.66797H15L17.5 5.0013ZM2.5 5.0013H17.5M13.3333 8.33464C13.3333 9.21869 12.9821 10.0665 12.357 10.6917C11.7319 11.3168 10.8841 11.668 10 11.668C9.11594 11.668 8.2681 11.3168 7.64298 10.6917C7.01786 10.0665 6.66667 9.21869 6.66667 8.33464" stroke="#C10007" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+
+            <p
+                class="mb-1 text-[10px] font-extrabold uppercase tracking-[1px] text-neutral-400">
+                Total Produk Terjual 
+            </p>
+
+            <h2 class="text-3xl font-black text-neutral-950">
+                58
             </h2>
 
         </div>
@@ -157,11 +152,11 @@
 
             <p
                 class="mb-1 text-[10px] font-extrabold uppercase tracking-[1px] text-neutral-400">
-                % Keuntungan
+                Rata-rata transaksi
             </p>
 
             <h2 class="text-3xl font-black text-neutral-950">
-                Rp 180.000
+                134
             </h2>
 
         </div>
@@ -220,7 +215,7 @@
         class="w-full overflow-x-auto touch-pan-x [&::-webkit-scrollbar]:h-[6px] [&::-webkit-scrollbar-thumb]:bg-neutral-300 [&::-webkit-scrollbar-thumb]:rounded-full">
 
         <table
-            class="w-full border-collapse bg-neutral-50 rounded-2xl overflow-hidden shadow-[0_2px_16px_rgba(0,0,0,0.07)] min-w-[1200px]">
+            class="w-full border-collapse bg-neutral-50 rounded-2xl overflow-hidden shadow-[0_2px_16px_rgba(0,0,0,0.07)] min-w-[1000px]">
 
             <thead class="bg-neutral-100 border-b border-neutral-200">
 
@@ -228,42 +223,37 @@
 
                     <th
                         class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
-                        PRODUK
+                        ID_PESANAN
                     </th>
 
                     <th
                         class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
-                        KATEGORI
+                        TANGGAL
                     </th>
 
                     <th
                         class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
-                        HARGA JUAL
+                        NAMA CUSTOMER
                     </th>
 
                     <th
                         class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
-                        MODAL
+                        PRODUCT TERJUAL
                     </th>
 
                     <th
                         class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
-                        STOCK MASUK
+                        QTY
                     </th>
 
                     <th
                         class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
-                        STOCK KELUAR
+                        TOTAL
                     </th>
 
                     <th
                         class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
-                        STOCK
-                    </th>
-
-                    <th
-                        class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
-                        RATING
+                        METODE
                     </th>
 
                 </tr>
@@ -272,99 +262,136 @@
 
             <tbody>
 
-                <!-- ROW -->
+                <!-- ROW 1 -->
                 <tr class="hover:bg-primary-50 transition-colors duration-[250ms]">
 
-                    <!-- PRODUK -->
                     <td
-                        class="px-[16px] py-[14px] border-t border-neutral-200 whitespace-nowrap">
-
-                        <div class="flex items-center gap-[10px]">
-
-                            <img src="{{ asset('assets/img/products/jersey.png') }}"
-                                class="w-[42px] h-[42px] rounded-lg object-cover" />
-
-                            <div>
-
-                                <div class="text-[13px] font-bold text-neutral-900">
-                                    Jersey RPL
-                                </div>
-
-                                <div class="text-[11px] text-neutral-400">
-                                    By Rekaps
-                                </div>
-
-                            </div>
-
-                        </div>
-
+                        class="px-[16px] py-[14px] text-[13px] font-bold text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
+                        #131313
                     </td>
 
-                    <!-- KATEGORI -->
                     <td
-                        class="px-[16px] py-[14px] border-t border-neutral-200 whitespace-nowrap">
+                        class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
+                        3 May
+                    </td>
+
+                    <td
+                        class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
+                        Siti Masdariah
+                    </td>
+
+                    <td
+                        class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
+                        
+                    </td>
+
+                    <td
+                        class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
+                        
+                    </td>
+
+                    <td
+                        class="px-[16px] py-[14px] text-[13px] font-bold text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
+                        Rp 140.000
+                    </td>
+
+                    <td
+                        class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
 
                         <span
                             class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-primary-500/15 text-primary-500">
-                            Ready
+                            QRIS
                         </span>
 
                     </td>
 
-                    <!-- HARGA -->
+                </tr>
+
+                <!-- ROW 2 -->
+                <tr class="hover:bg-primary-50 transition-colors duration-[250ms]">
+
                     <td
-                        class="px-[16px] py-[14px] text-[13px] font-bold text-neutral-900 border-t border-neutral-200 whitespace-nowrap">
-                        Rp75.000
+                        class="px-[16px] py-[14px] text-[13px] font-bold text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
+                        #131314
                     </td>
 
-                    <!-- MODAL -->
                     <td
-                        class="px-[16px] py-[14px] text-[13px] text-neutral-500 border-t border-neutral-200 whitespace-nowrap">
-                        Rp45.000
+                        class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
+                        3 May
                     </td>
 
-                    <!-- MASUK -->
                     <td
-                        class="px-[16px] py-[14px] border-t border-neutral-200 whitespace-nowrap">
+                        class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
+                        Mirachel C.
+                    </td>
+
+                    <td
+                        class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
+                        
+                    </td>
+
+                    <td
+                        class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
+                        
+                    </td>
+
+                    <td
+                        class="px-[16px] py-[14px] text-[13px] font-bold text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
+                        Rp 140.000
+                    </td>
+
+                    <td
+                        class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
+
+                        <span
+                            class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-primary-500/15 text-primary-500">
+                            QRIS
+                        </span>
+
+                    </td>
+
+                </tr>
+
+                <!-- ROW 3 -->
+                <tr class="hover:bg-primary-50 transition-colors duration-[250ms]">
+
+                    <td
+                        class="px-[16px] py-[14px] text-[13px] font-bold text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
+                        #131315
+                    </td>
+
+                    <td
+                        class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
+                        3 May
+                    </td>
+
+                    <td
+                        class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
+                        Harits Nur A.
+                    </td>
+
+                    <td
+                        class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
+                        
+                    </td>
+
+                    <td
+                        class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
+                        
+                    </td>
+
+                    <td
+                        class="px-[16px] py-[14px] text-[13px] font-bold text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
+                        Rp 8.400.000
+                    </td>
+
+                    <td
+                        class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
 
                         <span
                             class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-[#c6ff33]/20 text-[#7ba600]">
-                            2 pcs
+                            CASH
                         </span>
-
-                    </td>
-
-                    <!-- KELUAR -->
-                    <td
-                        class="px-[16px] py-[14px] border-t border-neutral-200 whitespace-nowrap">
-
-                        <span
-                            class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-red-100 text-red-500">
-                            2 pcs
-                        </span>
-
-                    </td>
-
-                    <!-- STOCK -->
-                    <td
-                        class="px-[16px] py-[14px] border-t border-neutral-200 whitespace-nowrap">
-
-                        <span
-                            class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-red-100 text-red-500">
-                            2 pcs
-                        </span>
-
-                    </td>
-
-                    <!-- RATING -->
-                    <td
-                        class="px-[16px] py-[14px] text-[13px] border-t border-neutral-200 whitespace-nowrap">
-
-                        <div class="flex items-center gap-[4px] font-semibold">
-
-                            ⭐ 4.8
-
-                        </div>
 
                     </td>
 
@@ -376,4 +403,5 @@
 
     </div>
 
-@endsection
+<?php $__env->stopSection(); ?> 
+<?php echo $__env->make('admin.layouts.layout', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\RekapsStore\resources\views/admin/report-sales.blade.php ENDPATH**/ ?>

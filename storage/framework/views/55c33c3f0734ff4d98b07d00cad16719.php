@@ -1,19 +1,17 @@
-@extends('admin.layouts.layout')
+<?php $__env->startSection('title', 'Laporan Voucher dan Discount'); ?>
 
-@section('title', 'Laporan Voucher dan Discount')
+<?php $__env->startSection('page_title', 'Laporan & Rekap'); ?>
 
-@section('page_title', 'Laporan & Rekap')
+<?php $__env->startSection('page_breadcrumb', 'Laporan Voucher dan Discount'); ?>
 
-@section('page_breadcrumb', 'Laporan Voucher dan Discount')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 
     <!-- HEADER -->
     <div class="flex items-center justify-between mb-[20px] flex-wrap gap-[12px]">
 
         <div class="flex items-center gap-[14px] mb-[24px]">
 
-            <a href="{{ url('/admin/reports') }}"
+            <a href="<?php echo e(url('/admin/reports')); ?>"
                 class="flex items-center justify-center w-[38px] h-[38px] rounded-full bg-neutral-50 border border-primary-500 text-primary-500 shadow-[0_2px_8px_rgba(0,0,0,0.05)] transition-all duration-[250ms] hover:bg-primary-500 hover:text-neutral-50">
 
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
@@ -357,4 +355,5 @@
 
     </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.layout', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\RekapsStore\resources\views/admin/report-discount.blade.php ENDPATH**/ ?>

@@ -1,12 +1,12 @@
-@extends('admin.layouts.layout') 
+ 
 
-@section('title', 'Keuangan')
+<?php $__env->startSection('title', 'Keuangan'); ?>
 
-@section('page_title', 'Keuangan')
+<?php $__env->startSection('page_title', 'Keuangan'); ?>
 
-@section('page_breadcrumb', 'Manajemen Keuangan') 
+<?php $__env->startSection('page_breadcrumb', 'Manajemen Keuangan'); ?> 
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 <!-- HEADER -->
 <div
@@ -16,11 +16,7 @@
   
   <!-- ACTION -->
   <div class="flex items-center gap-[10px]">
-    {{-- <button
-      class="flex items-center justify-center gap-[6px] rounded-xl border border-primary-500 bg-transparent px-[16px] py-[8px] text-[12px] font-bold text-primary-500 transition-all duration-[250ms] cursor-pointer hover:bg-primary-500 hover:text-neutral-50 hover:shadow-[0_4px_14px_rgba(125,57,235,0.45)]"
-    >
-      Import
-    </button> --}}
+    
 
     <button
       onclick="openModal('modalTransaction')"
@@ -47,7 +43,7 @@
 
     <form action="/admin/finance/store" method="POST">
 
-      @csrf
+      <?php echo csrf_field(); ?>
 
       <div class="flex flex-col gap-[14px]">
 
@@ -165,7 +161,7 @@
 
     <form id="editForm" method="POST">
 
-      @csrf
+      <?php echo csrf_field(); ?>
 
       <div class="flex flex-col gap-[14px]">
 
@@ -287,7 +283,8 @@
     <p class="text-[12px] font-bold text-neutral-500">TOTAL PEMASUKAN</p>
 
     <h2 class="mt-[10px] text-[28px] font-black text-[#84cc16]">
-      Rp. {{ number_format($totalIncome, 0, ',', '.') }}
+      Rp. <?php echo e(number_format($totalIncome, 0, ',', '.')); ?>
+
     </h2>
 
     <span
@@ -303,7 +300,8 @@
     <p class="text-[12px] font-bold text-neutral-500">TOTAL PENGELUARAN</p>
 
     <h2 class="mt-[10px] text-[28px] font-black text-[#fb2c36]">
-      Rp. {{ number_format($totalExpense, 0, ',', '.') }}
+      Rp. <?php echo e(number_format($totalExpense, 0, ',', '.')); ?>
+
     </h2>
 
     <span
@@ -319,7 +317,8 @@
     <p class="text-[12px] font-bold text-neutral-500">SALDO BERSIH</p>
 
     <h2 class="mt-[10px] text-[28px] font-black text-primary-500">
-      Rp. {{ number_format($balance, 0, ',', '.') }}
+      Rp. <?php echo e(number_format($balance, 0, ',', '.')); ?>
+
     </h2>
 
     <span
@@ -341,7 +340,7 @@
     </h3>
     <form method="GET" action="/admin/finance" class="flex flex-wrap items-center gap-[12px]">
 
-      <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari transaksi..." class="w-[250px] rounded-xl border border-neutral-300 px-[14px] py-[10px] outline-none">
+      <input type="text" name="search" value="<?php echo e(request('search')); ?>" placeholder="Cari transaksi..." class="w-[250px] rounded-xl border border-neutral-300 px-[14px] py-[10px] outline-none">
 
       <select name="type" class="rounded-xl border border-neutral-300 px-[14px] py-[10px] outline-none">
           <option value="Semua">Semua</option>
@@ -349,9 +348,9 @@
           <option value="Pengeluaran">Pengeluaran</option>
       </select>
 
-      <input type="date" name="from_date" value="{{ request('from_date') }}" class="rounded-xl border border-neutral-300 px-[14px] py-[10px] outline-none">
+      <input type="date" name="from_date" value="<?php echo e(request('from_date')); ?>" class="rounded-xl border border-neutral-300 px-[14px] py-[10px] outline-none">
 
-      <input type="date" name="to_date" value="{{ request('to_date') }}" class="rounded-xl border border-neutral-300 px-[14px] py-[10px] outline-none">
+      <input type="date" name="to_date" value="<?php echo e(request('to_date')); ?>" class="rounded-xl border border-neutral-300 px-[14px] py-[10px] outline-none">
 
       <button type="submit" class="rounded-xl bg-primary-500 px-[18px] py-[10px] text-white font-semibold cursor-pointer">
           Terapkan
@@ -404,9 +403,7 @@
           JUMLAH
         </th>
 
-        {{-- <th class="whitespace-nowrap px-[16px] py-[14px] text-left text-[12px] font-bold text-neutral-500">
-          SALDO
-        </th> --}}
+        
 
         <th class="whitespace-nowrap px-[16px] py-[14px] text-left text-[12px] font-bold text-neutral-500">
           AKSI
@@ -416,16 +413,18 @@
 
     <tbody>
 
-      @foreach($transactions as $transaction)
+      <?php $__currentLoopData = $transactions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $transaction): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
       <tr class="hover:bg-primary-50 transition-all duration-200">
 
           <td class="px-5 py-4 border-t border-neutral-200">
-              {{ \Carbon\Carbon::parse($transaction->date)->format('d M Y') }}
+              <?php echo e(\Carbon\Carbon::parse($transaction->date)->format('d M Y')); ?>
+
           </td>
 
           <td class="px-5 py-4 border-t border-neutral-200 font-medium">
-              {{ $transaction->description }}
+              <?php echo e($transaction->description); ?>
+
           </td>
 
           <td class="px-5 py-4 border-t border-neutral-200">
@@ -433,7 +432,8 @@
               <span
                   class="inline-flex items-center rounded-full bg-primary-500/15 px-3 py-1 text-[11px] font-bold text-primary-600">
 
-                  {{ $transaction->category }}
+                  <?php echo e($transaction->category); ?>
+
 
               </span>
 
@@ -441,7 +441,7 @@
 
           <td class="px-5 py-4 border-t border-neutral-200">
 
-              @if($transaction->type == 'Pemasukan')
+              <?php if($transaction->type == 'Pemasukan'): ?>
 
                   <span
                       class="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-[11px] font-bold text-green-600">
@@ -450,7 +450,7 @@
 
                   </span>
 
-              @else
+              <?php else: ?>
 
                   <span
                       class="inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-[11px] font-bold text-red-600">
@@ -459,31 +459,31 @@
 
                   </span>
 
-              @endif
+              <?php endif; ?>
 
           </td>
 
           <td class="px-5 py-4 border-t border-neutral-200 font-bold">
 
-              @if($transaction->type == 'Pemasukan')
+              <?php if($transaction->type == 'Pemasukan'): ?>
 
                   <span class="text-green-500">
-                      + Rp {{ number_format($transaction->amount,0,',','.') }}
+                      + Rp <?php echo e(number_format($transaction->amount,0,',','.')); ?>
+
                   </span>
 
-              @else
+              <?php else: ?>
 
                   <span class="text-red-500">
-                      - Rp {{ number_format($transaction->amount,0,',','.') }}
+                      - Rp <?php echo e(number_format($transaction->amount,0,',','.')); ?>
+
                   </span>
 
-              @endif
+              <?php endif; ?>
 
           </td>
 
-          {{-- <td class="px-5 py-4 border-t border-neutral-200">
-              Rp 8.400.000
-          </td> --}}
+          
 
           <td
           class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 align-middle whitespace-nowrap"
@@ -492,12 +492,12 @@
             <button
                 type="button"
                 onclick="openEditModal(
-                    '{{ $transaction->id }}',
-                    '{{ $transaction->amount }}',
-                    '{{ $transaction->type }}',
-                    '{{ $transaction->date }}',
-                    '{{ $transaction->category }}',
-                    '{{ $transaction->description }}'
+                    '<?php echo e($transaction->id); ?>',
+                    '<?php echo e($transaction->amount); ?>',
+                    '<?php echo e($transaction->type); ?>',
+                    '<?php echo e($transaction->date); ?>',
+                    '<?php echo e($transaction->category); ?>',
+                    '<?php echo e($transaction->description); ?>'
                 )"
                 class="flex items-center justify-center w-[36px] h-[36px] rounded-xl cursor-pointer transition-all duration-[250ms] shrink-0 bg-neutral-50 border border-primary-500 text-primary-500 shadow-[0_2px_4px_rgba(62,52,69,0.25)] hover:bg-primary-500 hover:text-neutral-50 hover:shadow-[0_4px_12px_rgba(125,57,235,0.3)]"
             >
@@ -517,17 +517,11 @@
                   />
                 </svg>
             </button>
-            {{-- <a href="{{ url('/admin/finance-edit') }}">
-              <button
-                class="flex items-center justify-center w-[36px] h-[36px] rounded-xl cursor-pointer transition-all duration-[250ms] shrink-0 bg-neutral-50 border border-primary-500 text-primary-500 shadow-[0_2px_4px_rgba(62,52,69,0.25)] hover:bg-primary-500 hover:text-neutral-50 hover:shadow-[0_4px_12px_rgba(125,57,235,0.3)]"
-              >
-                
-              </button>
-            </a> --}}
+            
 
             <button
               class="flex items-center justify-center w-[36px] h-[36px] rounded-xl cursor-pointer transition-all duration-[250ms] shrink-0 bg-neutral-50 border border-[#fb2c36] text-[#fb2c36] hover:bg-[#fb2c36] hover:text-neutral-50 hover:shadow-[0_4px_12px_rgba(231,0,11,0.3)] outline-none"
-              onclick="confirmDelete({{ $transaction->id }})"
+              onclick="confirmDelete(<?php echo e($transaction->id); ?>)"
             >
               <svg
                 width="20"
@@ -550,7 +544,7 @@
 
       </tr>
 
-      @endforeach
+      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
     </tbody>
   </table>
@@ -600,8 +594,8 @@
     method="POST"
     style="display:none"
 >
-    @csrf
-    @method('DELETE')
+    <?php echo csrf_field(); ?>
+    <?php echo method_field('DELETE'); ?>
 </form>
 
 <script>
@@ -643,6 +637,8 @@
   }
 </script>
 
-@endsection @section('footer') 
+<?php $__env->stopSection(); ?> <?php $__env->startSection('footer'); ?> 
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin.layouts.layout', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\RekapsStore\resources\views/admin/finance.blade.php ENDPATH**/ ?>
