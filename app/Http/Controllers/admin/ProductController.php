@@ -90,17 +90,30 @@ class ProductController extends Controller
 
             $totalMainStock = $request->main_stock ?? 0;
 
-            if ($request->has('variant_combo_names') && count($request->variant_combo_names) > 0) {
+            // Cek & Simpan Varian atau Inventory Utama
+            if ($request->has('variant_combo_names') && is_array($request->variant_combo_names) && count($request->variant_combo_names) > 0) {
                 
-                $variantStocksInt = array_map('intval', $request->variant_combo_stocks);
+                // Ambil Nama Induk (Misal: "Ukuran"), default 'Varian' jika kosong
+                $masterName = $request->variant_master_name ?? 'Varian'; 
+                
+                $values = $request->variant_combo_names; // Array ["S", "M", "L"]
+                $stocks = $request->variant_combo_stocks; // Array ["2", "10", "8"]
 
-                $product->variants()->create([
-                    'variant_name'   => $request->variant_master_name ?? 'Varian Produk',
-                    'variant_values' => $request->variant_combo_names,
-                    'variant_stock'  => $variantStocksInt,
+                foreach ($values as $index => $val) {
+                    $stockOnline = isset($stocks[$index]) ? intval($stocks[$index]) : 0;
+
+                    $product->variants()->create([
+                        'variant_name'  => $masterName, // Menyimpan "Ukuran"
+                        'variant_value' => $val,        // Menyimpan "S", "M", dst.
+                        'stock_online'  => $stockOnline,
+                        'stock_bazar'   => 0,
+                    ]);
+                }
+            } else {
+                $product->inventory()->create([
+                    'main_stock'  => intval($request->main_stock ?? 0),
+                    'bazar_stock' => 0,
                 ]);
-
-                $totalMainStock = array_sum($variantStocksInt);
             }
 
             $product->inventory()->create([
@@ -116,6 +129,98 @@ class ProductController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->withInput()->with('error', 'Terjadi kesalahan sistem: ' . $e->getMessage());
+        }
+    }
+
+    public function show($slug)
+    {
+        // Cari berdasarkan slug, bukan findOrFail($id)
+        $product = Product::with(['category', 'images', 'inventory', 'variants', 'stockHistories'])
+                          ->where('slug', $slug)
+                          ->firstOrFail();
+        
+        return view('admin.product-detail', compact('product'));
+    }
+
+    // Menampilkan Halaman Edit
+    public function edit($slug)
+    {
+        $product = Product::with(['images', 'inventory', 'variants'])->where('slug', $slug)->firstOrFail();
+        // ... return view edit ...
+    }
+
+    // Menghapus Produk
+    public function destroy($slug)
+    {
+        $product = Product::where('slug', $slug)->firstOrFail();
+        $product->delete();
+
+        return redirect('/admin/product')->with('success', 'Produk berhasil dihapus!');
+    }
+
+    // Memproses Mutasi Stok
+    public function updateStock(Request $request, $slug)
+    {
+        $request->validate([
+            'type' => 'required|in:Masuk,Keluar',
+            'location' => 'required|in:Online,Bazar',
+            'qty' => 'required|numeric|min:1',
+            'note' => 'required|string',
+            'variant_id' => 'nullable|exists:product_variants,id'
+        ]);
+
+        $product = Product::where('slug', $slug)->firstOrFail();
+        $qty = $request->qty;
+
+        try {
+            DB::beginTransaction();
+
+            // Simpan ke Riwayat Mutasi beserta USER ID
+            $product->stockHistories()->create([
+                'product_variant_id' => $request->variant_id,
+                'user_id'            => auth()->id(),
+                'type'               => $request->type,
+                'location'           => $request->location,
+                'qty'                => $qty,
+                'note'               => $request->note,
+            ]);
+
+            // 2. Update Angka Stok Berdasarkan Pilihan
+            if ($request->variant_id) {
+                // Update Stok di Varian
+                $variant = $product->variants()->findOrFail($request->variant_id);
+                $kolomStok = $request->location == 'Online' ? 'stock_online' : 'stock_bazar';
+                
+                if ($request->type == 'Masuk') {
+                    $variant->increment($kolomStok, $qty);
+                } else {
+                    // Validasi agar stok tidak minus
+                    if ($variant->$kolomStok < $qty) {
+                        return back()->with('error', 'Stok varian tidak mencukupi untuk dikeluarkan.');
+                    }
+                    $variant->decrement($kolomStok, $qty);
+                }
+            } else {
+                // Update Stok di Inventory Utama (Jika produk tidak punya varian)
+                $inventory = $product->inventory;
+                $kolomStok = $request->location == 'Online' ? 'main_stock' : 'bazar_stock';
+
+                if ($request->type == 'Masuk') {
+                    $inventory->increment($kolomStok, $qty);
+                } else {
+                    if ($inventory->$kolomStok < $qty) {
+                        return back()->with('error', 'Stok utama tidak mencukupi.');
+                    }
+                    $inventory->decrement($kolomStok, $qty);
+                }
+            }
+
+            DB::commit();
+            return back()->with('success', 'Stok berhasil diperbarui.');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Terjadi kesalahan sistem: ' . $e->getMessage());
         }
     }
 }

@@ -404,9 +404,9 @@
           JUMLAH
         </th>
 
-        <th class="whitespace-nowrap px-[16px] py-[14px] text-left text-[12px] font-bold text-neutral-500">
+        {{-- <th class="whitespace-nowrap px-[16px] py-[14px] text-left text-[12px] font-bold text-neutral-500">
           SALDO
-        </th>
+        </th> --}}
 
         <th class="whitespace-nowrap px-[16px] py-[14px] text-left text-[12px] font-bold text-neutral-500">
           AKSI
@@ -481,9 +481,9 @@
 
           </td>
 
-          <td class="px-5 py-4 border-t border-neutral-200">
+          {{-- <td class="px-5 py-4 border-t border-neutral-200">
               Rp 8.400.000
-          </td>
+          </td> --}}
 
           <td
           class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 align-middle whitespace-nowrap"

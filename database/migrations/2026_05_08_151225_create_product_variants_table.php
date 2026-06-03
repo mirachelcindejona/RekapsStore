@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('product_variants', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
-            $table->string('variant_name', 100);
-            $table->json('variant_values'); // cth: ["S", "M", "L"]
-            $table->json('variant_stock'); // cth: ["1", "4", "2"]
+            $table->string('variant_name');
+            $table->string('variant_value');
+            $table->integer('stock_online')->default(0);
+            $table->integer('stock_bazar')->default(0);
             $table->timestamps();
         });
     }

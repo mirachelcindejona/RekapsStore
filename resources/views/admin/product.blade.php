@@ -67,20 +67,24 @@
                     <tr class="hover:bg-primary-50 transition-colors duration-[250ms]">
                         <td
                             class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 align-middle whitespace-nowrap">
-                            <div class="flex items-center gap-[10px]">
-                                @php
-                                    $mainImage = $product->images->first();
-                                    $imgPath = $mainImage
-                                        ? asset('storage/' . $mainImage->image_path)
-                                        : asset('assets/img/default-product.png');
-                                @endphp
-                                <img src="{{ $imgPath }}"
-                                    class="w-[42px] h-[42px] rounded-lg object-cover bg-neutral-200" />
-                                <div>
-                                    <div class="text-[13px] font-bold text-neutral-900">{{ $product->name }}</div>
-                                    <div class="text-[11px] text-neutral-400">{{ $product->product_code }}</div>
+                            <a href="{{ url('/admin/product/' . $product->slug) }}" class="block group cursor-pointer">
+                                <div class="flex items-center gap-[10px]">
+                                    @php
+                                        $mainImage = $product->images->first();
+                                        $imgPath = $mainImage
+                                            ? asset('storage/' . $mainImage->image_path)
+                                            : asset('assets/img/default-product.png');
+                                    @endphp
+                                    <img src="{{ $imgPath }}"
+                                        class="w-[42px] h-[42px] rounded-lg object-cover bg-neutral-200 transition-all duration-200 group-hover:shadow-md" />
+                                    <div>
+                                        <div
+                                            class="text-[13px] font-bold text-neutral-900 transition-colors duration-200 group-hover:text-primary-500">
+                                            {{ $product->name }}</div>
+                                        <div class="text-[11px] text-neutral-400">{{ $product->product_code }}</div>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         </td>
 
                         <td
@@ -126,7 +130,7 @@
                         <td
                             class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 align-middle whitespace-nowrap">
                             <div class="flex gap-[6px]">
-                                <a href="{{ url('/admin/product/' . $product->id . '/edit') }}"
+                                <a href="{{ url('/admin/product/' . $product->slug . '/edit') }}"
                                     class="flex items-center justify-center w-[36px] h-[36px] rounded-xl cursor-pointer transition-all duration-[250ms] shrink-0 bg-neutral-50 border border-primary-500 text-primary-500 shadow-sm hover:bg-primary-500 hover:text-neutral-50">
                                     <svg width="18" height="18" viewBox="0 0 20 20" fill="none"
                                         stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -137,7 +141,7 @@
                                 </a>
 
                                 <button type="button"
-                                    onclick="openDeleteModal({{ $product->id }}, '{{ addslashes($product->name) }}')"
+                                    onclick="openDeleteModal('{{ $product->slug }}', '{{ addslashes($product->name) }}')"
                                     class="flex items-center justify-center w-[36px] h-[36px] rounded-xl cursor-pointer transition-all duration-[250ms] shrink-0 bg-neutral-50 border border-[#fb2c36] text-[#fb2c36] shadow-sm hover:bg-[#fb2c36] hover:text-neutral-50 outline-none">
                                     <svg width="18" height="18" viewBox="0 0 20 20" fill="none"
                                         stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -213,9 +217,9 @@
             document.getElementById(modalId).classList.remove('active');
         }
 
-        function openDeleteModal(productId, productName) {
+        function openDeleteModal(productSlug, productName) {
             document.getElementById('deleteProductName').innerText = productName;
-            document.getElementById('deleteForm').action = "{{ url('/admin/product') }}/" + productId;
+            document.getElementById('deleteForm').action = "{{ url('/admin/product') }}/" + productSlug;
             openModal('modalConfirmDelete');
         }
     </script>
