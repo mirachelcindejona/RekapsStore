@@ -50,10 +50,13 @@
                 <p class="text-sm font-semibold text-neutral-700">Total Harga</p>
                 <p class="text-sm font-semibold text-primary-500">Rp{{ number_format($products->sum(fn($p) => $p->selling_price - ($p->selling_price * $p->discount / 100)), 0, ',', '.') }}</p>
             </div>
-            <button type="submit" class="w-full flex items-center justify-center gap-2 cursor-pointer bg-primary-500 hover:bg-primary-600 text-white text-sm font-bold py-3 rounded-xl transition">
-                <img src="{{ asset('assets/icons/secure-payment.svg') }}" alt="" class="w-4 h-4">
-                Bayar Sekarang
-            </button>
+            <form method="POST" action="/payment">
+                @csrf
+                <button type="submit" class="w-full flex items-center justify-center gap-2 cursor-pointer bg-primary-500 hover:bg-primary-600 text-white text-sm font-bold py-3 rounded-xl transition">
+                    <img src="{{ asset('assets/icons/secure-payment.svg') }}" alt="" class="w-4 h-4">
+                    Bayar Sekarang
+                </button>
+            </form>
 
         </div>
     </div>
@@ -81,12 +84,12 @@
             <div class="flex flex-col gap-2">
                 @foreach ($vouchers as $voucher)
                     <x-client.voucher-item
-                        :name="$voucher['name']"
-                        :desc="$voucher['desc']"
-                        :off="$voucher['off'] . '% OFF'"
-                        :value="$voucher['value']"
-                        :checked="$voucher['checked']"
-                        :disabled="$voucher['disabled']"
+                        :name="$voucher->code"
+                        :desc="'Minimal pembelian Rp' . number_format($voucher->min_purchase, 0, ',', '.')"
+                        :off="$voucher->value . '% OFF'"
+                        :value="$voucher->code"
+                        :checked="false"
+                        :disabled="false"
                     />
                 @endforeach
             </div>

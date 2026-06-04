@@ -48,52 +48,7 @@
 
     </div>
 
-    <!-- FILTER -->
-    <div
-        class="bg-neutral-50 rounded-[20px] p-[18px] shadow-[0_2px_16px_rgba(0,0,0,0.07)] mb-[24px]">
 
-        <div class="flex items-center justify-between flex-wrap gap-[18px]">
-
-            <!-- DATE -->
-            <div class="flex items-center gap-[12px] flex-wrap">
-
-                <div>
-                    <p class="text-[13px] text-neutral-500 mb-[6px]">
-                        From
-                    </p>
-
-                    <input type="date"
-                        class="px-[14px] py-[10px] rounded-xl border border-neutral-200 outline-none text-[13px]">
-                </div>
-
-                <div>
-                    <p class="text-[13px] text-neutral-500 mb-[6px]">
-                        To
-                    </p>
-
-                    <input type="date"
-                        class="px-[14px] py-[10px] rounded-xl border border-neutral-200 outline-none text-[13px]">
-                </div>
-
-            </div>
-
-            <!-- SEARCH -->
-            <div class="flex items-center gap-[10px]">
-
-                <input type="text"
-                    placeholder="Cari ID Pembayaran atau ID Pelanggan"
-                    class="w-[280px] max-[560px]:w-full px-[16px] py-[11px] rounded-xl border border-neutral-200 outline-none text-[13px]">
-
-                <button
-                    class="px-[20px] py-[11px] bg-primary-500 text-neutral-50 rounded-xl font-bold text-[13px] hover:bg-[#5928a7] transition-all duration-[250ms]">
-                    Cari
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
 
     <!-- STATISTIC CARD -->
     <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-[24px]">
@@ -206,6 +161,53 @@
             <h2 class="text-3xl font-black text-neutral-950">
                 134
             </h2>
+
+        </div>
+
+    </div>
+
+        <!-- FILTER -->
+    <div
+        class="bg-neutral-50 rounded-[20px] p-[18px] shadow-[0_2px_16px_rgba(0,0,0,0.07)] mb-[24px]">
+
+        <div class="flex items-center justify-between flex-wrap gap-[18px]">
+
+            <!-- DATE -->
+            <div class="flex items-center gap-[12px] flex-wrap">
+
+                <div>
+                    <p class="text-[13px] text-neutral-500 mb-[6px]">
+                        From
+                    </p>
+
+                    <input type="date"
+                        class="px-[14px] py-[10px] rounded-xl border border-neutral-200 outline-none text-[13px]">
+                </div>
+
+                <div>
+                    <p class="text-[13px] text-neutral-500 mb-[6px]">
+                        To
+                    </p>
+
+                    <input type="date"
+                        class="px-[14px] py-[10px] rounded-xl border border-neutral-200 outline-none text-[13px]">
+                </div>
+
+            </div>
+
+            <!-- SEARCH -->
+            <div class="flex items-center gap-[10px]">
+
+                <input type="text"
+                    placeholder="Cari ID Pembayaran atau ID Pelanggan"
+                    class="w-[280px] max-[560px]:w-full px-[16px] py-[11px] rounded-xl border border-neutral-200 outline-none text-[13px]">
+
+                <button
+                    class="px-[20px] py-[11px] bg-primary-500 text-neutral-50 rounded-xl font-bold text-[13px] hover:bg-[#5928a7] transition-all duration-[250ms]">
+                    Cari
+                </button>
+
+            </div>
 
         </div>
 
