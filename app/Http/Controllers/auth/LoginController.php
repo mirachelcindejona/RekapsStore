@@ -37,7 +37,7 @@ class LoginController extends Controller
             }
 
             $request->session()->regenerate();
-            return redirect('/');
+            return redirect('/admin');
         }
 
         $userExists = User::where('username', $request->username)->first();
