@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Voucher extends Model
+class Discount extends Model
 {
-    protected $table = 'voucher';
+    protected $table = 'discounts';
 
     protected $fillable = [
-        'code',
+        'name',
         'type',
         'value',
         'min_purchase',
