@@ -288,7 +288,7 @@
                 <tr>
 
                     <td class="px-[16px] py-[14px] border-t border-neutral-200">
-                        {{ $transaction->date }}
+                        {{ $transaction->created_at->format('d M Y') }}
                     </td>
 
                     <td class="px-[16px] py-[14px] border-t border-neutral-200">

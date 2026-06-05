@@ -246,49 +246,12 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
                 [ReportController::class, 'transaction']
             );
 
-            Route::get(
-                '/report-review',
-                [ReportController::class, 'review']
-            );
-
-            Route::get(
-                '/report-discount',
-                [ReportController::class, 'discount']
-            );
         });
 
         // Modul Promo / Diskon
         Route::middleware(['permission:diskon'])->group(function () {
             Route::get('/promo', function () { return view('admin.promo'); })->name('admin.promo');
         });
-
-        Route::middleware(['permission:kasir'])->group(function () {
-            Route::get('/cashier', function () { return view('admin.cashier'); })->name('admin.cashier');
-            Route::get('/cashier-orders', function () { return view('admin.cashier-orders'); })->name('admin.cashier.orders');
-            Route::get('/cashier-recap', function () { return view('admin.cashier-recap'); })->name('admin.cashier.recap');
-
-            Route::get('/cashier', [CashierController::class, 'index'])->name('admin.cashier');
-            Route::get('/cashier/products', [CashierController::class, 'getProducts']);
-            
-            // Manajemen Keranjang (Session-Based POS)
-            Route::post('/cashier/cart/add', [CashierController::class, 'addToCart']);
-            Route::post('/cashier/cart/update', [CashierController::class, 'updateCart']);
-            Route::post('/cashier/cart/remove', [CashierController::class, 'removeFromCart']);
-            Route::post('/cashier/cart/clear', [CashierController::class, 'clearCart']);
-            
-            // Proses Pembayaran & Transaksi
-            Route::post('/cashier/checkout', [CashierController::class, 'checkout']);
-        });
-
-        // Route::middleware(['permission:laporan'])->group(function () {
-        //     Route::get('/reports', function () { return view('admin.reports'); });
-        //     Route::get('/report-sales', function () { return view('admin.report-sales'); });
-        //     Route::get('/report-finance', function () { return view('admin.report-finance'); });
-        //     Route::get('/report-stock', function () { return view('admin.report-stock'); });
-        //     Route::get('/report-transaction', function () { return view('admin.report-transaction'); });
-        //     Route::get('/report-review', function () { return view('admin.report-review'); });
-        //     Route::get('/report-discount', function () { return view('admin.report-discount'); });
-        // });
     });
 
     // CLIENT - Cart, Checkout, Payment

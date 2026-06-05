@@ -6,9 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\FinanceTransactions;
 use App\Models\Product;
 use App\Models\CategoryProduct;
-
+use App\Models\Review;
 
 use App\Exports\FinanceExport;
+use App\Exports\ReviewExport;
 use App\Exports\StockExport;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -196,13 +197,4 @@ class ReportController extends Controller
         return view('admin.report-transaction');
     }
 
-    public function review()
-    {
-        return view('admin.report-review');
-    }
-
-    public function discount()
-    {
-        return view('admin.report-discount');
-    }
 }
