@@ -8,6 +8,26 @@
 
 @section('content')
 
+      <div class="hidden print-header">
+
+        <div class="text-center mb-[30px]">
+
+            <h1 class="text-[28px] font-bold">
+                REKAPS STORE
+            </h1>
+
+            <h2 class="text-[20px] font-semibold mt-[6px]">
+                LAPORAN KEUANGAN
+            </h2>
+
+            <p class="mt-[6px] text-[14px] text-neutral-600">
+                Dicetak pada {{ now()->format('d F Y') }}
+            </p>
+
+        </div>
+
+    </div>
+
     <!-- HEADER -->
     <div class="flex items-center justify-between mb-[20px] flex-wrap gap-[12px]">
 
@@ -34,15 +54,22 @@
 
         <div class="flex items-center gap-[12px]">
 
-            <button
+            <button onclick="printReport()"
                 class="flex items-center gap-[8px] px-[18px] py-[10px] rounded-xl border border-primary-500 text-primary-500 bg-neutral-50 font-bold text-[13px] cursor-pointer transition-all duration-[250ms] hover:bg-primary-50">
-                🖨 Print
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M7 17V15C7 14.4696 7.21071 13.9609 7.58579 13.5858C7.96086 13.2107 8.46957 13 9 13H15C15.5304 13 16.0391 13.2107 16.4142 13.5858C16.7893 13.9609 17 14.4696 17 15V17M7 17V19C7 19.5304 7.21071 20.0391 7.58579 20.4142C7.96086 20.7893 8.46957 21 9 21H15C15.5304 21 16.0391 20.7893 16.4142 20.4142C16.7893 20.0391 17 19.5304 17 19V17M7 17H5C4.46957 17 3.96086 16.7893 3.58579 16.4142C3.21071 16.0391 3 15.5304 3 15V9C3 8.46957 3.21071 7.96086 3.58579 7.58579C3.96086 7.21071 4.46957 7 5 7H6M17 17H19C19.5304 17 20.0391 16.7893 20.4142 16.4142C20.7893 16.0391 21 15.5304 21 15V9C21 8.46957 20.7893 7.96086 20.4142 7.58579C20.0391 7.21071 19.5304 7 19 7H18M6 7V5C6 4.46957 6.21071 3.96086 6.58579 3.58579C6.96086 3.21071 7.46957 3 8 3H16C16.5304 3 17.0391 3.21071 17.4142 3.58579C17.7893 3.96086 18 4.46957 18 5V7M6 7H18" stroke="#A87AF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M2 9C2 8.20435 2.31607 7.44129 2.87868 6.87868C3.44129 6.31607 4.20435 6 5 6H19C19.7956 6 20.5587 6.31607 21.1213 6.87868C21.6839 7.44129 22 8.20435 22 9V15C22 15.7956 21.6839 16.5587 21.1213 17.1213C20.5587 17.6839 19.7956 18 19 18H17C16.7348 18 16.4804 17.8946 16.2929 17.7071C16.1054 17.5196 16 17.2652 16 17V15C16 14.7348 15.8946 14.4804 15.7071 14.2929C15.5196 14.1054 15.2652 14 15 14H9C8.73478 14 8.48043 14.1054 8.29289 14.2929C8.10536 14.4804 8 14.7348 8 15V17C8 17.2652 7.89464 17.5196 7.70711 17.7071C7.51957 17.8946 7.26522 18 7 18H5C4.20435 18 3.44129 17.6839 2.87868 17.1213C2.31607 16.5587 2 15.7956 2 15V9ZM7 9C6.73478 9 6.48043 9.10536 6.29289 9.29289C6.10536 9.48043 6 9.73478 6 10C6 10.2652 6.10536 10.5196 6.29289 10.7071C6.48043 10.8946 6.73478 11 7 11H8C8.26522 11 8.51957 10.8946 8.70711 10.7071C8.89464 10.5196 9 10.2652 9 10C9 9.73478 8.89464 9.48043 8.70711 9.29289C8.51957 9.10536 8.26522 9 8 9H7Z" fill="#A87AF2"/>
+                </svg>
+                Cetak Laporan Review
             </button>
 
-            <button
+            <a href="/admin/report-review/export"
                 class="flex items-center gap-[8px] px-[18px] py-[10px] rounded-xl bg-primary-500 text-neutral-50 font-bold text-[13px] shadow-[0_4px_14px_rgba(125,57,235,0.35)] cursor-pointer transition-all duration-[250ms] hover:bg-[#5928a7]">
-                ⬇ Export as Excel
-            </button>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M4 3C3.73478 3 3.48043 3.10536 3.29289 3.29289C3.10536 3.48043 3 3.73478 3 4V20C3 20.2652 3.10536 20.5196 3.29289 20.7071C3.48043 20.8946 3.73478 21 4 21H20C20.2652 21 20.5196 20.8946 20.7071 20.7071C20.8946 20.5196 21 20.2652 21 20V8C20.9999 7.73481 20.8946 7.48049 20.707 7.293L16.707 3.293C16.5195 3.10545 16.2652 3.00006 16 3H4ZM10 14C10 12.4 11.333 12 12 12C12.667 12 14 12.4 14 14C14 15.6 12.667 16 12 16C11.333 16 10 15.6 10 14ZM14 5H8V8H14V5Z" fill="#F2EBFD"/>
+                </svg>
+                Export as Excel
+            </a>
 
         </div>
 
@@ -73,7 +100,7 @@
             </p>
 
             <h2 class="text-3xl font-black text-neutral-950">
-                340
+                {{ $totalReviews }}
             </h2>
 
         </div>
@@ -99,7 +126,7 @@
             </p>
 
             <h2 class="text-3xl font-black text-neutral-950">
-                4.7 <span class="text-[16px]">/5</span>
+                {{ $averageRating }} <span class="text-[16px]">/5</span>
             </h2>
 
         </div>
@@ -125,7 +152,7 @@
             </p>
 
             <h2 class="text-3xl font-black text-neutral-950">
-                96<span class="text-[16px]">%</span>
+                {{ $positivePercentage }}<span class="text-[16px]">%</span>
             </h2>
 
         </div>
@@ -151,7 +178,7 @@
             </p>
 
             <h2 class="text-[16px] font-black text-neutral-950 leading-[36px]">
-                Keychain HIMARPL
+                {{ $favoriteProduct->name ?? "-" }}
             </h2>
 
         </div>
@@ -159,30 +186,83 @@
     </div>
 
         <!-- FILTER -->
-    <div
+    <form method="GET"
         class="bg-neutral-50 rounded-[20px] p-[18px] shadow-[0_2px_16px_rgba(0,0,0,0.07)] mb-[24px]">
 
         <div class="flex items-center justify-between flex-wrap gap-[18px]">
 
-            <!-- DATE -->
-            <div class="flex items-center gap-[12px] flex-wrap">
+            <!-- FILTER -->
+            <div class="flex items-end gap-[12px] flex-wrap">
 
                 <div>
+
                     <p class="text-[13px] text-neutral-500 mb-[6px]">
                         From
                     </p>
 
-                    <input type="date"
+                    <input
+                        type="date"
+                        name="from_date"
+                        value="{{ request('from_date') }}"
                         class="px-[14px] py-[10px] rounded-xl border border-neutral-200 outline-none text-[13px]">
+
                 </div>
 
                 <div>
+
                     <p class="text-[13px] text-neutral-500 mb-[6px]">
                         To
                     </p>
 
-                    <input type="date"
+                    <input
+                        type="date"
+                        name="to_date"
+                        value="{{ request('to_date') }}"
                         class="px-[14px] py-[10px] rounded-xl border border-neutral-200 outline-none text-[13px]">
+
+                </div>
+
+                <div>
+
+                    <p class="text-[13px] text-neutral-500 mb-[6px]">
+                        Rating
+                    </p>
+
+                    <select
+                        name="rating"
+                        class="px-[14px] py-[10px] rounded-xl border border-neutral-200 outline-none text-[13px]">
+
+                        <option value="">
+                            Semua Rating
+                        </option>
+
+                        <option value="5"
+                            {{ request('rating') == '5' ? 'selected' : '' }}>
+                            5
+                        </option>
+
+                        <option value="4"
+                            {{ request('rating') == '4' ? 'selected' : '' }}>
+                            4
+                        </option>
+
+                        <option value="3"
+                            {{ request('rating') == '3' ? 'selected' : '' }}>
+                            3
+                        </option>
+
+                        <option value="2"
+                            {{ request('rating') == '2' ? 'selected' : '' }}>
+                            2
+                        </option>
+
+                        <option value="1"
+                            {{ request('rating') == '1' ? 'selected' : '' }}>
+                            1
+                        </option>
+
+                    </select>
+
                 </div>
 
             </div>
@@ -190,248 +270,447 @@
             <!-- SEARCH -->
             <div class="flex items-center gap-[10px]">
 
-                <input type="text"
-                    placeholder="Cari ID Pembayaran atau ID Pelanggan"
+                <input
+                    type="text"
+                    name="search"
+                    value="{{ request('search') }}"
+                    placeholder="Cari customer atau produk"
                     class="w-[280px] max-[560px]:w-full px-[16px] py-[11px] rounded-xl border border-neutral-200 outline-none text-[13px]">
 
                 <button
+                    type="submit"
                     class="px-[20px] py-[11px] bg-primary-500 text-neutral-50 rounded-xl font-bold text-[13px] hover:bg-[#5928a7] transition-all duration-[250ms]">
+
                     Cari
+
                 </button>
+                <a href="{{ url('/admin/report-review') }}"
+                    class="px-[20px] py-[11px] border border-neutral-300 rounded-xl font-bold text-[13px] text-neutral-600 hover:bg-neutral-100 transition-all duration-[250ms]">
+                    Reset
+                </a>
 
             </div>
 
         </div>
 
-    </div>
+    </form>
 
+     
+    <h2 class="text-[18px] font-bold text-neutral-800 mb-[14px] mt-[14px]">
+        Detail Review Pengguna
+    </h2>
 
     <!-- TABLE WRAPPER -->
-    <div class="grid grid-cols-1 xl:grid-cols-[2fr_1.2fr] gap-[20px]">
+    <div class="w-full overflow-x-auto touch-pan-x [&::-webkit-scrollbar]:h-[6px] [&::-webkit-scrollbar-thumb]:bg-neutral-300 [&::-webkit-scrollbar-thumb]:rounded-full">
 
-        <!-- REVIEW TABLE -->
-        <div
-            class="bg-neutral-50 rounded-3xl overflow-hidden shadow-[0_2px_16px_rgba(0,0,0,0.07)]">
+        <table class="w-full border-collapse bg-neutral-50 rounded-2xl overflow-hidden shadow-[0_2px_16px_rgba(0,0,0,0.07)] min-w-[1200px]">
 
-            <div class="px-[18px] py-[16px] border-b border-neutral-200">
+            <thead class="bg-neutral-100 border-b border-neutral-200">
 
-                <h2 class="text-[16px] font-bold text-neutral-900">
-                    Review Pengguna
-                </h2>
+                <tr>
 
-            </div>
+                    <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
+                        TANGGAL
+                    </th>
 
-            <div class="overflow-x-auto">
+                    <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
+                        CUSTOMER
+                    </th>
 
-                <table class="w-full border-collapse min-w-[700px]">
+                    <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
+                        PRODUK
+                    </th>
 
-                    <thead class="bg-neutral-100">
+                    <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
+                        RATING
+                    </th>
 
-                        <tr>
+                    <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
+                        KOMENTAR
+                    </th>
 
-                            <th
-                                class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
-                                ID_PESANAN
-                            </th>
+                    <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
+                        STATUS BALASAN
+                    </th>
 
-                            <th
-                                class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
-                                TANGGAL
-                            </th>
+                </tr>
 
-                            <th
-                                class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
-                                NAMA CUSTOMER
-                            </th>
+            </thead>
 
-                            <th
-                                class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
-                                PRODUK TERJUAL
-                            </th>
+            <tbody>
 
-                        </tr>
+                @foreach($reviews as $review)
 
-                    </thead>
+                <tr>
 
-                    <tbody>
+                    <td class="px-[16px] py-[14px] border-t border-neutral-200">
+                        {{ $review->created_at->format('d M Y') }}
+                    </td>
 
-                        <tr class="hover:bg-primary-50 transition-all">
+                    <td class="px-[16px] py-[14px] border-t border-neutral-200">
+                        {{ $review->user->name }}
+                    </td>
 
-                            <td
-                                class="px-[16px] py-[16px] border-t border-neutral-200 text-[13px] font-bold">
-                                131313
-                            </td>
+                    <td class="px-[16px] py-[14px] border-t border-neutral-200">
+                        {{ $review->product->name }}
+                    </td>
 
-                            <td
-                                class="px-[16px] py-[16px] border-t border-neutral-200 text-[13px] font-semibold">
-                                3 May
-                            </td>
+                    <td class="px-[16px] py-[14px] border-t border-neutral-200">
 
-                            <td
-                                class="px-[16px] py-[16px] border-t border-neutral-200 text-[13px] font-bold">
-                                Siti Masdariah
-                            </td>
+                        @for($i = 1; $i <= 5; $i++)
 
-                            <td
-                                class="px-[16px] py-[16px] border-t border-neutral-200 text-[13px] font-bold">
-                                Jahim HIMARPL
-                            </td>
+                            @if($i <= $review->rating)
 
-                        </tr>
+                                ⭐
 
-                        <tr class="hover:bg-primary-50 transition-all">
+                            @else
 
-                            <td
-                                class="px-[16px] py-[16px] border-t border-neutral-200 text-[13px] font-bold">
-                                131314
-                            </td>
+                                ☆
 
-                            <td
-                                class="px-[16px] py-[16px] border-t border-neutral-200 text-[13px] font-semibold">
-                                3 May
-                            </td>
+                            @endif
 
-                            <td
-                                class="px-[16px] py-[16px] border-t border-neutral-200 text-[13px] font-bold">
-                                Mirachel C.
-                            </td>
+                        @endfor
 
-                            <td
-                                class="px-[16px] py-[16px] border-t border-neutral-200 text-[13px] font-bold">
-                                Jahim HIMARPL
-                            </td>
+                    </td>
 
-                        </tr>
+                    <td class="px-[16px] py-[14px] border-t border-neutral-200 max-w-[350px]">
 
-                        <tr class="hover:bg-primary-50 transition-all">
+                        {{ Str::limit($review->comment, 80) }}
 
-                            <td
-                                class="px-[16px] py-[16px] border-t border-neutral-200 text-[13px] font-bold">
-                                131315
-                            </td>
+                    </td>
 
-                            <td
-                                class="px-[16px] py-[16px] border-t border-neutral-200 text-[13px] font-semibold">
-                                3 May
-                            </td>
+                    <td class="px-[16px] py-[14px] border-t border-neutral-200">
 
-                            <td
-                                class="px-[16px] py-[16px] border-t border-neutral-200 text-[13px] font-bold">
-                                Harits Nur A.
-                            </td>
+                        @if($review->admin_reply)
 
-                            <td
-                                class="px-[16px] py-[16px] border-t border-neutral-200 text-[13px] font-bold">
-                                Jersey RPL
-                            </td>
+                            <span class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-green-100 text-green-600">
+                                Sudah Dibalas
+                            </span>
 
-                        </tr>
+                        @else
 
-                    </tbody>
+                            <span class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-yellow-100 text-yellow-700">
+                                Belum Dibalas
+                            </span>
 
-                </table>
+                        @endif
 
-            </div>
+                    </td>
+
+                </tr>
+
+                @endforeach
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    {{-- RATING PERPRODUK --}}
+    <details
+    class="bg-neutral-50 rounded-[20px] p-[18px] shadow-[0_2px_16px_rgba(0,0,0,0.07)] mb-[24px]  mt-[24px]">
+
+        <summary
+            class="cursor-pointer font-bold text-[16px]">
+
+            ⭐ Rating Per Produk
+
+        </summary>
+
+        <div class="mt-[18px]">
+
+            <div class="w-full overflow-x-auto touch-pan-x [&::-webkit-scrollbar]:h-[6px] [&::-webkit-scrollbar-thumb]:bg-neutral-300 [&::-webkit-scrollbar-thumb]:rounded-full mb-[24px]">
+
+            <table class="w-full border-collapse bg-neutral-50 rounded-2xl overflow-hidden shadow-[0_2px_16px_rgba(0,0,0,0.07)] min-w-[900px]">
+
+                <thead class="bg-neutral-100 border-b border-neutral-200">
+
+                    <tr>
+
+                        <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500">
+                            PRODUK
+                        </th>
+
+                        <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500">
+                            TOTAL REVIEW
+                        </th>
+
+                        <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500">
+                            RATING RATA-RATA
+                        </th>
+
+                        <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500">
+                            DIBALAS ADMIN
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach($productRatings as $product)
+
+                    <tr>
+
+                        <td class="px-[16px] py-[14px] border-t border-neutral-200">
+                            {{ $product->name }}
+                        </td>
+
+                        <td class="px-[16px] py-[14px] border-t border-neutral-200">
+                            {{ $product->total_reviews }}
+                        </td>
+
+                        <td class="px-[16px] py-[14px] border-t border-neutral-200 font-semibold">
+
+                            ⭐ {{ $product->average_rating }}
+
+                        </td>
+
+                        <td class="px-[16px] py-[14px] border-t border-neutral-200">
+
+                            {{ $product->replied_reviews }}
+
+                        </td>
+
+                    </tr>
+
+                    @endforeach
+
+                </tbody>
+
+            </table>
 
         </div>
 
-        <!-- RATING TABLE -->
-        <div
-            class="bg-neutral-50 rounded-3xl overflow-hidden shadow-[0_2px_16px_rgba(0,0,0,0.07)]">
+        </div>
 
-            <div class="px-[18px] py-[16px] border-b border-neutral-200">
+    </details>
 
-                <h2 class="text-[16px] font-bold text-neutral-900 uppercase">
-                    Rating Barang
+    {{-- PRINT --}}
+    <div id="print-report" class="hidden">
+
+        <div class="p-10">
+
+            <div class="text-center mb-8">
+
+                <h1 class="text-3xl font-bold">
+                    REKAPS STORE
+                </h1>
+
+                <h2 class="text-xl font-semibold mt-2">
+                    LAPORAN REVIEW PENGGUNA
                 </h2>
+
+                <p class="text-sm text-neutral-500 mt-1">
+                    Periode :
+                    {{ request('from_date') ? \Carbon\Carbon::parse(request('from_date'))->format('d M Y') : 'Awal Data' }}
+                    -
+                    {{ request('to_date') ? \Carbon\Carbon::parse(request('to_date'))->format('d M Y') : 'Akhir Data' }}
+                </p>
+
+                <p class="text-sm text-neutral-500 mt-2">
+                    Dicetak pada {{ now()->format('d F Y') }}
+                </p>
 
             </div>
 
-            <div class="overflow-x-auto">
+            <div class="border-t border-b py-4 mb-6">
 
-                <table class="w-full border-collapse min-w-[400px]">
+                <h3 class="text-lg font-bold mb-3">
+                    Ringkasan Review
+                </h3>
 
-                    <thead class="bg-neutral-100">
+                <div class="space-y-2 text-sm">
 
-                        <tr>
+                    <div class="flex justify-between">
+                        <span>Total Review</span>
+                        <span class="font-semibold">
+                            {{ $totalReviews }}
+                        </span>
+                    </div>
 
-                            <th
-                                class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
-                                ID_BARANG
-                            </th>
+                    <div class="flex justify-between">
+                        <span>Rata-rata Rating</span>
+                        <span class="font-semibold">
+                            {{ $averageRating }}/5
+                        </span>
+                    </div>
 
-                            <th
-                                class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
-                                PRODUK
-                            </th>
+                    <div class="flex justify-between">
+                        <span>Review Positif</span>
+                        <span class="font-semibold">
+                            {{ $positivePercentage }}%
+                        </span>
+                    </div>
 
-                            <th
-                                class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
-                                RATING
-                            </th>
+                    <div class="flex justify-between">
+                        <span>Produk Terfavorit</span>
+                        <span class="font-semibold">
+                            {{ $favoriteProduct?->name ?? '-' }}
+                        </span>
+                    </div>
 
-                            <th
-                                class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
-                                ACTION
-                            </th>
+                </div>
 
-                        </tr>
+            </div>
 
-                    </thead>
+            <h3 class="text-lg font-bold mb-4">
+                Rating Per Produk
+            </h3>
 
-                    <tbody>
+            <table class="w-full border border-neutral-400 text-sm mb-8">
 
-                        <tr class="hover:bg-primary-50 transition-all">
+                <thead>
 
-                            <td
-                                class="px-[16px] py-[16px] border-t border-neutral-200 text-[13px] font-bold">
-                                101010
-                            </td>
+                    <tr class="bg-neutral-100">
 
-                            <td
-                                class="px-[16px] py-[16px] border-t border-neutral-200 text-[13px] font-bold">
-                                Jahim HIMARPL
-                            </td>
+                        <th class="border border-neutral-400 px-3 py-2">
+                            Produk
+                        </th>
 
-                            <td
-                                class="px-[16px] py-[16px] border-t border-neutral-200 text-[13px] text-[#7ba600]">
-                                ★★★★
-                            </td>
+                        <th class="border border-neutral-400 px-3 py-2">
+                            Total Review
+                        </th>
 
-                            <td
-                                class="px-[16px] py-[16px] border-t border-neutral-200 text-[12px] font-bold text-primary-500 cursor-pointer">
-                                Lihat Detail
-                            </td>
+                        <th class="border border-neutral-400 px-3 py-2">
+                            Rating Rata-rata
+                        </th>
 
-                        </tr>
+                        <th class="border border-neutral-400 px-3 py-2">
+                            Dibalas Admin
+                        </th>
 
-                        <tr class="hover:bg-primary-50 transition-all">
+                    </tr>
 
-                            <td
-                                class="px-[16px] py-[16px] border-t border-neutral-200 text-[13px] font-bold">
-                                131315
-                            </td>
+                </thead>
 
-                            <td
-                                class="px-[16px] py-[16px] border-t border-neutral-200 text-[13px] font-bold">
-                                Jersey RPL
-                            </td>
+                <tbody>
 
-                            <td
-                                class="px-[16px] py-[16px] border-t border-neutral-200 text-[13px] text-[#7ba600]">
-                                ★★★★
-                            </td>
+                    @foreach($productRatings as $product)
 
-                            <td
-                                class="px-[16px] py-[16px] border-t border-neutral-200 text-[12px] font-bold text-primary-500 cursor-pointer">
-                                Lihat Detail
-                            </td>
+                    <tr>
 
-                        </tr>
+                        <td class="border border-neutral-300 px-3 py-2">
+                            {{ $product->name }}
+                        </td>
 
-                    </tbody>
+                        <td class="border border-neutral-300 px-3 py-2">
+                            {{ $product->total_reviews }}
+                        </td>
 
-                </table>
+                        <td class="border border-neutral-300 px-3 py-2">
+                            {{ $product->average_rating }}/5
+                        </td>
+
+                        <td class="border border-neutral-300 px-3 py-2">
+                            {{ $product->replied_reviews }}
+                        </td>
+
+                    </tr>
+
+                    @endforeach
+
+                </tbody>
+
+            </table>
+
+            <h3 class="text-lg font-bold mb-4">
+                Detail Review Pengguna
+            </h3>
+
+            <table class="w-full border border-neutral-400 text-sm">
+
+                <thead>
+
+                    <tr class="bg-neutral-100">
+
+                        <th class="border border-neutral-400 px-3 py-2">
+                            Tanggal
+                        </th>
+
+                        <th class="border border-neutral-400 px-3 py-2">
+                            Customer
+                        </th>
+
+                        <th class="border border-neutral-400 px-3 py-2">
+                            Produk
+                        </th>
+
+                        <th class="border border-neutral-400 px-3 py-2">
+                            Rating
+                        </th>
+
+                        <th class="border border-neutral-400 px-3 py-2">
+                            Komentar
+                        </th>
+
+                        <th class="border border-neutral-400 px-3 py-2">
+                            Status Balasan
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach($reviews as $review)
+
+                    <tr>
+
+                        <td class="border border-neutral-300 px-3 py-2">
+                            {{ $review->created_at->format('d M Y') }}
+                        </td>
+
+                        <td class="border border-neutral-300 px-3 py-2">
+                            {{ $review->user->name }}
+                        </td>
+
+                        <td class="border border-neutral-300 px-3 py-2">
+                            {{ $review->product->name }}
+                        </td>
+
+                        <td class="border border-neutral-300 px-3 py-2">
+                            {{ $review->rating }}/5
+                        </td>
+
+                        <td class="border border-neutral-300 px-3 py-2">
+                            {{ $review->comment }}
+                        </td>
+
+                        <td class="border border-neutral-300 px-3 py-2">
+
+                            {{ $review->admin_reply
+                                ? 'Sudah Dibalas'
+                                : 'Belum Dibalas'
+                            }}
+
+                        </td>
+
+                    </tr>
+
+                    @endforeach
+
+                </tbody>
+
+            </table>
+
+            <div class="mt-16 flex justify-end">
+
+                <div class="text-center">
+
+                    <p>
+                        Kepala Departement <br>
+                        Ekonomi Kreatif HIMARPL
+                    </p>
+
+                    <div class="h-20"></div>
+
+                    <p>(________________)</p>
+
+                </div>
 
             </div>
 
@@ -439,4 +718,60 @@
 
     </div>
 
+
 @endsection
+
+<style>
+.print-header{
+    display:none;
+}
+
+@media print {
+
+    .print-header{
+        display:block !important;
+    }
+
+    .no-print{
+        display:none !important;
+    }
+
+    aside,
+    nav,
+    header{
+        display:none !important;
+    }
+
+    body{
+        background:white !important;
+    }
+
+    table{
+        min-width:100% !important;
+    }
+
+}
+
+</style>
+
+<script>
+
+function printReport() {
+
+    const printContents =
+        document.getElementById('print-report').innerHTML;
+
+    const originalContents =
+        document.body.innerHTML;
+
+    document.body.innerHTML = printContents;
+
+    window.print();
+
+    document.body.innerHTML = originalContents;
+
+    location.reload();
+
+}
+
+</script>

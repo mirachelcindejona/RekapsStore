@@ -249,6 +249,11 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
                 '/report-review',
                 [ReportController::class, 'review']
             );
+            
+            Route::get(
+                '/report-review/export',
+                [ReportController::class, 'exportReview']
+            );
 
             Route::get(
                 '/report-discount',

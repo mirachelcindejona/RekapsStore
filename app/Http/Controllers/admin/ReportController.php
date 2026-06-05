@@ -6,9 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\FinanceTransactions;
 use App\Models\Product;
 use App\Models\CategoryProduct;
-
+use App\Models\Review;
 
 use App\Exports\FinanceExport;
+use App\Exports\ReviewExport;
 use App\Exports\StockExport;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -196,9 +197,143 @@ class ReportController extends Controller
         return view('admin.report-transaction');
     }
 
-    public function review()
+    public function review(Request $request)
     {
-        return view('admin.report-review');
+        $reviews = Review::with([
+            'user',
+            'product'
+        ])
+
+        ->when($request->search, function ($query) use ($request) {
+
+            $query->whereHas('user', function ($q) use ($request) {
+
+                $q->where(
+                    'name',
+                    'like',
+                    '%' . $request->search . '%'
+                );
+
+            })
+
+            ->orWhereHas('product', function ($q) use ($request) {
+
+                $q->where(
+                    'name',
+                    'like',
+                    '%' . $request->search . '%'
+                );
+
+            });
+
+        })
+
+        ->when($request->rating, function ($query) use ($request) {
+
+            $query->where(
+                'rating',
+                $request->rating
+            );
+
+        })
+
+        ->when($request->from_date, function ($query) use ($request) {
+
+            $query->whereDate(
+                'created_at',
+                '>=',
+                $request->from_date
+            );
+
+        })
+
+        ->when($request->to_date, function ($query) use ($request) {
+
+            $query->whereDate(
+                'created_at',
+                '<=',
+                $request->to_date
+            );
+
+})
+
+        ->latest()
+
+        ->get();
+
+        $totalReviews = Review::count();
+
+        $averageRating = round(
+            Review::avg('rating'),
+            1
+        );
+
+        $positiveReviews = Review::where(
+            'rating',
+            '>=',
+            4
+        )->count();
+
+       $positivePercentage =  $totalReviews > 0
+        ? round(
+            ($positiveReviews / $totalReviews) * 100
+          )
+        : 0;
+
+        $favoriteProduct = Product::withCount(
+            'reviews'
+        )
+        ->orderByDesc(
+            'reviews_count'
+        )
+        ->first();
+
+        $productRatings = Product::with('reviews')
+        ->get()
+        ->map(function ($product) {
+
+            return (object) [
+
+                'name' => $product->name,
+
+                'total_reviews' =>
+                    $product->reviews->count(),
+
+                'average_rating' =>
+                    round(
+                        $product->reviews->avg('rating') ?? 0,
+                        1
+                    ),
+
+                'replied_reviews' =>
+                    $product->reviews
+                        ->whereNotNull('admin_reply')
+                        ->count()
+
+            ];
+
+        })
+        ->sortByDesc('average_rating');
+
+        return view(
+            'admin.report-review',
+            compact(
+                'reviews',
+                'totalReviews',
+                'averageRating',
+                'positivePercentage',
+                'favoriteProduct',
+                'productRatings'
+            )
+        );
+    }
+   
+    public function exportReview()
+    {
+        return Excel::download(
+            new ReviewExport,
+            'laporan-review.xlsx'
+        );
     }
 
     public function discount()
