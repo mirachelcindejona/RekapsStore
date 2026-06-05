@@ -14,32 +14,29 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        // 1. Hitungan statis untuk angka di dalam kurung (Tabs & Dropdown)
         $totalProducts = Product::count();
         $countReady = Product::where('product_type', 'Ready Stok')->count();
         $countPO = Product::where('product_type', 'PO')->count();
         $countJasa = Product::where('product_type', 'Jasa')->count();
         $categories = CategoryProduct::withCount('products')->get();
         
-        // Mulai Query Builder
         $query = Product::with(['category', 'inventory', 'images', 'variants'])->latest();
 
-        // 2. Terapkan Filter Kategori (Jika dipilih)
+        // Filter Kategori (Jika dipilih)
         if ($request->filled('category')) {
             $query->where('category_product_id', $request->category);
         }
 
-        // 3. Terapkan Filter Tipe (Jika diklik dari Tab)
+        // Filter Tipe (Jika diklik dari Tab)
         if ($request->filled('type')) {
             $query->where('product_type', $request->type);
         }
 
-        // 4. Terapkan Filter Status (Jika dipilih)
+        // Filter Status (Jika dipilih)
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
 
-        // 5. Eksekusi Query
         $products = $query->get();
 
         return view('admin.product', compact(
@@ -54,14 +51,12 @@ class ProductController extends Controller
 
     public function create()
     {
-        // Ambil data kategori untuk ditampilkan di dropdown form
         $categories = CategoryProduct::all();
         return view('admin.product-add', compact('categories'));
     }
 
     public function store(Request $request)
     {
-        // 1. Validasi Input dari Form
         $request->validate([
             'name'                => 'required|string|max:255',
             'category_product_id' => 'required|exists:categories_product,id',
@@ -108,21 +103,19 @@ class ProductController extends Controller
 
             $totalMainStock = $request->main_stock ?? 0;
 
-            // Cek & Simpan Varian atau Inventory Utama
             if ($request->has('variant_combo_names') && is_array($request->variant_combo_names) && count($request->variant_combo_names) > 0) {
                 
-                // Ambil Nama Induk (Misal: "Ukuran"), default 'Varian' jika kosong
                 $masterName = $request->variant_master_name ?? 'Varian'; 
                 
-                $values = $request->variant_combo_names; // Array ["S", "M", "L"]
-                $stocks = $request->variant_combo_stocks; // Array ["2", "10", "8"]
+                $values = $request->variant_combo_names;
+                $stocks = $request->variant_combo_stocks;
 
                 foreach ($values as $index => $val) {
                     $stockOnline = isset($stocks[$index]) ? intval($stocks[$index]) : 0;
 
                     $product->variants()->create([
-                        'variant_name'  => $masterName, // Menyimpan "Ukuran"
-                        'variant_value' => $val,        // Menyimpan "S", "M", dst.
+                        'variant_name'  => $masterName,
+                        'variant_value' => $val,
                         'stock_online'  => $stockOnline,
                         'stock_bazar'   => 0,
                     ]);
@@ -152,7 +145,6 @@ class ProductController extends Controller
 
     public function show($slug)
     {
-        // Cari berdasarkan slug, bukan findOrFail($id)
         $product = Product::with(['category', 'images', 'inventory', 'variants', 'stockHistories'])
                           ->where('slug', $slug)
                           ->firstOrFail();
@@ -175,12 +167,11 @@ class ProductController extends Controller
     {
         $product = Product::where('slug', $slug)->firstOrFail();
 
-        // 1. Validasi Input
         $request->validate([
             'name'                => 'required|string|max:255',
             'category_product_id' => 'required|exists:categories_product,id',
             'product_type'        => 'required|in:Ready Stok,PO,Jasa',
-            'product_code'        => 'required|string|max:50|unique:products,product_code,' . $product->id, // Pengecualian unik untuk produk ini sendiri
+            'product_code'        => 'required|string|max:50|unique:products,product_code,' . $product->id,
             'selling_price'       => 'required|numeric|min:0',
             'cost_price'          => 'nullable|numeric|min:0',
             'discount'            => 'nullable|numeric|min:0|max:100',
@@ -195,11 +186,9 @@ class ProductController extends Controller
         try {
             DB::beginTransaction();
 
-            // 2. Update Data Master Produk
             $product->update([
                 'category_product_id' => $request->category_product_id,
                 'name'                => $request->name,
-                // Slug opsional diubah, biasanya jika nama berubah slug juga berubah
                 'slug'                => Str::slug($request->name . '-' . $request->product_code), 
                 'description'         => $request->description,
                 'product_code'        => $request->product_code,
@@ -212,20 +201,16 @@ class ProductController extends Controller
                 'status'              => $request->status ?? 'Aktif',
             ]);
 
-            // 3. Proses Menghapus Gambar Lama (Jika Ada)
             if ($request->has('deleted_images') && is_array($request->deleted_images)) {
                 foreach ($request->deleted_images as $imageId) {
                     $image = $product->images()->find($imageId);
                     if ($image) {
-                        // Hapus file fisik dari storage
                         Storage::disk('public')->delete($image->image_path);
-                        // Hapus dari database
                         $image->delete();
                     }
                 }
             }
 
-            // 4. Proses Menambah Gambar Baru (Jika Ada)
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
                     $path = $image->store('product_images', 'public');
@@ -235,7 +220,6 @@ class ProductController extends Controller
                 }
             }
 
-            // 5. Update Inventory Master (Stok Minimum)
             $inventory = $product->inventory;
             if ($inventory) {
                 $inventory->update([
@@ -249,25 +233,23 @@ class ProductController extends Controller
                 ]);
             }
 
-            // 6. Update Varian / Stok
             if ($request->has('variant_combo_names') && is_array($request->variant_combo_names) && count($request->variant_combo_names) > 0) {
                 
                 $masterName = $request->variant_master_name ?? 'Varian'; 
                 $values = $request->variant_combo_names;
                 $stocks = $request->variant_combo_stocks;
 
-                // Ambil semua ID varian lama untuk nanti dicek mana yang harus dihapus
                 $existingVariantIds = $product->variants->pluck('id')->toArray();
                 $processedVariantIds = [];
 
                 foreach ($values as $index => $val) {
                     $stockOnline = isset($stocks[$index]) ? intval($stocks[$index]) : 0;
 
-                    // Cek apakah varian ini sudah ada sebelumnya
+                    // Cek apakah varian ini udah ada sebelumnya
                     $variant = $product->variants()->where('variant_value', $val)->first();
 
                     if ($variant) {
-                        // Jika ada, update stok online-nya (stok bazar dibiarkan)
+                        // Jika ada, update stok onlinenya (stok bazar dibiarkan)
                         $variant->update([
                             'variant_name' => $masterName,
                             'stock_online' => $stockOnline,
@@ -285,26 +267,23 @@ class ProductController extends Controller
                     }
                 }
 
-                // Hapus varian lama yang tidak dikirim lagi di form edit (artinya user menghapusnya)
+                // Hapus varian lama yang tidak dikirim lagi di form edit
                 $variantsToDelete = array_diff($existingVariantIds, $processedVariantIds);
                 if (count($variantsToDelete) > 0) {
                     $product->variants()->whereIn('id', $variantsToDelete)->delete();
                 }
 
-                // Hitung total stok dari semua varian untuk di-sync ke main_stock
+                // Hitung total stok dari semua varian untuk di sync ke main_stock
                 $totalMainStock = $product->variants()->sum('stock_online') + $product->variants()->sum('stock_bazar');
                 $inventory->update(['main_stock' => $totalMainStock]);
 
             } else {
-                // JIKA TIDAK ADA VARIAN (Produk Single)
-                
                 // Hapus semua varian yang mungkin ada sebelumnya
                 $product->variants()->delete();
 
                 // Update stok utama langsung
                 $inventory->update([
                     'main_stock'  => intval($request->main_stock ?? 0),
-                    // bazar_stock dibiarkan agar tidak mereset stok bazar yang sudah ada
                 ]);
             }
 
@@ -320,10 +299,36 @@ class ProductController extends Controller
     // Menghapus Produk
     public function destroy($slug)
     {
-        $product = Product::where('slug', $slug)->firstOrFail();
-        $product->delete();
+        try {
+            DB::beginTransaction();
 
-        return redirect('/admin/product')->with('success', 'Produk berhasil dihapus!');
+            $product = Product::where('slug', $slug)->firstOrFail();
+
+            if ($product->images && $product->images->count() > 0) {
+                foreach ($product->images as $image) {
+                    if (Storage::disk('public')->exists($image->image_path)) {
+                        Storage::disk('public')->delete($image->image_path);
+                    }
+                }
+            }
+
+            $product->variants()->delete();
+            $product->inventory()->delete();
+            $product->images()->delete();
+            
+            $product->reviews()->delete();
+            $product->stockHistories()->delete();
+
+            $product->delete();
+
+            DB::commit();
+
+            return redirect('/admin/product')->with('success', 'Produk beserta fotonya berhasil dihapus secara permanen!');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect('/admin/product')->with('error', 'Terjadi kesalahan saat menghapus produk: ' . $e->getMessage());
+        }
     }
 
     // Memproses Mutasi Stok

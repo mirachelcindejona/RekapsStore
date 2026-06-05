@@ -699,31 +699,34 @@
     </div>
 
     <div id="modalConfirmDelete"
-        class="modal fixed inset-0 bg-black/50 hidden items-center justify-center z-[9999] opacity-0 transition-opacity duration-300 [&.active]:flex [&.active]:opacity-100">
-        <div
-            class="flex flex-col items-center p-[20px_28px] gap-[24px] w-[355px] bg-neutral-50 shadow-[0_4px_4px_rgba(0,0,0,0.25)] rounded-[20px]">
+        class="fixed inset-0 bg-black/50 hidden items-center justify-center z-[9999] [&.active]:flex">
+        <div class="flex flex-col items-center p-[20px_28px] gap-[24px] w-[355px] bg-neutral-50 shadow-lg rounded-[20px]">
             <div class="w-[114px] h-[114px] flex justify-center items-center">
-                <svg width="114" height="114" viewBox="0 0 114 114" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
+                <svg width="114" height="114" viewBox="0 0 114 114" fill="none">
                     <circle cx="57" cy="57" r="46.5" stroke="#FB2C36" stroke-width="7" />
                     <path d="M57 30V65" stroke="#FB2C36" stroke-width="7" stroke-linecap="round" />
                     <circle cx="57" cy="84" r="5" fill="#FB2C36" />
                 </svg>
             </div>
 
-            <p class="font-normal text-[12px] leading-[16px] text-center text-neutral-500 m-0">
-                Anda yakin ingin menghapus produk <strong><?php echo e($product->name); ?></strong>?
+            <p class="font-normal text-[13px] leading-[18px] text-center text-neutral-600 m-0">
+                Data produk akan terhapus secara permanen! <br>Anda yakin ingin menghapus produk <br> <strong
+                    id="deleteProductName" class="text-black text-[14px]"><?php echo e($product->name); ?></strong>?
             </p>
 
-            <form action="<?php echo e(url('/admin/product/' . $product->slug)); ?>" method="POST"
-                class="flex flex-row justify-center items-center gap-[12px] w-full" onsubmit="disableSubmitButton(this)">
+            <form id="deleteForm" method="POST" action="<?php echo e(url('/admin/product/' . $product->slug)); ?>"
+                class="flex flex-row justify-center items-center gap-[12px] w-full">
                 <?php echo csrf_field(); ?>
                 <?php echo method_field('DELETE'); ?>
-                <button type="button"
-                    class="px-[16px] py-[8px] w-[110px] h-[32px] bg-neutral-300 rounded-xl text-[#868686] font-bold text-[12px] cursor-pointer outline-none border-none"
-                    onclick="closeModal('modalConfirmDelete')">Batal</button>
+
+                <button type="button" onclick="closeModal('modalConfirmDelete')"
+                    class="px-[16px] py-[8px] w-full h-[36px] bg-neutral-300 rounded-xl text-[#868686] font-bold text-[12px] cursor-pointer hover:bg-neutral-400">
+                    Batal
+                </button>
                 <button type="submit"
-                    class="px-[16px] py-[8px] w-[110px] h-[32px] bg-[#fb2c36] shadow-[0_40px_80px_-16px_rgba(62,52,69,0.16),0_2px_4px_rgba(62,52,69,0.25)] rounded-xl text-white font-bold text-[12px] cursor-pointer outline-none border-none">Hapus</button>
+                    class="px-[16px] py-[8px] w-full h-[36px] bg-[#fb2c36] shadow-sm rounded-xl text-white font-bold text-[12px] cursor-pointer hover:bg-red-700">
+                    Ya, Hapus
+                </button>
             </form>
         </div>
     </div>

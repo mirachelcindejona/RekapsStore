@@ -131,23 +131,23 @@ class ProductSeeder extends Seeder
         // LOGIKA BARU: Bisa menerima Array untuk Multi-Gambar
         $images = [
             'jersey-rpl-pink'       => [
-                'product_image/poster-jersey.png',
-                'product_image/jersey.png'
+                'product_images/poster-jersey.png',
+                'product_images/jersey.png'
             ],
-            'stiker-minnix-series'  => 'product_image/stiker1.png',
-            'work-jacket-rpl'       => 'product_image/workjacket.png',
-            'snack-rekaps-box'      => 'product_image/stiker1.png',
-            'jersey-rpl-sky-blue'   => 'product_image/skyjersey.png',
-            'template-cv-rekaps'    => 'product_image/stiker2.png',
-            'stiker-devoria-series' => 'product_image/stiker2.png',
-            'jasa-desain-poster'    => 'product_image/stiker1.png',
-            'tote-bag-rpl'          => 'product_image/workjacket.png',
-            'gantungan-kunci-rpl'   => 'product_image/stiker2.png',
-            'minuman-boba-rekaps'   => 'product_image/stiker1.png',
-            'ebook-panduan-pkl'     => 'product_image/stiker2.png',
-            'jasa-pembuatan-website'=> 'product_image/stiker1.png',
-            'hoodie-rpl'            => 'product_image/workjacket.png',
-            'pin-enamel-rpl'        => 'product_image/stiker2.png',
+            'stiker-minnix-series'  => 'product_images/stiker1.png',
+            'work-jacket-rpl'       => 'product_images/workjacket.png',
+            'snack-rekaps-box'      => 'product_images/stiker1.png',
+            'jersey-rpl-sky-blue'   => 'product_images/skyjersey.png',
+            'template-cv-rekaps'    => 'product_images/stiker2.png',
+            'stiker-devoria-series' => 'product_images/stiker2.png',
+            'jasa-desain-poster'    => 'product_images/stiker1.png',
+            'tote-bag-rpl'          => 'product_images/workjacket.png',
+            'gantungan-kunci-rpl'   => 'product_images/stiker2.png',
+            'minuman-boba-rekaps'   => 'product_images/stiker1.png',
+            'ebook-panduan-pkl'     => 'product_images/stiker2.png',
+            'jasa-pembuatan-website'=> 'product_images/stiker1.png',
+            'hoodie-rpl'            => 'product_images/workjacket.png',
+            'pin-enamel-rpl'        => 'product_images/stiker2.png',
         ];
 
         $variants = [

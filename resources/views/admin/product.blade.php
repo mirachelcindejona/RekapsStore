@@ -258,7 +258,8 @@
             </div>
 
             <p class="font-normal text-[13px] leading-[18px] text-center text-neutral-600 m-0">
-                Anda yakin ingin menghapus produk <br> <strong id="deleteProductName" class="text-black text-[14px]">Nama
+                Data produk akan terhapus secara permanen! <br>Anda yakin ingin menghapus produk <br> <strong
+                    id="deleteProductName" class="text-black text-[14px]">Nama
                     Produk</strong>?
             </p>
 
