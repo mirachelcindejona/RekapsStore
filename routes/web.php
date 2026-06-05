@@ -16,6 +16,8 @@ use App\Http\Controllers\Admin\Auth\LoginAdminController;
 use App\Http\Controllers\Admin\Auth\ForgotPasswordAdminController;
 use App\Http\Controllers\Admin\Auth\VerificationCodeAdminController;
 use App\Http\Controllers\Admin\Auth\ResetPasswordAdminController;
+use App\Http\Controllers\Admin\FinanceController;
+use App\Http\Controllers\Admin\ReportController;
 
 // Controller User
 use App\Http\Controllers\Auth\LoginController;
@@ -168,89 +170,41 @@ Route::get('/admin', function () {
 
 Route::middleware(['auth', 'check.banned'])->group(function () {
 
-// Route::get('/admin/finance', function (Request $request) {
+// Route::post('/admin/finance/store', function (Request $request) {
 
-//     $transactions = FinanceTransactions::query()
+//     FinanceTransactions::create([
+//         'date' => $request->date,
+//         'description' => $request->description,
+//         'category' => $request->category,
+//         'type' => $request->type,
+//         'amount' => $request->amount,
+//     ]);
 
-//         ->when($request->search, function ($query) use ($request) {
+//     return redirect('/admin/finance');
 
-//             $query->where('description', 'like', '%' . $request->search . '%')
-//                   ->orWhere('category', 'like', '%' . $request->search . '%');
-
-//         })
-
-//         ->when($request->type && $request->type != 'Semua', function ($query) use ($request) {
-
-//             $query->where('type', $request->type);
-
-//         })
-
-//         ->when($request->from_date, function ($query) use ($request) {
-
-//             $query->whereDate('date', '>=', $request->from_date);
-
-//         })
-
-//         ->when($request->to_date, function ($query) use ($request) {
-
-//             $query->whereDate('date', '<=', $request->to_date);
-
-//         })
-
-//         ->latest()
-//         ->get();
-
-//         $totalIncome = FinanceTransactions::where('type', 'Pemasukan')->sum('amount');
-
-//         $totalExpense = FinanceTransactions::where('type', 'Pengeluaran')->sum('amount');
-
-//         $balance = $totalIncome - $totalExpense;
-
-//     return view(
-//         'admin.finance',
-//         compact('transactions',
-//         'totalIncome',
-//         'totalExpense',
-//         'balance'
-//         )
-//     );
 // });
 
-Route::post('/admin/finance/store', function (Request $request) {
+// Route::delete('/admin/finance/delete/{id}', function ($id) {
 
-    FinanceTransactions::create([
-        'date' => $request->date,
-        'description' => $request->description,
-        'category' => $request->category,
-        'type' => $request->type,
-        'amount' => $request->amount,
-    ]);
+//     FinanceTransactions::findOrFail($id)->delete();
 
-    return redirect('/admin/finance');
+//     return redirect('/admin/finance');
 
-});
+// });
 
-Route::delete('/admin/finance/delete/{id}', function ($id) {
+// Route::post('/admin/finance/update/{id}', function (Illuminate\Http\Request $request, $id) {
 
-    FinanceTransactions::findOrFail($id)->delete();
+//     FinanceTransactions::findOrFail($id)->update([
+//         'amount' => $request->amount,
+//         'type' => $request->type,
+//         'date' => $request->date,
+//         'category' => $request->category,
+//         'description' => $request->description,
+//     ]);
 
-    return redirect('/admin/finance');
+//     return redirect('/admin/finance');
 
-});
-
-Route::post('/admin/finance/update/{id}', function (Illuminate\Http\Request $request, $id) {
-
-    FinanceTransactions::findOrFail($id)->update([
-        'amount' => $request->amount,
-        'type' => $request->type,
-        'date' => $request->date,
-        'category' => $request->category,
-        'description' => $request->description,
-    ]);
-
-    return redirect('/admin/finance');
-
-});
+// });
     // LOGOUT BERSAMA
     Route::post('/admin/logout', [LoginAdminController::class, 'logout'])->name('admin.logout');
 
@@ -293,54 +247,67 @@ Route::post('/admin/finance/update/{id}', function (Illuminate\Http\Request $req
         // Modul Keuangan
         Route::middleware(['permission:keuangan'])->group(function () {
             // Route::get('/finance', function () { return view('admin.finance'); })->name('admin.finance');
-            Route::get('/finance', function (Request $request) {
-
-                $transactions = FinanceTransactions::query()
-
-                    ->when($request->search, function ($query) use ($request) {
-
-                        $query->where('description', 'like', '%' . $request->search . '%')
-                            ->orWhere('category', 'like', '%' . $request->search . '%');
-
-                    })
-
-                    ->when($request->type && $request->type != 'Semua', function ($query) use ($request) {
-
-                        $query->where('type', $request->type);
-
-                    })
-
-                    ->when($request->from_date, function ($query) use ($request) {
-
-                        $query->whereDate('date', '>=', $request->from_date);
-
-                    })
-
-                    ->when($request->to_date, function ($query) use ($request) {
-
-                        $query->whereDate('date', '<=', $request->to_date);
-
-                    })
-
-                    ->latest()
-                    ->get();
-
-                    $totalIncome = FinanceTransactions::where('type', 'Pemasukan')->sum('amount');
-
-                    $totalExpense = FinanceTransactions::where('type', 'Pengeluaran')->sum('amount');
-
-                    $balance = $totalIncome - $totalExpense;
-
-                return view(
-                    'admin.finance',
-                    compact('transactions',
-                    'totalIncome',
-                    'totalExpense',
-                    'balance'
-                    )
-                );
-            });
             
+            Route::get(
+                '/finance',
+                [FinanceController::class, 'index']
+            );
+
+            Route::post(
+                '/finance/store',
+                [FinanceController::class, 'store']
+            );
+
+            Route::post(
+                '/finance/update/{id}',
+                [FinanceController::class, 'update']
+            );
+
+            Route::delete(
+                '/finance/delete/{id}',
+                [FinanceController::class, 'destroy']
+            );
+        });
+
+        Route::middleware(['permission:laporan'])->group(function () {
+            Route::get(
+                '/reports',
+                [ReportController::class, 'index']
+            );
+                        
+            Route::get(
+                '/report-finance',
+                [ReportController::class, 'finance']
+            );
+
+            Route::get(
+                '/report-finance/export',
+                [ReportController::class, 'exportFinance']
+            );
+
+            Route::get(
+                '/report-stock',
+                [ReportController::class, 'stock']
+            );
+            Route::get(
+                '/report-stock/export',
+                [ReportController::class, 'exportStock']
+            );
+
+            Route::get(
+                '/report-transaction',
+                [ReportController::class, 'transaction']
+            );
+
+            Route::get(
+                '/report-review',
+                [ReportController::class, 'review']
+            );
+
+            Route::get(
+                '/report-discount',
+                [ReportController::class, 'discount']
+            );
         });
 
         // Modul Promo / Diskon
@@ -348,15 +315,15 @@ Route::post('/admin/finance/update/{id}', function (Illuminate\Http\Request $req
             Route::get('/promo', function () { return view('admin.promo'); })->name('admin.promo');
         });
 
-        Route::middleware(['permission:laporan'])->group(function () {
-            Route::get('/reports', function () { return view('admin.reports'); });
-            Route::get('/report-sales', function () { return view('admin.report-sales'); });
-            Route::get('/report-finance', function () { return view('admin.report-finance'); });
-            Route::get('/report-stock', function () { return view('admin.report-stock'); });
-            Route::get('/report-transaction', function () { return view('admin.report-transaction'); });
-            Route::get('/report-review', function () { return view('admin.report-review'); });
-            Route::get('/report-discount', function () { return view('admin.report-discount'); });
-        });
+        // Route::middleware(['permission:laporan'])->group(function () {
+        //     Route::get('/reports', function () { return view('admin.reports'); });
+        //     Route::get('/report-sales', function () { return view('admin.report-sales'); });
+        //     Route::get('/report-finance', function () { return view('admin.report-finance'); });
+        //     Route::get('/report-stock', function () { return view('admin.report-stock'); });
+        //     Route::get('/report-transaction', function () { return view('admin.report-transaction'); });
+        //     Route::get('/report-review', function () { return view('admin.report-review'); });
+        //     Route::get('/report-discount', function () { return view('admin.report-discount'); });
+        // });
     });
 
     // KASIR
@@ -368,91 +335,91 @@ Route::post('/admin/finance/update/{id}', function (Illuminate\Http\Request $req
 
 });
 
-Route::get('/admin/report-finance', function () {
+// Route::get('/admin/report-finance', function () {
 
-    $query = FinanceTransactions::query();
+//     $query = FinanceTransactions::query();
 
-    if (request('search')) {
-        $query->where(
-            'description',
-            'like',
-            '%' . request('search') . '%'
-        );
-    }
+//     if (request('search')) {
+//         $query->where(
+//             'description',
+//             'like',
+//             '%' . request('search') . '%'
+//         );
+//     }
 
-    if (request('from_date')) {
-        $query->whereDate(
-            'date',
-            '>=',
-            request('from_date')
-        );
-    }
+//     if (request('from_date')) {
+//         $query->whereDate(
+//             'date',
+//             '>=',
+//             request('from_date')
+//         );
+//     }
 
-    if (request('to_date')) {
-        $query->whereDate(
-            'date',
-            '<=',
-            request('to_date')
-        );
-    }
+//     if (request('to_date')) {
+//         $query->whereDate(
+//             'date',
+//             '<=',
+//             request('to_date')
+//         );
+//     }
 
-    $transactions = $query
-        ->latest()
-        ->get();
+//     $transactions = $query
+//         ->latest()
+//         ->get();
 
-    $totalIncome = (clone $query)
-        ->where('type', 'Pemasukan')
-        ->sum('amount');
+//     $totalIncome = (clone $query)
+//         ->where('type', 'Pemasukan')
+//         ->sum('amount');
 
-    $totalExpense = (clone $query)
-        ->where('type', 'Pengeluaran')
-        ->sum('amount');
+//     $totalExpense = (clone $query)
+//         ->where('type', 'Pengeluaran')
+//         ->sum('amount');
 
-    $balance = $totalIncome - $totalExpense;
+//     $balance = $totalIncome - $totalExpense;
 
-    $totalTransactions = $transactions->count();
+//     $totalTransactions = $transactions->count();
 
-    return view(
-        'admin.report-finance',
-        compact(
-            'transactions',
-            'totalIncome',
-            'totalExpense',
-            'balance',
-            'totalTransactions'
-        )
-    );
+//     return view(
+//         'admin.report-finance',
+//         compact(
+//             'transactions',
+//             'totalIncome',
+//             'totalExpense',
+//             'balance',
+//             'totalTransactions'
+//         )
+//     );
 
-});
+// });
 
-Route::get('/admin/report-finance/export', function () {
+// Route::get('/admin/report-finance/export', function () {
 
-    return Excel::download(
-        new FinanceExport,
-        'laporan-keuangan.xlsx'
-    );
+//     return Excel::download(
+//         new FinanceExport,
+//         'laporan-keuangan.xlsx'
+//     );
 
-});
+// });
 
-Route::get('/admin/report-stock', function () {
-    return view('admin/report-stock'); 
+// Route::get('/admin/report-stock', function () {
+//     return view('admin/report-stock'); 
 
-});
+// });
 
-Route::get('/admin/report-transaction', function () {
-    return view('admin/report-transaction'); 
+// Route::get('/admin/report-transaction', function () {
+//     return view('admin/report-transaction'); 
 
-});
+// });
 
-Route::get('/admin/report-review', function () {
-    return view('admin/report-review'); 
+// Route::get('/admin/report-review', function () {
+//     return view('admin/report-review'); 
 
-});
+// });
 
-Route::get('/admin/report-discount', function () {
-    return view('admin/report-discount'); 
+// Route::get('/admin/report-discount', function () {
+//     return view('admin/report-discount'); 
 
-});
+// });
 
 // Route Admin
 // Route::get('/admin/login', [LoginAdminController::class, 'index'])->name('admin.login');
