@@ -159,9 +159,9 @@ Route::middleware('guest')->group(function () {
     });
 });
 
-Route::get('/admin', function () {
-    return view('admin/dashboard');
-});
+// Route::get('/admin', function () {
+//     return view('admin/dashboard');
+// });
 
 
 // 3. SECURE AREA (Hanya bisa diakses jika SUDAH login)
@@ -216,41 +216,41 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
 //     );
 // });
 
-Route::post('/admin/finance/store', function (Request $request) {
+    Route::post('/admin/finance/store', function (Request $request) {
 
-    FinanceTransactions::create([
-        'date' => $request->date,
-        'description' => $request->description,
-        'category' => $request->category,
-        'type' => $request->type,
-        'amount' => $request->amount,
-    ]);
+        FinanceTransactions::create([
+            'date' => $request->date,
+            'description' => $request->description,
+            'category' => $request->category,
+            'type' => $request->type,
+            'amount' => $request->amount,
+        ]);
 
-    return redirect('/admin/finance');
+        return redirect('/admin/finance');
 
-});
+    });
 
-Route::delete('/admin/finance/delete/{id}', function ($id) {
+    Route::delete('/admin/finance/delete/{id}', function ($id) {
 
-    FinanceTransactions::findOrFail($id)->delete();
+        FinanceTransactions::findOrFail($id)->delete();
 
-    return redirect('/admin/finance');
+        return redirect('/admin/finance');
 
-});
+    });
 
-Route::post('/admin/finance/update/{id}', function (Illuminate\Http\Request $request, $id) {
+    Route::post('/admin/finance/update/{id}', function (Illuminate\Http\Request $request, $id) {
 
-    FinanceTransactions::findOrFail($id)->update([
-        'amount' => $request->amount,
-        'type' => $request->type,
-        'date' => $request->date,
-        'category' => $request->category,
-        'description' => $request->description,
-    ]);
+        FinanceTransactions::findOrFail($id)->update([
+            'amount' => $request->amount,
+            'type' => $request->type,
+            'date' => $request->date,
+            'category' => $request->category,
+            'description' => $request->description,
+        ]);
 
-    return redirect('/admin/finance');
+        return redirect('/admin/finance');
 
-});
+    });
     // LOGOUT BERSAMA
     Route::post('/admin/logout', [LoginAdminController::class, 'logout'])->name('admin.logout');
 
@@ -270,11 +270,17 @@ Route::post('/admin/finance/update/{id}', function (Illuminate\Http\Request $req
                 'product' => 'slug' 
             ]);
 
+            Route::get('/product/{slug}/edit', [ProductController::class, 'edit'])->name('product.edit');
+
+            Route::put('/product/{slug}', [ProductController::class, 'update'])->name('product.update');
+
             Route::controller(CategoryProductController::class)->group(function () {
                 Route::get('categories', 'index');
                 Route::post('categories', 'store');
                 Route::delete('categories/{id}', 'destroy');
             });
+
+            Route::post('/product/{slug}/stock-transfer', [ProductController::class, 'transferStock']);
         });
 
         // Modul Pengguna (Pengurus & Pembeli)
@@ -462,4 +468,3 @@ Route::get('/admin/report-discount', function () {
 // Route User/Client
 // Route::get('/login', [LoginController::class, 'index'])->name('login');
 // Route::get('/register', [RegisterController::class, 'index'])->name('register');
-

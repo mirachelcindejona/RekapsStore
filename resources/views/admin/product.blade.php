@@ -7,32 +7,70 @@
 @section('content')
 
     @if (session('success'))
-        <div
-            class="bg-[#E5FFA1] border border-[#8DB524] text-[#4d660e] px-[16px] py-[12px] rounded-xl mb-[20px] font-bold text-[14px]">
+        <div class="mb-4 p-4 bg-green-100 border-l-4 border-green-500 text-green-700 rounded-lg font-medium shadow-sm">
             {{ session('success') }}
         </div>
     @endif
+    @if (session('error'))
+        <div class="mb-4 p-4 bg-red-100 border-l-4 border-red-500 text-red-700 rounded-lg font-medium shadow-sm">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    <div class="flex overflow-x-auto custom-scrollbar gap-[12px] pb-[10px] w-full max-w-full mb-[12px]">
+        <a href="{{ request()->fullUrlWithQuery(['type' => null]) }}"
+            class="flex justify-center items-center px-[16px] py-[8px] rounded-full text-[14px] font-bold shrink-0 transition-colors duration-200 
+            {{ !request('type') ? 'bg-primary-500 shadow-[0_0_8px_rgba(125,57,235,0.35)] text-white' : 'bg-neutral-200 text-neutral-700 hover:bg-neutral-300' }}">
+            Semua ({{ $totalProducts ?? 0 }})
+        </a>
+
+        <a href="{{ request()->fullUrlWithQuery(['type' => 'Ready Stok']) }}"
+            class="flex justify-center items-center px-[16px] py-[8px] rounded-full text-[14px] font-bold shrink-0 transition-colors duration-200 
+            {{ request('type') == 'Ready Stok' ? 'bg-primary-500 shadow-[0_0_8px_rgba(125,57,235,0.35)] text-white' : 'bg-neutral-200 text-neutral-700 hover:bg-neutral-300' }}">
+            Ready Stok ({{ $countReady ?? 0 }})
+        </a>
+
+        <a href="{{ request()->fullUrlWithQuery(['type' => 'PO']) }}"
+            class="flex justify-center items-center px-[16px] py-[8px] rounded-full text-[14px] font-bold shrink-0 transition-colors duration-200 
+            {{ request('type') == 'PO' ? 'bg-primary-500 shadow-[0_0_8px_rgba(125,57,235,0.35)] text-white' : 'bg-neutral-200 text-neutral-700 hover:bg-neutral-300' }}">
+            PO ({{ $countPO ?? 0 }})
+        </a>
+
+        <a href="{{ request()->fullUrlWithQuery(['type' => 'Jasa']) }}"
+            class="flex justify-center items-center px-[16px] py-[8px] rounded-full text-[14px] font-bold shrink-0 transition-colors duration-200 
+            {{ request('type') == 'Jasa' ? 'bg-primary-500 shadow-[0_0_8px_rgba(125,57,235,0.35)] text-white' : 'bg-neutral-200 text-neutral-700 hover:bg-neutral-300' }}">
+            Jasa ({{ $countJasa ?? 0 }})
+        </a>
+    </div>
 
     <div
         class="flex items-center justify-between mb-[20px] gap-[12px] flex-wrap max-[900px]:flex-col max-[900px]:items-start w-full">
 
-        <div class="flex overflow-x-auto custom-scrollbar gap-[12px] pb-[10px] w-full max-w-full">
-            <a href="{{ url('/admin/product') }}"
-                class="flex justify-center items-center px-[16px] py-[8px] rounded-full text-[14px] font-bold shrink-0 transition-colors duration-200 
-               {{ !request('category') ? 'bg-primary-500 shadow-[0_0_8px_rgba(125,57,235,0.35)] text-white' : 'bg-neutral-200 text-neutral-700 hover:bg-neutral-300' }}">
-                Semua ({{ $totalProducts }})
-            </a>
+        <form method="GET" action="{{ url('/admin/product') }}" id="filterForm"
+            class="flex gap-[12px] flex-wrap items-center">
+            @if (request('type'))
+                <input type="hidden" name="type" value="{{ request('type') }}">
+            @endif
 
-            @foreach ($categories as $cat)
-                <a href="{{ url('/admin/product?category=' . $cat->id) }}"
-                    class="flex justify-center items-center px-[16px] py-[8px] rounded-full text-[14px] font-bold shrink-0 transition-colors duration-200 
-                   {{ request('category') == $cat->id ? 'bg-primary-500 shadow-[0_0_8px_rgba(125,57,235,0.35)] text-white' : 'bg-neutral-200 text-neutral-700 hover:bg-neutral-300' }}">
-                    {{ $cat->name }} ({{ $cat->products_count }})
-                </a>
-            @endforeach
-        </div>
+            <select name="category" onchange="document.getElementById('filterForm').submit()"
+                class="px-[16px] py-[8px] bg-neutral-50 border border-neutral-300 rounded-xl text-[13px] font-bold text-neutral-700 outline-none focus:border-primary-500 focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)] transition-all cursor-pointer appearance-none min-w-[150px]">
+                <option value="">Semua Kategori</option>
+                @foreach ($categories as $cat)
+                    <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>
+                        {{ $cat->name }} ({{ $cat->products_count ?? 0 }})
+                    </option>
+                @endforeach
+            </select>
 
-        <a href="{{ url('/admin/product/create') }}" class="shrink-0 max-[900px]:hidden mt-[10px]">
+            <select name="status" onchange="document.getElementById('filterForm').submit()"
+                class="px-[16px] py-[8px] bg-neutral-50 border border-neutral-300 rounded-xl text-[13px] font-bold text-neutral-700 outline-none focus:border-primary-500 focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)] transition-all cursor-pointer appearance-none min-w-[130px]">
+                <option value="">Semua Status</option>
+                <option value="Aktif" {{ request('status') == 'Aktif' ? 'selected' : '' }}>Aktif</option>
+                <option value="Non-Aktif" {{ request('status') == 'Non-Aktif' ? 'selected' : '' }}>Non-Aktif</option>
+            </select>
+        </form>
+
+        <a href="{{ url('/admin/product/create') }}" class="shrink-0 max-[900px]:hidden">
             <button
                 class="flex items-center justify-center gap-[6px] px-[16px] py-[10px] bg-primary-500 text-neutral-50 rounded-xl text-[13px] font-bold shadow-[0_0_8px_rgba(114,52,214,0.35)] border-none cursor-pointer transition-all duration-[250ms] whitespace-nowrap hover:bg-[#5928a7]">
                 + Tambah Produk
@@ -64,6 +102,25 @@
 
             <tbody>
                 @forelse($products as $product)
+                    @php
+                        // Logika Stok
+                        $hasVariants = $product->variants && $product->variants->count() > 0;
+                        $onlineStock = $hasVariants
+                            ? $product->variants->sum('stock_online')
+                            : $product->inventory->main_stock ?? 0;
+                        $bazarStock = $hasVariants
+                            ? $product->variants->sum('stock_bazar')
+                            : $product->inventory->bazar_stock ?? 0;
+                        $totalStock = $onlineStock + $bazarStock;
+
+                        // Logika Harga Diskon
+                        $discountValue = $product->discount ?? 0;
+                        $finalPrice = $product->selling_price;
+                        if ($discountValue > 0) {
+                            $finalPrice = $product->selling_price - $product->selling_price * ($discountValue / 100);
+                        }
+                    @endphp
+
                     <tr class="hover:bg-primary-50 transition-colors duration-[250ms]">
                         <td
                             class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 align-middle whitespace-nowrap">
@@ -107,13 +164,27 @@
                         </td>
 
                         <td
-                            class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 align-middle whitespace-nowrap font-bold text-[#8DB524]">
-                            Rp{{ number_format($product->selling_price, 0, ',', '.') }}
+                            class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 align-middle whitespace-nowrap">
+                            @if ($discountValue > 0)
+                                <div class="flex flex-col">
+                                    <div class="flex items-center gap-[6px]">
+                                        <span
+                                            class="text-[11px] text-neutral-400 line-through">Rp{{ number_format($product->selling_price, 0, ',', '.') }}</span>
+                                        <span
+                                            class="px-[6px] py-[2px] rounded text-[9px] font-bold bg-[#fefce8] text-[#d08700]">{{ $discountValue }}%</span>
+                                    </div>
+                                    <span
+                                        class="font-bold text-[#8DB524] text-[14px]">Rp{{ number_format($finalPrice, 0, ',', '.') }}</span>
+                                </div>
+                            @else
+                                <span
+                                    class="font-bold text-[#8DB524] text-[14px]">Rp{{ number_format($product->selling_price, 0, ',', '.') }}</span>
+                            @endif
                         </td>
 
                         <td
                             class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 align-middle whitespace-nowrap font-bold">
-                            {{ $product->inventory->main_stock ?? 0 }} pcs
+                            {{ $totalStock }} pcs
                         </td>
 
                         <td
@@ -156,7 +227,7 @@
                 @empty
                     <tr>
                         <td colspan="7" class="text-center py-[40px] text-neutral-500 font-semibold text-[14px]">
-                            Belum ada produk yang ditambahkan.
+                            Belum ada produk yang ditambahkan atau cocok dengan filter.
                         </td>
                     </tr>
                 @endforelse

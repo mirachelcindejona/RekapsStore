@@ -1,24 +1,24 @@
-@extends('admin.layouts.layout')
 
-@section('title', 'Edit Produk - ' . $product->name)
 
-@section('page_title', 'Edit Produk')
+<?php $__env->startSection('title', 'Edit Produk - ' . $product->name); ?>
 
-@section('page_breadcrumb', 'Edit Produk')
+<?php $__env->startSection('page_title', 'Edit Produk'); ?>
 
-@section('content')
+<?php $__env->startSection('page_breadcrumb', 'Edit Produk'); ?>
+
+<?php $__env->startSection('content'); ?>
     <div class="flex items-center gap-[14px] mb-[24px]">
-        <a href="{{ url('/admin/product') }}"
+        <a href="<?php echo e(url('/admin/product')); ?>"
             class="flex items-center justify-center w-[38px] h-[38px] rounded-full bg-neutral-50 border border-[#7D39EB] text-[#7D39EB] shadow-[0_2px_8px_rgba(0,0,0,0.05)] transition-all duration-[250ms] hover:bg-[#7D39EB] hover:text-neutral-50">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round">
                 <path d="M19 12H5M12 19l-7-7 7-7" />
             </svg>
         </a>
-        <h1 class="text-[20px] font-bold text-neutral-900 m-0">Edit Produk: {{ $product->name }}</h1>
+        <h1 class="text-[20px] font-bold text-neutral-900 m-0">Edit Produk: <?php echo e($product->name); ?></h1>
     </div>
 
-    @if ($errors->any())
+    <?php if($errors->any()): ?>
         <div
             class="mb-[20px] p-[16px] bg-[#fef2f2] border border-[#fb2c36] rounded-xl flex items-start gap-[12px] shadow-sm">
             <div class="text-[#fb2c36] mt-[2px]">
@@ -33,18 +33,18 @@
             <div>
                 <h4 class="text-[14px] font-bold text-[#fb2c36] m-0 mb-[4px]">Gagal Menyimpan Perubahan</h4>
                 <ul class="list-disc list-inside text-[12px] text-[#b91c1c] m-0">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
+                    <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <li><?php echo e($error); ?></li>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </ul>
             </div>
         </div>
-    @endif
+    <?php endif; ?>
 
-    <form action="{{ url('/admin/product/' . $product->slug) }}" method="POST" enctype="multipart/form-data"
+    <form action="<?php echo e(url('/admin/product/' . $product->slug)); ?>" method="POST" enctype="multipart/form-data"
         class="grid grid-cols-1 min-[900px]:grid-cols-2 gap-[20px] items-start">
-        @csrf
-        @method('PUT')
+        <?php echo csrf_field(); ?>
+        <?php echo method_field('PUT'); ?>
 
         <div class="flex flex-col">
             <div id="deleted_images_container"></div>
@@ -109,7 +109,7 @@
 
                 <div class="flex flex-col gap-[8px] w-full">
                     <label class="text-[14px] font-normal text-neutral-950">NAMA PRODUK *</label>
-                    <input type="text" name="name" required value="{{ old('name', $product->name) }}"
+                    <input type="text" name="name" required value="<?php echo e(old('name', $product->name)); ?>"
                         class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 placeholder:text-neutral-400 focus:border-[#7D39EB] focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)]"
                         placeholder="Masukkan nama produk" />
                 </div>
@@ -118,13 +118,13 @@
                     <label class="text-[14px] font-normal text-neutral-950">DESKRIPSI PRODUK</label>
                     <textarea name="description"
                         class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 placeholder:text-neutral-400 focus:border-[#7D39EB] focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)] resize-y min-h-[85px]"
-                        placeholder="Deskripsi...">{{ old('description', $product->description) }}</textarea>
+                        placeholder="Deskripsi..."><?php echo e(old('description', $product->description)); ?></textarea>
                 </div>
 
                 <div class="flex flex-col gap-[8px] w-full">
                     <div class="flex justify-between items-center">
                         <label class="text-[14px] font-normal text-neutral-950">KATEGORI *</label>
-                        <a href="{{ url('/admin/categories') }}" target="_blank"
+                        <a href="<?php echo e(url('/admin/categories')); ?>" target="_blank"
                             class="text-[#7D39EB] text-[12px] font-bold hover:underline flex items-center gap-[4px]">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -138,12 +138,13 @@
                     <select name="category_product_id" required
                         class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 focus:border-[#7D39EB]">
                         <option value="">Pilih Kategori</option>
-                        @foreach ($categories as $category)
-                            <option value="{{ $category->id }}"
-                                {{ old('category_product_id', $product->category_product_id) == $category->id ? 'selected' : '' }}>
-                                {{ $category->name }}
+                        <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <option value="<?php echo e($category->id); ?>"
+                                <?php echo e(old('category_product_id', $product->category_product_id) == $category->id ? 'selected' : ''); ?>>
+                                <?php echo e($category->name); ?>
+
                             </option>
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </select>
                 </div>
 
@@ -153,18 +154,18 @@
                         <select name="product_type" required
                             class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 focus:border-[#7D39EB] focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)]">
                             <option value="Ready Stok"
-                                {{ old('product_type', $product->product_type) == 'Ready Stok' ? 'selected' : '' }}>Ready
+                                <?php echo e(old('product_type', $product->product_type) == 'Ready Stok' ? 'selected' : ''); ?>>Ready
                                 Stok</option>
                             <option value="PO"
-                                {{ old('product_type', $product->product_type) == 'PO' ? 'selected' : '' }}>PO</option>
+                                <?php echo e(old('product_type', $product->product_type) == 'PO' ? 'selected' : ''); ?>>PO</option>
                             <option value="Jasa"
-                                {{ old('product_type', $product->product_type) == 'Jasa' ? 'selected' : '' }}>Jasa</option>
+                                <?php echo e(old('product_type', $product->product_type) == 'Jasa' ? 'selected' : ''); ?>>Jasa</option>
                         </select>
                     </div>
                     <div class="flex flex-col gap-[8px] w-full">
                         <label class="text-[14px] font-normal text-neutral-950">KODE PRODUK *</label>
                         <input type="text" name="product_code" required
-                            value="{{ old('product_code', $product->product_code) }}"
+                            value="<?php echo e(old('product_code', $product->product_code)); ?>"
                             class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 placeholder:text-neutral-400 focus:border-[#7D39EB] focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)]"
                             placeholder="cth: PRDK01" />
                     </div>
@@ -172,7 +173,7 @@
 
                 <div class="flex flex-col gap-[8px] w-full">
                     <label class="text-[14px] font-normal text-neutral-950">ESTIMASI SELESAI (PO/Jasa)</label>
-                    <input type="text" name="estimation" value="{{ old('estimation', $product->estimation) }}"
+                    <input type="text" name="estimation" value="<?php echo e(old('estimation', $product->estimation)); ?>"
                         class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 placeholder:text-neutral-400 focus:border-[#7D39EB] focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)]"
                         placeholder="cth: 7 hari kerja" />
                 </div>
@@ -181,7 +182,7 @@
                     <label class="text-[14px] font-normal text-neutral-950">INFO PENGAMBILAN BARANG</label>
                     <textarea name="pickup_info"
                         class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 placeholder:text-neutral-400 focus:border-[#7D39EB] focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)] resize-y min-h-[60px]"
-                        placeholder="cth: Diambil di sekretariat jam 15.00">{{ old('pickup_info', $product->pickup_info) }}</textarea>
+                        placeholder="cth: Diambil di sekretariat jam 15.00"><?php echo e(old('pickup_info', $product->pickup_info)); ?></textarea>
                 </div>
             </div>
         </div>
@@ -195,14 +196,14 @@
                     <div class="flex flex-col gap-[8px] w-full">
                         <label class="text-[14px] font-normal text-neutral-950">HARGA MODAL</label>
                         <input type="number" name="cost_price" id="cost_price"
-                            value="{{ old('cost_price', $product->cost_price) }}"
+                            value="<?php echo e(old('cost_price', $product->cost_price)); ?>"
                             class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 placeholder:text-neutral-400 focus:border-[#7D39EB] focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)]"
                             placeholder="0" />
                     </div>
                     <div class="flex flex-col gap-[8px] w-full">
                         <label class="text-[14px] font-normal text-neutral-950">HARGA JUAL *</label>
                         <input type="number" name="selling_price" id="selling_price" required
-                            value="{{ old('selling_price', $product->selling_price) }}"
+                            value="<?php echo e(old('selling_price', $product->selling_price)); ?>"
                             class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 placeholder:text-neutral-400 focus:border-[#7D39EB] focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)]"
                             placeholder="0" />
                     </div>
@@ -229,14 +230,14 @@
                     <div class="flex flex-col gap-[8px] w-full">
                         <label class="text-[14px] font-normal text-neutral-950">JUMLAH STOK</label>
                         <input type="number" name="main_stock" id="main_stock_input"
-                            value="{{ old('main_stock', $product->inventory->main_stock ?? 0) }}"
+                            value="<?php echo e(old('main_stock', $product->inventory->main_stock ?? 0)); ?>"
                             class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 placeholder:text-neutral-400 focus:border-[#7D39EB] focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)]"
                             placeholder="0" />
                     </div>
                     <div class="flex flex-col gap-[8px] w-full">
                         <label class="text-[14px] font-normal text-neutral-950">STOK MINIMUM (NOTIFIKASI)</label>
                         <input type="number" name="min_stock"
-                            value="{{ old('min_stock', $product->inventory->min_stock ?? 0) }}"
+                            value="<?php echo e(old('min_stock', $product->inventory->min_stock ?? 0)); ?>"
                             class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 placeholder:text-neutral-400 focus:border-[#7D39EB] focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)]"
                             placeholder="0" />
                     </div>
@@ -281,15 +282,15 @@
                         <label class="text-[14px] font-normal text-neutral-950">STATUS</label>
                         <select name="status"
                             class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 focus:border-[#7D39EB] focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)]">
-                            <option value="Aktif" {{ old('status', $product->status) == 'Aktif' ? 'selected' : '' }}>
+                            <option value="Aktif" <?php echo e(old('status', $product->status) == 'Aktif' ? 'selected' : ''); ?>>
                                 Aktif</option>
                             <option value="Non-Aktif"
-                                {{ old('status', $product->status) == 'Non-Aktif' ? 'selected' : '' }}>Non-Aktif</option>
+                                <?php echo e(old('status', $product->status) == 'Non-Aktif' ? 'selected' : ''); ?>>Non-Aktif</option>
                         </select>
                     </div>
                     <div class="flex flex-col gap-[8px] w-full">
                         <label class="text-[14px] font-normal text-neutral-950">DISKON (%)</label>
-                        <input type="number" name="discount" value="{{ old('discount', $product->discount) }}"
+                        <input type="number" name="discount" value="<?php echo e(old('discount', $product->discount)); ?>"
                             class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 placeholder:text-neutral-400 focus:border-[#7D39EB] focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)]"
                             placeholder="0" min="0" max="100" />
                     </div>
@@ -308,9 +309,9 @@
             </button>
         </div>
     </form>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('footer')
+<?php $__env->startSection('footer'); ?>
     <script>
         // 1. FITUR HITUNG MARGIN OTOMATIS
         const costInput = document.getElementById('cost_price');
@@ -342,28 +343,28 @@
         let storedStocks = {};
 
         // Injeksi Varian Lama dari Database
-        @if ($product->variants && $product->variants->count() > 0)
+        <?php if($product->variants && $product->variants->count() > 0): ?>
             variantGroups.push({
                 id: generateId(),
                 name: 'Varian Tersimpan', // Nama default
                 options: [
-                    @foreach ($product->variants as $var)
-                        "{{ $var->variant_value }}",
-                    @endforeach
+                    <?php $__currentLoopData = $product->variants; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $var): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        "<?php echo e($var->variant_value); ?>",
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 ]
             });
 
-            @foreach ($product->variants as $var)
+            <?php $__currentLoopData = $product->variants; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $var): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 // Menggabungkan stok online & bazar untuk ditampilkan di 1 kotak saat edit
-                storedStocks["{{ $var->variant_value }}"] = {{ $var->stock_online + $var->stock_bazar }};
-            @endforeach
-        @else
+                storedStocks["<?php echo e($var->variant_value); ?>"] = <?php echo e($var->stock_online + $var->stock_bazar); ?>;
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        <?php else: ?>
             variantGroups.push({
                 id: generateId(),
                 name: '',
                 options: []
             });
-        @endif
+        <?php endif; ?>
 
         function generateId() {
             return Math.random().toString(36).substr(2, 9);
@@ -553,14 +554,14 @@
 
         // 3. FITUR GALERI FOTO LAMA & BARU (MAX 6 FOTO)
         let existingImages = [
-            @if ($product->images)
-                @foreach ($product->images as $img)
+            <?php if($product->images): ?>
+                <?php $__currentLoopData = $product->images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $img): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     {
-                        id: {{ $img->id }},
-                        url: "{{ asset('storage/' . $img->image_path) }}"
+                        id: <?php echo e($img->id); ?>,
+                        url: "<?php echo e(asset('storage/' . $img->image_path)); ?>"
                     },
-                @endforeach
-            @endif
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            <?php endif; ?>
         ];
         let productImages = []; // Array untuk file foto BARU
         let activeImageIndex = 0;
@@ -705,4 +706,6 @@
         renderVariantGroups();
         renderImageGallery();
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin.layouts.layout', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\rekapsapp-byweebs\resources\views/admin/product-edit.blade.php ENDPATH**/ ?>

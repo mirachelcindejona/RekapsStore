@@ -1,30 +1,32 @@
-@extends('admin.layouts.layout')
 
-@section('title', 'Kelola Kategori')
 
-@section('page_title', 'Kelola Kategori Produk')
+<?php $__env->startSection('title', 'Kelola Kategori'); ?>
 
-@section('page_breadcrumb', 'Kelola Kategori Produk')
+<?php $__env->startSection('page_title', 'Kelola Kategori Produk'); ?>
 
-@section('content')
-    @if (session('success'))
+<?php $__env->startSection('page_breadcrumb', 'Kelola Kategori Produk'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <?php if(session('success')): ?>
         <div class="mb-4 p-4 bg-green-100 border-l-4 border-green-500 text-green-700 rounded-lg font-medium shadow-sm">
-            {{ session('success') }}
+            <?php echo e(session('success')); ?>
+
         </div>
-    @endif
-    @if (session('error'))
+    <?php endif; ?>
+    <?php if(session('error')): ?>
         <div class="mb-4 p-4 bg-red-100 border-l-4 border-red-500 text-red-700 rounded-lg font-medium shadow-sm">
-            {{ session('error') }}
+            <?php echo e(session('error')); ?>
+
         </div>
-    @endif
+    <?php endif; ?>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-[20px]">
 
         <div class="md:col-span-1 bg-white shadow-sm rounded-xl p-[20px] h-fit border border-neutral-200">
             <h3 class="font-bold text-[16px] mb-[15px]">Tambah Kategori Baru</h3>
 
-            <form action="{{ url('/admin/categories') }}" method="POST" class="flex flex-col gap-3">
-                @csrf
+            <form action="<?php echo e(url('/admin/categories')); ?>" method="POST" class="flex flex-col gap-3">
+                <?php echo csrf_field(); ?>
                 <div>
                     <label class="text-[13px] text-neutral-700">Nama Kategori</label>
                     <input type="text" name="name" required
@@ -49,24 +51,26 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($categories as $index => $category)
+                    <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <tr class="border-b border-neutral-200 hover:bg-neutral-50">
-                            <td class="py-3 px-2 text-[14px]">{{ $index + 1 }}</td>
-                            <td class="py-3 px-2 text-[14px] font-semibold">{{ $category->name }}</td>
+                            <td class="py-3 px-2 text-[14px]"><?php echo e($index + 1); ?></td>
+                            <td class="py-3 px-2 text-[14px] font-semibold"><?php echo e($category->name); ?></td>
                             <td class="py-3 px-2">
-                                <form action="{{ url('/admin/categories/' . $category->id) }}" method="POST"
+                                <form action="<?php echo e(url('/admin/categories/' . $category->id)); ?>" method="POST"
                                     onsubmit="return confirm('Yakin ingin menghapus kategori ini?');">
-                                    @csrf
-                                    @method('DELETE')
+                                    <?php echo csrf_field(); ?>
+                                    <?php echo method_field('DELETE'); ?>
                                     <button type="submit"
                                         class="text-red-500 hover:text-red-700 text-[13px] font-bold">Hapus</button>
                                 </form>
                             </td>
                         </tr>
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </tbody>
             </table>
         </div>
 
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin.layouts.layout', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\rekapsapp-byweebs\resources\views/admin/category.blade.php ENDPATH**/ ?>

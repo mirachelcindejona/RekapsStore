@@ -10,12 +10,14 @@ class CategoryProductController extends Controller
 {
     public function index()
     {
+        logger('CATEGORY INDEX '.microtime(true));
         $categories = CategoryProduct::latest()->get();
         return view('admin.category', compact('categories'));
     }
 
     public function store(Request $request)
     {
+        logger('STORE CATEGORY');
         $request->validate(['name' => 'required|string|max:100']);
         
         CategoryProduct::create(['name' => $request->name]);

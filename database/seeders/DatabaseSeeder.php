@@ -49,6 +49,7 @@ class DatabaseSeeder extends Seeder
             CategoryProductSeeder::class,
             ProductSeeder::class,
             VoucherSeeder::class,
+            ReviewSeeder::class,
         ]);
 
         $this->call([
