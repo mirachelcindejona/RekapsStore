@@ -1,12 +1,10 @@
-@extends('admin.layouts.layout')
+<?php $__env->startSection('title', 'Laporan Stok Barang'); ?>
 
-@section('title', 'Laporan Stok Barang')
+<?php $__env->startSection('page_title', 'Laporan & Rekap'); ?>
 
-@section('page_title', 'Laporan & Rekap')
+<?php $__env->startSection('page_breadcrumb', 'Laporan Stok Barang'); ?>
 
-@section('page_breadcrumb', 'Laporan Stok Barang')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 
         <div class="hidden print-header">
 
@@ -21,7 +19,8 @@
                 </h2>
 
                 <p class="mt-[6px] text-[14px] text-neutral-600">
-                    Dicetak pada {{ now()->format('d F Y') }}
+                    Dicetak pada <?php echo e(now()->format('d F Y')); ?>
+
                 </p>
 
             </div>
@@ -33,7 +32,7 @@
 
         <div class="flex items-center gap-[14px] mb-[24px]">
 
-            <a href="{{ url('/admin/reports') }}"
+            <a href="<?php echo e(url('/admin/reports')); ?>"
                 class="flex items-center justify-center w-[38px] h-[38px] rounded-full bg-neutral-50 border border-primary-500 text-primary-500 shadow-[0_2px_8px_rgba(0,0,0,0.05)] transition-all duration-[250ms] hover:bg-primary-500 hover:text-neutral-50">
 
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
@@ -101,7 +100,8 @@
             </p>
 
             <h2 class="text-3xl font-black text-neutral-950">
-                {{ $totalProducts }}
+                <?php echo e($totalProducts); ?>
+
             </h2>
 
         </div>
@@ -127,7 +127,8 @@
             </p>
 
             <h2 class="text-3xl font-black text-neutral-950">
-                {{ $totalStock }}
+                <?php echo e($totalStock); ?>
+
             </h2>
 
         </div>
@@ -155,7 +156,8 @@
             </p>
 
             <h2 class="text-3xl font-black text-neutral-950">
-                {{ $lowStockProducts }}
+                <?php echo e($lowStockProducts); ?>
+
             </h2>
 
         </div>
@@ -181,7 +183,8 @@
             </p>
 
             <h2 class="text-3xl font-black text-neutral-950">
-                Rp {{ number_format($inventoryValue,0,',','.') }}
+                Rp <?php echo e(number_format($inventoryValue,0,',','.')); ?>
+
             </h2>
 
         </div>
@@ -189,7 +192,7 @@
     </div>
 
      <!-- FILTER -->
-    <form method="GET" action="{{ url('/admin/report-stock') }}" class="bg-neutral-50 rounded-[20px] p-[18px] shadow-[0_2px_16px_rgba(0,0,0,0.07)] mb-[24px]">
+    <form method="GET" action="<?php echo e(url('/admin/report-stock')); ?>" class="bg-neutral-50 rounded-[20px] p-[18px] shadow-[0_2px_16px_rgba(0,0,0,0.07)] mb-[24px]">
 
         <div class="flex items-end justify-between flex-wrap gap-[18px]">
 
@@ -211,17 +214,18 @@
                             Semua Kategori
                         </option>
 
-                        @foreach($categories as $category)
+                        <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                             <option
-                                value="{{ $category->id }}"
-                                {{ request('category') == $category->id ? 'selected' : '' }}>
+                                value="<?php echo e($category->id); ?>"
+                                <?php echo e(request('category') == $category->id ? 'selected' : ''); ?>>
 
-                                {{ $category->name }}
+                                <?php echo e($category->name); ?>
+
 
                             </option>
 
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                     </select>
 
@@ -244,13 +248,13 @@
 
                         <option
                             value="aman"
-                            {{ request('stock_status') == 'aman' ? 'selected' : '' }}>
+                            <?php echo e(request('stock_status') == 'aman' ? 'selected' : ''); ?>>
                             Aman
                         </option>
 
                         <option
                             value="low"
-                            {{ request('stock_status') == 'low' ? 'selected' : '' }}>
+                            <?php echo e(request('stock_status') == 'low' ? 'selected' : ''); ?>>
                             Low Stock
                         </option>
 
@@ -275,19 +279,19 @@
 
                         <option
                             value="Ready Stok"
-                            {{ request('product_type') == 'Ready Stok' ? 'selected' : '' }}>
+                            <?php echo e(request('product_type') == 'Ready Stok' ? 'selected' : ''); ?>>
                             Ready Stok
                         </option>
 
                         <option
                             value="PO"
-                            {{ request('product_type') == 'PO' ? 'selected' : '' }}>
+                            <?php echo e(request('product_type') == 'PO' ? 'selected' : ''); ?>>
                             PO
                         </option>
 
                         <option
                             value="Jasa"
-                            {{ request('product_type') == 'Jasa' ? 'selected' : '' }}>
+                            <?php echo e(request('product_type') == 'Jasa' ? 'selected' : ''); ?>>
                             Jasa
                         </option>
 
@@ -298,7 +302,7 @@
             </div>
 
             <div class="flex gap-[10px]">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama produk..."
+                <input type="text" name="search" value="<?php echo e(request('search')); ?>" placeholder="Cari nama produk..."
                     class="w-[240px] px-[14px] py-[10px] rounded-xl border border-neutral-200 outline-none text-[13px]">
 
 
@@ -308,7 +312,7 @@
                     Cari
                 </button>
 
-                <a href="{{ url('/admin/report-stock') }}"
+                <a href="<?php echo e(url('/admin/report-stock')); ?>"
                     class="px-[20px] py-[11px] border border-neutral-300 rounded-xl font-bold text-[13px] text-neutral-600 hover:bg-neutral-100 transition-all duration-[250ms]">
                     Reset
                 </a>
@@ -360,57 +364,63 @@
 
             <tbody>
 
-                @foreach($products as $product)
+                <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                 
 
                 <tr>
 
                     <td class="px-[16px] py-[14px] border-t border-neutral-200">
-                        {{ $product->name }}
+                        <?php echo e($product->name); ?>
+
                     </td>
 
                     <td class="px-[16px] py-[14px] border-t border-neutral-200">
-                        {{ $product->category->name }}
+                        <?php echo e($product->category->name); ?>
+
                     </td>
 
                     <td class="px-[16px] py-[14px] border-t border-neutral-200">
-                        Rp {{ number_format($product->cost_price,0,',','.') }}
+                        Rp <?php echo e(number_format($product->cost_price,0,',','.')); ?>
+
                     </td>
 
                     <td class="px-[16px] py-[14px] border-t border-neutral-200">
-                        Rp {{ number_format($product->selling_price,0,',','.') }}
+                        Rp <?php echo e(number_format($product->selling_price,0,',','.')); ?>
+
                     </td>
 
                     <td class="px-[16px] py-[14px] border-t border-neutral-200 font-semibold">
-                        {{ $product->total_stock }}
+                        <?php echo e($product->total_stock); ?>
+
                     </td>
 
                     <td class="px-[16px] py-[14px] border-t border-neutral-200">
-                        Rp {{ number_format($product->total_stock * $product->cost_price,0,',','.') }}
+                        Rp <?php echo e(number_format($product->total_stock * $product->cost_price,0,',','.')); ?>
+
                     </td>
 
                     <td class="px-[16px] py-[14px] border-t border-neutral-200">
 
-                        @if($product->total_stock < 10)
+                        <?php if($product->total_stock < 10): ?>
 
                             <span class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-red-100 text-red-500">
                                 Low Stock
                             </span>
 
-                        @else
+                        <?php else: ?>
 
                             <span class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-green-100 text-green-600">
                                 Aman
                             </span>
 
-                        @endif
+                        <?php endif; ?>
 
                     </td>
 
                 </tr>
 
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
             </tbody>
 
@@ -433,7 +443,8 @@
                 </h2>
 
                 <p class="text-sm text-neutral-500 mt-2">
-                    Dicetak pada {{ now()->format('d F Y') }}
+                    Dicetak pada <?php echo e(now()->format('d F Y')); ?>
+
                 </p>
 
             </div>
@@ -450,28 +461,32 @@
                         <div class="flex justify-between">
                             <span>Total Produk</span>
                             <span class="font-semibold">
-                                {{ $totalProducts }}
+                                <?php echo e($totalProducts); ?>
+
                             </span>
                         </div>
 
                         <div class="flex justify-between">
                             <span>Total Stok</span>
                             <span class="font-semibold">
-                                {{ $totalStock }}
+                                <?php echo e($totalStock); ?>
+
                             </span>
                         </div>
 
                         <div class="flex justify-between">
                             <span>Produk Low Stock</span>
                             <span class="font-semibold">
-                                {{ $lowStockProducts }}
+                                <?php echo e($lowStockProducts); ?>
+
                             </span>
                         </div>
 
                         <div class="flex justify-between">
                             <span>Nilai Inventaris</span>
                             <span class="font-semibold">
-                                Rp {{ number_format($inventoryValue,0,',','.') }}
+                                Rp <?php echo e(number_format($inventoryValue,0,',','.')); ?>
+
                             </span>
                         </div>
 
@@ -524,41 +539,48 @@
 
                 <tbody>
 
-                    @foreach($products as $product)
+                    <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                     <tr>
 
                         <td class="border border-neutral-300 px-3 py-2">
-                            {{ $product->name }}
+                            <?php echo e($product->name); ?>
+
                         </td>
 
                         <td class="border border-neutral-300 px-3 py-2">
-                            {{ $product->category->name }}
+                            <?php echo e($product->category->name); ?>
+
                         </td>
 
                         <td class="border border-neutral-300 px-3 py-2">
-                            Rp {{ number_format($product->cost_price,0,',','.') }}
+                            Rp <?php echo e(number_format($product->cost_price,0,',','.')); ?>
+
                         </td>
 
                         <td class="border border-neutral-300 px-3 py-2">
-                            Rp {{ number_format($product->selling_price,0,',','.') }}
+                            Rp <?php echo e(number_format($product->selling_price,0,',','.')); ?>
+
                         </td>
 
                         <td class="border border-neutral-300 px-3 py-2">
-                            {{ $product->total_stock }}
+                            <?php echo e($product->total_stock); ?>
+
                         </td>
 
                         <td class="border border-neutral-300 px-3 py-2">
-                            Rp {{ number_format($product->total_stock * $product->cost_price,0,',','.') }}
+                            Rp <?php echo e(number_format($product->total_stock * $product->cost_price,0,',','.')); ?>
+
                         </td>
 
                         <td class="border border-neutral-300 px-3 py-2">
-                            {{ $product->total_stock < 10 ? 'Low Stock' : 'Aman' }}
+                            <?php echo e($product->total_stock < 10 ? 'Low Stock' : 'Aman'); ?>
+
                         </td>
 
                     </tr>
 
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                 </tbody>
 
@@ -582,7 +604,7 @@
 
     </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
 <style>
 .print-header{
@@ -638,3 +660,4 @@ function printReport() {
 }
 
 </script>
+<?php echo $__env->make('admin.layouts.layout', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\RekapsStore\resources\views/admin/report-stock.blade.php ENDPATH**/ ?>

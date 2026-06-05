@@ -5,6 +5,28 @@
 @endsection
 
 @section('content')
+{{-- Success Toast --}}
+@if(session('success'))
+<div id="successToast" class="fixed top-18 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-white border border-neutral-200 rounded-xl px-5 py-3 shadow-lg">
+    <div class="w-7 h-7 rounded-full bg-primary-50 flex items-center justify-center shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+        </svg>
+    </div>
+    <p class="text-sm font-semibold text-neutral-700">{{ session('success') }}</p>
+</div>
+
+<script>
+    setTimeout(() => {
+        const toast = document.getElementById('successToast');
+        if (toast) {
+            toast.style.transition = 'opacity 0.4s';
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 400);
+        }
+    }, 3000);
+</script>
+@endif
 
 {{-- back-button --}}
 <a href="{{ url()->previous() }}" class="hidden w-fit sm:flex font-semibold text-neutral-500 gap-2 items-center pb-2 cursor-pointer mt-2">
@@ -75,12 +97,19 @@
             </div>
 
             {{-- variants --}}
-            @foreach ($product->variants as $variant)
+            @php
+                $groupedVariants = $product->variants->groupBy('variant_name');
+            @endphp
+
+            @foreach ($groupedVariants as $variantName => $variantOptions)
             <div class="flex gap-5 items-center">
-                <span class="font-semibold text-[14px]">{{ $variant->variant_name }}</span>
+                <span class="font-semibold text-[14px]">{{ $variantName }}</span>
                 <ul class="flex gap-2 text-[14px] text-neutral-500 font-semibold w-full sm:w-auto">
-                    @foreach (json_decode($variant->variant_values) as $value)
-                    <li class="size min-w-7 max-w-max h-7 flex items-center justify-center px-2 {{ $loop->first ? 'active' : '' }}">{{ $value }}</li>
+                    @foreach ($variantOptions as $variant)
+                    <li class="size min-w-7 max-w-max h-7 flex items-center justify-center px-2 {{ $loop->first ? 'active' : '' }}"
+                        data-variant-id="{{ $variant->id }}">
+                        {{ $variant->variant_value }}
+                    </li>
                     @endforeach
                 </ul>
             </div>
@@ -94,14 +123,32 @@
         </div>
 
         <div class="flex-1 w-full flex flex-col items-end justify-end gap-2 text-sm font-medium">
-            <button class="bg-neutral-50 border-2 text-primary-500 py-2 rounded-xl w-full flex justify-center items-center gap-2 hover:bg-primary-50 cursor-pointer transition-all duration-300 ease-in-out">
-                <img src="{{ asset('assets/icons/cart-ill.svg') }}" alt="">
-                Masukan Keranjang
-            </button>
-            <button class="bg-primary-500 border-2 border-primary-500 text-neutral-50 py-2 rounded-xl w-full flex justify-center items-center gap-2 hover:bg-primary-600 cursor-pointer transition-all duration-300 ease-in-out">
-                <img src="{{ asset('assets/icons/buy-ill.svg') }}" alt="">
-                Beli Sekarang
-            </button>
+    
+            <form class="w-full" method="POST" action="{{ route('cart.add') }}" id="cartForm">
+                @csrf
+                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                <input type="hidden" name="variant_id" id="selectedVariantId" value="">
+                <input type="hidden" name="quantity" id="selectedQty" value="1">
+                
+                <button type="submit" class="bg-neutral-50 border-2 text-primary-500 py-2 rounded-xl w-full flex justify-center items-center gap-2 hover:bg-primary-50 cursor-pointer transition-all duration-300 ease-in-out">
+                    <img src="{{ asset('assets/icons/cart-ill.svg') }}" alt="">
+                    Masukan Keranjang
+                </button>
+            </form>
+
+            <form class="w-full" method="POST" action="{{ route('cart.add') }}" id="buyForm">
+                @csrf
+                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                <input type="hidden" name="variant_id" id="selectedVariantIdBuy" value="">
+                <input type="hidden" name="quantity" id="selectedQtyBuy" value="1">
+                <input type="hidden" name="redirect" value="checkout">
+                
+                <button type="submit" class="bg-primary-500 border-2 border-primary-500 text-neutral-50 py-2 rounded-xl w-full flex justify-center items-center gap-2 hover:bg-primary-600 cursor-pointer transition-all duration-300 ease-in-out">
+                    <img src="{{ asset('assets/icons/buy-ill.svg') }}" alt="">
+                    Beli Sekarang
+                </button>
+            </form>
+
         </div>
 
     </div>
@@ -221,14 +268,25 @@
 <script>
     document.addEventListener("DOMContentLoaded", () => {
 
-        // SIZE
+        // SIZE — update hidden input variant_id
         const sizes = document.querySelectorAll(".size");
         sizes.forEach(size => {
             size.addEventListener("click", function () {
                 sizes.forEach(item => item.classList.remove("active"));
                 this.classList.add("active");
+
+                const variantId = this.dataset.variantId;
+                document.getElementById('selectedVariantId').value = variantId;
+                document.getElementById('selectedVariantIdBuy').value = variantId;
             });
         });
+
+        // Set default variant (first size)
+        const firstSize = document.querySelector(".size");
+        if (firstSize) {
+            document.getElementById('selectedVariantId').value = firstSize.dataset.variantId ?? '';
+            document.getElementById('selectedVariantIdBuy').value = firstSize.dataset.variantId ?? '';
+        }
 
         // DETAIL TOGGLE
         const detailToggle = document.getElementById("detailToggle");
@@ -264,5 +322,15 @@
 
     closeImageModal.addEventListener("click", closeModal);
     closeBtn.addEventListener("click", closeModal);
+
+    // SYNC QTY ke form
+    function changeQty(btn, delta) {
+        const span = btn.closest('.flex.items-center.gap-1').querySelector('.qty-value');
+        let val = parseInt(span.textContent) + delta;
+        if (val < 1) val = 1;
+        span.textContent = val;
+        document.getElementById('selectedQty').value = val;
+        document.getElementById('selectedQtyBuy').value = val;
+    }
 </script>
 @endsection

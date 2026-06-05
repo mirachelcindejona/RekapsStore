@@ -182,7 +182,6 @@ class ProductSeeder extends Seeder
                 foreach ($variants[$product->slug] as $size) {
                     $variantOnlineStock = 10;
                     $variantBazarStock = 5;
-
                     $variant = $product->variants()->create([
                         'variant_name'  => 'Ukuran',
                         'variant_value' => $size,
