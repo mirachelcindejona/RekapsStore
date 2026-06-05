@@ -23,6 +23,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\VerificationCodeController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Client\CartController;
 
 
 // 1. PUBLIC ROUTES (Halaman Pengunjung & Pembeli)
@@ -42,69 +43,6 @@ Route::get('/product/{slug}', function ($slug) {
                 ->firstOrFail();
     return view('product-detail', compact('product'));
 })->name('product-detail');
-
-Route::get('/cart', function () {
-    $products = Product::with(['category', 'images', 'variants'])->get();
-    return view('cart', compact('products'));
-});
-
-Route::post('/checkout', function () {
-    $selectedIds = request('selected_products', []);
-
-    if (empty($selectedIds)) {
-        return redirect('/cart')->with('error', 'Pilih produk terlebih dahulu.');
-    }
-
-    session(['checkout_products' => $selectedIds]);
-
-    return redirect('/checkout');
-});
-
-Route::get('/checkout', function () {
-    $selectedIds = session('checkout_products', []);
-
-    if (empty($selectedIds)) {
-        return redirect('/cart');
-    }
-
-    $products = Product::with(['category', 'images', 'variants'])
-        ->whereIn('id', $selectedIds)
-        ->get();
-
-    $vouchers = Voucher::where('status', 'Aktif')
-        ->where('end_date', '>=', now())
-        ->get();
-
-    return view('checkout', compact('products', 'vouchers'));
-});
-
-Route::post('/payment', function () {
-    $selectedIds = session('checkout_products', []);
-
-    if (empty($selectedIds)) {
-        return redirect('/cart');
-    }
-
-    $products = Product::with(['images'])
-        ->whereIn('id', $selectedIds)
-        ->get();
-
-    $total = $products->sum(fn($p) => $p->selling_price - ($p->selling_price * $p->discount / 100));
-
-    session(['payment_total' => $total]);
-
-    return redirect('/payment');
-});
-
-Route::get('/payment', function () {
-    $total = session('payment_total');
-
-    if (!$total) {
-        return redirect('/cart');
-    }
-
-    return view('payment', compact('total'));
-});
 
 // 2. AUTENTIKASI (Hanya bisa diakses jika BELUM login / Guest)
 Route::middleware('guest')->group(function () {
@@ -364,6 +302,104 @@ Route::post('/admin/finance/update/{id}', function (Illuminate\Http\Request $req
         Route::get('/cashier', function () { return view('pengurus.cashier'); })->name('pengurus.cashier');
         Route::get('/cashier-orders', function () { return view('pengurus.cashier-orders'); })->name('pengurus.cashier.orders');
         Route::get('/cashier-recap', function () { return view('pengurus.cashier-recap'); })->name('pengurus.cashier.recap');
+    });
+
+    // CLIENT - Cart, Checkout, Payment
+    Route::get('/cart', [CartController::class, 'index']);
+    Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+    Route::post('/cart/update/{itemId}', [CartController::class, 'update'])->name('cart.update');
+    Route::delete('/cart/remove/{itemId}', [CartController::class, 'remove'])->name('cart.remove');
+
+    Route::post('/checkout/update-qty', function () {
+        $productId = request('product_id');
+        $qty = max(1, (int) request('quantity'));
+
+        $qtys = session('checkout_qtys', []);
+        $qtys[$productId] = $qty;
+        session(['checkout_qtys' => $qtys]);
+
+        return response()->json(['success' => true]);
+    });
+
+    Route::post('/checkout', function () {
+        $selectedIds = request('selected_products', []);
+        if (empty($selectedIds)) {
+            return redirect('/cart')->with('error', 'Pilih produk terlebih dahulu.');
+        }
+
+        $cart = \App\Models\Cart::where('user_id', auth()->id())->first();
+        $cartItems = $cart ? $cart->items->whereIn('product_id', $selectedIds) : collect();
+
+        $checkoutItems = $cartItems->map(fn($item) => [
+            'product_id' => $item->product_id,
+            'variant_id' => $item->product_variant_id,
+            'quantity'   => $item->quantity,
+        ])->values()->toArray();
+
+        // checkout_qtys diisi dari qty cart sebagai nilai awal
+        $checkoutQtys = $cartItems->mapWithKeys(fn($item) => [
+            $item->product_id => $item->quantity,
+        ])->toArray();
+
+        session([
+            'checkout_products' => $selectedIds,
+            'checkout_items'    => $checkoutItems,
+            'checkout_qtys'     => $checkoutQtys,
+        ]);
+
+        return redirect('/checkout');
+    });
+
+    Route::get('/checkout', function () {
+        $selectedIds = session('checkout_products', []);
+        $checkoutItems = session('checkout_items', []);
+        $checkoutQtys = session('checkout_qtys', []);
+
+        if (empty($selectedIds)) {
+            return redirect('/cart');
+        }
+
+        $products = Product::with(['category', 'images', 'variants'])
+            ->whereIn('id', $selectedIds)
+            ->get()
+            ->map(function ($product) use ($checkoutItems, $checkoutQtys) {
+                $item = collect($checkoutItems)->firstWhere('product_id', $product->id);
+                // checkout_qtys lebih prioritas karena itu hasil update dari halaman checkout
+                $product->checkout_qty = $checkoutQtys[$product->id] ?? $item['quantity'] ?? 1;
+                $product->checkout_variant_id = $item['variant_id'] ?? null;
+                return $product;
+            });
+
+        $vouchers = Voucher::where('status', 'Aktif')
+            ->where('end_date', '>=', now())
+            ->get();
+
+        return view('checkout', compact('products', 'vouchers'));
+    });
+
+    Route::post('/payment', function () {
+        $selectedIds = session('checkout_products', []);
+        if (empty($selectedIds)) {
+            return redirect('/cart');
+        }
+        $products = Product::with(['images'])
+            ->whereIn('id', $selectedIds)
+            ->get();
+        $total = $products->sum(fn($p) => $p->selling_price - ($p->selling_price * $p->discount / 100));
+        session(['payment_total' => $total]);
+        return redirect('/payment');
+    });
+
+    Route::get('/payment', function () {
+        $total = session('payment_total');
+        if (!$total) {
+            return redirect('/cart');
+        }
+        return view('payment', compact('total'));
+    });
+
+    Route::get('/history', function () {
+        return view('history');
     });
 
 });

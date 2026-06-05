@@ -22,6 +22,28 @@
 
 <?php $__env->startSection('content'); ?>
 
+<?php if(session('success')): ?>
+<div id="successToast" class="fixed top-18 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-white border border-neutral-200 rounded-xl px-5 py-3 shadow-lg">
+    <div class="w-7 h-7 rounded-full bg-primary-50 flex items-center justify-center shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+        </svg>
+    </div>
+    <p class="text-sm font-semibold text-neutral-700"><?php echo e(session('success')); ?></p>
+</div>
+
+<script>
+    setTimeout(() => {
+        const toast = document.getElementById('successToast');
+        if (toast) {
+            toast.style.transition = 'opacity 0.4s';
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 400);
+        }
+    }, 3000);
+</script>
+<?php endif; ?>
+
 
 <a href="<?php echo e(url()->previous()); ?>" class="hidden w-fit sm:flex font-semibold text-neutral-500 gap-2 items-center pb-2 cursor-pointer mt-2">
     <img src="<?php echo e(asset('assets/icons/back.svg')); ?>" alt="">
@@ -93,12 +115,20 @@
             </div>
 
             
-            <?php $__currentLoopData = $product->variants; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $variant): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <?php
+                $groupedVariants = $product->variants->groupBy('variant_name');
+            ?>
+
+            <?php $__currentLoopData = $groupedVariants; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $variantName => $variantOptions): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <div class="flex gap-5 items-center">
-                <span class="font-semibold text-[14px]"><?php echo e($variant->variant_name); ?></span>
+                <span class="font-semibold text-[14px]"><?php echo e($variantName); ?></span>
                 <ul class="flex gap-2 text-[14px] text-neutral-500 font-semibold w-full sm:w-auto">
-                    <?php $__currentLoopData = json_decode($variant->variant_values); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <li class="size min-w-7 max-w-max h-7 flex items-center justify-center px-2 <?php echo e($loop->first ? 'active' : ''); ?>"><?php echo e($value); ?></li>
+                    <?php $__currentLoopData = $variantOptions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $variant): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <li class="size min-w-7 max-w-max h-7 flex items-center justify-center px-2 <?php echo e($loop->first ? 'active' : ''); ?>"
+                        data-variant-id="<?php echo e($variant->id); ?>">
+                        <?php echo e($variant->variant_value); ?>
+
+                    </li>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </ul>
             </div>
@@ -131,14 +161,32 @@
         </div>
 
         <div class="flex-1 w-full flex flex-col items-end justify-end gap-2 text-sm font-medium">
-            <button class="bg-neutral-50 border-2 text-primary-500 py-2 rounded-xl w-full flex justify-center items-center gap-2 hover:bg-primary-50 cursor-pointer transition-all duration-300 ease-in-out">
-                <img src="<?php echo e(asset('assets/icons/cart-ill.svg')); ?>" alt="">
-                Masukan Keranjang
-            </button>
-            <button class="bg-primary-500 border-2 border-primary-500 text-neutral-50 py-2 rounded-xl w-full flex justify-center items-center gap-2 hover:bg-primary-600 cursor-pointer transition-all duration-300 ease-in-out">
-                <img src="<?php echo e(asset('assets/icons/buy-ill.svg')); ?>" alt="">
-                Beli Sekarang
-            </button>
+    
+            <form class="w-full" method="POST" action="<?php echo e(route('cart.add')); ?>" id="cartForm">
+                <?php echo csrf_field(); ?>
+                <input type="hidden" name="product_id" value="<?php echo e($product->id); ?>">
+                <input type="hidden" name="variant_id" id="selectedVariantId" value="">
+                <input type="hidden" name="quantity" id="selectedQty" value="1">
+                
+                <button type="submit" class="bg-neutral-50 border-2 text-primary-500 py-2 rounded-xl w-full flex justify-center items-center gap-2 hover:bg-primary-50 cursor-pointer transition-all duration-300 ease-in-out">
+                    <img src="<?php echo e(asset('assets/icons/cart-ill.svg')); ?>" alt="">
+                    Masukan Keranjang
+                </button>
+            </form>
+
+            <form class="w-full" method="POST" action="<?php echo e(route('cart.add')); ?>" id="buyForm">
+                <?php echo csrf_field(); ?>
+                <input type="hidden" name="product_id" value="<?php echo e($product->id); ?>">
+                <input type="hidden" name="variant_id" id="selectedVariantIdBuy" value="">
+                <input type="hidden" name="quantity" id="selectedQtyBuy" value="1">
+                <input type="hidden" name="redirect" value="checkout">
+                
+                <button type="submit" class="bg-primary-500 border-2 border-primary-500 text-neutral-50 py-2 rounded-xl w-full flex justify-center items-center gap-2 hover:bg-primary-600 cursor-pointer transition-all duration-300 ease-in-out">
+                    <img src="<?php echo e(asset('assets/icons/buy-ill.svg')); ?>" alt="">
+                    Beli Sekarang
+                </button>
+            </form>
+
         </div>
 
     </div>
@@ -280,14 +328,25 @@
 <script>
     document.addEventListener("DOMContentLoaded", () => {
 
-        // SIZE
+        // SIZE — update hidden input variant_id
         const sizes = document.querySelectorAll(".size");
         sizes.forEach(size => {
             size.addEventListener("click", function () {
                 sizes.forEach(item => item.classList.remove("active"));
                 this.classList.add("active");
+
+                const variantId = this.dataset.variantId;
+                document.getElementById('selectedVariantId').value = variantId;
+                document.getElementById('selectedVariantIdBuy').value = variantId;
             });
         });
+
+        // Set default variant (first size)
+        const firstSize = document.querySelector(".size");
+        if (firstSize) {
+            document.getElementById('selectedVariantId').value = firstSize.dataset.variantId ?? '';
+            document.getElementById('selectedVariantIdBuy').value = firstSize.dataset.variantId ?? '';
+        }
 
         // DETAIL TOGGLE
         const detailToggle = document.getElementById("detailToggle");
@@ -323,6 +382,16 @@
 
     closeImageModal.addEventListener("click", closeModal);
     closeBtn.addEventListener("click", closeModal);
+
+    // SYNC QTY ke form
+    function changeQty(btn, delta) {
+        const span = btn.closest('.flex.items-center.gap-1').querySelector('.qty-value');
+        let val = parseInt(span.textContent) + delta;
+        if (val < 1) val = 1;
+        span.textContent = val;
+        document.getElementById('selectedQty').value = val;
+        document.getElementById('selectedQtyBuy').value = val;
+    }
 </script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('components.client.layout', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\x395\OneDrive\Desktop\WEEBS\RekapsStore\resources\views/product-detail.blade.php ENDPATH**/ ?>

@@ -11,7 +11,11 @@
     {{-- ===== KIRI: Checkout Items ===== --}}
     <div class="flex flex-col gap-2 w-full md:flex-1">
         @foreach ($products as $product)
-            <x-client.checkout-item :product="$product" />
+            <x-client.checkout-item 
+                :product="$product"
+                :qty="$product->checkout_qty"
+                :variantId="$product->checkout_variant_id"
+            />
         @endforeach
     </div>
 
@@ -31,9 +35,13 @@
             <div id="detailTransaksi" class="hidden flex-col gap-2 border-t border-neutral-100 pt-3">
                 <p class="text-xs font-semibold text-neutral-500 mb-1">Detail Transaksimu</p>
                 @foreach ($products as $product)
-                <div class="flex items-center justify-between">
-                    <p class="text-xs text-neutral-600 truncate max-w-[60%]">{{ $product->name }}</p>
-                    <p class="text-xs font-semibold text-neutral-800">Rp{{ number_format($product->selling_price - ($product->selling_price * $product->discount / 100), 0, ',', '.') }}</p>
+                <div class="flex items-center justify-between" id="detail-item-{{ $product->id }}">
+                    <p class="text-xs text-neutral-600 truncate max-w-[60%]">
+                        {{ $product->name }} (<span class="detail-qty-{{ $product->id }}">x{{ $product->checkout_qty }}</span>)
+                    </p>
+                    <p class="text-xs font-semibold text-neutral-800 detail-total-{{ $product->id }}">
+                        Rp{{ number_format(($product->selling_price - ($product->selling_price * $product->discount / 100)) * $product->checkout_qty, 0, ',', '.') }}
+                    </p>
                 </div>
                 @endforeach
                 <div class="border-t border-neutral-100 pt-2 mt-1">
@@ -48,7 +56,9 @@
             {{-- Total + Bayar --}}
             <div class="flex items-center justify-between">
                 <p class="text-sm font-semibold text-neutral-700">Total Harga</p>
-                <p class="text-sm font-semibold text-primary-500">Rp{{ number_format($products->sum(fn($p) => $p->selling_price - ($p->selling_price * $p->discount / 100)), 0, ',', '.') }}</p>
+                <p id="checkoutTotal" class="text-sm font-semibold text-primary-500">
+                    Rp{{ number_format($products->sum(fn($p) => ($p->selling_price - ($p->selling_price * $p->discount / 100)) * $p->checkout_qty), 0, ',', '.') }}
+                </p>
             </div>
             <form method="POST" action="/payment">
                 @csrf
@@ -105,7 +115,6 @@ function toggleDetail() {
     const detail = document.getElementById('detailTransaksi');
     const btn = document.getElementById('toggleDetailBtn');
     const isHidden = detail.classList.contains('hidden');
-
     if (isHidden) {
         detail.classList.remove('hidden');
         detail.classList.add('flex');
@@ -116,6 +125,69 @@ function toggleDetail() {
         btn.textContent = 'Lihat Detail Transaksi';
     }
 }
+
+function updateCheckoutTotal() {
+    let total = 0;
+    document.querySelectorAll('.checkout-item').forEach(item => {
+        const price = parseFloat(item.dataset.price);
+        const qty = parseInt(item.dataset.qty);
+        const productId = item.dataset.productId;
+        total += price * qty;
+
+        // update item total di checkout-item
+        const itemTotal = item.querySelector('.item-total');
+        if (itemTotal) itemTotal.textContent = 'Rp' + (price * qty).toLocaleString('id-ID');
+
+        const qtyLabel = item.querySelector('.qty-label');
+        if (qtyLabel) qtyLabel.textContent = 'Jumlah: ' + qty;
+
+        // sinkron detail transaksi
+        const detailQty = document.querySelector(`.detail-qty-${productId}`);
+        const detailTotal = document.querySelector(`.detail-total-${productId}`);
+        if (detailQty) detailQty.textContent = 'x' + qty;
+        if (detailTotal) detailTotal.textContent = 'Rp' + (price * qty).toLocaleString('id-ID');
+    });
+
+    document.getElementById('checkoutTotal').textContent =
+        'Rp' + total.toLocaleString('id-ID');
+}
+
+// Override changeQty untuk checkout
+function changeQty(btn, delta) {
+    const span = btn.closest('.flex.items-center.gap-1').querySelector('.qty-value');
+    let val = parseInt(span.textContent) + delta;
+    if (val < 1) val = 1;
+    span.textContent = val;
+
+    // update data-qty di checkout-item
+    const item = btn.closest('.checkout-item');
+    if (item) {
+        item.dataset.qty = val;
+        updateCheckoutTotal();
+
+        // simpan ke session
+        fetch('/checkout/update-qty', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                product_id: item.dataset.productId,
+                quantity: val
+            })
+        });
+        return;
+    }
+
+    // update hidden input quantity (untuk product-detail)
+    const qtyInput = document.getElementById('selectedQty');
+    if (qtyInput) qtyInput.value = val;
+    const qtyInputBuy = document.getElementById('selectedQtyBuy');
+    if (qtyInputBuy) qtyInputBuy.value = val;
+}
+
+document.addEventListener('DOMContentLoaded', updateCheckoutTotal);
 </script>
 
 @endsection
