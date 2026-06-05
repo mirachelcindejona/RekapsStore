@@ -252,6 +252,24 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
         Route::middleware(['permission:diskon'])->group(function () {
             Route::get('/promo', function () { return view('admin.promo'); })->name('admin.promo');
         });
+
+        Route::middleware(['permission:kasir'])->group(function () {
+            Route::get('/cashier', function () { return view('admin.cashier'); })->name('admin.cashier');
+            Route::get('/cashier-orders', function () { return view('admin.cashier-orders'); })->name('admin.cashier.orders');
+            Route::get('/cashier-recap', function () { return view('admin.cashier-recap'); })->name('admin.cashier.recap');
+
+            Route::get('/cashier', [CashierController::class, 'index'])->name('admin.cashier');
+            Route::get('/cashier/products', [CashierController::class, 'getProducts']);
+            
+            // Manajemen Keranjang (Session-Based POS)
+            Route::post('/cashier/cart/add', [CashierController::class, 'addToCart']);
+            Route::post('/cashier/cart/update', [CashierController::class, 'updateCart']);
+            Route::post('/cashier/cart/remove', [CashierController::class, 'removeFromCart']);
+            Route::post('/cashier/cart/clear', [CashierController::class, 'clearCart']);
+            
+            // Proses Pembayaran & Transaksi
+            Route::post('/cashier/checkout', [CashierController::class, 'checkout']);
+        });
     });
 
     // CLIENT - Cart, Checkout, Payment
