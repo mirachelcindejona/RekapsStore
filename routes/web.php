@@ -245,31 +245,12 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
                 [ReportController::class, 'transaction']
             );
 
-            Route::get(
-                '/report-review',
-                [ReportController::class, 'review']
-            );
-
-            Route::get(
-                '/report-discount',
-                [ReportController::class, 'discount']
-            );
         });
 
         // Modul Promo / Diskon
         Route::middleware(['permission:diskon'])->group(function () {
             Route::get('/promo', function () { return view('admin.promo'); })->name('admin.promo');
         });
-
-        // Route::middleware(['permission:laporan'])->group(function () {
-        //     Route::get('/reports', function () { return view('admin.reports'); });
-        //     Route::get('/report-sales', function () { return view('admin.report-sales'); });
-        //     Route::get('/report-finance', function () { return view('admin.report-finance'); });
-        //     Route::get('/report-stock', function () { return view('admin.report-stock'); });
-        //     Route::get('/report-transaction', function () { return view('admin.report-transaction'); });
-        //     Route::get('/report-review', function () { return view('admin.report-review'); });
-        //     Route::get('/report-discount', function () { return view('admin.report-discount'); });
-        // });
     });
 
     // KASIR
