@@ -128,23 +128,22 @@ class ProductSeeder extends Seeder
             ],
         ];
 
-        // Folder penyimpanan sudah disesuaikan ke 'product_image/'
         $images = [
-            'jersey-rpl-pink'       => 'product_image/poster-jersey.png',
-            'stiker-minnix-series'  => 'product_image/stiker1.png',
-            'work-jacket-rpl'       => 'product_image/workjacket.png',
-            'snack-rekaps-box'      => 'product_image/stiker1.png',
-            'jersey-rpl-sky-blue'   => 'product_image/skyjersey.png',
-            'template-cv-rekaps'    => 'product_image/stiker2.png',
-            'stiker-devoria-series' => 'product_image/stiker2.png',
-            'jasa-desain-poster'    => 'product_image/stiker1.png',
-            'tote-bag-rpl'          => 'product_image/workjacket.png',
-            'gantungan-kunci-rpl'   => 'product_image/stiker2.png',
-            'minuman-boba-rekaps'   => 'product_image/stiker1.png',
-            'ebook-panduan-pkl'     => 'product_image/stiker2.png',
-            'jasa-pembuatan-website'=> 'product_image/stiker1.png',
-            'hoodie-rpl'            => 'product_image/workjacket.png',
-            'pin-enamel-rpl'        => 'product_image/stiker2.png',
+            'jersey-rpl-pink'       => 'assets/img/products/pinkjersey.png',
+            'stiker-minnix-series'  => 'assets/img/products/stiker1.png',
+            'work-jacket-rpl'       => 'assets/img/products/workjacket.png',
+            'snack-rekaps-box'      => 'assets/img/products/stiker1.png',
+            'jersey-rpl-sky-blue'   => 'assets/img/products/skyjersey.png',
+            'template-cv-rekaps'    => 'assets/img/products/stiker2.png',
+            'stiker-devoria-series' => 'assets/img/products/stiker2.png',
+            'jasa-desain-poster'    => 'assets/img/products/stiker1.png',
+            'tote-bag-rpl'          => 'assets/img/products/workjacket.png',
+            'gantungan-kunci-rpl'   => 'assets/img/products/stiker2.png',
+            'minuman-boba-rekaps'   => 'assets/img/products/stiker1.png',
+            'ebook-panduan-pkl'     => 'assets/img/products/stiker2.png',
+            'jasa-pembuatan-website'=> 'assets/img/products/stiker1.png',
+            'hoodie-rpl'            => 'assets/img/products/workjacket.png',
+            'pin-enamel-rpl'        => 'assets/img/products/stiker2.png',
         ];
 
         $variants = [
@@ -156,20 +155,18 @@ class ProductSeeder extends Seeder
         ];
 
         foreach ($products as $productData) {
-            // 1. Simpan Produk (Menggunakan Eloquent agar relasinya mudah diakses)
             $product = Product::create($productData);
 
-            // 2. Simpan Gambar Produk
             if (isset($images[$product->slug])) {
-                $product->images()->create([
-                    'image_path' => $images[$product->slug],
+                $product->images()->createMany([
+                    ['image_path' => $images[$product->slug]],
+                    ['image_path' => $images[$product->slug]],
+                    ['image_path' => $images[$product->slug]],
                 ]);
             }
 
-            // 3. Simpan Varian & Stok (Hapus logika JSON yang lama)
             if (isset($variants[$product->slug])) {
                 foreach ($variants[$product->slug] as $size) {
-                    // Buat Varian (Baris per Baris)
                     $variant = $product->variants()->create([
                         'variant_name'  => 'Ukuran',
                         'variant_value' => $size,

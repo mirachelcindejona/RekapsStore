@@ -1,15 +1,16 @@
-@props(['product', 'price' => 0])
+@props(['product', 'price' => 0, 'quantity' => 1, 'itemId' => null, 'variantId' => null])
 
-<div class="flex items-center bg-neutral-50 px-3 py-5 rounded-xl gap-3">
+<div class="flex items-center bg-neutral-50 px-3 py-5 rounded-xl gap-3" data-item-id="{{ $itemId }}">
 
     {{-- Checkbox --}}
     <div class="flex justify-center shrink-0">
-        <input 
-            type="checkbox" 
+        <input
+            type="checkbox"
             class="cart-item w-4 h-4 accent-primary-500 rounded cursor-pointer"
             name="selected_products[]"
             value="{{ $product->id }}"
             data-price="{{ $price }}"
+            data-qty="{{ $quantity }}"
             onchange="syncSelectAll(); updateTotal();"
         >
     </div>
@@ -23,8 +24,12 @@
             <div class="flex flex-col">
                 <p class="text-sm font-bold text-neutral-800 truncate">{{ $product->name }}</p>
                 <p class="text-xs text-neutral-400 mb-0.5">
-                    {{ $product->variants->first()->variant_name ?? '-' }}:
-                    {{ implode(', ', json_decode($product->variants->first()->variant_values ?? '[]', true)) }}
+                    @if($product->variants->first())
+                        {{ $product->variants->first()->variant_name }}:
+                        {{ optional($product->variants->firstWhere('id', $variantId))->variant_value ?? '-' }}
+                    @else
+                        -
+                    @endif
                 </p>
                 <p class="text-sm text-neutral-500 line-through">Rp{{ number_format($product->selling_price, 0, ',', '.') }}</p>
                 <p class="text-[16px] font-semibold text-primary-500">Rp{{ number_format($price, 0, ',', '.') }}</p>
@@ -33,10 +38,13 @@
                     <span class="leading-none">{{ $product->product_type }}</span>
                 </div>
             </div>
-            <x-client.quantity :qty="1" />
+            <x-client.quantity :qty="$quantity" />
         </div>
         <div class="flex items-center justify-between">
-            <button type="button" class="group w-7 h-7 flex items-center justify-center rounded-lg bg-neutral-100 border cursor-pointer border-neutral-300 hover:border-red-500 hover:bg-red-100 transition">
+            <button 
+                type="button" 
+                onclick="deleteItem({{ $itemId }})"
+                class="group w-7 h-7 flex items-center justify-center rounded-lg bg-neutral-100 border cursor-pointer border-neutral-300 hover:border-red-500 hover:bg-red-100 transition">
                 <img src="{{ asset('assets/icons/delete-bin-line.svg') }}" alt="" class="block group-hover:hidden">
                 <img src="{{ asset('assets/icons/delete-bin-line-h.svg') }}" alt="" class="hidden group-hover:block">
             </button>
@@ -58,21 +66,28 @@
             </div>
         </div>
         <p class="text-sm text-neutral-500 text-center">
-            {{ $product->variants->first()->variant_name ?? '-' }}:
-            {{ implode(', ', json_decode($product->variants->first()->variant_values ?? '[]', true)) }}
+            @if($product->variants->first())
+                {{ $product->variants->first()->variant_name }}:
+                {{ optional($product->variants->firstWhere('id', $variantId))->variant_value ?? '-' }}
+            @else
+                -
+            @endif
         </p>
         <div class="text-center">
-            <p class="text-[10px] text-neutral-400">-</p>
             <p class="text-sm text-neutral-500 line-through">Rp{{ number_format($product->selling_price, 0, ',', '.') }}</p>
             <p class="text-lg font-semibold text-primary-500">Rp{{ number_format($price, 0, ',', '.') }}</p>
         </div>
         <div class="flex justify-center">
-            <x-client.quantity :qty="1" />
+            <x-client.quantity :qty="$quantity" />
         </div>
-        <button type="button" class="group w-7 h-7 flex items-center justify-center rounded-lg bg-neutral-100 border cursor-pointer border-neutral-300 hover:border-red-500 hover:bg-red-100 transition">
+        {{-- DESKTOP delete button --}}
+        <button 
+            type="button"
+            onclick="deleteItem({{ $itemId }})"
+            class="group w-7 h-7 flex items-center justify-center rounded-lg bg-neutral-100 border cursor-pointer border-neutral-300 hover:border-red-500 hover:bg-red-100 transition">
             <img src="{{ asset('assets/icons/delete-bin-line.svg') }}" alt="" class="block group-hover:hidden">
             <img src="{{ asset('assets/icons/delete-bin-line-h.svg') }}" alt="" class="hidden group-hover:block">
         </button>
     </div>
-
+    
 </div>

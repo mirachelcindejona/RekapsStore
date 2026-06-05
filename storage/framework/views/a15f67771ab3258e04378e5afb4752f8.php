@@ -1,7 +1,7 @@
 <?php $attributes ??= new \Illuminate\View\ComponentAttributeBag;
 
 $__newAttributes = [];
-$__propNames = \Illuminate\View\ComponentAttributeBag::extractPropNames((['product', 'price' => 0]));
+$__propNames = \Illuminate\View\ComponentAttributeBag::extractPropNames((['product', 'price' => 0, 'quantity' => 1, 'itemId' => null, 'variantId' => null]));
 
 foreach ($attributes->all() as $__key => $__value) {
     if (in_array($__key, $__propNames)) {
@@ -16,7 +16,7 @@ $attributes = new \Illuminate\View\ComponentAttributeBag($__newAttributes);
 unset($__propNames);
 unset($__newAttributes);
 
-foreach (array_filter((['product', 'price' => 0]), 'is_string', ARRAY_FILTER_USE_KEY) as $__key => $__value) {
+foreach (array_filter((['product', 'price' => 0, 'quantity' => 1, 'itemId' => null, 'variantId' => null]), 'is_string', ARRAY_FILTER_USE_KEY) as $__key => $__value) {
     $$__key = $$__key ?? $__value;
 }
 
@@ -28,16 +28,17 @@ foreach ($attributes->all() as $__key => $__value) {
 
 unset($__defined_vars, $__key, $__value); ?>
 
-<div class="flex items-center bg-neutral-50 px-3 py-5 rounded-xl gap-3">
+<div class="flex items-center bg-neutral-50 px-3 py-5 rounded-xl gap-3" data-item-id="<?php echo e($itemId); ?>">
 
     
     <div class="flex justify-center shrink-0">
-        <input 
-            type="checkbox" 
+        <input
+            type="checkbox"
             class="cart-item w-4 h-4 accent-primary-500 rounded cursor-pointer"
             name="selected_products[]"
             value="<?php echo e($product->id); ?>"
             data-price="<?php echo e($price); ?>"
+            data-qty="<?php echo e($quantity); ?>"
             onchange="syncSelectAll(); updateTotal();"
         >
     </div>
@@ -51,9 +52,13 @@ unset($__defined_vars, $__key, $__value); ?>
             <div class="flex flex-col">
                 <p class="text-sm font-bold text-neutral-800 truncate"><?php echo e($product->name); ?></p>
                 <p class="text-xs text-neutral-400 mb-0.5">
-                    <?php echo e($product->variants->first()->variant_name ?? '-'); ?>:
-                    <?php echo e(implode(', ', json_decode($product->variants->first()->variant_values ?? '[]', true))); ?>
+                    <?php if($product->variants->first()): ?>
+                        <?php echo e($product->variants->first()->variant_name); ?>:
+                        <?php echo e(optional($product->variants->firstWhere('id', $variantId))->variant_value ?? '-'); ?>
 
+                    <?php else: ?>
+                        -
+                    <?php endif; ?>
                 </p>
                 <p class="text-sm text-neutral-500 line-through">Rp<?php echo e(number_format($product->selling_price, 0, ',', '.')); ?></p>
                 <p class="text-[16px] font-semibold text-primary-500">Rp<?php echo e(number_format($price, 0, ',', '.')); ?></p>
@@ -71,7 +76,7 @@ unset($__defined_vars, $__key, $__value); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\App\View\Components\Client\Quantity::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['qty' => 1]); ?>
+<?php $component->withAttributes(['qty' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($quantity)]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal6014e2372eca4dd8cb8da8101fa224e5)): ?>
@@ -84,7 +89,10 @@ unset($__defined_vars, $__key, $__value); ?>
 <?php endif; ?>
         </div>
         <div class="flex items-center justify-between">
-            <button type="button" class="group w-7 h-7 flex items-center justify-center rounded-lg bg-neutral-100 border cursor-pointer border-neutral-300 hover:border-red-500 hover:bg-red-100 transition">
+            <button 
+                type="button" 
+                onclick="deleteItem(<?php echo e($itemId); ?>)"
+                class="group w-7 h-7 flex items-center justify-center rounded-lg bg-neutral-100 border cursor-pointer border-neutral-300 hover:border-red-500 hover:bg-red-100 transition">
                 <img src="<?php echo e(asset('assets/icons/delete-bin-line.svg')); ?>" alt="" class="block group-hover:hidden">
                 <img src="<?php echo e(asset('assets/icons/delete-bin-line-h.svg')); ?>" alt="" class="hidden group-hover:block">
             </button>
@@ -106,12 +114,15 @@ unset($__defined_vars, $__key, $__value); ?>
             </div>
         </div>
         <p class="text-sm text-neutral-500 text-center">
-            <?php echo e($product->variants->first()->variant_name ?? '-'); ?>:
-            <?php echo e(implode(', ', json_decode($product->variants->first()->variant_values ?? '[]', true))); ?>
+            <?php if($product->variants->first()): ?>
+                <?php echo e($product->variants->first()->variant_name); ?>:
+                <?php echo e(optional($product->variants->firstWhere('id', $variantId))->variant_value ?? '-'); ?>
 
+            <?php else: ?>
+                -
+            <?php endif; ?>
         </p>
         <div class="text-center">
-            <p class="text-[10px] text-neutral-400">-</p>
             <p class="text-sm text-neutral-500 line-through">Rp<?php echo e(number_format($product->selling_price, 0, ',', '.')); ?></p>
             <p class="text-lg font-semibold text-primary-500">Rp<?php echo e(number_format($price, 0, ',', '.')); ?></p>
         </div>
@@ -125,7 +136,7 @@ unset($__defined_vars, $__key, $__value); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\App\View\Components\Client\Quantity::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['qty' => 1]); ?>
+<?php $component->withAttributes(['qty' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($quantity)]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal6014e2372eca4dd8cb8da8101fa224e5)): ?>
@@ -137,10 +148,14 @@ unset($__defined_vars, $__key, $__value); ?>
 <?php unset($__componentOriginal6014e2372eca4dd8cb8da8101fa224e5); ?>
 <?php endif; ?>
         </div>
-        <button type="button" class="group w-7 h-7 flex items-center justify-center rounded-lg bg-neutral-100 border cursor-pointer border-neutral-300 hover:border-red-500 hover:bg-red-100 transition">
+        
+        <button 
+            type="button"
+            onclick="deleteItem(<?php echo e($itemId); ?>)"
+            class="group w-7 h-7 flex items-center justify-center rounded-lg bg-neutral-100 border cursor-pointer border-neutral-300 hover:border-red-500 hover:bg-red-100 transition">
             <img src="<?php echo e(asset('assets/icons/delete-bin-line.svg')); ?>" alt="" class="block group-hover:hidden">
             <img src="<?php echo e(asset('assets/icons/delete-bin-line-h.svg')); ?>" alt="" class="hidden group-hover:block">
         </button>
     </div>
-
+    
 </div><?php /**PATH C:\Users\x395\OneDrive\Desktop\WEEBS\RekapsStore\resources\views/components/client/cart-item.blade.php ENDPATH**/ ?>
