@@ -1,12 +1,12 @@
-@extends('pengurus.layouts.layout-cashier')
 
-@section('title', 'Rekap Bazar')
 
-@section('page_title', 'Rekap Bazar')
+<?php $__env->startSection('title', 'Rekap Bazar'); ?>
 
-@section('page_breadcrumb', 'Rekap Bazar')
+<?php $__env->startSection('page_title', 'Rekap Bazar'); ?>
 
-@section('content')
+<?php $__env->startSection('page_breadcrumb', 'Rekap Bazar'); ?>
+
+<?php $__env->startSection('content'); ?>
     <div class="flex flex-col gap-[24px] pb-[40px] w-full">
 
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center w-full gap-[16px]">
@@ -271,9 +271,9 @@
         </div>
 
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('footer')
+<?php $__env->startSection('footer'); ?>
     <!-- MODAL DETAIL PESANAN / STRUK KASIR -->
     <div id="modalDetailPesanan" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 hidden">
         <div
@@ -397,4 +397,6 @@
             }
         }
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin.layouts.layout-cashier', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\rekapsapp-byweebs\resources\views/admin/cashier-recap.blade.php ENDPATH**/ ?>

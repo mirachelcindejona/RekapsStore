@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\Auth\VerificationCodeAdminController;
 use App\Http\Controllers\Admin\Auth\ResetPasswordAdminController;
 use App\Http\Controllers\Admin\FinanceController;
 use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\CashierController;
 
 // Controller User
 use App\Http\Controllers\Auth\LoginController;
@@ -108,42 +109,42 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware(['auth', 'check.banned'])->group(function () {
 
-// Route::post('/admin/finance/store', function (Request $request) {
+    // Route::post('/admin/finance/store', function (Request $request) {
 
-//     FinanceTransactions::create([
-//         'date' => $request->date,
-//         'description' => $request->description,
-//         'category' => $request->category,
-//         'type' => $request->type,
-//         'amount' => $request->amount,
-//     ]);
+    //     FinanceTransactions::create([
+    //         'date' => $request->date,
+    //         'description' => $request->description,
+    //         'category' => $request->category,
+    //         'type' => $request->type,
+    //         'amount' => $request->amount,
+    //     ]);
 
-//     return redirect('/admin/finance');
+    //     return redirect('/admin/finance');
 
-// });
+    // });
 
 
-// Route::delete('/admin/finance/delete/{id}', function ($id) {
+    // Route::delete('/admin/finance/delete/{id}', function ($id) {
 
-//     FinanceTransactions::findOrFail($id)->delete();
+    //     FinanceTransactions::findOrFail($id)->delete();
 
-//     return redirect('/admin/finance');
+    //     return redirect('/admin/finance');
 
-// });
+    // });
 
-// Route::post('/admin/finance/update/{id}', function (Illuminate\Http\Request $request, $id) {
+    // Route::post('/admin/finance/update/{id}', function (Illuminate\Http\Request $request, $id) {
 
-//     FinanceTransactions::findOrFail($id)->update([
-//         'amount' => $request->amount,
-//         'type' => $request->type,
-//         'date' => $request->date,
-//         'category' => $request->category,
-//         'description' => $request->description,
-//     ]);
+    //     FinanceTransactions::findOrFail($id)->update([
+    //         'amount' => $request->amount,
+    //         'type' => $request->type,
+    //         'date' => $request->date,
+    //         'category' => $request->category,
+    //         'description' => $request->description,
+    //     ]);
 
-//     return redirect('/admin/finance');
+    //     return redirect('/admin/finance');
 
-// });
+    // });
 
     // LOGOUT BERSAMA
     Route::post('/admin/logout', [LoginAdminController::class, 'logout'])->name('admin.logout');
@@ -261,6 +262,24 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
             Route::get('/promo', function () { return view('admin.promo'); })->name('admin.promo');
         });
 
+        Route::middleware(['permission:kasir'])->group(function () {
+            Route::get('/cashier', function () { return view('admin.cashier'); })->name('admin.cashier');
+            Route::get('/cashier-orders', function () { return view('admin.cashier-orders'); })->name('admin.cashier.orders');
+            Route::get('/cashier-recap', function () { return view('admin.cashier-recap'); })->name('admin.cashier.recap');
+
+            Route::get('/cashier', [CashierController::class, 'index'])->name('admin.cashier');
+            Route::get('/cashier/products', [CashierController::class, 'getProducts']);
+            
+            // Manajemen Keranjang (Session-Based POS)
+            Route::post('/cashier/cart/add', [CashierController::class, 'addToCart']);
+            Route::post('/cashier/cart/update', [CashierController::class, 'updateCart']);
+            Route::post('/cashier/cart/remove', [CashierController::class, 'removeFromCart']);
+            Route::post('/cashier/cart/clear', [CashierController::class, 'clearCart']);
+            
+            // Proses Pembayaran & Transaksi
+            Route::post('/cashier/checkout', [CashierController::class, 'checkout']);
+        });
+
         // Route::middleware(['permission:laporan'])->group(function () {
         //     Route::get('/reports', function () { return view('admin.reports'); });
         //     Route::get('/report-sales', function () { return view('admin.report-sales'); });
@@ -270,13 +289,6 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
         //     Route::get('/report-review', function () { return view('admin.report-review'); });
         //     Route::get('/report-discount', function () { return view('admin.report-discount'); });
         // });
-    });
-
-    // KASIR
-    Route::prefix('pengurus')->middleware(['role:admin|pengurus'])->group(function () {
-        Route::get('/cashier', function () { return view('pengurus.cashier'); })->name('pengurus.cashier');
-        Route::get('/cashier-orders', function () { return view('pengurus.cashier-orders'); })->name('pengurus.cashier.orders');
-        Route::get('/cashier-recap', function () { return view('pengurus.cashier-recap'); })->name('pengurus.cashier.recap');
     });
 
     // CLIENT - Cart, Checkout, Payment

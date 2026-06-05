@@ -1,12 +1,12 @@
-@extends('pengurus.layouts.layout-cashier')
 
-@section('title', 'Pesanan Bazar')
 
-@section('page_title', 'Pesanan Bazar')
+<?php $__env->startSection('title', 'Pesanan Bazar'); ?>
 
-@section('page_breadcrumb', 'Pesanan Bazar')
+<?php $__env->startSection('page_title', 'Pesanan Bazar'); ?>
 
-@section('content')
+<?php $__env->startSection('page_breadcrumb', 'Pesanan Bazar'); ?>
+
+<?php $__env->startSection('content'); ?>
     <div class="flex flex-col gap-[20px] pb-[50px] w-full">
 
         <div class="flex flex-wrap gap-[12px]" id="filterTabs">
@@ -131,9 +131,9 @@
 
         </div>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('footer')
+<?php $__env->startSection('footer'); ?>
     <script>
         // Menyimpan state filter saat ini
         let currentActiveFilter = 'semua';
@@ -256,4 +256,6 @@
             cards.forEach(card => container.appendChild(card));
         }
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin.layouts.layout-cashier', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\rekapsapp-byweebs\resources\views/admin/cashier-orders.blade.php ENDPATH**/ ?>

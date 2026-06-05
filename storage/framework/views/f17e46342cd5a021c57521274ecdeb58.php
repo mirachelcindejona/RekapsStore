@@ -266,6 +266,27 @@
                 Laporan
             </a>
         <?php endif; ?>
+
+        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('kasir')): ?>
+            <a href="<?php echo e(url('/admin/cashier')); ?>"
+                class="flex items-center gap-[10px] p-[10px] rounded-lg text-[14px] transition-colors duration-[250ms] mb-[2px] outline-none <?php echo e(request()->is('admin/reports*') ? 'bg-primary-500 text-neutral-50 shadow-[0_4px_14px_rgba(125,57,235,0.38)] font-bold' : 'text-[#d7c2f9] font-semibold hover:bg-primary-500/20 hover:text-neutral-50'); ?>">
+                <span class="w-[18px] shrink-0 flex items-center justify-center">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2.5 2.5H4.16667L4.58333 5M4.58333 5L5.83333 12.5H15L17.5 5H4.58333Z" stroke="#D7C2F9"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path
+                            d="M6.66665 17.5C7.12688 17.5 7.49998 17.1269 7.49998 16.6667C7.49998 16.2064 7.12688 15.8333 6.66665 15.8333C6.20641 15.8333 5.83331 16.2064 5.83331 16.6667C5.83331 17.1269 6.20641 17.5 6.66665 17.5Z"
+                            stroke="#D7C2F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path
+                            d="M14.1666 17.5C14.6269 17.5 15 17.1269 15 16.6667C15 16.2064 14.6269 15.8333 14.1666 15.8333C13.7064 15.8333 13.3333 16.2064 13.3333 16.6667C13.3333 17.1269 13.7064 17.5 14.1666 17.5Z"
+                            stroke="#D7C2F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+
+                </span>
+                Mode Kasir
+            </a>
+        <?php endif; ?>
     </nav>
 
     

@@ -1,12 +1,12 @@
-@extends('pengurus.layouts.layout-cashier')
 
-@section('title', 'Kasir')
 
-@section('page_title', 'Kasir')
+<?php $__env->startSection('title', 'Kasir'); ?>
 
-@section('page_breadcrumb', 'Kasir')
+<?php $__env->startSection('page_title', 'Kasir'); ?>
 
-@section('content')
+<?php $__env->startSection('page_breadcrumb', 'Kasir'); ?>
+
+<?php $__env->startSection('content'); ?>
 
     <div class="flex-1 bg-neutral-50 rounded-[16px] flex flex-col overflow-hidden shadow-sm border border-neutral-200">
         <div class="flex flex-col px-[16px] pt-[16px] shrink-0">
@@ -41,7 +41,7 @@
                 <div
                     class="bg-neutral-50 border border-neutral-200 rounded-[12px] flex flex-col overflow-hidden hover:shadow-md transition-shadow cursor-pointer group">
                     <div class="w-full h-[150px] bg-neutral-100 relative flex justify-center items-center overflow-hidden">
-                        <img src="{{ asset('assets/img/products/poster-jersey.png') }}" alt="Produk"
+                        <img src="<?php echo e(asset('assets/img/products/poster-jersey.png')); ?>" alt="Produk"
                             class="h-[120px] object-contain group-hover:scale-110 transition-transform duration-300">
                     </div>
                     <div class="flex flex-col p-[12px] gap-[8px]">
@@ -92,7 +92,7 @@
                     <div class="flex gap-[10px] items-center">
                         <div
                             class="w-[45px] h-[45px] bg-neutral-100 rounded-[8px] flex items-center justify-center overflow-hidden shrink-0">
-                            <img src="{{ asset('assets/img/products/poster-jersey.png') }}"
+                            <img src="<?php echo e(asset('assets/img/products/poster-jersey.png')); ?>"
                                 class="h-[40px] object-contain" />
                         </div>
                         <div class="flex flex-col justify-center gap-[2px]">
@@ -187,9 +187,9 @@
             </div>
         </div>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('footer')
+<?php $__env->startSection('footer'); ?>
     <!-- KUMPULAN MODAL KASIR -->
 
     <!-- MODAL CHECKOUT -->
@@ -645,4 +645,6 @@
             // }, 3000);
         }
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('pengurus.layouts.layout-cashier', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\rekapsapp-byweebs\resources\views/pengurus/cashier.blade.php ENDPATH**/ ?>
