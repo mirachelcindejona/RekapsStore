@@ -1,7 +1,13 @@
 @extends('components.client.layout')
 
 @section('navbar')
-<x-client.navbar-main variant="page" title="Detail Produk"></x-client.navbar-main>
+@section('navbar')
+@auth
+    <x-client.navbar-main variant="page" title="Detail Produk" />
+@else
+    <x-client.navbar-index />
+@endauth
+@endsection
 @endsection
 
 @section('content')
@@ -43,11 +49,6 @@ window.addEventListener('pageshow', function(event) {
 </script>
 @endif
 
-{{-- back-button --}}
-<a href="{{ url()->previous() }}" class="hidden w-fit sm:flex font-semibold text-neutral-500 gap-2 items-center pb-2 cursor-pointer mt-2">
-    <img src="{{ asset('assets/icons/back.svg') }}" alt="">
-    Kembali
-</a>
 <div class="grid grid-cols-1 lg:grid-cols-[1.5fr_0.5fr_1fr] gap-2 mt-1 sm:mt-0">
 
     {{-- image --}}
@@ -138,13 +139,13 @@ window.addEventListener('pageshow', function(event) {
         </div>
 
         <div class="flex-1 w-full flex flex-col items-end justify-end gap-2 text-sm font-medium">
-    
+
+            @auth
             <form class="w-full" method="POST" action="{{ route('cart.add') }}" id="cartForm">
                 @csrf
                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                 <input type="hidden" name="variant_id" id="selectedVariantId" value="">
                 <input type="hidden" name="quantity" id="selectedQty" value="1">
-                
                 <button type="submit" class="bg-neutral-50 border-2 text-primary-500 py-2 rounded-xl w-full flex justify-center items-center gap-2 hover:bg-primary-50 cursor-pointer transition-all duration-300 ease-in-out">
                     <img src="{{ asset('assets/icons/cart-ill.svg') }}" alt="">
                     Masukan Keranjang
@@ -157,12 +158,55 @@ window.addEventListener('pageshow', function(event) {
                 <input type="hidden" name="variant_id" id="selectedVariantIdBuy" value="">
                 <input type="hidden" name="quantity" id="selectedQtyBuy" value="1">
                 <input type="hidden" name="redirect" value="checkout">
-                
                 <button type="submit" class="bg-primary-500 border-2 border-primary-500 text-neutral-50 py-2 rounded-xl w-full flex justify-center items-center gap-2 hover:bg-primary-600 cursor-pointer transition-all duration-300 ease-in-out">
                     <img src="{{ asset('assets/icons/buy-ill.svg') }}" alt="">
                     Beli Sekarang
                 </button>
             </form>
+            @else
+            <button onclick="document.getElementById('loginPromptModal').classList.remove('hidden')"
+                class="bg-neutral-50 border-2 text-primary-500 py-2 rounded-xl w-full flex justify-center items-center gap-2 hover:bg-primary-50 cursor-pointer transition-all duration-300 ease-in-out">
+                <img src="{{ asset('assets/icons/cart-ill.svg') }}" alt="">
+                Masukan Keranjang
+            </button>
+            <button onclick="document.getElementById('loginPromptModal').classList.remove('hidden')"
+                class="bg-primary-500 border-2 border-primary-500 text-neutral-50 py-2 rounded-xl w-full flex justify-center items-center gap-2 hover:bg-primary-600 cursor-pointer transition-all duration-300 ease-in-out">
+                <img src="{{ asset('assets/icons/buy-ill.svg') }}" alt="">
+                Beli Sekarang
+            </button>
+
+            {{-- Login Prompt Modal --}}
+            <div id="loginPromptModal" class="hidden fixed inset-0 z-50 flex items-center justify-center">
+                <div class="absolute inset-0 bg-black/30" onclick="document.getElementById('loginPromptModal').classList.add('hidden')"></div>
+                <div class="relative z-10 w-full max-w-sm bg-white rounded-2xl p-6 flex flex-col items-center gap-4 mx-4">
+
+                    {{-- Text --}}
+                    <div class="text-center flex flex-col gap-1">
+                        <p class="text-base font-bold text-neutral-800">Masuk dulu, yuk!</p>
+                        <p class="text-xs text-neutral-400 leading-relaxed">
+                            Kamu perlu login untuk bisa belanja di Rekaps Store. Yuk masuk dan mulai belanja produk favoritmu!
+                        </p>
+                    </div>
+
+                    {{-- Actions --}}
+                    <div class="flex flex-col gap-2 w-full">
+                        <a href="{{ route('login') }}"
+                            class="w-full bg-primary-500 hover:bg-primary-600 active:scale-95 text-white text-sm font-bold py-2.5 rounded-xl transition text-center">
+                            Masuk Sekarang
+                        </a>
+                        <a href="{{ route('register') }}"
+                            class="w-full border-2 border-primary-300 text-primary-500 hover:bg-primary-50 text-sm font-semibold py-2.5 rounded-xl transition text-center">
+                            Daftar Akun Baru
+                        </a>
+                        <button onclick="document.getElementById('loginPromptModal').classList.add('hidden')"
+                            class="w-full text-neutral-400 hover:text-neutral-600 text-sm font-medium py-1 transition cursor-pointer">
+                            Nanti saja
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+            @endauth
 
         </div>
 

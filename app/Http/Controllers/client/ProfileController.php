@@ -46,15 +46,18 @@ class ProfileController extends Controller
 
     public function notifications()
     {
-        // dummy untuk sekarang, nanti disambung ke tabel notifications
-        $notifications = collect([]);
+        $notifications = \App\Models\Notification::where('user_id', auth()->id())
+            ->latest()
+            ->get();
         return view('profile-notifications', compact('notifications'));
     }
 
     public function markAllRead()
     {
-        // nanti disambung ke DB
-        return redirect('/profile/notifications')->with('success', 'Semua notifikasi telah dibaca.');
+        \App\Models\Notification::where('user_id', auth()->id())
+            ->where('is_read', false)
+            ->update(['is_read' => true]);
+        return redirect()->back();
     }
 
     public function orders(Request $request)
