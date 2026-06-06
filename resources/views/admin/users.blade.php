@@ -7,7 +7,7 @@
 @section('content')
     <!-- HEADER -->
     <div
-        class="flex items-center justify-between mb-[20px] gap-[12px] flex-wrap max-[900px]:flex-col max-[900px]:items-start">
+        class="flex items-center justify-between mb-[20px] gap-[12px]">
         <!-- TAB -->
         <div class="flex items-center gap-[12px]">
 
@@ -209,25 +209,20 @@
 
                                 @if ($user->status == 'active')
                                     <!-- ICON MATA -->
-                                    <button type="button" onclick="openBlockModal({{ $user->id }})"
+
+                                    <button type="button" onclick="openUnblockModal({{ $user->id }})"
                                         class="w-10 h-10 rounded-[12px] bg-neutral-50 border border-primary-500 flex items-center justify-center shadow-[0px_2px_4px_rgba(62,52,69,0.25)] transition-all duration-200 hover:bg-primary-500 group">
 
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
-                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                            fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
                                             class="text-primary-500 group-hover:text-white">
 
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M2.458 12
-                                                                                                C3.732 7.943 7.523 5 12 5
-                                                                                                c4.478 0 8.268 2.943 9.542 7
-                                                                                                -1.274 4.057-5.064 7-9.542 7
-                                                                                                -4.477 0-8.268-2.943-9.542-7z" />
+                                            <circle cx="12" cy="12" r="9" />
 
-                                            <circle cx="12" cy="12" r="3" />
-
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 8l8 8" />
                                         </svg>
-
                                     </button>
+                                    
                                 @else
                                     <!-- ICON BLOCK -->
                                     <button type="button" onclick="openUnblockModal({{ $user->id }})"

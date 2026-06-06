@@ -20,21 +20,21 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
 
-    ->withExceptions(function (Exceptions $exceptions): void {
-        $exceptions->render(function (
-            \Spatie\Permission\Exceptions\UnauthorizedException $e,
-            \Illuminate\Http\Request $request
-        ) {
-            if ($request->is('admin/*') || $request->is('admin')) {
-                return redirect('/admin')->with(
-                    'error_access',
-                    'Kamu tidak memiliki akses ke halaman tersebut.'
-                );
-            }
-
-            return redirect('/home')->with(
+->withExceptions(function (Exceptions $exceptions): void {
+    $exceptions->render(function (
+        \Spatie\Permission\Exceptions\UnauthorizedException $e,
+        \Illuminate\Http\Request $request
+    ) {
+        if ($request->is('admin/*') || $request->is('admin')) {
+            return redirect('/admin')->with(
                 'error_access',
                 'Kamu tidak memiliki akses ke halaman tersebut.'
             );
-        });
-    })->create();
+        }
+
+        return redirect('/home')->with(
+            'error_access',
+            'Kamu tidak memiliki akses ke halaman tersebut.'
+        );
+    });
+})->create();
