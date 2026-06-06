@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\Auth\ForgotPasswordAdminController;
 use App\Http\Controllers\Admin\Auth\VerificationCodeAdminController;
 use App\Http\Controllers\Admin\Auth\ResetPasswordAdminController;
 use App\Http\Controllers\Admin\FinanceController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\CashierController;
 
@@ -101,51 +102,10 @@ Route::middleware('guest')->group(function () {
     });
 });
 
-// Route::get('/admin', function () {
-//     return view('admin/dashboard');
-// });
-
 
 // 3. SECURE AREA (Hanya bisa diakses jika SUDAH login)
 
 Route::middleware(['auth', 'check.banned'])->group(function () {
-
-    // Route::post('/admin/finance/store', function (Request $request) {
-
-    //     FinanceTransactions::create([
-    //         'date' => $request->date,
-    //         'description' => $request->description,
-    //         'category' => $request->category,
-    //         'type' => $request->type,
-    //         'amount' => $request->amount,
-    //     ]);
-
-    //     return redirect('/admin/finance');
-
-    // });
-
-
-    // Route::delete('/admin/finance/delete/{id}', function ($id) {
-
-    //     FinanceTransactions::findOrFail($id)->delete();
-
-    //     return redirect('/admin/finance');
-
-    // });
-
-    // Route::post('/admin/finance/update/{id}', function (Illuminate\Http\Request $request, $id) {
-
-    //     FinanceTransactions::findOrFail($id)->update([
-    //         'amount' => $request->amount,
-    //         'type' => $request->type,
-    //         'date' => $request->date,
-    //         'category' => $request->category,
-    //         'description' => $request->description,
-    //     ]);
-
-    //     return redirect('/admin/finance');
-
-    // });
 
     // LOGOUT BERSAMA
     Route::post('/admin/logout', [LoginAdminController::class, 'logout'])->name('admin.logout');
@@ -153,9 +113,7 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
     // PANEL ADMIN (Wajib Role Admin / Pengurus)
     Route::prefix('admin')->middleware(['role:admin|pengurus'])->group(function () {
         
-        Route::get('/', function () { 
-            return view('admin.dashboard'); 
-        })->name('admin.dashboard');
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
         // Modul Produk & Kategori
         Route::middleware(['permission:produk'])->group(function () {
@@ -222,6 +180,16 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
                 '/reports',
                 [ReportController::class, 'index']
             );
+
+            Route::get(
+                '/report-sales',
+                [ReportController::class, 'sales']
+            )->name('report.sales');
+
+            Route::get(
+                '/report-sales/export',
+                [ReportController::class, 'exportSales']
+            )->name('report.sales.export');
                         
             Route::get(
                 '/report-finance',
