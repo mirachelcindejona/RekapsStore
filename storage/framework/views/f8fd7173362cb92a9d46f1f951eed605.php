@@ -34,10 +34,10 @@
 >
 </div>
 <!-- MODAL TRANSACTION -->
-<div id="modalTransaction" class="fixed inset-0 hidden items-center justify-center bg-black/50 z-[9999] [&.active]:flex">
-  <div class="w-full max-w-[500px] rounded-[20px] bg-white p-[24px]">
+<div id="modalTransaction" class="fixed inset-0 hidden items-center justify-center bg-black/50 backdrop-blur-sm z-[9999] [&.active]:flex">
+  <div class="w-full max-w-[420px] rounded-[20px] bg-white px-[24px] py-[20px] shadow-[0_20px_50px_rgba(0,0,0,0.12)]">
 
-    <h2 class="mb-[20px] text-[20px] font-bold">
+    <h2 class="mb-[18px] text-[18px] font-bold">
       Tambah Transaksi
     </h2>
 
@@ -45,7 +45,7 @@
 
       <?php echo csrf_field(); ?>
 
-      <div class="flex flex-col gap-[14px]">
+      <div class="flex flex-col gap-[10px]">
 
         <!-- JUMLAH -->
         <div>
@@ -152,18 +152,18 @@
 </div>
 
 <!-- MODAL EDIT TRANSACTION -->
-<div id="modalEditTransaction" class="fixed inset-0 hidden items-center justify-center bg-black/50 z-[9999] [&.active]:flex">
-  <div class="w-full max-w-[500px] rounded-[20px] bg-white p-[24px]">
+<div id="modalEditTransaction" class="fixed inset-0 hidden items-center justify-center bg-black/50 backdrop-blur-sm z-[9999] [&.active]:flex">
+  <div class="w-full max-w-[420px] rounded-[20px] bg-white p-[24px] shadow-[0_20px_50px_rgba(0,0,0,0.12)]">
 
-    <h2 class="mb-[20px] text-[20px] font-bold">
-      Tambah Transaksi
+    <h2 class="mb-[18px] text-[18px] font-bold">
+      Edit Transaksi
     </h2>
 
     <form id="editForm" method="POST">
 
       <?php echo csrf_field(); ?>
 
-      <div class="flex flex-col gap-[14px]">
+      <div class="flex flex-col gap-[10px]">
 
         <!-- JUMLAH -->
         <div>
