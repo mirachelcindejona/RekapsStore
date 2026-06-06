@@ -15,7 +15,7 @@
                 </h1>
 
                 <h2 class="text-[20px] font-semibold mt-[6px]">
-                    LAPORAN STOK BARANG
+                    LAPORAN PRODUK
                 </h2>
 
                 <p class="mt-[6px] text-[14px] text-neutral-600">
@@ -46,7 +46,7 @@
             </a>
 
             <h1 class="text-[20px] font-bold text-neutral-900 m-0">
-                Laporan Stok Barang
+                Laporan Produk
             </h1>
 
         </div>
@@ -59,7 +59,7 @@
                 <path d="M7 17V15C7 14.4696 7.21071 13.9609 7.58579 13.5858C7.96086 13.2107 8.46957 13 9 13H15C15.5304 13 16.0391 13.2107 16.4142 13.5858C16.7893 13.9609 17 14.4696 17 15V17M7 17V19C7 19.5304 7.21071 20.0391 7.58579 20.4142C7.96086 20.7893 8.46957 21 9 21H15C15.5304 21 16.0391 20.7893 16.4142 20.4142C16.7893 20.0391 17 19.5304 17 19V17M7 17H5C4.46957 17 3.96086 16.7893 3.58579 16.4142C3.21071 16.0391 3 15.5304 3 15V9C3 8.46957 3.21071 7.96086 3.58579 7.58579C3.96086 7.21071 4.46957 7 5 7H6M17 17H19C19.5304 17 20.0391 16.7893 20.4142 16.4142C20.7893 16.0391 21 15.5304 21 15V9C21 8.46957 20.7893 7.96086 20.4142 7.58579C20.0391 7.21071 19.5304 7 19 7H18M6 7V5C6 4.46957 6.21071 3.96086 6.58579 3.58579C6.96086 3.21071 7.46957 3 8 3H16C16.5304 3 17.0391 3.21071 17.4142 3.58579C17.7893 3.96086 18 4.46957 18 5V7M6 7H18" stroke="#A87AF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M2 9C2 8.20435 2.31607 7.44129 2.87868 6.87868C3.44129 6.31607 4.20435 6 5 6H19C19.7956 6 20.5587 6.31607 21.1213 6.87868C21.6839 7.44129 22 8.20435 22 9V15C22 15.7956 21.6839 16.5587 21.1213 17.1213C20.5587 17.6839 19.7956 18 19 18H17C16.7348 18 16.4804 17.8946 16.2929 17.7071C16.1054 17.5196 16 17.2652 16 17V15C16 14.7348 15.8946 14.4804 15.7071 14.2929C15.5196 14.1054 15.2652 14 15 14H9C8.73478 14 8.48043 14.1054 8.29289 14.2929C8.10536 14.4804 8 14.7348 8 15V17C8 17.2652 7.89464 17.5196 7.70711 17.7071C7.51957 17.8946 7.26522 18 7 18H5C4.20435 18 3.44129 17.6839 2.87868 17.1213C2.31607 16.5587 2 15.7956 2 15V9ZM7 9C6.73478 9 6.48043 9.10536 6.29289 9.29289C6.10536 9.48043 6 9.73478 6 10C6 10.2652 6.10536 10.5196 6.29289 10.7071C6.48043 10.8946 6.73478 11 7 11H8C8.26522 11 8.51957 10.8946 8.70711 10.7071C8.89464 10.5196 9 10.2652 9 10C9 9.73478 8.89464 9.48043 8.70711 9.29289C8.51957 9.10536 8.26522 9 8 9H7Z" fill="#A87AF2"/>
                 </svg>
-                Cetak Laporan Stok Barang
+                Cetak Laporan Produk
             </button>
 
             <a href="/admin/report-stock/export"
@@ -123,11 +123,11 @@
 
             <p
                 class="mb-1 text-[10px] font-extrabold uppercase tracking-[1px] text-neutral-400">
-                Total Stock
+                Produk Aktif
             </p>
 
             <h2 class="text-3xl font-black text-neutral-950">
-                <?php echo e($totalStock); ?>
+                <?php echo e($activeProducts); ?>
 
             </h2>
 
@@ -152,11 +152,11 @@
 
             <p
                 class="mb-1 text-[10px] font-extrabold uppercase tracking-[1px] text-neutral-400">
-                Produk Low Stock
+                Ready Stock
             </p>
 
             <h2 class="text-3xl font-black text-neutral-950">
-                <?php echo e($lowStockProducts); ?>
+                <?php echo e($readyStockProducts); ?>
 
             </h2>
 
@@ -179,11 +179,11 @@
 
             <p
                 class="mb-1 text-[10px] font-extrabold uppercase tracking-[1px] text-neutral-400">
-                Nilai Inventaris
+                PO
             </p>
 
             <h2 class="text-3xl font-black text-neutral-950">
-                Rp <?php echo e(number_format($inventoryValue,0,',','.')); ?>
+                <?php echo e($poProducts); ?>
 
             </h2>
 
@@ -239,7 +239,7 @@
                     </p>
 
                     <select
-                        name="stock_status"
+                        name="status"
                         class="px-[14px] py-[10px] rounded-xl border border-neutral-200 outline-none text-[13px]">
 
                         <option value="">
@@ -247,15 +247,15 @@
                         </option>
 
                         <option
-                            value="aman"
-                            <?php echo e(request('stock_status') == 'aman' ? 'selected' : ''); ?>>
-                            Aman
+                            value="Aktif"
+                            <?php echo e(request('status') == 'Aktif' ? 'selected' : ''); ?>>
+                            Aktif
                         </option>
 
                         <option
-                            value="low"
-                            <?php echo e(request('stock_status') == 'low' ? 'selected' : ''); ?>>
-                            Low Stock
+                            value="Non-Aktif"
+                            <?php echo e(request('status') == 'Non-Aktif' ? 'selected' : ''); ?>>
+                            Non-Aktif
                         </option>
 
                     </select>
@@ -324,6 +324,7 @@
     </form>
 
     <div class="w-full overflow-x-auto touch-pan-x [&::-webkit-scrollbar]:h-[6px] [&::-webkit-scrollbar-thumb]:bg-neutral-300 [&::-webkit-scrollbar-thumb]:rounded-full">
+
         <table class="w-full border-collapse bg-neutral-50 rounded-2xl overflow-hidden shadow-[0_2px_16px_rgba(0,0,0,0.07)] min-w-[1000px]">
 
             <thead class="bg-neutral-100 border-b border-neutral-200">
@@ -339,6 +340,10 @@
                     </th>
 
                     <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
+                        TIPE PRODUK
+                    </th>
+
+                    <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
                         HARGA MODAL
                     </th>
 
@@ -347,15 +352,7 @@
                     </th>
 
                     <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
-                        TOTAL STOK
-                    </th>
-
-                    <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
-                        NILAI STOK
-                    </th>
-
-                    <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
-                        STATUS
+                        STATUS PRODUK
                     </th>
 
                 </tr>
@@ -365,8 +362,6 @@
             <tbody>
 
                 <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-
-                
 
                 <tr>
 
@@ -381,6 +376,30 @@
                     </td>
 
                     <td class="px-[16px] py-[14px] border-t border-neutral-200">
+
+                        <?php if($product->product_type == 'Ready Stok'): ?>
+
+                            <span class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-green-100 text-green-600">
+                                Ready Stok
+                            </span>
+
+                        <?php elseif($product->product_type == 'PO'): ?>
+
+                            <span class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-yellow-100 text-yellow-700">
+                                PO
+                            </span>
+
+                        <?php else: ?>
+
+                            <span class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-blue-100 text-blue-600">
+                                Jasa
+                            </span>
+
+                        <?php endif; ?>
+
+                    </td>
+
+                    <td class="px-[16px] py-[14px] border-t border-neutral-200">
                         Rp <?php echo e(number_format($product->cost_price,0,',','.')); ?>
 
                     </td>
@@ -390,28 +409,18 @@
 
                     </td>
 
-                    <td class="px-[16px] py-[14px] border-t border-neutral-200 font-semibold">
-                        <?php echo e($product->total_stock); ?>
-
-                    </td>
-
-                    <td class="px-[16px] py-[14px] border-t border-neutral-200">
-                        Rp <?php echo e(number_format($product->total_stock * $product->cost_price,0,',','.')); ?>
-
-                    </td>
-
                     <td class="px-[16px] py-[14px] border-t border-neutral-200">
 
-                        <?php if($product->total_stock < 10): ?>
+                        <?php if($product->status == 'Aktif'): ?>
 
-                            <span class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-red-100 text-red-500">
-                                Low Stock
+                            <span class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-green-100 text-green-600">
+                                Aktif
                             </span>
 
                         <?php else: ?>
 
-                            <span class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-green-100 text-green-600">
-                                Aman
+                            <span class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-red-100 text-red-500">
+                                Non-Aktif
                             </span>
 
                         <?php endif; ?>
@@ -428,6 +437,7 @@
 
     </div>
 
+
     <div id="print-report" class="hidden">
 
         <div class="p-10">
@@ -439,7 +449,7 @@
                 </h1>
 
                 <h2 class="text-xl font-semibold mt-2">
-                    LAPORAN KEUANGAN
+                    LAPORAN PRODUK
                 </h2>
 
                 <p class="text-sm text-neutral-500 mt-2">
@@ -453,7 +463,7 @@
                 <div class="border-t border-b py-4 mb-6">
 
                     <h3 class="text-lg font-bold mb-3">
-                        Ringkasan Stok Barang
+                        Ringkasan Produk
                     </h3>
 
                     <div class="space-y-2 text-sm">
@@ -467,25 +477,25 @@
                         </div>
 
                         <div class="flex justify-between">
-                            <span>Total Stok</span>
+                            <span>Produk Aktif</span>
                             <span class="font-semibold">
-                                <?php echo e($totalStock); ?>
+                                <?php echo e($activeProducts); ?>
 
                             </span>
                         </div>
 
                         <div class="flex justify-between">
-                            <span>Produk Low Stock</span>
+                            <span>Ready Stock</span>
                             <span class="font-semibold">
-                                <?php echo e($lowStockProducts); ?>
+                                <?php echo e($readyStockProducts); ?>
 
                             </span>
                         </div>
 
                         <div class="flex justify-between">
-                            <span>Nilai Inventaris</span>
+                            <span>Produk PO</span>
                             <span class="font-semibold">
-                                Rp <?php echo e(number_format($inventoryValue,0,',','.')); ?>
+                                <?php echo e($poProducts); ?>
 
                             </span>
                         </div>
@@ -496,7 +506,7 @@
 
 
             <h3 class="text-lg font-bold mb-4">
-                Detail Laporan Stok Barang
+                Detail Laporan Produk
             </h3>
 
             <table class="w-full border border-neutral-400 text-sm">
@@ -519,14 +529,6 @@
 
                         <th class="border border-neutral-400 px-3 py-2">
                             Harga Jual
-                        </th>
-
-                        <th class="border border-neutral-400 px-3 py-2">
-                            Total Stok
-                        </th>
-
-                        <th class="border border-neutral-400 px-3 py-2">
-                            Nilai Stok
                         </th>
 
                         <th class="border border-neutral-400 px-3 py-2">
@@ -564,17 +566,7 @@
                         </td>
 
                         <td class="border border-neutral-300 px-3 py-2">
-                            <?php echo e($product->total_stock); ?>
-
-                        </td>
-
-                        <td class="border border-neutral-300 px-3 py-2">
-                            Rp <?php echo e(number_format($product->total_stock * $product->cost_price,0,',','.')); ?>
-
-                        </td>
-
-                        <td class="border border-neutral-300 px-3 py-2">
-                            <?php echo e($product->total_stock < 10 ? 'Low Stock' : 'Aman'); ?>
+                           <?php echo e($product->status); ?>
 
                         </td>
 

@@ -52,13 +52,13 @@ class StockExport implements FromArray, ShouldAutoSize, WithStyles
         $rows = [
 
             ['REKAPS STORE'],
-            ['LAPORAN STOK BARANG'],
+            ['LAPORAN PRODUK'],
             ['Departemen Ekonomi Kreatif HIMARPL'],
             ['Dicetak pada : ' . now()->format('d F Y')],
             ['Data stok produk saat ini'],
             [''],
 
-            ['Ringkasan Stok Barang'],
+            ['Ringkasan Produk'],
 
             ['Total Produk', $totalProducts],
 

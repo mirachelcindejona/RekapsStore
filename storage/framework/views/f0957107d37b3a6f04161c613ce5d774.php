@@ -77,11 +77,19 @@
                     </p>
                 </div>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                
+                <div id="discountRow" class="hidden flex items-center justify-between">
+                    <p class="text-xs text-neutral-600">Total diskon</p>
+                    <p id="discountAmount" class="text-xs font-semibold text-red-500">-Rp0</p>
+                </div>
+
                 <div class="border-t border-neutral-100 pt-2 mt-1">
                     <button type="button"
                         onclick="document.getElementById('voucherModal').classList.remove('hidden')"
                         class="flex items-center gap-1 text-xs font-semibold bg-neutral-100 hover:bg-neutral-200 text-neutral-400 border rounded-lg border-neutral-300 cursor-pointer py-1 px-2 transition">
-                        <span class="text-base leading-none">+</span> Pakai Voucher
+                        <span class="text-base leading-none">+</span> 
+                        <span id="voucherBtnText">Pakai Voucher</span>
                     </button>
                 </div>
             </div>
@@ -97,7 +105,7 @@
             <form method="POST" action="/payment">
                 <?php echo csrf_field(); ?>
                 <button type="submit" class="w-full flex items-center justify-center gap-2 cursor-pointer bg-primary-500 hover:bg-primary-600 text-white text-sm font-bold py-3 rounded-xl transition">
-                    <img src="<?php echo e(asset('assets/icons/secure-payment.svg')); ?>" alt="" class="w-4 h-4">
+                    <img src="<?php echo e(asset('assets/icons/buy-ill.svg')); ?>" alt="" class="w-4 h-4">
                     Bayar Sekarang
                 </button>
             </form>
@@ -136,7 +144,7 @@
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\App\View\Components\Client\VoucherItem::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($voucher->code),'desc' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute('Minimal pembelian Rp' . number_format($voucher->min_purchase, 0, ',', '.')),'off' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($voucher->value . '% OFF'),'value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($voucher->code),'checked' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(false),'disabled' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(false)]); ?>
+<?php $component->withAttributes(['name' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($voucher->code),'desc' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute('Minimal pembelian Rp' . number_format($voucher->min_purchase, 0, ',', '.')),'off' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($voucher->value . '% OFF'),'value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($voucher->code),'checked' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(false),'disabled' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(false),'dataDiscount' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($voucher->value),'dataMinPurchase' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($voucher->min_purchase)]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal5607d3bd2426900c5e8dcd08e67cdcd1)): ?>
@@ -150,7 +158,7 @@
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
         </div>
-        <button class="w-full bg-primary-500 hover:bg-primary-600 active:scale-95 text-white text-sm font-bold py-3 rounded-xl transition">
+        <button onclick="applyVoucher()" class="w-full bg-primary-500 hover:bg-primary-600 active:scale-95 text-white text-sm font-bold py-3 rounded-xl transition cursor-pointer">
             Pakai Voucher
         </button>
     </div>
@@ -234,6 +242,82 @@ function changeQty(btn, delta) {
 }
 
 document.addEventListener('DOMContentLoaded', updateCheckoutTotal);
+
+let appliedDiscount = 0;
+
+function getSubtotal() {
+    let total = 0;
+    document.querySelectorAll('.checkout-item').forEach(item => {
+        total += parseFloat(item.dataset.price) * parseInt(item.dataset.qty);
+    });
+    return total;
+}
+
+function applyVoucher() {
+    const selected = document.querySelector('input[name="voucher"]:checked');
+    if (!selected) {
+        alert('Pilih voucher terlebih dahulu.');
+        return;
+    }
+
+    const discount = parseFloat(selected.dataset.discount);
+    const minPurchase = parseFloat(selected.dataset.minPurchase);
+    const subtotal = getSubtotal();
+
+    if (subtotal < minPurchase) {
+        alert(`Minimal pembelian Rp${minPurchase.toLocaleString('id-ID')} untuk voucher ini.`);
+        return;
+    }
+
+    appliedDiscount = (subtotal * discount) / 100;
+
+    // tampilkan discount row
+    const discountRow = document.getElementById('discountRow');
+    discountRow.classList.remove('hidden');
+    document.getElementById('discountAmount').textContent = 
+        '-Rp' + appliedDiscount.toLocaleString('id-ID');
+
+    // update tombol voucher
+    document.getElementById('voucherBtnText').textContent = 
+        `Voucher: ${selected.value} (-${discount}%)`;
+
+    // update total
+    updateCheckoutTotal();
+
+    // tutup modal
+    document.getElementById('voucherModal').classList.add('hidden');
+}
+
+function updateCheckoutTotal() {
+    let total = 0;
+    document.querySelectorAll('.checkout-item').forEach(item => {
+        const price = parseFloat(item.dataset.price);
+        const qty = parseInt(item.dataset.qty);
+        const productId = item.dataset.productId;
+        total += price * qty;
+
+        const itemTotal = item.querySelector('.item-total');
+        if (itemTotal) itemTotal.textContent = 'Rp' + (price * qty).toLocaleString('id-ID');
+
+        const qtyLabel = item.querySelector('.qty-label');
+        if (qtyLabel) qtyLabel.textContent = 'Jumlah: ' + qty;
+
+        const detailQty = document.querySelector(`.detail-qty-${productId}`);
+        const detailTotal = document.querySelector(`.detail-total-${productId}`);
+        if (detailQty) detailQty.textContent = 'x' + qty;
+        if (detailTotal) detailTotal.textContent = 'Rp' + (price * qty).toLocaleString('id-ID');
+    });
+
+    const finalTotal = total - appliedDiscount;
+    document.getElementById('checkoutTotal').textContent =
+        'Rp' + finalTotal.toLocaleString('id-ID');
+
+    // update discount amount jika ada
+    if (appliedDiscount > 0) {
+        document.getElementById('discountAmount').textContent =
+            '-Rp' + appliedDiscount.toLocaleString('id-ID');
+    }
+}
 </script>
 
 <?php $__env->stopSection(); ?>

@@ -40,7 +40,7 @@ unset($__defined_vars, $__key, $__value); ?>
     <input type="checkbox" class="<?php echo e($selectClass); ?> w-4 h-4 accent-primary-500 rounded cursor-pointer" onchange="syncSelectAll()">
 <?php endif; ?>
 
-<?php if (! $__env->hasRenderedOnce('67bf2e2c-c06c-47b4-9425-7e921e23d5e2')): $__env->markAsRenderedOnce('67bf2e2c-c06c-47b4-9425-7e921e23d5e2'); ?>
+<?php if (! $__env->hasRenderedOnce('a74a958f-009c-459e-9a1b-ca18d6d2c0b4')): $__env->markAsRenderedOnce('a74a958f-009c-459e-9a1b-ca18d6d2c0b4'); ?>
 <script>
 function toggleAll(source) {
     document.querySelectorAll('.cart-item').forEach(cb => cb.checked = source.checked);

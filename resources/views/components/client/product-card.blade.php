@@ -24,7 +24,7 @@
 
   {{-- product-image --}}
   <div class="imgcont bg-neutral-100 aspect-square w-full flex items-center justify-center overflow-hidden">
-      <img src="{{ asset($image) }}" class="productimg w-full h-full object-contain" />
+      <img src="{{ asset('storage/' . $image) }}" class="productimg w-full h-full object-contain" />
   </div>
 
   {{-- product-details --}}

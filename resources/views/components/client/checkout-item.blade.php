@@ -8,8 +8,8 @@
      data-price="{{ $finalPrice }}"
      data-qty="{{ $qty }}"
      data-product-id="{{ $product->id }}">
-    <div class="flex-1 max-w-40 rounded-xl flex items-center justify-center shrink-0 overflow-hidden">
-        <img src="{{ asset($product->images->first()->image_path ?? 'assets/images/placeholder.png') }}" alt="{{ $product->name }}" class="w-full h-full object-contain">
+    <div class="flex-1 max-w-40 max-h-40 rounded-xl flex items-center justify-center shrink-0 overflow-hidden">
+        <img src="{{ $product->images->first() ? asset('storage/' . $product->images->first()->image_path) : asset('assets/images/placeholder.png') }}" alt="{{ $product->name }}" class="w-full h-full object-contain">
     </div>
     <div class="flex-1 min-w-0">
         <p class="text-sm font-bold text-neutral-800 truncate">{{ $product->name }}</p>

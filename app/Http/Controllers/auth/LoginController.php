@@ -51,4 +51,12 @@ class LoginController extends Controller
             'username' => 'Username atau Password salah'
         ])->withInput();
     }
+
+    public function logout()
+    {
+        auth()->logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+        return redirect('/');
+    }
 }

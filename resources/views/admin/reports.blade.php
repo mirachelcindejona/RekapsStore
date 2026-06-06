@@ -76,11 +76,11 @@
 
             <div class="pt-3">
                 <h2 class="text-sm font-bold text-black-950 leading-tight">
-                    Laporan Stok Barang
+                    Laporan Produk
                 </h2>
 
                 <p class="text-xs text-gray-400 mt-1">
-                    Ringkasan data stok barang
+                    Ringkasan data produk
                 </p>
             </div>
 
@@ -109,11 +109,11 @@
 
             <div class="pt-3">
                 <h2 class="text-sm font-bold text-black-950 leading-tight">
-                    Laporan Transaksi
+                    Laporan Stock History
                 </h2>
 
                 <p class="text-xs text-gray-400 mt-1">
-                    Ringkasan data transaksi
+                    Ringkasan data stok
                 </p>
             </div>
 
@@ -126,7 +126,7 @@
 
         </div>
 
-        <a href="{{ url('/admin/report-transaction') }}">
+        <a href="{{ url('/admin/report-stock-history') }}">
         <button class="w-full border-2 border-purple-700 bg-primary-50
                        text-purple-700 font-semibold 
                        py-1 rounded-xl sticky top-0 
