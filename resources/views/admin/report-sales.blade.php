@@ -23,6 +23,31 @@
 
             
         </div>
+        <div class="flex gap-[10px] mb-[24px]">
+
+            <a
+                href="{{ route('report.sales',['type'=>'online']) }}"
+                class="px-[18px] py-[10px] rounded-xl font-bold text-[13px]
+                {{ $type == 'online'
+                    ? 'bg-primary-500 text-white'
+                    : 'bg-white border border-neutral-200 text-neutral-600' }}">
+
+                Penjualan Online
+
+            </a>
+
+            <a
+                href="{{ route('report.sales',['type'=>'bazaar']) }}"
+                class="px-[18px] py-[10px] rounded-xl font-bold text-[13px]
+                {{ $type == 'bazaar'
+                    ? 'bg-primary-500 text-white'
+                    : 'bg-white border border-neutral-200 text-neutral-600' }}">
+
+                Penjualan Bazaar
+
+            </a>
+
+        </div>
 
         <div class="flex items-center gap-[12px]">
 
@@ -35,7 +60,14 @@
                 Print Laporan Penjualan
             </button>
 
-            <a href="/admin/report-finance/export"
+            <a href="{{ route('report.sales.export',[
+                                'type' => $type,
+                                'from_date' => request('from_date'),
+                                'to_date' => request('to_date'),
+                                'status' => request('status'),
+                                'search' => request('search')
+                            ]) 
+                        }}"
                 class="flex items-center gap-[8px] px-[18px] py-[10px] rounded-xl bg-primary-500 text-neutral-50 font-bold text-[13px] shadow-[0_4px_14px_rgba(125,57,235,0.35)] cursor-pointer transition-all duration-[250ms] hover:bg-[#5928a7]">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M4 3C3.73478 3 3.48043 3.10536 3.29289 3.29289C3.10536 3.48043 3 3.73478 3 4V20C3 20.2652 3.10536 20.5196 3.29289 20.7071C3.48043 20.8946 3.73478 21 4 21H20C20.2652 21 20.5196 20.8946 20.7071 20.7071C20.8946 20.5196 21 20.2652 21 20V8C20.9999 7.73481 20.8946 7.48049 20.707 7.293L16.707 3.293C16.5195 3.10545 16.2652 3.00006 16 3H4ZM10 14C10 12.4 11.333 12 12 12C12.667 12 14 12.4 14 14C14 15.6 12.667 16 12 16C11.333 16 10 15.6 10 14ZM14 5H8V8H14V5Z" fill="#F2EBFD"/>
@@ -80,7 +112,8 @@
             </p>
 
             <h2 class="text-3xl font-black text-neutral-950">
-                <span class="text-sm font-bold">Rp</span>18.4jt
+                <span class="text-sm font-bold">Rp</span>
+                {{ number_format($totalRevenue,0,',','.') }}
             </h2>
 
         </div>
@@ -100,14 +133,18 @@
                 </svg>
             </div>
 
-            <p
-                class="mb-1 text-[10px] font-extrabold uppercase tracking-[1px] text-neutral-400">
-                Total Pesanan
+             <p class="mb-1 text-[10px] font-extrabold uppercase tracking-[1px] text-neutral-400">
+
+                {{ $type == 'online'
+                    ? 'Total Pesanan'
+                    : 'Total Transaksi' }}
+
             </p>
 
             <h2 class="text-3xl font-black text-neutral-950">
-                247
+                {{ $totalOrders }}
             </h2>
+
 
         </div>
 
@@ -132,7 +169,7 @@
             </p>
 
             <h2 class="text-3xl font-black text-neutral-950">
-                58
+                {{ $totalProductsSold }}
             </h2>
 
         </div>
@@ -152,65 +189,170 @@
                 </svg>
             </div>
 
-            <p
-                class="mb-1 text-[10px] font-extrabold uppercase tracking-[1px] text-neutral-400">
-                Rata-rata transaksi
-            </p>
+            @if($type == 'online')
 
-            <h2 class="text-3xl font-black text-neutral-950">
-                134
-            </h2>
+                <p
+                    class="mb-1 text-[10px] font-extrabold uppercase tracking-[1px] text-neutral-400">
+                    Pelanggan Online
+                </p>
 
-        </div>
+                <h2 class="text-3xl font-black text-neutral-950">
+                    {{ $totalCustomers }}
+                </h2>
 
-    </div>
+            @else
 
-        <!-- FILTER -->
-    <div
-        class="bg-neutral-50 rounded-[20px] p-[18px] shadow-[0_2px_16px_rgba(0,0,0,0.07)] mb-[24px]">
+                <p
+                    class="mb-1 text-[10px] font-extrabold uppercase tracking-[1px] text-neutral-400">
+                    Kasir Aktif
+                </p>
 
-        <div class="flex items-center justify-between flex-wrap gap-[18px]">
+                <h2 class="text-3xl font-black text-neutral-950">
+                    {{ $totalCashiers }}
+                </h2>
 
-            <!-- DATE -->
-            <div class="flex items-center gap-[12px] flex-wrap">
+            @endif
 
-                <div>
-                    <p class="text-[13px] text-neutral-500 mb-[6px]">
-                        From
-                    </p>
-
-                    <input type="date"
-                        class="px-[14px] py-[10px] rounded-xl border border-neutral-200 outline-none text-[13px]">
-                </div>
-
-                <div>
-                    <p class="text-[13px] text-neutral-500 mb-[6px]">
-                        To
-                    </p>
-
-                    <input type="date"
-                        class="px-[14px] py-[10px] rounded-xl border border-neutral-200 outline-none text-[13px]">
-                </div>
-
-            </div>
-
-            <!-- SEARCH -->
-            <div class="flex items-center gap-[10px]">
-
-                <input type="text"
-                    placeholder="Cari ID Pembayaran atau ID Pelanggan"
-                    class="w-[280px] max-[560px]:w-full px-[16px] py-[11px] rounded-xl border border-neutral-200 outline-none text-[13px]">
-
-                <button
-                    class="px-[20px] py-[11px] bg-primary-500 text-neutral-50 rounded-xl font-bold text-[13px] hover:bg-[#5928a7] transition-all duration-[250ms]">
-                    Cari
-                </button>
-
-            </div>
 
         </div>
 
     </div>
+
+        <form method="GET">
+
+            <input
+                type="hidden"
+                name="type"
+                value="{{ $type }}">
+
+            <div
+                class="bg-neutral-50 rounded-[20px] p-[18px] shadow-[0_2px_16px_rgba(0,0,0,0.07)] mb-[24px]">
+
+                <div class="flex items-center justify-between flex-wrap gap-[18px]">
+
+                    <!-- FILTER -->
+                    <div class="flex items-center gap-[12px] flex-wrap">
+
+                        <!-- FROM -->
+                        <div>
+
+                            <p class="text-[13px] text-neutral-500 mb-[6px]">
+                                From
+                            </p>
+
+                            <input
+                                type="date"
+                                name="from_date"
+                                value="{{ request('from_date') }}"
+                                class="px-[14px] py-[10px] rounded-xl border border-neutral-200 outline-none text-[13px]">
+
+                        </div>
+
+                        <!-- TO -->
+                        <div>
+
+                            <p class="text-[13px] text-neutral-500 mb-[6px]">
+                                To
+                            </p>
+
+                            <input
+                                type="date"
+                                name="to_date"
+                                value="{{ request('to_date') }}"
+                                class="px-[14px] py-[10px] rounded-xl border border-neutral-200 outline-none text-[13px]">
+
+                        </div>
+
+                        <!-- STATUS -->
+                        <div>
+
+                            <p class="text-[13px] text-neutral-500 mb-[6px]">
+                                Status
+                            </p>
+
+                            <select
+                                name="status"
+                                class="px-[14px] py-[10px] rounded-xl border border-neutral-200 outline-none text-[13px]">
+
+                                <option value="">
+                                    Semua Status
+                                </option>
+
+                                @if($type == 'online')
+
+                                    <option
+                                        value="Pending"
+                                        {{ request('status') == 'Pending' ? 'selected' : '' }}>
+                                        Pending
+                                    </option>
+
+                                    <option
+                                        value="Diproses"
+                                        {{ request('status') == 'Diproses' ? 'selected' : '' }}>
+                                        Diproses
+                                    </option>
+
+                                    <option
+                                        value="Selesai"
+                                        {{ request('status') == 'Selesai' ? 'selected' : '' }}>
+                                        Selesai
+                                    </option>
+
+                                @else
+
+                                    <option
+                                        value="Proses"
+                                        {{ request('status') == 'Proses' ? 'selected' : '' }}>
+                                        Proses
+                                    </option>
+
+                                    <option
+                                        value="Selesai"
+                                        {{ request('status') == 'Selesai' ? 'selected' : '' }}>
+                                        Selesai
+                                    </option>
+
+                                @endif
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <!-- SEARCH -->
+                    <div class="flex items-center gap-[10px]">
+
+                        <input
+                            type="text"
+                            name="search"
+                            value="{{ request('search') }}"
+                            placeholder="Cari Order Code"
+                            class="w-[280px] max-[560px]:w-full px-[16px] py-[11px] rounded-xl border border-neutral-200 outline-none text-[13px]">
+
+                        <button
+                            type="submit"
+                            class="px-[20px] py-[11px] bg-primary-500 text-neutral-50 rounded-xl font-bold text-[13px] hover:bg-[#5928a7] transition-all duration-[250ms]">
+
+                            Cari
+
+                        </button>
+
+                        <a
+                            href="{{ route('report.sales',['type' => $type]) }}"
+                            class="px-[20px] py-[11px] border border-neutral-200 rounded-xl font-bold text-[13px]">
+
+                            Reset
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </form>
 
     <!-- TABLE -->
     <div
@@ -255,7 +397,9 @@
 
                     <th
                         class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
-                        METODE
+                        {{ $type == 'online'
+                            ? 'PAYMENT STATUS'
+                            : 'METODE' }}
                     </th>
 
                 </tr>
@@ -264,140 +408,136 @@
 
             <tbody>
 
-                <!-- ROW 1 -->
-                <tr class="hover:bg-primary-50 transition-colors duration-[250ms]">
+                @forelse($orders as $order)
 
-                    <td
-                        class="px-[16px] py-[14px] text-[13px] font-bold text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
-                        #131313
-                    </td>
+                    <tr class="hover:bg-primary-50 transition-colors duration-[250ms]">
 
-                    <td
-                        class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
-                        3 May
-                    </td>
+                        {{-- ORDER CODE --}}
+                        <td
+                            class="px-[16px] py-[14px] text-[13px] font-bold text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
 
-                    <td
-                        class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
-                        Siti Masdariah
-                    </td>
+                            {{ $order->order_code }}
 
-                    <td
-                        class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
-                        
-                    </td>
+                        </td>
 
-                    <td
-                        class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
-                        
-                    </td>
+                        {{-- TANGGAL --}}
+                        <td
+                            class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
 
-                    <td
-                        class="px-[16px] py-[14px] text-[13px] font-bold text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
-                        Rp 140.000
-                    </td>
+                            {{ $order->created_at->format('d M Y') }}
 
-                    <td
-                        class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
+                        </td>
 
-                        <span
-                            class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-primary-500/15 text-primary-500">
-                            QRIS
-                        </span>
+                        {{-- CUSTOMER --}}
+                        <td
+                            class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
 
-                    </td>
+                            @if($type == 'online')
 
-                </tr>
+                                {{ $order->user->name ?? '-' }}
 
-                <!-- ROW 2 -->
-                <tr class="hover:bg-primary-50 transition-colors duration-[250ms]">
+                            @else
 
-                    <td
-                        class="px-[16px] py-[14px] text-[13px] font-bold text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
-                        #131314
-                    </td>
+                                {{ $order->customer_name ?? 'Umum' }}
 
-                    <td
-                        class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
-                        3 May
-                    </td>
+                            @endif
 
-                    <td
-                        class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
-                        Mirachel C.
-                    </td>
+                        </td>
 
-                    <td
-                        class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
-                        
-                    </td>
+                        {{-- PRODUK --}}
+                        <td
+                            class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200">
 
-                    <td
-                        class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
-                        
-                    </td>
+                            @foreach($order->items->take(2) as $item)
 
-                    <td
-                        class="px-[16px] py-[14px] text-[13px] font-bold text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
-                        Rp 140.000
-                    </td>
+                                {{ $item->product->name ?? '-' }}
 
-                    <td
-                        class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
+                                @if(!$loop->last)
+                                    ,
+                                @endif
 
-                        <span
-                            class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-primary-500/15 text-primary-500">
-                            QRIS
-                        </span>
+                            @endforeach
 
-                    </td>
+                            @if($order->items->count() > 2)
 
-                </tr>
+                                +{{ $order->items->count() - 2 }} lainnya
 
-                <!-- ROW 3 -->
-                <tr class="hover:bg-primary-50 transition-colors duration-[250ms]">
+                            @endif
 
-                    <td
-                        class="px-[16px] py-[14px] text-[13px] font-bold text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
-                        #131315
-                    </td>
+                        </td>
 
-                    <td
-                        class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
-                        3 May
-                    </td>
+                        {{-- QTY --}}
+                        <td
+                            class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
 
-                    <td
-                        class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
-                        Harits Nur A.
-                    </td>
+                            {{ $order->items->sum('quantity') }}
 
-                    <td
-                        class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
-                        
-                    </td>
+                        </td>
 
-                    <td
-                        class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
-                        
-                    </td>
+                        {{-- TOTAL --}}
+                        <td
+                            class="px-[16px] py-[14px] text-[13px] font-bold text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
 
-                    <td
-                        class="px-[16px] py-[14px] text-[13px] font-bold text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
-                        Rp 8.400.000
-                    </td>
+                            Rp {{ number_format($order->total,0,',','.') }}
 
-                    <td
-                        class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
+                        </td>
 
-                        <span
-                            class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-[#c6ff33]/20 text-[#7ba600]">
-                            CASH
-                        </span>
+                        {{-- STATUS / METODE --}}
+                        <td
+                            class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 whitespace-nowrap">
 
-                    </td>
+                            @if($type == 'online')
 
-                </tr>
+                                @php
+
+                                    $statusColor =
+                                        strtolower($order->payment_status) == 'lunas'
+                                        ? 'bg-green-100 text-green-600'
+                                        : 'bg-yellow-100 text-yellow-600';
+
+                                @endphp
+
+                                <span
+                                    class="px-[10px] py-[4px] rounded-full text-[10px] font-bold {{ $statusColor }}">
+
+                                    {{ $order->payment_status }}
+
+                                </span>
+
+                            @else
+
+                                <span
+                                    class="px-[10px] py-[4px] rounded-full text-[10px] font-bold
+
+                                    {{ $order->payment_method == 'QRIS'
+                                        ? 'bg-primary-500/15 text-primary-500'
+                                        : 'bg-[#c6ff33]/20 text-[#7ba600]' }}">
+
+                                    {{ $order->payment_method }}
+
+                                </span>
+
+                            @endif
+
+                        </td>
+
+                    </tr>
+
+                @empty
+
+                    <tr>
+
+                        <td
+                            colspan="7"
+                            class="text-center py-[40px] text-neutral-400">
+
+                            Tidak ada data penjualan
+
+                        </td>
+
+                    </tr>
+
+                @endforelse
 
             </tbody>
 
@@ -405,4 +545,321 @@
 
     </div>
 
+    {{-- PRINT --}}
+    <div id="print-report" class="hidden">
+
+        <div class="p-10">
+
+            {{-- HEADER --}}
+            <div class="text-center mb-8">
+
+                <h1 class="text-3xl font-bold">
+                    REKAPS STORE
+                </h1>
+
+                <h2 class="text-xl font-semibold mt-2">
+
+                    LAPORAN PENJUALAN
+
+                    {{ $type == 'online'
+                        ? 'ONLINE'
+                        : 'BAZAAR' }}
+
+                </h2>
+
+                <p class="text-sm text-neutral-500 mt-1">
+
+                    Periode :
+
+                    {{ request('from_date')
+                        ? \Carbon\Carbon::parse(request('from_date'))->format('d M Y')
+                        : 'Awal Data' }}
+
+                    -
+
+                    {{ request('to_date')
+                        ? \Carbon\Carbon::parse(request('to_date'))->format('d M Y')
+                        : 'Akhir Data' }}
+
+                </p>
+
+                <p class="text-sm text-neutral-500 mt-2">
+                    Dicetak pada {{ now()->format('d F Y') }}
+                </p>
+
+            </div>
+
+            {{-- RINGKASAN --}}
+            <div class="border-t border-b py-4 mb-6">
+
+                <h3 class="text-lg font-bold mb-3">
+                    Ringkasan Penjualan
+                </h3>
+
+                <div class="space-y-2 text-sm">
+
+                    <div class="flex justify-between">
+
+                        <span>
+
+                            {{ $type == 'online'
+                                ? 'Total Pesanan'
+                                : 'Total Transaksi' }}
+
+                        </span>
+
+                        <span class="font-semibold">
+                            {{ $totalOrders }}
+                        </span>
+
+                    </div>
+
+                    <div class="flex justify-between">
+
+                        <span>Total Pendapatan</span>
+
+                        <span class="font-semibold">
+
+                            Rp {{ number_format($totalRevenue,0,',','.') }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="flex justify-between">
+
+                        <span>
+
+                            {{ $type == 'online'
+                                ? 'Pelanggan Online'
+                                : 'Kasir Aktif' }}
+
+                        </span>
+
+                        <span class="font-semibold">
+
+                            {{ $type == 'online'
+                                ? $totalCustomers
+                                : $totalCashiers }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="flex justify-between">
+
+                        <span>Produk Terjual</span>
+
+                        <span class="font-semibold">
+
+                            {{ $totalProductsSold }}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {{-- DETAIL PENJUALAN --}}
+            <h3 class="text-lg font-bold mb-4">
+                Detail Penjualan
+            </h3>
+
+            <table class="w-full border border-neutral-400 text-sm mb-8">
+
+                <thead>
+
+                    <tr class="bg-neutral-100">
+
+                        <th class="border border-neutral-400 px-3 py-2">
+                            Order Code
+                        </th>
+
+                        <th class="border border-neutral-400 px-3 py-2">
+                            Tanggal
+                        </th>
+
+                        <th class="border border-neutral-400 px-3 py-2">
+                            Customer
+                        </th>
+
+                        <th class="border border-neutral-400 px-3 py-2">
+                            Qty
+                        </th>
+
+                        <th class="border border-neutral-400 px-3 py-2">
+                            Total
+                        </th>
+
+                        <th class="border border-neutral-400 px-3 py-2">
+
+                            {{ $type == 'online'
+                                ? 'Payment Status'
+                                : 'Metode' }}
+
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach($orders as $order)
+
+                        <tr>
+
+                            <td class="border border-neutral-300 px-3 py-2">
+
+                                {{ $order->order_code }}
+
+                            </td>
+
+                            <td class="border border-neutral-300 px-3 py-2">
+
+                                {{ $order->created_at->format('d/m/Y') }}
+
+                            </td>
+
+                            <td class="border border-neutral-300 px-3 py-2">
+
+                                @if($type == 'online')
+
+                                    {{ $order->user->name ?? '-' }}
+
+                                @else
+
+                                    {{ $order->customer_name ?? 'Umum' }}
+
+                                @endif
+
+                            </td>
+
+                            <td class="border border-neutral-300 px-3 py-2">
+
+                                {{ $order->items->sum('quantity') }}
+
+                            </td>
+
+                            <td class="border border-neutral-300 px-3 py-2">
+
+                                Rp {{ number_format($order->total,0,',','.') }}
+
+                            </td>
+
+                            <td class="border border-neutral-300 px-3 py-2">
+
+                                @if($type == 'online')
+
+                                    {{ $order->payment_status }}
+
+                                @else
+
+                                    {{ $order->payment_method }}
+
+                                @endif
+
+                            </td>
+
+                        </tr>
+
+                    @endforeach
+
+                </tbody>
+
+            </table>
+
+            {{-- PRODUK TERLARIS --}}
+            <h3 class="text-lg font-bold mb-4">
+                Produk Terlaris
+            </h3>
+
+            <table class="w-full border border-neutral-400 text-sm">
+
+                <thead>
+
+                    <tr class="bg-neutral-100">
+
+                        <th class="border border-neutral-400 px-3 py-2">
+                            Produk
+                        </th>
+
+                        <th class="border border-neutral-400 px-3 py-2">
+                            Jumlah Terjual
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach($topProducts as $product)
+
+                        <tr>
+
+                            <td class="border border-neutral-300 px-3 py-2">
+
+                                {{ $product->product->name ?? '-' }}
+
+                            </td>
+
+                            <td class="border border-neutral-300 px-3 py-2">
+
+                                {{ $product->total_sold }}
+
+                            </td>
+
+                        </tr>
+
+                    @endforeach
+
+                </tbody>
+
+            </table>
+
+            {{-- TTD --}}
+            <div class="mt-16 flex justify-end">
+
+                <div class="text-center">
+
+                    <p>
+                        Kepala Departement <br>
+                        Ekonomi Kreatif HIMARPL
+                    </p>
+
+                    <div class="h-20"></div>
+
+                    <p>(________________)</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 @endsection 
+
+<script>
+function printReport() {
+
+    const printContents =
+        document.getElementById('print-report').innerHTML;
+
+    const originalContents =
+        document.body.innerHTML;
+
+    document.body.innerHTML =
+        printContents;
+
+    window.print();
+
+    document.body.innerHTML =
+        originalContents;
+
+    location.reload();
+}
+</script>
