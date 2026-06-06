@@ -34,66 +34,28 @@
 
         <div class="flex items-center gap-[12px]">
 
-            <button
+            <button onclick="printReport()"
                 class="flex items-center gap-[8px] px-[18px] py-[10px] rounded-xl border border-primary-500 text-primary-500 bg-neutral-50 font-bold text-[13px] cursor-pointer transition-all duration-[250ms] hover:bg-primary-50">
-                🖨 Print
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M7 17V15C7 14.4696 7.21071 13.9609 7.58579 13.5858C7.96086 13.2107 8.46957 13 9 13H15C15.5304 13 16.0391 13.2107 16.4142 13.5858C16.7893 13.9609 17 14.4696 17 15V17M7 17V19C7 19.5304 7.21071 20.0391 7.58579 20.4142C7.96086 20.7893 8.46957 21 9 21H15C15.5304 21 16.0391 20.7893 16.4142 20.4142C16.7893 20.0391 17 19.5304 17 19V17M7 17H5C4.46957 17 3.96086 16.7893 3.58579 16.4142C3.21071 16.0391 3 15.5304 3 15V9C3 8.46957 3.21071 7.96086 3.58579 7.58579C3.96086 7.21071 4.46957 7 5 7H6M17 17H19C19.5304 17 20.0391 16.7893 20.4142 16.4142C20.7893 16.0391 21 15.5304 21 15V9C21 8.46957 20.7893 7.96086 20.4142 7.58579C20.0391 7.21071 19.5304 7 19 7H18M6 7V5C6 4.46957 6.21071 3.96086 6.58579 3.58579C6.96086 3.21071 7.46957 3 8 3H16C16.5304 3 17.0391 3.21071 17.4142 3.58579C17.7893 3.96086 18 4.46957 18 5V7M6 7H18" stroke="#A87AF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M2 9C2 8.20435 2.31607 7.44129 2.87868 6.87868C3.44129 6.31607 4.20435 6 5 6H19C19.7956 6 20.5587 6.31607 21.1213 6.87868C21.6839 7.44129 22 8.20435 22 9V15C22 15.7956 21.6839 16.5587 21.1213 17.1213C20.5587 17.6839 19.7956 18 19 18H17C16.7348 18 16.4804 17.8946 16.2929 17.7071C16.1054 17.5196 16 17.2652 16 17V15C16 14.7348 15.8946 14.4804 15.7071 14.2929C15.5196 14.1054 15.2652 14 15 14H9C8.73478 14 8.48043 14.1054 8.29289 14.2929C8.10536 14.4804 8 14.7348 8 15V17C8 17.2652 7.89464 17.5196 7.70711 17.7071C7.51957 17.8946 7.26522 18 7 18H5C4.20435 18 3.44129 17.6839 2.87868 17.1213C2.31607 16.5587 2 15.7956 2 15V9ZM7 9C6.73478 9 6.48043 9.10536 6.29289 9.29289C6.10536 9.48043 6 9.73478 6 10C6 10.2652 6.10536 10.5196 6.29289 10.7071C6.48043 10.8946 6.73478 11 7 11H8C8.26522 11 8.51957 10.8946 8.70711 10.7071C8.89464 10.5196 9 10.2652 9 10C9 9.73478 8.89464 9.48043 8.70711 9.29289C8.51957 9.10536 8.26522 9 8 9H7Z" fill="#A87AF2"/>
+                </svg>
+                Print Laporan Penjualan
             </button>
 
-            <button
+            <a href="/admin/report-finance/export"
                 class="flex items-center gap-[8px] px-[18px] py-[10px] rounded-xl bg-primary-500 text-neutral-50 font-bold text-[13px] shadow-[0_4px_14px_rgba(125,57,235,0.35)] cursor-pointer transition-all duration-[250ms] hover:bg-[#5928a7]">
-                ⬇ Export as Excel
-            </button>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M4 3C3.73478 3 3.48043 3.10536 3.29289 3.29289C3.10536 3.48043 3 3.73478 3 4V20C3 20.2652 3.10536 20.5196 3.29289 20.7071C3.48043 20.8946 3.73478 21 4 21H20C20.2652 21 20.5196 20.8946 20.7071 20.7071C20.8946 20.5196 21 20.2652 21 20V8C20.9999 7.73481 20.8946 7.48049 20.707 7.293L16.707 3.293C16.5195 3.10545 16.2652 3.00006 16 3H4ZM10 14C10 12.4 11.333 12 12 12C12.667 12 14 12.4 14 14C14 15.6 12.667 16 12 16C11.333 16 10 15.6 10 14ZM14 5H8V8H14V5Z" fill="#F2EBFD"/>
+                </svg>
+                Export as Excel
+            </a>
 
         </div>
 
     </div>
 
-    <!-- FILTER -->
-    <div
-        class="bg-neutral-50 rounded-[20px] p-[18px] shadow-[0_2px_16px_rgba(0,0,0,0.07)] mb-[24px]">
 
-        <div class="flex items-center justify-between flex-wrap gap-[18px]">
-
-            <!-- DATE -->
-            <div class="flex items-center gap-[12px] flex-wrap">
-
-                <div>
-                    <p class="text-[13px] text-neutral-500 mb-[6px]">
-                        From
-                    </p>
-
-                    <input type="date"
-                        class="px-[14px] py-[10px] rounded-xl border border-neutral-200 outline-none text-[13px]">
-                </div>
-
-                <div>
-                    <p class="text-[13px] text-neutral-500 mb-[6px]">
-                        To
-                    </p>
-
-                    <input type="date"
-                        class="px-[14px] py-[10px] rounded-xl border border-neutral-200 outline-none text-[13px]">
-                </div>
-
-            </div>
-
-            <!-- SEARCH -->
-            <div class="flex items-center gap-[10px]">
-
-                <input type="text"
-                    placeholder="Cari ID Pembayaran atau ID Pelanggan"
-                    class="w-[280px] max-[560px]:w-full px-[16px] py-[11px] rounded-xl border border-neutral-200 outline-none text-[13px]">
-
-                <button
-                    class="px-[20px] py-[11px] bg-primary-500 text-neutral-50 rounded-xl font-bold text-[13px] hover:bg-[#5928a7] transition-all duration-[250ms]">
-                    Cari
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
 
     <!-- STATISTIC CARD -->
     <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-[24px]">
@@ -201,6 +163,53 @@
             <h2 class="text-3xl font-black text-neutral-950">
                 Rp 180.000
             </h2>
+
+        </div>
+
+    </div>
+
+        <!-- FILTER -->
+    <div
+        class="bg-neutral-50 rounded-[20px] p-[18px] shadow-[0_2px_16px_rgba(0,0,0,0.07)] mb-[24px]">
+
+        <div class="flex items-center justify-between flex-wrap gap-[18px]">
+
+            <!-- DATE -->
+            <div class="flex items-center gap-[12px] flex-wrap">
+
+                <div>
+                    <p class="text-[13px] text-neutral-500 mb-[6px]">
+                        From
+                    </p>
+
+                    <input type="date"
+                        class="px-[14px] py-[10px] rounded-xl border border-neutral-200 outline-none text-[13px]">
+                </div>
+
+                <div>
+                    <p class="text-[13px] text-neutral-500 mb-[6px]">
+                        To
+                    </p>
+
+                    <input type="date"
+                        class="px-[14px] py-[10px] rounded-xl border border-neutral-200 outline-none text-[13px]">
+                </div>
+
+            </div>
+
+            <!-- SEARCH -->
+            <div class="flex items-center gap-[10px]">
+
+                <input type="text"
+                    placeholder="Cari ID Pembayaran atau ID Pelanggan"
+                    class="w-[280px] max-[560px]:w-full px-[16px] py-[11px] rounded-xl border border-neutral-200 outline-none text-[13px]">
+
+                <button
+                    class="px-[20px] py-[11px] bg-primary-500 text-neutral-50 rounded-xl font-bold text-[13px] hover:bg-[#5928a7] transition-all duration-[250ms]">
+                    Cari
+                </button>
+
+            </div>
 
         </div>
 

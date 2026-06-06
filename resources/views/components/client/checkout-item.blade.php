@@ -1,6 +1,6 @@
 @props(['product'])
 
-<div class="flex items-center bg-neutral-50 rounded-xl p-3 gap-3">
+<div class="flex items-center bg-neutral-50 rounded-xl pl-3 pr-10 py-3 gap-3">
     {{-- Image --}}
     <div class="flex-1 max-w-40 rounded-xl flex items-center justify-center shrink-0 overflow-hidden">
         <img src="{{ asset($product->images->first()->image_path ?? 'assets/images/placeholder.png') }}" alt="{{ $product->name }}" class="w-full h-full object-contain">

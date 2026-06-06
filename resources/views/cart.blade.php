@@ -5,7 +5,15 @@
 @endsection
 
 @section('content')
-<form class="flex flex-col gap-2 pb-17">
+
+@if(session('error'))
+<div class="bg-red-50 border border-red-200 text-red-500 text-sm font-semibold px-4 py-2 rounded-xl">
+    {{ session('error') }}
+</div>
+@endif
+
+<form id="cartForm" method="POST" action="/checkout" class="flex flex-col gap-2 pb-17">
+    @csrf
 
     {{-- ===== HEADER ROW ===== --}}
     <div class="flex items-center px-3 py-3 bg-neutral-50 rounded-xl">
@@ -24,22 +32,37 @@
 
     {{-- ===== CART ITEMS ===== --}}
     @foreach ($products as $product)
-    <x-client.cart-item :product="$product" />
+    <x-client.cart-item 
+        :product="$product"
+        :price="$product->selling_price - ($product->selling_price * $product->discount / 100)"
+    />
     @endforeach
 
     {{-- checkout --}}
     <div class="flex fixed bottom-2 left-1/2 -translate-x-1/2 w-full max-w-7xl px-2 z-10">
         <div class="flex w-full bg-white border border-neutral-100 rounded-xl px-6 py-3 shadow-lg items-center justify-between">
             <p class="text-xs sm:text-sm font-semibold text-neutral-700">Total Harga : 
-                <span class="text-sm sm:text-lg font-semibold text-neutral-800">
-                    Rp{{ number_format($products->sum(fn($p) => $p->selling_price - ($p->selling_price * $p->discount / 100)), 0, ',', '.') }}
-                </span>
+                <span id="totalHarga" class="text-sm sm:text-lg font-semibold text-neutral-800">Rp0</span>
             </p>
-            <a href="/checkout" class="bg-primary-500 cursor-pointer hover:bg-primary-600 active:scale-95 text-white text-sm font-semibold px-6 py-2.5 rounded-xl transition">
+            <button type="submit" class="bg-primary-500 cursor-pointer hover:bg-primary-600 active:scale-95 text-white text-sm font-semibold px-6 py-2.5 rounded-xl transition">
                 Checkout
-            </a>
+            </button>
         </div>
     </div>
 
 </form>
+
+<script>
+function updateTotal() {
+    const items = document.querySelectorAll('.cart-item:checked');
+    let total = 0;
+    items.forEach(cb => {
+        total += parseFloat(cb.dataset.price);
+    });
+    document.getElementById('totalHarga').textContent = 'Rp' + total.toLocaleString('id-ID');
+}
+
+document.addEventListener('DOMContentLoaded', updateTotal);
+</script>
+
 @endsection
