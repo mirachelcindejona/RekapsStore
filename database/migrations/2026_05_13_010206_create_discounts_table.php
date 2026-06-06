@@ -34,9 +34,9 @@ return new class extends Migration
             $table->date('end_date');
 
             $table->enum('status', [
-                'active',
-                'inactive'
-            ])->default('active');
+                'Aktif',
+                'Non-Aktif'
+            ])->default('Aktif');
 
             $table->timestamps();
         });
