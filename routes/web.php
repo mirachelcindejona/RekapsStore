@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\FinanceController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\CashierController;
+use App\Http\Controllers\Admin\OrderController;
 
 // Controller User
 use App\Http\Controllers\Auth\LoginController;
@@ -226,6 +227,11 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
         // Modul Promo / Diskon
         Route::middleware(['permission:diskon'])->group(function () {
             Route::get('/promo', function () { return view('admin.promo'); })->name('admin.promo');
+        });
+
+        Route::middleware(['permission:pesanan'])->group(function () {
+            Route::get('/orders', [OrderController::class, 'index'])->name('admin.orders');
+            Route::put('/orders/online/{id}/status', [OrderController::class, 'updateOnlineStatus'])->name('orders.online.status');
         });
 
         Route::middleware(['permission:kasir'])->group(function () {

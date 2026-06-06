@@ -163,7 +163,8 @@
             <div class="h-[0.3px] bg-black flex-1"></div>
         </div>
 
-        <div class="w-full bg-white rounded-[16px] shadow-[0_0_8px_rgba(0,0,0,0.15)] overflow-hidden flex flex-col">
+        <div
+            class="w-full bg-white rounded-[16px] shadow-[0_0_8px_rgba(0,0,0,0.15)] overflow-hidden flex flex-col pb-[30px]">
             <div class="w-full overflow-x-auto pos-scroll">
                 <table class="w-full min-w-[1000px] text-left border-collapse">
                     <thead>
