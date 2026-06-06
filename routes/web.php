@@ -221,6 +221,16 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
                 '/reports',
                 [ReportController::class, 'index']
             );
+
+            Route::get(
+                '/report-sales',
+                [ReportController::class, 'sales']
+            )->name('report.sales');
+
+            Route::get(
+                '/report-sales/export',
+                [ReportController::class, 'exportSales']
+            )->name('report.sales.export');
                         
             Route::get(
                 '/report-finance',

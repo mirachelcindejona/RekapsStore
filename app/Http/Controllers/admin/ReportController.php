@@ -9,9 +9,16 @@ use App\Models\FinanceTransactions;
 use App\Models\Product;
 use App\Models\CategoryProduct;
 use App\Models\StockHistory;
+use App\Models\OnlineOrder;
+use App\Models\OnlineOrderItem;
+use App\Models\CashierOrder;
+use App\Models\CashierOrderItem;
+
+
 
 // exports
 use App\Exports\StockHistoryExport;
+use App\Exports\SalesExport;
 use App\Exports\FinanceExport;
 use App\Exports\StockExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -261,6 +268,7 @@ class ReportController extends Controller
 
 
     }
+    
     public function exportStockHistory()
     {
         return Excel::download(
@@ -269,4 +277,285 @@ class ReportController extends Controller
         );
     }
 
+    public function sales(Request $request)
+    {
+        $type = $request->type ?? 'online';
+
+        $totalCustomers = 0;
+        $totalCashiers = 0;
+
+        if ($type == 'online') {
+
+            $orders = OnlineOrder::with([
+                'user',
+                'items'
+            ])
+
+            ->when($request->from_date, function ($query) use ($request) {
+
+                $query->whereDate(
+                    'created_at',
+                    '>=',
+                    $request->from_date
+                );
+
+            })
+
+            ->when($request->to_date, function ($query) use ($request) {
+
+                $query->whereDate(
+                    'created_at',
+                    '<=',
+                    $request->to_date
+                );
+
+            })
+
+            ->when($request->status, function ($query) use ($request) {
+
+                $query->where(
+                    'status',
+                    $request->status
+                );
+
+            })
+
+            ->when($request->search, function ($query) use ($request) {
+
+                $query->where(
+                    'order_code',
+                    'like',
+                    '%' . $request->search . '%'
+                );
+
+            })
+
+            ->latest()
+
+            ->get();
+
+            $totalOrders =
+                $orders->count();
+
+            $completedOrders =
+                $orders
+                    ->where('status', 'Selesai')
+                    ->count();
+
+            $totalRevenue =
+                $orders
+                    ->where('payment_status', 'Lunas')
+                    ->sum('total');
+
+            $totalProductsSold =
+                OnlineOrderItem::whereIn(
+                    'online_order_id',
+                    $orders->pluck('id')
+                )->sum('quantity');
+
+            $totalCustomers =
+            $orders
+                ->pluck('user_id')
+                ->unique()
+                ->count();
+
+            $topProducts =
+                OnlineOrderItem::with('product')
+                    ->selectRaw('product_id, SUM(quantity) as total_sold')
+                    ->groupBy('product_id')
+                    ->orderByDesc('total_sold')
+                    ->take(5)
+                    ->get();
+
+        } else {
+
+            $orders = CashierOrder::with([
+                'cashier',
+                'items'
+            ])
+
+            ->when($request->from_date, function ($query) use ($request) {
+
+                $query->whereDate(
+                    'created_at',
+                    '>=',
+                    $request->from_date
+                );
+
+            })
+
+            ->when($request->to_date, function ($query) use ($request) {
+
+                $query->whereDate(
+                    'created_at',
+                    '<=',
+                    $request->to_date
+                );
+
+            })
+
+            ->when($request->status, function ($query) use ($request) {
+
+                $query->where(
+                    'status',
+                    $request->status
+                );
+
+            })
+
+            ->when($request->search, function ($query) use ($request) {
+
+                $query->where(
+                    'order_code',
+                    'like',
+                    '%' . $request->search . '%'
+                );
+
+            })
+
+            ->latest()
+
+            ->get();
+
+            $totalOrders =
+                $orders->count();
+
+            $completedOrders =
+                $orders
+                    ->where('status', 'Selesai')
+                    ->count();
+
+            $totalRevenue =
+                $orders
+                    ->where('payment_status', 'Paid')
+                    ->sum('total');
+
+            $totalProductsSold =
+                CashierOrderItem::whereIn(
+                    'cashier_order_id',
+                    $orders->pluck('id')
+                )->sum('quantity');
+
+            $totalCashiers =
+            $orders
+                ->pluck('cashier_id')
+                ->unique()
+                ->count();
+
+            $topProducts =
+                CashierOrderItem::with('product')
+                    ->selectRaw('product_id, SUM(quantity) as total_sold')
+                    ->groupBy('product_id')
+                    ->orderByDesc('total_sold')
+                    ->take(5)
+                    ->get();
+        }
+
+        return view(
+            'admin.report-sales',
+            compact(
+                'orders',
+                'type',
+                'totalOrders',
+                'completedOrders',
+                'totalRevenue',
+                'totalProductsSold',
+                'topProducts',
+                'totalCustomers',
+                'totalCashiers'
+            )
+        );
+    }
+    
+    public function exportSales(Request $request)
+    {
+        $type = $request->type ?? 'online';
+
+        if ($type == 'online') {
+
+            $orders = OnlineOrder::with([
+                'user',
+                'items'
+            ])->get();
+
+        } else {
+
+            $orders = CashierOrder::with([
+                'items'
+            ])->get();
+
+        }
+        $totalOrders = $orders->count();
+
+        $totalRevenue =
+            $orders
+                ->where('payment_status', 'Lunas')
+                ->sum('total');
+
+        $totalProductsSold =
+            OnlineOrderItem::whereIn(
+                'online_order_id',
+                $orders->pluck('id')
+            )->sum('quantity');
+
+        $totalCustomers =
+            $orders
+                ->pluck('user_id')
+                ->unique()
+                ->count();
+
+        $topProducts =
+            OnlineOrderItem::with('product')
+                ->selectRaw(
+                    'product_id, SUM(quantity) as total_sold'
+                )
+                ->groupBy('product_id')
+                ->orderByDesc('total_sold')
+                ->take(5)
+                ->get();
+        
+        $totalOrders = $orders->count();
+
+        $totalRevenue =
+            $orders
+                ->where('payment_status', 'Lunas')
+                ->sum('total');
+
+        $totalProductsSold =
+            CashierOrderItem::whereIn(
+                'cashier_order_id',
+                $orders->pluck('id')
+            )->sum('quantity');
+
+        $totalCashiers =
+            $orders
+                ->pluck('cashier_id')
+                ->unique()
+                ->count();
+
+        $topProducts =
+            CashierOrderItem::with('product')
+                ->selectRaw(
+                    'product_id, SUM(quantity) as total_sold'
+                )
+                ->groupBy('product_id')
+                ->orderByDesc('total_sold')
+                ->take(5)
+                ->get();
+
+        return Excel::download(
+            new SalesExport(
+                $orders,
+                $topProducts,
+                $type,
+                $totalOrders,
+                $totalRevenue,
+                $totalProductsSold,
+                $totalCustomers,
+                $totalCashiers
+            ),
+            'laporan-penjualan-' . $type . '.xlsx'
+        );
+    }
 }
+
