@@ -5,6 +5,8 @@
     'value' => '',
     'checked' => false,
     'disabled' => false,
+    'dataDiscount' => 0,
+    'dataMinPurchase' => 0,
 ])
 
 <label class="voucher-label flex items-center justify-between rounded-xl px-3 py-2 cursor-pointer transition
@@ -21,6 +23,8 @@
     </div>
     <input type="radio" name="voucher" value="{{ $value }}"
         class="w-4 h-4 accent-white cursor-pointer"
+        data-discount="{{ $dataDiscount }}"
+        data-min-purchase="{{ $dataMinPurchase }}"
         {{ $checked ? 'checked' : '' }}
         {{ $disabled ? 'disabled' : '' }}
         @if(!$disabled) onchange="selectVoucher(this)" @endif>

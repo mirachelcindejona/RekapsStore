@@ -33,14 +33,29 @@
 </div>
 
 <script>
-    setTimeout(() => {
-        const toast = document.getElementById('successToast');
-        if (toast) {
-            toast.style.transition = 'opacity 0.4s';
-            toast.style.opacity = '0';
-            setTimeout(() => toast.remove(), 400);
+document.addEventListener('DOMContentLoaded', () => {
+    const toast = document.getElementById('successToast');
+    if (toast) {
+        const toastKey = 'toast_shown_<?php echo e(session()->getId()); ?>';
+        if (sessionStorage.getItem(toastKey)) {
+            toast.remove();
+        } else {
+            sessionStorage.setItem(toastKey, '1');
+            setTimeout(() => {
+                toast.style.transition = 'opacity 0.4s';
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
         }
-    }, 3000);
+    }
+});
+
+window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+        const toast = document.getElementById('successToast');
+        if (toast) toast.remove();
+    }
+});
 </script>
 <?php endif; ?>
 
@@ -52,17 +67,17 @@
 <div class="grid grid-cols-1 lg:grid-cols-[1.5fr_0.5fr_1fr] gap-2 mt-1 sm:mt-0">
 
     
-    <div class="bg-neutral-50 rounded-xl p-4 flex-3">
+    <div class="bg-neutral-50 rounded-xl flex-3">
         <div class="w-full aspect-square overflow-hidden rounded-xl">
-            <img src="<?php echo e(asset($product->images->first()->image_path ?? 'assets/images/placeholder.png')); ?>" class="product-image w-full h-full object-contain cursor-zoom-in">
+            <img src="<?php echo e(asset('storage/' . $product->images->first()->image_path ?? 'assets/images/placeholder.png')); ?>" class="product-image w-full h-full object-contain cursor-zoom-in">
         </div>
     </div>
 
     
     <div class="flex flex-row lg:flex-col flex-1 gap-2 h-full w-full">
-        <?php $__currentLoopData = $product->images->take(3); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        <?php $__currentLoopData = $product->images->skip(1)->take(3); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <div class="w-full aspect-square rounded-xl bg-neutral-50 overflow-hidden">
-            <img class="product-image w-full h-full object-cover cursor-zoom-in" src="<?php echo e(asset($image->image_path)); ?>" alt="">
+            <img class="product-image w-full h-full object-cover cursor-zoom-in" src="<?php echo e(asset('storage/' . $image->image_path)); ?>" alt="">
         </div>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     </div>

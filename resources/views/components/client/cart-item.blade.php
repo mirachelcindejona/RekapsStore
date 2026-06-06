@@ -17,8 +17,8 @@
 
     {{-- MOBILE --}}
     <div class="flex flex-1 gap-3 md:hidden items-center">
-        <div class="flex-1 max-w-40 rounded-xl flex items-center justify-center shrink-0 overflow-hidden">
-            <img src="{{ asset($product->images->first()->image_path ?? 'assets/images/placeholder.png') }}" alt="{{ $product->name }}" class="object-contain">
+        <div class="flex-1 max-w-40 max-h-40 rounded-xl flex items-center justify-center shrink-0 overflow-hidden">
+            <img src="{{ asset('storage/' . $product->images->first()->image_path ?? 'assets/images/placeholder.png') }}" alt="{{ $product->name }}" class="w-full h-full object-contain">
         </div>
         <div class="flex-1 min-w-0 flex flex-col gap-3">
             <div class="flex flex-col">
@@ -54,8 +54,8 @@
     {{-- DESKTOP --}}
     <div class="hidden md:grid grid-cols-[2fr_1fr_1fr_1fr_2rem] flex-1 items-center">
         <div class="flex items-center gap-3">
-            <div class="flex-1 max-w-40 rounded-xl flex items-center justify-center shrink-0 overflow-hidden">
-                <img src="{{ asset($product->images->first()->image_path ?? 'assets/images/placeholder.png') }}" alt="{{ $product->name }}" class="object-contain">
+            <div class="flex-1 max-w-40 max-h-40 rounded-xl flex items-center justify-center shrink-0 overflow-hidden">
+                <img src="{{ asset('storage/' . $product->images->first()->image_path ?? 'assets/images/placeholder.png') }}" alt="{{ $product->name }}" class="w-fu;; h-full object-contain">
             </div>
             <div class="flex flex-col gap-1">
                 <p class="text-[16px] font-bold text-neutral-800">{{ $product->name }}</p>
