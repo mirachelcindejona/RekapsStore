@@ -44,8 +44,8 @@
                     </button>
                     @include('components.client.notif-dropdown')
                 </div>
-
                 {{-- Avatar Mobile --}}
+                @auth
                 <div class="relative group">
                     <button class="text-neutral-50 w-[40px] h-[40px] text-sm font-medium flex items-center justify-center bg-teal-600 rounded-lg cursor-pointer">
                         <span>{{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 2)) }}</span>
@@ -73,6 +73,11 @@
                         </div>
                     </div>
                 </div>
+                @else
+                <a href="{{ route('login') }}" class="text-sm font-semibold text-primary-500 px-4 py-2 bg-primary-50 hover:bg-primary-100 rounded-xl transition">
+                    Login
+                </a>
+                @endauth
 
             </div>
 

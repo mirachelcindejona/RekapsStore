@@ -263,11 +263,11 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
     Route::delete('/cart/remove/{itemId}', [CartController::class, 'remove'])->name('cart.remove');
 
     Route::post('/checkout/update-qty', function () {
-        $productId = request('product_id');
+        $key = request('key'); // product_id_variant_id
         $qty = max(1, (int) request('quantity'));
 
         $qtys = session('checkout_qtys', []);
-        $qtys[$productId] = $qty;
+        $qtys[$key] = $qty;
         session(['checkout_qtys' => $qtys]);
 
         return response()->json(['success' => true]);
@@ -280,7 +280,12 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
         }
 
         $cart = \App\Models\Cart::where('user_id', auth()->id())->first();
-        $cartItems = $cart ? $cart->items->whereIn('product_id', $selectedIds) : collect();
+        $cartItems = $cart
+            ? \App\Models\CartItem::with(['product.images', 'product.variants'])
+                ->where('cart_id', $cart->id)
+                ->whereIn('product_id', $selectedIds)
+                ->get()
+            : collect();
 
         $checkoutItems = $cartItems->map(fn($item) => [
             'product_id' => $item->product_id,
@@ -288,10 +293,12 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
             'quantity'   => $item->quantity,
         ])->values()->toArray();
 
-        // checkout_qtys diisi dari qty cart sebagai nilai awal
-        $checkoutQtys = $cartItems->mapWithKeys(fn($item) => [
-            $item->product_id => $item->quantity,
-        ])->toArray();
+        $checkoutQtys = [];
+        foreach ($cartItems as $item) {
+            // pakai kombinasi product_id + variant_id sebagai key
+            $key = $item->product_id . '_' . ($item->product_variant_id ?? '0');
+            $checkoutQtys[$key] = $item->quantity;
+        }
 
         session([
             'checkout_products' => $selectedIds,
@@ -311,18 +318,23 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
             return redirect('/cart');
         }
 
-        $products = Product::with(['category', 'images', 'variants'])
-            ->whereIn('id', $selectedIds)
-            ->get()
-            ->map(function ($product) use ($checkoutItems, $checkoutQtys) {
-                $item = collect($checkoutItems)->firstWhere('product_id', $product->id);
-                // checkout_qtys lebih prioritas karena itu hasil update dari halaman checkout
-                $product->checkout_qty = $checkoutQtys[$product->id] ?? $item['quantity'] ?? 1;
-                $product->checkout_variant_id = $item['variant_id'] ?? null;
-                return $product;
-            });
+        // expand per item karena satu product bisa punya beberapa variant
+        $products = collect($checkoutItems)->map(function ($item) use ($checkoutQtys) {
+            $product = \App\Models\Product::with(['category', 'images', 'variants'])
+                ->find($item['product_id']);
 
-        $vouchers = Voucher::where('status', 'Aktif')
+            if (!$product) return null;
+
+            $key = $item['product_id'] . '_' . ($item['variant_id'] ?? '0');
+            $product = clone $product;
+            $product->checkout_qty = $checkoutQtys[$key] ?? $item['quantity'] ?? 1;
+            $product->checkout_variant_id = $item['variant_id'] ?? null;
+            $product->checkout_item_key = $key;
+
+            return $product;
+        })->filter()->values();
+
+        $vouchers = \App\Models\Voucher::where('status', 'Aktif')
             ->where('end_date', '>=', now())
             ->get();
 

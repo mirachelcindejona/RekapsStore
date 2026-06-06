@@ -55,6 +55,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             FinanceTransactionSeeder::class,
+            NotificationSeeder::class,
         ]);
     }
 }
