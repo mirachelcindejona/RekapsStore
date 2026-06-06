@@ -1,5 +1,7 @@
 <?php $__env->startSection('navbar'); ?>
-<?php if (isset($component)) { $__componentOriginal0b5b5b32a850d68bbeb0c17e6bab1ca0 = $component; } ?>
+<?php $__env->startSection('navbar'); ?>
+<?php if(auth()->guard()->check()): ?>
+    <?php if (isset($component)) { $__componentOriginal0b5b5b32a850d68bbeb0c17e6bab1ca0 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal0b5b5b32a850d68bbeb0c17e6bab1ca0 = $attributes; } ?>
 <?php $component = App\View\Components\Client\NavbarMain::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('client.navbar-main'); ?>
@@ -8,7 +10,8 @@
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\App\View\Components\Client\NavbarMain::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['variant' => 'page','title' => 'Detail Produk']); ?> <?php echo $__env->renderComponent(); ?>
+<?php $component->withAttributes(['variant' => 'page','title' => 'Detail Produk']); ?>
+<?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal0b5b5b32a850d68bbeb0c17e6bab1ca0)): ?>
 <?php $attributes = $__attributesOriginal0b5b5b32a850d68bbeb0c17e6bab1ca0; ?>
@@ -18,6 +21,29 @@
 <?php $component = $__componentOriginal0b5b5b32a850d68bbeb0c17e6bab1ca0; ?>
 <?php unset($__componentOriginal0b5b5b32a850d68bbeb0c17e6bab1ca0); ?>
 <?php endif; ?>
+<?php else: ?>
+    <?php if (isset($component)) { $__componentOriginal5726d076a0da0eeb1697fbdaeaba9455 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal5726d076a0da0eeb1697fbdaeaba9455 = $attributes; } ?>
+<?php $component = App\View\Components\Client\NavbarIndex::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('client.navbar-index'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\App\View\Components\Client\NavbarIndex::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal5726d076a0da0eeb1697fbdaeaba9455)): ?>
+<?php $attributes = $__attributesOriginal5726d076a0da0eeb1697fbdaeaba9455; ?>
+<?php unset($__attributesOriginal5726d076a0da0eeb1697fbdaeaba9455); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal5726d076a0da0eeb1697fbdaeaba9455)): ?>
+<?php $component = $__componentOriginal5726d076a0da0eeb1697fbdaeaba9455; ?>
+<?php unset($__componentOriginal5726d076a0da0eeb1697fbdaeaba9455); ?>
+<?php endif; ?>
+<?php endif; ?>
+<?php $__env->stopSection(); ?>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
@@ -176,13 +202,13 @@ window.addEventListener('pageshow', function(event) {
         </div>
 
         <div class="flex-1 w-full flex flex-col items-end justify-end gap-2 text-sm font-medium">
-    
+
+            <?php if(auth()->guard()->check()): ?>
             <form class="w-full" method="POST" action="<?php echo e(route('cart.add')); ?>" id="cartForm">
                 <?php echo csrf_field(); ?>
                 <input type="hidden" name="product_id" value="<?php echo e($product->id); ?>">
                 <input type="hidden" name="variant_id" id="selectedVariantId" value="">
                 <input type="hidden" name="quantity" id="selectedQty" value="1">
-                
                 <button type="submit" class="bg-neutral-50 border-2 text-primary-500 py-2 rounded-xl w-full flex justify-center items-center gap-2 hover:bg-primary-50 cursor-pointer transition-all duration-300 ease-in-out">
                     <img src="<?php echo e(asset('assets/icons/cart-ill.svg')); ?>" alt="">
                     Masukan Keranjang
@@ -195,12 +221,55 @@ window.addEventListener('pageshow', function(event) {
                 <input type="hidden" name="variant_id" id="selectedVariantIdBuy" value="">
                 <input type="hidden" name="quantity" id="selectedQtyBuy" value="1">
                 <input type="hidden" name="redirect" value="checkout">
-                
                 <button type="submit" class="bg-primary-500 border-2 border-primary-500 text-neutral-50 py-2 rounded-xl w-full flex justify-center items-center gap-2 hover:bg-primary-600 cursor-pointer transition-all duration-300 ease-in-out">
                     <img src="<?php echo e(asset('assets/icons/buy-ill.svg')); ?>" alt="">
                     Beli Sekarang
                 </button>
             </form>
+            <?php else: ?>
+            <button onclick="document.getElementById('loginPromptModal').classList.remove('hidden')"
+                class="bg-neutral-50 border-2 text-primary-500 py-2 rounded-xl w-full flex justify-center items-center gap-2 hover:bg-primary-50 cursor-pointer transition-all duration-300 ease-in-out">
+                <img src="<?php echo e(asset('assets/icons/cart-ill.svg')); ?>" alt="">
+                Masukan Keranjang
+            </button>
+            <button onclick="document.getElementById('loginPromptModal').classList.remove('hidden')"
+                class="bg-primary-500 border-2 border-primary-500 text-neutral-50 py-2 rounded-xl w-full flex justify-center items-center gap-2 hover:bg-primary-600 cursor-pointer transition-all duration-300 ease-in-out">
+                <img src="<?php echo e(asset('assets/icons/buy-ill.svg')); ?>" alt="">
+                Beli Sekarang
+            </button>
+
+            
+            <div id="loginPromptModal" class="hidden fixed inset-0 z-50 flex items-center justify-center">
+                <div class="absolute inset-0 bg-black/30" onclick="document.getElementById('loginPromptModal').classList.add('hidden')"></div>
+                <div class="relative z-10 w-full max-w-sm bg-white rounded-2xl p-6 flex flex-col items-center gap-4 mx-4">
+
+                    
+                    <div class="text-center flex flex-col gap-1">
+                        <p class="text-base font-bold text-neutral-800">Masuk dulu, yuk!</p>
+                        <p class="text-xs text-neutral-400 leading-relaxed">
+                            Kamu perlu login untuk bisa belanja di Rekaps Store. Yuk masuk dan mulai belanja produk favoritmu!
+                        </p>
+                    </div>
+
+                    
+                    <div class="flex flex-col gap-2 w-full">
+                        <a href="<?php echo e(route('login')); ?>"
+                            class="w-full bg-primary-500 hover:bg-primary-600 active:scale-95 text-white text-sm font-bold py-2.5 rounded-xl transition text-center">
+                            Masuk Sekarang
+                        </a>
+                        <a href="<?php echo e(route('register')); ?>"
+                            class="w-full border-2 border-primary-300 text-primary-500 hover:bg-primary-50 text-sm font-semibold py-2.5 rounded-xl transition text-center">
+                            Daftar Akun Baru
+                        </a>
+                        <button onclick="document.getElementById('loginPromptModal').classList.add('hidden')"
+                            class="w-full text-neutral-400 hover:text-neutral-600 text-sm font-medium py-1 transition cursor-pointer">
+                            Nanti saja
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+            <?php endif; ?>
 
         </div>
 
