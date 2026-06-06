@@ -3,13 +3,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
+// Models
 use App\Models\FinanceTransactions;
 use App\Models\Product;
 use App\Models\CategoryProduct;
-use App\Models\Review;
+use App\Models\StockHistory;
 
+// exports
+use App\Exports\StockHistoryExport;
 use App\Exports\FinanceExport;
-use App\Exports\ReviewExport;
 use App\Exports\StockExport;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -88,7 +91,7 @@ class ReportController extends Controller
         $products = Product::with([
         'category',
         'variants'
-    ])
+        ])
 
     ->when($request->search, function ($query) use ($request) {
 
@@ -118,83 +121,152 @@ class ReportController extends Controller
 
     })
 
+    ->when($request->status, function ($query) use ($request) {
+
+        $query->where(
+            'status',
+            $request->status
+        );
+
+    })
+
     ->get();
 
-        $totalProducts = $products->count();
+    $totalProducts = $products->count();
 
-        $totalStock = 0;
-        $lowStockProducts = 0;
-        $inventoryValue = 0;
+    $activeProducts = $products
+        ->where('status', 'Aktif')
+        ->count();
 
-        foreach ($products as $product) {
+    $readyStockProducts = $products
+        ->where('product_type', 'Ready Stok')
+        ->count();
 
-            $stock = 0;
+    $poProducts = $products
+        ->where('product_type', 'PO')
+        ->count();
 
-            foreach ($product->variants as $variant) {
+    $categories = CategoryProduct::all();
 
-                $stock +=
-                    $variant->stock_online +
-                    $variant->stock_bazar;
-            }
-
-            $product->total_stock = $stock;
-
-            $totalStock += $stock;
-
-            if ($stock < 10) {
-                $lowStockProducts++;
-            }
-
-            $inventoryValue +=
-                $stock * $product->cost_price;
-        }
-
-        if ($request->stock_status == 'low') {
-
-            $products = $products->filter(function ($product) {
-
-                return $product->total_stock < 10;
-
-            });
-
-        }
-
-        if ($request->stock_status == 'aman') {
-
-            $products = $products->filter(function ($product) {
-
-                return $product->total_stock >= 10;
-
-            });
-
-}
-
-        $categories = CategoryProduct::all();
-
-        return view(
-            'admin.report-stock',
-            compact(
-                'products',
-                'totalProducts',
-                'totalStock',
-                'lowStockProducts',
-                'inventoryValue',
-                'categories'
-            )
-        );
+    return view(
+        'admin.report-stock',
+        compact(
+            'products',
+            'totalProducts',
+            'activeProducts',
+            'readyStockProducts',
+            'poProducts',
+            'categories'
+        )
+    );
     }
 
     public function exportStock()
     {
-        return Excel::download(
-            new StockExport,
-            'laporan-stok.xlsx'
-        );
+    return Excel::download(
+    new StockExport,
+    'laporan-produk.xlsx'
+    );
     }
 
-    public function transaction()
+    public function stockHistory(Request $request)
     {
-        return view('admin.report-transaction');
+        $histories = StockHistory::with([
+            'product',
+            'variant',
+            'user'
+        ])
+
+        ->when($request->from_date, function ($query) use ($request) {
+
+            $query->whereDate(
+                'created_at',
+                '>=',
+                $request->from_date
+            );
+
+        })
+
+        ->when($request->to_date, function ($query) use ($request) {
+
+            $query->whereDate(
+                'created_at',
+                '<=',
+                $request->to_date
+            );
+
+        })
+
+        ->when($request->product_id, function ($query) use ($request) {
+
+            $query->where(
+                'product_id',
+                $request->product_id
+            );
+
+        })
+
+        ->when($request->type, function ($query) use ($request) {
+
+            $query->where(
+                'type',
+                $request->type
+            );
+
+        })
+
+        ->when($request->location, function ($query) use ($request) {
+
+            $query->where(
+                'location',
+                $request->location
+            );
+
+        })
+
+
+
+        ->latest()
+
+        ->get();
+
+        $totalActivities = $histories->count();
+
+        $totalIncoming = $histories
+            ->where('type', 'Masuk')
+            ->sum('qty');
+
+        $totalOutgoing = $histories
+            ->where('type', 'Keluar')
+            ->sum('qty');
+
+        $totalProducts = $histories
+            ->pluck('product_id')
+            ->unique()
+            ->count();
+
+        $products = Product::orderBy('name')->get();
+
+        return view(
+            'admin.report-stock-history',
+            compact(
+                'histories',
+                'products',
+                'totalActivities',
+                'totalIncoming',
+                'totalOutgoing',
+                'totalProducts'
+            )
+        );
+
+
+    }
+    public function exportStockHistory()
+    {
+        return Excel::download(
+            new StockHistoryExport,
+            'laporan-riwayat-stok.xlsx'
+        );
     }
 
 }

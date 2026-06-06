@@ -242,9 +242,14 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
             );
 
             Route::get(
-                '/report-transaction',
-                [ReportController::class, 'transaction']
-            );
+                '/report-stock-history',
+                [ReportController::class, 'stockHistory']
+            )->name('report.stock-history');
+
+            Route::get(
+                '/report-stock-history/export',
+                [ReportController::class, 'exportStockHistory']
+            )->name('report.stock-history.export');
 
         });
 
