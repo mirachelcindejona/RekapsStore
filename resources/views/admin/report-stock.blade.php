@@ -8,6 +8,26 @@
 
 @section('content')
 
+        <div class="hidden print-header">
+
+            <div class="text-center mb-[30px]">
+
+                <h1 class="text-[28px] font-bold">
+                    REKAPS STORE
+                </h1>
+
+                <h2 class="text-[20px] font-semibold mt-[6px]">
+                    LAPORAN PRODUK
+                </h2>
+
+                <p class="mt-[6px] text-[14px] text-neutral-600">
+                    Dicetak pada {{ now()->format('d F Y') }}
+                </p>
+
+            </div>
+
+        </div>
+
     <!-- HEADER -->
     <div class="flex items-center justify-between mb-[20px] flex-wrap gap-[12px]">
 
@@ -27,7 +47,7 @@
             </a>
 
             <h1 class="text-[20px] font-bold text-neutral-900 m-0">
-                Laporan Stok Barang
+                Laporan Produk
             </h1>
 
         </div>
@@ -40,10 +60,10 @@
                 <path d="M7 17V15C7 14.4696 7.21071 13.9609 7.58579 13.5858C7.96086 13.2107 8.46957 13 9 13H15C15.5304 13 16.0391 13.2107 16.4142 13.5858C16.7893 13.9609 17 14.4696 17 15V17M7 17V19C7 19.5304 7.21071 20.0391 7.58579 20.4142C7.96086 20.7893 8.46957 21 9 21H15C15.5304 21 16.0391 20.7893 16.4142 20.4142C16.7893 20.0391 17 19.5304 17 19V17M7 17H5C4.46957 17 3.96086 16.7893 3.58579 16.4142C3.21071 16.0391 3 15.5304 3 15V9C3 8.46957 3.21071 7.96086 3.58579 7.58579C3.96086 7.21071 4.46957 7 5 7H6M17 17H19C19.5304 17 20.0391 16.7893 20.4142 16.4142C20.7893 16.0391 21 15.5304 21 15V9C21 8.46957 20.7893 7.96086 20.4142 7.58579C20.0391 7.21071 19.5304 7 19 7H18M6 7V5C6 4.46957 6.21071 3.96086 6.58579 3.58579C6.96086 3.21071 7.46957 3 8 3H16C16.5304 3 17.0391 3.21071 17.4142 3.58579C17.7893 3.96086 18 4.46957 18 5V7M6 7H18" stroke="#A87AF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M2 9C2 8.20435 2.31607 7.44129 2.87868 6.87868C3.44129 6.31607 4.20435 6 5 6H19C19.7956 6 20.5587 6.31607 21.1213 6.87868C21.6839 7.44129 22 8.20435 22 9V15C22 15.7956 21.6839 16.5587 21.1213 17.1213C20.5587 17.6839 19.7956 18 19 18H17C16.7348 18 16.4804 17.8946 16.2929 17.7071C16.1054 17.5196 16 17.2652 16 17V15C16 14.7348 15.8946 14.4804 15.7071 14.2929C15.5196 14.1054 15.2652 14 15 14H9C8.73478 14 8.48043 14.1054 8.29289 14.2929C8.10536 14.4804 8 14.7348 8 15V17C8 17.2652 7.89464 17.5196 7.70711 17.7071C7.51957 17.8946 7.26522 18 7 18H5C4.20435 18 3.44129 17.6839 2.87868 17.1213C2.31607 16.5587 2 15.7956 2 15V9ZM7 9C6.73478 9 6.48043 9.10536 6.29289 9.29289C6.10536 9.48043 6 9.73478 6 10C6 10.2652 6.10536 10.5196 6.29289 10.7071C6.48043 10.8946 6.73478 11 7 11H8C8.26522 11 8.51957 10.8946 8.70711 10.7071C8.89464 10.5196 9 10.2652 9 10C9 9.73478 8.89464 9.48043 8.70711 9.29289C8.51957 9.10536 8.26522 9 8 9H7Z" fill="#A87AF2"/>
                 </svg>
-                Print Laporan Penjualan
+                Cetak Laporan Produk
             </button>
 
-            <a href="/admin/report-finance/export"
+            <a href="/admin/report-stock/export"
                 class="flex items-center gap-[8px] px-[18px] py-[10px] rounded-xl bg-primary-500 text-neutral-50 font-bold text-[13px] shadow-[0_4px_14px_rgba(125,57,235,0.35)] cursor-pointer transition-all duration-[250ms] hover:bg-[#5928a7]">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M4 3C3.73478 3 3.48043 3.10536 3.29289 3.29289C3.10536 3.48043 3 3.73478 3 4V20C3 20.2652 3.10536 20.5196 3.29289 20.7071C3.48043 20.8946 3.73478 21 4 21H20C20.2652 21 20.5196 20.8946 20.7071 20.7071C20.8946 20.5196 21 20.2652 21 20V8C20.9999 7.73481 20.8946 7.48049 20.707 7.293L16.707 3.293C16.5195 3.10545 16.2652 3.00006 16 3H4ZM10 14C10 12.4 11.333 12 12 12C12.667 12 14 12.4 14 14C14 15.6 12.667 16 12 16C11.333 16 10 15.6 10 14ZM14 5H8V8H14V5Z" fill="#F2EBFD"/>
@@ -81,7 +101,7 @@
             </p>
 
             <h2 class="text-3xl font-black text-neutral-950">
-                57
+                {{ $totalProducts }}
             </h2>
 
         </div>
@@ -103,11 +123,11 @@
 
             <p
                 class="mb-1 text-[10px] font-extrabold uppercase tracking-[1px] text-neutral-400">
-                Total Stock
+                Produk Aktif
             </p>
 
             <h2 class="text-3xl font-black text-neutral-950">
-                168
+                {{ $activeProducts }}
             </h2>
 
         </div>
@@ -131,11 +151,11 @@
 
             <p
                 class="mb-1 text-[10px] font-extrabold uppercase tracking-[1px] text-neutral-400">
-                Produk Low Stock
+                Ready Stock
             </p>
 
             <h2 class="text-3xl font-black text-neutral-950">
-                9
+                {{ $readyStockProducts }}
             </h2>
 
         </div>
@@ -157,113 +177,178 @@
 
             <p
                 class="mb-1 text-[10px] font-extrabold uppercase tracking-[1px] text-neutral-400">
-                % Keuntungan
+                PO
             </p>
 
             <h2 class="text-3xl font-black text-neutral-950">
-                Rp 180.000
+                {{ $poProducts }}
             </h2>
 
         </div>
 
     </div>
 
-        <!-- FILTER -->
-    <div
-        class="bg-neutral-50 rounded-[20px] p-[18px] shadow-[0_2px_16px_rgba(0,0,0,0.07)] mb-[24px]">
+     <!-- FILTER -->
+    <form method="GET" action="{{ url('/admin/report-stock') }}" class="bg-neutral-50 rounded-[20px] p-[18px] shadow-[0_2px_16px_rgba(0,0,0,0.07)] mb-[24px]">
 
-        <div class="flex items-center justify-between flex-wrap gap-[18px]">
+        <div class="flex items-end justify-between flex-wrap gap-[18px]">
 
-            <!-- DATE -->
-            <div class="flex items-center gap-[12px] flex-wrap">
+            <div class="flex items-end gap-[12px] flex-wrap">
 
+
+                <!-- CATEGORY -->
                 <div>
+
                     <p class="text-[13px] text-neutral-500 mb-[6px]">
-                        From
+                        Kategori
                     </p>
 
-                    <input type="date"
+                    <select
+                        name="category"
                         class="px-[14px] py-[10px] rounded-xl border border-neutral-200 outline-none text-[13px]">
+
+                        <option value="">
+                            Semua Kategori
+                        </option>
+
+                        @foreach($categories as $category)
+
+                            <option
+                                value="{{ $category->id }}"
+                                {{ request('category') == $category->id ? 'selected' : '' }}>
+
+                                {{ $category->name }}
+
+                            </option>
+
+                        @endforeach
+
+                    </select>
+
                 </div>
 
+                <!-- STOCK STATUS -->
                 <div>
+
                     <p class="text-[13px] text-neutral-500 mb-[6px]">
-                        To
+                        Status Stok
                     </p>
 
-                    <input type="date"
+                    <select
+                        name="status"
                         class="px-[14px] py-[10px] rounded-xl border border-neutral-200 outline-none text-[13px]">
+
+                        <option value="">
+                            Semua Status
+                        </option>
+
+                        <option
+                            value="Aktif"
+                            {{ request('status') == 'Aktif' ? 'selected' : '' }}>
+                            Aktif
+                        </option>
+
+                        <option
+                            value="Non-Aktif"
+                            {{ request('status') == 'Non-Aktif' ? 'selected' : '' }}>
+                            Non-Aktif
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <!-- PRODUCT TYPE -->
+                <div>
+
+                    <p class="text-[13px] text-neutral-500 mb-[6px]">
+                        Tipe Produk
+                    </p>
+
+                    <select
+                        name="product_type"
+                        class="px-[14px] py-[10px] rounded-xl border border-neutral-200 outline-none text-[13px]">
+
+                        <option value="">
+                            Semua Tipe
+                        </option>
+
+                        <option
+                            value="Ready Stok"
+                            {{ request('product_type') == 'Ready Stok' ? 'selected' : '' }}>
+                            Ready Stok
+                        </option>
+
+                        <option
+                            value="PO"
+                            {{ request('product_type') == 'PO' ? 'selected' : '' }}>
+                            PO
+                        </option>
+
+                        <option
+                            value="Jasa"
+                            {{ request('product_type') == 'Jasa' ? 'selected' : '' }}>
+                            Jasa
+                        </option>
+
+                    </select>
+
                 </div>
 
             </div>
 
-            <!-- SEARCH -->
-            <div class="flex items-center gap-[10px]">
+            <div class="flex gap-[10px]">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama produk..."
+                    class="w-[240px] px-[14px] py-[10px] rounded-xl border border-neutral-200 outline-none text-[13px]">
 
-                <input type="text"
-                    placeholder="Cari ID Pembayaran atau ID Pelanggan"
-                    class="w-[280px] max-[560px]:w-full px-[16px] py-[11px] rounded-xl border border-neutral-200 outline-none text-[13px]">
 
                 <button
+                    type="submit"
                     class="px-[20px] py-[11px] bg-primary-500 text-neutral-50 rounded-xl font-bold text-[13px] hover:bg-[#5928a7] transition-all duration-[250ms]">
                     Cari
                 </button>
+
+                <a href="{{ url('/admin/report-stock') }}"
+                    class="px-[20px] py-[11px] border border-neutral-300 rounded-xl font-bold text-[13px] text-neutral-600 hover:bg-neutral-100 transition-all duration-[250ms]">
+                    Reset
+                </a>
 
             </div>
 
         </div>
 
-    </div>
+    </form>
 
-    <!-- TABLE -->
-    <div
-        class="w-full overflow-x-auto touch-pan-x [&::-webkit-scrollbar]:h-[6px] [&::-webkit-scrollbar-thumb]:bg-neutral-300 [&::-webkit-scrollbar-thumb]:rounded-full">
+    <div class="w-full overflow-x-auto touch-pan-x [&::-webkit-scrollbar]:h-[6px] [&::-webkit-scrollbar-thumb]:bg-neutral-300 [&::-webkit-scrollbar-thumb]:rounded-full">
 
-        <table
-            class="w-full border-collapse bg-neutral-50 rounded-2xl overflow-hidden shadow-[0_2px_16px_rgba(0,0,0,0.07)] min-w-[1200px]">
+        <table class="w-full border-collapse bg-neutral-50 rounded-2xl overflow-hidden shadow-[0_2px_16px_rgba(0,0,0,0.07)] min-w-[1000px]">
 
             <thead class="bg-neutral-100 border-b border-neutral-200">
 
                 <tr>
 
-                    <th
-                        class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
+                    <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
                         PRODUK
                     </th>
 
-                    <th
-                        class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
+                    <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
                         KATEGORI
                     </th>
 
-                    <th
-                        class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
+                    <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
+                        TIPE PRODUK
+                    </th>
+
+                    <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
+                        HARGA MODAL
+                    </th>
+
+                    <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
                         HARGA JUAL
                     </th>
 
-                    <th
-                        class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
-                        MODAL
-                    </th>
-
-                    <th
-                        class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
-                        STOCK MASUK
-                    </th>
-
-                    <th
-                        class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
-                        STOCK KELUAR
-                    </th>
-
-                    <th
-                        class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
-                        STOCK
-                    </th>
-
-                    <th
-                        class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
-                        RATING
+                    <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
+                        STATUS PRODUK
                     </th>
 
                 </tr>
@@ -272,103 +357,71 @@
 
             <tbody>
 
-                <!-- ROW -->
-                <tr class="hover:bg-primary-50 transition-colors duration-[250ms]">
+                @foreach($products as $product)
 
-                    <!-- PRODUK -->
-                    <td
-                        class="px-[16px] py-[14px] border-t border-neutral-200 whitespace-nowrap">
+                <tr>
 
-                        <div class="flex items-center gap-[10px]">
+                    <td class="px-[16px] py-[14px] border-t border-neutral-200">
+                        {{ $product->name }}
+                    </td>
 
-                            <img src="{{ asset('assets/img/products/jersey.png') }}"
-                                class="w-[42px] h-[42px] rounded-lg object-cover" />
+                    <td class="px-[16px] py-[14px] border-t border-neutral-200">
+                        {{ $product->category->name }}
+                    </td>
 
-                            <div>
+                    <td class="px-[16px] py-[14px] border-t border-neutral-200">
 
-                                <div class="text-[13px] font-bold text-neutral-900">
-                                    Jersey RPL
-                                </div>
+                        @if($product->product_type == 'Ready Stok')
 
-                                <div class="text-[11px] text-neutral-400">
-                                    By Rekaps
-                                </div>
+                            <span class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-green-100 text-green-600">
+                                Ready Stok
+                            </span>
 
-                            </div>
+                        @elseif($product->product_type == 'PO')
 
-                        </div>
+                            <span class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-yellow-100 text-yellow-700">
+                                PO
+                            </span>
+
+                        @else
+
+                            <span class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-blue-100 text-blue-600">
+                                Jasa
+                            </span>
+
+                        @endif
 
                     </td>
 
-                    <!-- KATEGORI -->
-                    <td
-                        class="px-[16px] py-[14px] border-t border-neutral-200 whitespace-nowrap">
-
-                        <span
-                            class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-primary-500/15 text-primary-500">
-                            Ready
-                        </span>
-
+                    <td class="px-[16px] py-[14px] border-t border-neutral-200">
+                        Rp {{ number_format($product->cost_price,0,',','.') }}
                     </td>
 
-                    <!-- HARGA -->
-                    <td
-                        class="px-[16px] py-[14px] text-[13px] font-bold text-neutral-900 border-t border-neutral-200 whitespace-nowrap">
-                        Rp75.000
+                    <td class="px-[16px] py-[14px] border-t border-neutral-200">
+                        Rp {{ number_format($product->selling_price,0,',','.') }}
                     </td>
 
-                    <!-- MODAL -->
-                    <td
-                        class="px-[16px] py-[14px] text-[13px] text-neutral-500 border-t border-neutral-200 whitespace-nowrap">
-                        Rp45.000
-                    </td>
+                    <td class="px-[16px] py-[14px] border-t border-neutral-200">
 
-                    <!-- MASUK -->
-                    <td
-                        class="px-[16px] py-[14px] border-t border-neutral-200 whitespace-nowrap">
+                        @if($product->status == 'Aktif')
 
-                        <span
-                            class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-[#c6ff33]/20 text-[#7ba600]">
-                            2 pcs
-                        </span>
+                            <span class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-green-100 text-green-600">
+                                Aktif
+                            </span>
 
-                    </td>
+                        @else
 
-                    <!-- KELUAR -->
-                    <td
-                        class="px-[16px] py-[14px] border-t border-neutral-200 whitespace-nowrap">
+                            <span class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-red-100 text-red-500">
+                                Non-Aktif
+                            </span>
 
-                        <span
-                            class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-red-100 text-red-500">
-                            2 pcs
-                        </span>
-
-                    </td>
-
-                    <!-- STOCK -->
-                    <td
-                        class="px-[16px] py-[14px] border-t border-neutral-200 whitespace-nowrap">
-
-                        <span
-                            class="px-[10px] py-[4px] rounded-full text-[10px] font-bold bg-red-100 text-red-500">
-                            2 pcs
-                        </span>
-
-                    </td>
-
-                    <!-- RATING -->
-                    <td
-                        class="px-[16px] py-[14px] text-[13px] border-t border-neutral-200 whitespace-nowrap">
-
-                        <div class="flex items-center gap-[4px] font-semibold">
-
-                            ⭐ 4.8
-
-                        </div>
+                        @endif
 
                     </td>
 
                 </tr>
+
+                @endforeach
 
             </tbody>
 
@@ -376,4 +429,208 @@
 
     </div>
 
+
+    <div id="print-report" class="hidden">
+
+        <div class="p-10">
+
+            <div class="text-center mb-8">
+
+                <h1 class="text-3xl font-bold">
+                    REKAPS STORE
+                </h1>
+
+                <h2 class="text-xl font-semibold mt-2">
+                    LAPORAN PRODUK
+                </h2>
+
+                <p class="text-sm text-neutral-500 mt-2">
+                    Dicetak pada {{ now()->format('d F Y') }}
+                </p>
+
+            </div>
+
+
+                <div class="border-t border-b py-4 mb-6">
+
+                    <h3 class="text-lg font-bold mb-3">
+                        Ringkasan Produk
+                    </h3>
+
+                    <div class="space-y-2 text-sm">
+
+                        <div class="flex justify-between">
+                            <span>Total Produk</span>
+                            <span class="font-semibold">
+                                {{ $totalProducts }}
+                            </span>
+                        </div>
+
+                        <div class="flex justify-between">
+                            <span>Produk Aktif</span>
+                            <span class="font-semibold">
+                                {{ $activeProducts }}
+                            </span>
+                        </div>
+
+                        <div class="flex justify-between">
+                            <span>Ready Stock</span>
+                            <span class="font-semibold">
+                                {{ $readyStockProducts }}
+                            </span>
+                        </div>
+
+                        <div class="flex justify-between">
+                            <span>Produk PO</span>
+                            <span class="font-semibold">
+                                {{ $poProducts }}
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            <h3 class="text-lg font-bold mb-4">
+                Detail Laporan Produk
+            </h3>
+
+            <table class="w-full border border-neutral-400 text-sm">
+
+                <thead>
+
+                    <tr class="bg-neutral-100">
+
+                        <th class="border border-neutral-400 px-3 py-2">
+                            Produk
+                        </th>
+
+                        <th class="border border-neutral-400 px-3 py-2">
+                            Kategori
+                        </th>
+
+                        <th class="border border-neutral-400 px-3 py-2">
+                            Harga Modal
+                        </th>
+
+                        <th class="border border-neutral-400 px-3 py-2">
+                            Harga Jual
+                        </th>
+
+                        <th class="border border-neutral-400 px-3 py-2">
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach($products as $product)
+
+                    <tr>
+
+                        <td class="border border-neutral-300 px-3 py-2">
+                            {{ $product->name }}
+                        </td>
+
+                        <td class="border border-neutral-300 px-3 py-2">
+                            {{ $product->category->name }}
+                        </td>
+
+                        <td class="border border-neutral-300 px-3 py-2">
+                            Rp {{ number_format($product->cost_price,0,',','.') }}
+                        </td>
+
+                        <td class="border border-neutral-300 px-3 py-2">
+                            Rp {{ number_format($product->selling_price,0,',','.') }}
+                        </td>
+
+                        <td class="border border-neutral-300 px-3 py-2">
+                           {{ $product->status }}
+                        </td>
+
+                    </tr>
+
+                    @endforeach
+
+                </tbody>
+
+            </table>
+
+            <div class="mt-16 flex justify-end">
+
+                <div class="text-center">
+
+                    <p>Kepala Departement <br> Ekonomi Kreatif HIMARPL</p>
+
+                    <div class="h-20"></div>
+
+                    <p>(________________)</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
 @endsection
+
+<style>
+.print-header{
+    display:none;
+}
+
+@media print {
+
+    .print-header{
+        display:block !important;
+    }
+
+    .no-print{
+        display:none !important;
+    }
+
+    aside,
+    nav,
+    header{
+        display:none !important;
+    }
+
+    body{
+        background:white !important;
+    }
+
+    table{
+        min-width:100% !important;
+    }
+
+}
+
+</style>
+
+<script>
+
+function printReport() {
+
+    const printContents =
+        document.getElementById('print-report').innerHTML;
+
+    const originalContents =
+        document.body.innerHTML;
+
+    document.body.innerHTML = printContents;
+
+    window.print();
+
+    document.body.innerHTML = originalContents;
+
+    location.reload();
+
+}
+
+</script>

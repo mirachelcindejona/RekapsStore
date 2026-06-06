@@ -13,6 +13,53 @@ function changeQty(btn, delta) {
     let val = parseInt(span.textContent) + delta;
     if (val < 1) val = 1;
     span.textContent = val;
+
+    // ===== CART =====
+    const cartCard = btn.closest('[data-item-id]');
+    if (cartCard) {
+        const itemId = cartCard.dataset.itemId;
+        const checkbox = cartCard.querySelector('.cart-item');
+        if (checkbox) {
+            checkbox.dataset.qty = val;
+            if (typeof updateTotal === 'function') updateTotal();
+        }
+
+        fetch(`/cart/update/${itemId}`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ quantity: val })
+        });
+        return;
+    }
+
+    // ===== CHECKOUT =====
+    const checkoutItem = btn.closest('.checkout-item');
+    if (checkoutItem) {
+        checkoutItem.dataset.qty = val;
+        if (typeof updateCheckoutTotal === 'function') updateCheckoutTotal();
+
+        fetch('/checkout/update-qty', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                product_id: checkoutItem.dataset.productId,
+                quantity: val
+            })
+        });
+        return;
+    }
+
+    // ===== PRODUCT DETAIL =====
+    const qtyInput = document.getElementById('selectedQty');
+    if (qtyInput) qtyInput.value = val;
+    const qtyInputBuy = document.getElementById('selectedQtyBuy');
+    if (qtyInputBuy) qtyInputBuy.value = val;
 }
 </script>
 @endonce

@@ -10,7 +10,6 @@ class PermissionSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Buat Semua Permission
         $permissions = [
             'dashboard',
             'produk',
@@ -19,13 +18,14 @@ class PermissionSeeder extends Seeder
             'diskon',
             'pengguna',
             'laporan',
+            'kasir',
         ];
 
         foreach ($permissions as $permission) {
             Permission::firstOrCreate(['name' => $permission]);
         }
 
-        // 2. Buat Role dan langsung tempelkan semua permission ke Admin
+        // Buat Role dan langsung tempelkan semua permission ke Admin
         $adminRole = Role::firstOrCreate(['name' => 'admin']);
         $adminRole->givePermissionTo($permissions);
 

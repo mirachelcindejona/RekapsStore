@@ -128,23 +128,112 @@ class ProductSeeder extends Seeder
             ],
         ];
 
-        // Folder penyimpanan sudah disesuaikan ke 'product_image/'
+        // LOGIKA BARU: Bisa menerima Array untuk Multi-Gambar
         $images = [
-            'jersey-rpl-pink'       => 'product_image/poster-jersey.png',
-            'stiker-minnix-series'  => 'product_image/stiker1.png',
-            'work-jacket-rpl'       => 'product_image/workjacket.png',
-            'snack-rekaps-box'      => 'product_image/stiker1.png',
-            'jersey-rpl-sky-blue'   => 'product_image/skyjersey.png',
-            'template-cv-rekaps'    => 'product_image/stiker2.png',
-            'stiker-devoria-series' => 'product_image/stiker2.png',
-            'jasa-desain-poster'    => 'product_image/stiker1.png',
-            'tote-bag-rpl'          => 'product_image/workjacket.png',
-            'gantungan-kunci-rpl'   => 'product_image/stiker2.png',
-            'minuman-boba-rekaps'   => 'product_image/stiker1.png',
-            'ebook-panduan-pkl'     => 'product_image/stiker2.png',
-            'jasa-pembuatan-website'=> 'product_image/stiker1.png',
-            'hoodie-rpl'            => 'product_image/workjacket.png',
-            'pin-enamel-rpl'        => 'product_image/stiker2.png',
+            'jersey-rpl-pink' => [
+                'product_images/poster-jersey.png',
+                'product_images/jersey.png',
+                'product_images/poster-jersey.png',
+                'product_images/jersey.png',
+            ],
+
+            'stiker-minnix-series' => [
+                'product_images/stiker1.png',
+                'product_images/stiker2.png',
+                'product_images/stiker1.png',
+                'product_images/stiker2.png',
+            ],
+
+            'work-jacket-rpl' => [
+                'product_images/workjacket.png',
+                'product_images/workjacket.png',
+                'product_images/workjacket.png',
+                'product_images/workjacket.png',
+            ],
+
+            'snack-rekaps-box' => [
+                'product_images/stiker1.png',
+                'product_images/stiker2.png',
+                'product_images/stiker1.png',
+                'product_images/stiker2.png',
+            ],
+
+            'jersey-rpl-sky-blue' => [
+                'product_images/skyjersey.png',
+                'product_images/skyjersey.png',
+                'product_images/skyjersey.png',
+                'product_images/skyjersey.png',
+            ],
+
+            'template-cv-rekaps' => [
+                'product_images/stiker2.png',
+                'product_images/stiker1.png',
+                'product_images/stiker2.png',
+                'product_images/stiker1.png',
+            ],
+
+            'stiker-devoria-series' => [
+                'product_images/stiker2.png',
+                'product_images/stiker1.png',
+                'product_images/stiker2.png',
+                'product_images/stiker1.png',
+            ],
+
+            'jasa-desain-poster' => [
+                'product_images/stiker1.png',
+                'product_images/stiker2.png',
+                'product_images/stiker1.png',
+                'product_images/stiker2.png',
+            ],
+
+            'tote-bag-rpl' => [
+                'product_images/workjacket.png',
+                'product_images/workjacket.png',
+                'product_images/workjacket.png',
+                'product_images/workjacket.png',
+            ],
+
+            'gantungan-kunci-rpl' => [
+                'product_images/stiker2.png',
+                'product_images/stiker1.png',
+                'product_images/stiker2.png',
+                'product_images/stiker1.png',
+            ],
+
+            'minuman-boba-rekaps' => [
+                'product_images/stiker1.png',
+                'product_images/stiker2.png',
+                'product_images/stiker1.png',
+                'product_images/stiker2.png',
+            ],
+
+            'ebook-panduan-pkl' => [
+                'product_images/stiker2.png',
+                'product_images/stiker1.png',
+                'product_images/stiker2.png',
+                'product_images/stiker1.png',
+            ],
+
+            'jasa-pembuatan-website' => [
+                'product_images/stiker1.png',
+                'product_images/stiker2.png',
+                'product_images/stiker1.png',
+                'product_images/stiker2.png',
+            ],
+
+            'hoodie-rpl' => [
+                'product_images/workjacket.png',
+                'product_images/workjacket.png',
+                'product_images/workjacket.png',
+                'product_images/workjacket.png',
+            ],
+
+            'pin-enamel-rpl' => [
+                'product_images/stiker2.png',
+                'product_images/stiker1.png',
+                'product_images/stiker2.png',
+                'product_images/stiker1.png',
+            ],
         ];
 
         $variants = [
@@ -156,34 +245,47 @@ class ProductSeeder extends Seeder
         ];
 
         foreach ($products as $productData) {
-            // 1. Simpan Produk (Menggunakan Eloquent agar relasinya mudah diakses)
+            // 1. Simpan Produk
             $product = Product::create($productData);
 
-            // 2. Simpan Gambar Produk
+            // 2. Simpan Gambar Produk (Otomatis mendeteksi Array atau String)
             if (isset($images[$product->slug])) {
-                $product->images()->create([
-                    'image_path' => $images[$product->slug],
-                ]);
+                $imagePaths = is_array($images[$product->slug]) ? $images[$product->slug] : [$images[$product->slug]];
+                
+                foreach ($imagePaths as $path) {
+                    $product->images()->create([
+                        'image_path' => $path,
+                    ]);
+                }
             }
 
-            // 3. Simpan Varian & Stok (Hapus logika JSON yang lama)
+            // Variabel untuk sinkronisasi total stok ke tabel Inventories
+            $totalOnlineStock = 0;
+            $totalBazarStock = 0;
+
+            // 3. Simpan Varian & Kalkulasi Total Stok
             if (isset($variants[$product->slug])) {
                 foreach ($variants[$product->slug] as $size) {
-                    // Buat Varian (Baris per Baris)
+                    $variantOnlineStock = 10;
+                    $variantBazarStock = 5;
                     $variant = $product->variants()->create([
                         'variant_name'  => 'Ukuran',
                         'variant_value' => $size,
-                        'stock_online'  => 10,
-                        'stock_bazar'   => 5,
+                        'stock_online'  => $variantOnlineStock,
+                        'stock_bazar'   => $variantBazarStock,
                     ]);
 
-                    // Catat ke Riwayat Stok
+                    // Tambahkan ke total sinkronisasi
+                    $totalOnlineStock += $variantOnlineStock;
+                    $totalBazarStock += $variantBazarStock;
+
+                    // Catat Riwayat Stok
                     $product->stockHistories()->create([
                         'product_variant_id' => $variant->id,
                         'user_id'            => $adminId,
                         'type'               => 'Masuk',
                         'location'           => 'Online',
-                        'qty'                => 10,
+                        'qty'                => $variantOnlineStock,
                         'note'               => "Stok awal varian $size (Online) dari Seeder",
                     ]);
                     
@@ -192,24 +294,21 @@ class ProductSeeder extends Seeder
                         'user_id'            => $adminId,
                         'type'               => 'Masuk',
                         'location'           => 'Bazar',
-                        'qty'                => 5,
+                        'qty'                => $variantBazarStock,
                         'note'               => "Stok awal varian $size (Bazar) dari Seeder",
                     ]);
                 }
             } else {
                 // JIKA PRODUK TUNGGAL (Tanpa Varian)
-                $product->inventory()->create([
-                    'main_stock'  => 50,
-                    'bazar_stock' => 10,
-                ]);
-
-                // Jangan buat riwayat stok jika itu produk Jasa/Digital
                 if (!in_array($product->category_product_id, [$jasa, $digital])) {
+                    $totalOnlineStock = 50;
+                    $totalBazarStock = 10;
+
                     $product->stockHistories()->create([
                         'user_id'  => $adminId,
                         'type'     => 'Masuk',
                         'location' => 'Online',
-                        'qty'      => 50,
+                        'qty'      => $totalOnlineStock,
                         'note'     => 'Stok awal Online dari Seeder',
                     ]);
                     
@@ -217,11 +316,18 @@ class ProductSeeder extends Seeder
                         'user_id'  => $adminId,
                         'type'     => 'Masuk',
                         'location' => 'Bazar',
-                        'qty'      => 10,
+                        'qty'      => $totalBazarStock,
                         'note'     => 'Stok awal Bazar dari Seeder',
                     ]);
                 }
             }
+
+            // 4. SINKRONISASI KE TABEL INVENTORY UNTUK SEMUA PRODUK
+            // Tabel ini sekarang akan berisi total dari seluruh varian, ATAU stok murni jika tidak ada varian.
+            $product->inventory()->create([
+                'main_stock'  => $totalOnlineStock,
+                'bazar_stock' => $totalBazarStock,
+            ]);
         }
     }
 }

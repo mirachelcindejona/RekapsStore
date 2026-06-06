@@ -4,9 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Product;
 use App\Models\Voucher;
 use Illuminate\Http\Request;
-use App\Exports\FinanceExport;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Models\FinanceTransactions;
+use App\Models\Notification;
 
 // Controller Admin
 use App\Http\Controllers\Admin\ProductController;
@@ -18,6 +17,10 @@ use App\Http\Controllers\Admin\Auth\VerificationCodeAdminController;
 use App\Http\Controllers\Admin\Auth\ResetPasswordAdminController;
 use App\Http\Controllers\Admin\VoucherController;
 use App\Http\Controllers\Admin\DiscountController;
+use App\Http\Controllers\Admin\FinanceController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\CashierController;
 
 // Controller User
 use App\Http\Controllers\Auth\LoginController;
@@ -25,17 +28,14 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\VerificationCodeController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Client\CartController;
+use App\Http\Controllers\Client\ProfileController;
 
 
-// 1. PUBLIC ROUTES (Halaman Pengunjung & Pembeli)
+// 1. PUBLIC ROUTES
 Route::get('/', function () {
     $products = Product::with(['category', 'images', 'variants', 'reviews'])->get();
     return view('index', compact('products'));
-});
-
-Route::get('/home', function () {
-    $products = Product::with(['category', 'images', 'variants', 'reviews'])->get();
-    return view('home', compact('products'));
 });
 
 Route::get('/product/{slug}', function ($slug) {
@@ -45,68 +45,6 @@ Route::get('/product/{slug}', function ($slug) {
     return view('product-detail', compact('product'));
 })->name('product-detail');
 
-Route::get('/cart', function () {
-    $products = Product::with(['category', 'images', 'variants'])->get();
-    return view('cart', compact('products'));
-});
-
-Route::post('/checkout', function () {
-    $selectedIds = request('selected_products', []);
-
-    if (empty($selectedIds)) {
-        return redirect('/cart')->with('error', 'Pilih produk terlebih dahulu.');
-    }
-
-    session(['checkout_products' => $selectedIds]);
-
-    return redirect('/checkout');
-});
-
-Route::get('/checkout', function () {
-    $selectedIds = session('checkout_products', []);
-
-    if (empty($selectedIds)) {
-        return redirect('/cart');
-    }
-
-    $products = Product::with(['category', 'images', 'variants'])
-        ->whereIn('id', $selectedIds)
-        ->get();
-
-    $vouchers = Voucher::where('status', 'Aktif')
-        ->where('end_date', '>=', now())
-        ->get();
-
-    return view('checkout', compact('products', 'vouchers'));
-});
-
-Route::post('/payment', function () {
-    $selectedIds = session('checkout_products', []);
-
-    if (empty($selectedIds)) {
-        return redirect('/cart');
-    }
-
-    $products = Product::with(['images'])
-        ->whereIn('id', $selectedIds)
-        ->get();
-
-    $total = $products->sum(fn($p) => $p->selling_price - ($p->selling_price * $p->discount / 100));
-
-    session(['payment_total' => $total]);
-
-    return redirect('/payment');
-});
-
-Route::get('/payment', function () {
-    $total = session('payment_total');
-
-    if (!$total) {
-        return redirect('/cart');
-    }
-
-    return view('payment', compact('total'));
-});
 
 // 2. AUTENTIKASI (Hanya bisa diakses jika BELUM login / Guest)
 Route::middleware('guest')->group(function () {
@@ -161,113 +99,26 @@ Route::middleware('guest')->group(function () {
     });
 });
 
-Route::get('/admin', function () {
-    return view('admin/dashboard');
-});
-
 
 // 3. SECURE AREA (Hanya bisa diakses jika SUDAH login)
-
 Route::middleware(['auth', 'check.banned'])->group(function () {
 
-    // Route::get('/admin/finance', function (Request $request) {
-
-    //     $transactions = FinanceTransactions::query()
-
-    //         ->when($request->search, function ($query) use ($request) {
-
-    //             $query->where('description', 'like', '%' . $request->search . '%')
-    //                   ->orWhere('category', 'like', '%' . $request->search . '%');
-
-    //         })
-
-    //         ->when($request->type && $request->type != 'Semua', function ($query) use ($request) {
-
-    //             $query->where('type', $request->type);
-
-    //         })
-
-    //         ->when($request->from_date, function ($query) use ($request) {
-
-    //             $query->whereDate('date', '>=', $request->from_date);
-
-    //         })
-
-    //         ->when($request->to_date, function ($query) use ($request) {
-
-    //             $query->whereDate('date', '<=', $request->to_date);
-
-    //         })
-
-    //         ->latest()
-    //         ->get();
-
-    //         $totalIncome = FinanceTransactions::where('type', 'Pemasukan')->sum('amount');
-
-    //         $totalExpense = FinanceTransactions::where('type', 'Pengeluaran')->sum('amount');
-
-    //         $balance = $totalIncome - $totalExpense;
-
-    //     return view(
-    //         'admin.finance',
-    //         compact('transactions',
-    //         'totalIncome',
-    //         'totalExpense',
-    //         'balance'
-    //         )
-    //     );
-    // });
-
-    Route::post('/admin/finance/store', function (Request $request) {
-
-        FinanceTransactions::create([
-            'date' => $request->date,
-            'description' => $request->description,
-            'category' => $request->category,
-            'type' => $request->type,
-            'amount' => $request->amount,
-        ]);
-
-        return redirect('/admin/finance');
-    });
-
-    Route::delete('/admin/finance/delete/{id}', function ($id) {
-
-        FinanceTransactions::findOrFail($id)->delete();
-
-        return redirect('/admin/finance');
-    });
-
-    Route::post('/admin/finance/update/{id}', function (Illuminate\Http\Request $request, $id) {
-
-        FinanceTransactions::findOrFail($id)->update([
-            'amount' => $request->amount,
-            'type' => $request->type,
-            'date' => $request->date,
-            'category' => $request->category,
-            'description' => $request->description,
-        ]);
-
-        return redirect('/admin/finance');
-    });
-    // LOGOUT BERSAMA
+    // LOGOUT
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::post('/admin/logout', [LoginAdminController::class, 'logout'])->name('admin.logout');
 
     // PANEL ADMIN (Wajib Role Admin / Pengurus)
     Route::prefix('admin')->middleware(['role:admin|pengurus'])->group(function () {
 
-        Route::get('/', function () {
-            return view('admin.dashboard');
-        })->name('admin.dashboard');
+        Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
 
         // Modul Produk & Kategori
         Route::middleware(['permission:produk'])->group(function () {
-            // Rute Custom Stock
             Route::post('/product/{slug}/stock', [ProductController::class, 'updateStock']);
-
-            Route::resource('product', ProductController::class)->parameters([
-                'product' => 'slug'
-            ]);
+            Route::resource('product', ProductController::class)->parameters(['product' => 'slug']);
+            Route::get('/product/{slug}/edit', [ProductController::class, 'edit'])->name('product.edit');
+            Route::put('/product/{slug}', [ProductController::class, 'update'])->name('product.update');
+            Route::post('/product/{slug}/stock-transfer', [ProductController::class, 'transferStock']);
 
             Route::controller(CategoryProductController::class)->group(function () {
                 Route::get('categories', 'index');
@@ -276,12 +127,11 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
             });
         });
 
-        // Modul Pengguna (Pengurus & Pembeli)
+        // Modul Pengguna
         Route::middleware(['permission:pengguna'])->group(function () {
             Route::controller(PengurusController::class)->group(function () {
                 Route::get('/users', 'index')->name('admin.users');
                 Route::get('/pengurus', 'index')->name('admin.pengurus');
-
                 Route::post('/pengurus/store', 'store')->name('admin.pengurus.store');
                 Route::put('/pengurus/{user}', 'update')->name('admin.pengurus.update');
                 Route::delete('/pengurus/{user}', 'destroy')->name('admin.pengurus.destroy');
@@ -291,218 +141,165 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
 
         // Modul Keuangan
         Route::middleware(['permission:keuangan'])->group(function () {
-            // Route::get('/finance', function () { return view('admin.finance'); })->name('admin.finance');
-            Route::get('/finance', function (Request $request) {
-
-                $transactions = FinanceTransactions::query()
-
-                    ->when($request->search, function ($query) use ($request) {
-
-                        $query->where('description', 'like', '%' . $request->search . '%')
-                            ->orWhere('category', 'like', '%' . $request->search . '%');
-                    })
-
-                    ->when($request->type && $request->type != 'Semua', function ($query) use ($request) {
-
-                        $query->where('type', $request->type);
-                    })
-
-                    ->when($request->from_date, function ($query) use ($request) {
-
-                        $query->whereDate('date', '>=', $request->from_date);
-                    })
-
-                    ->when($request->to_date, function ($query) use ($request) {
-
-                        $query->whereDate('date', '<=', $request->to_date);
-                    })
-
-                    ->latest()
-                    ->get();
-
-                $totalIncome = FinanceTransactions::where('type', 'Pemasukan')->sum('amount');
-
-                $totalExpense = FinanceTransactions::where('type', 'Pengeluaran')->sum('amount');
-
-                $balance = $totalIncome - $totalExpense;
-
-                return view(
-                    'admin.finance',
-                    compact(
-                        'transactions',
-                        'totalIncome',
-                        'totalExpense',
-                        'balance'
-                    )
-                );
-            });
+            Route::get('/finance', [FinanceController::class, 'index']);
+            Route::post('/finance/store', [FinanceController::class, 'store']);
+            Route::post('/finance/update/{id}', [FinanceController::class, 'update']);
+            Route::delete('/finance/delete/{id}', [FinanceController::class, 'destroy']);
         });
 
-        // Modul Promo / Diskon
+        // Modul Promo / Diskon & Voucher
         Route::middleware(['permission:diskon'])->group(function () {
-            Route::get('/promo', [VoucherController::class, 'index'])
-                ->name('admin.promo');
+            Route::get('/promo', [VoucherController::class, 'index'])->name('admin.promo');
+
+            Route::post('/discount', [DiscountController::class, 'store'])->name('admin.discount.store');
+            Route::put('/discount/{discount}', [DiscountController::class, 'update'])->name('admin.discount.update');
+            Route::delete('/discount/{discount}', [DiscountController::class, 'destroy'])->name('admin.discount.destroy');
+
+            Route::post('/voucher/store', [VoucherController::class, 'store'])->name('admin.voucher.store');
+            Route::put('/voucher/{voucher}', [VoucherController::class, 'update'])->name('admin.voucher.update');
+            Route::delete('/voucher/{voucher}', [VoucherController::class, 'destroy'])->name('admin.voucher.destroy');
         });
 
+        // Modul Laporan
         Route::middleware(['permission:laporan'])->group(function () {
-            Route::get('/reports', function () {
-                return view('admin.reports');
-            });
-            Route::get('/report-sales', function () {
-                return view('admin.report-sales');
-            });
-            Route::get('/report-finance', function () {
-                return view('admin.report-finance');
-            });
-            Route::get('/report-stock', function () {
-                return view('admin.report-stock');
-            });
-            Route::get('/report-transaction', function () {
-                return view('admin.report-transaction');
-            });
-            Route::get('/report-review', function () {
-                return view('admin.report-review');
-            });
-            Route::get('/report-discount', function () {
-                return view('admin.report-discount');
-            });
+            Route::get('/reports', [ReportController::class, 'index']);
+            Route::get('/report-sales', [ReportController::class, 'sales'])->name('report.sales');
+            Route::get('/report-sales/export', [ReportController::class, 'exportSales'])->name('report.sales.export');
+            Route::get('/report-finance', [ReportController::class, 'finance']);
+            Route::get('/report-finance/export', [ReportController::class, 'exportFinance']);
+            Route::get('/report-stock', [ReportController::class, 'stock']);
+            Route::get('/report-stock/export', [ReportController::class, 'exportStock']);
+            Route::get('/report-stock-history', [ReportController::class, 'stockHistory'])->name('report.stock-history');
+            Route::get('/report-stock-history/export', [ReportController::class, 'exportStockHistory'])->name('report.stock-history.export');
+            Route::get('/report-transaction', fn() => view('admin.report-transaction'));
+            Route::get('/report-review', fn() => view('admin.report-review'));
+            Route::get('/report-discount', fn() => view('admin.report-discount'));
+        });
+
+        // Modul Kasir
+        Route::middleware(['permission:kasir'])->group(function () {
+            Route::get('/cashier', [CashierController::class, 'index'])->name('admin.cashier');
+            Route::get('/cashier/products', [CashierController::class, 'getProducts']);
+            Route::post('/cashier/cart/add', [CashierController::class, 'addToCart']);
+            Route::post('/cashier/cart/update', [CashierController::class, 'updateCart']);
+            Route::post('/cashier/cart/remove', [CashierController::class, 'removeFromCart']);
+            Route::post('/cashier/cart/clear', [CashierController::class, 'clearCart']);
+            Route::post('/cashier/checkout', [CashierController::class, 'checkout']);
+            Route::get('/cashier/orders', [CashierController::class, 'orders'])->name('admin.cashier.orders');
+            Route::post('/cashier/orders/pin', [CashierController::class, 'togglePinOrder']);
+            Route::post('/cashier/orders/done', [CashierController::class, 'markDoneOrder']);
+            Route::get('/cashier/recap', [CashierController::class, 'recap'])->name('admin.cashier.recap');
         });
     });
 
-    // KASIR
-    Route::prefix('pengurus')->middleware(['role:admin|pengurus'])->group(function () {
-        Route::get('/cashier', function () {
-            return view('pengurus.cashier');
-        })->name('pengurus.cashier');
-        Route::get('/cashier-orders', function () {
-            return view('pengurus.cashier-orders');
-        })->name('pengurus.cashier.orders');
-        Route::get('/cashier-recap', function () {
-            return view('pengurus.cashier-recap');
-        })->name('pengurus.cashier.recap');
+    // CLIENT - Khusus customer (role:customer)
+    Route::middleware(['role:customer'])->group(function () {
+        Route::get('/home', function () {
+            $products = Product::with(['category', 'images', 'variants', 'reviews'])->get();
+            return view('home', compact('products'));
+        });
+
+        Route::get('/cart', [CartController::class, 'index']);
+        Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+        Route::post('/cart/update/{itemId}', [CartController::class, 'update'])->name('cart.update');
+        Route::delete('/cart/remove/{itemId}', [CartController::class, 'remove'])->name('cart.remove');
+
+        Route::post('/checkout/update-qty', function () {
+            $key = request('key');
+            $qty = max(1, (int) request('quantity'));
+            $qtys = session('checkout_qtys', []);
+            $qtys[$key] = $qty;
+            session(['checkout_qtys' => $qtys]);
+            return response()->json(['success' => true]);
+        });
+
+        Route::post('/checkout', function () {
+            $selectedIds = request('selected_products', []);
+            if (empty($selectedIds)) {
+                return redirect('/cart')->with('error', 'Pilih produk terlebih dahulu.');
+            }
+
+            $cart = \App\Models\Cart::where('user_id', auth()->id())->first();
+            $cartItems = $cart
+                ? \App\Models\CartItem::with(['product.images', 'product.variants'])
+                    ->where('cart_id', $cart->id)
+                    ->whereIn('product_id', $selectedIds)
+                    ->get()
+                : collect();
+
+            $checkoutItems = $cartItems->map(fn($item) => [
+                'product_id' => $item->product_id,
+                'variant_id' => $item->product_variant_id,
+                'quantity'   => $item->quantity,
+            ])->values()->toArray();
+
+            $checkoutQtys = [];
+            foreach ($cartItems as $item) {
+                $key = $item->product_id . '_' . ($item->product_variant_id ?? '0');
+                $checkoutQtys[$key] = $item->quantity;
+            }
+
+            session([
+                'checkout_products' => $selectedIds,
+                'checkout_items'    => $checkoutItems,
+                'checkout_qtys'     => $checkoutQtys,
+            ]);
+
+            return redirect('/checkout');
+        });
+
+        Route::get('/checkout', function () {
+            $selectedIds = session('checkout_products', []);
+            $checkoutItems = session('checkout_items', []);
+            $checkoutQtys = session('checkout_qtys', []);
+
+            if (empty($selectedIds)) return redirect('/cart');
+
+            $products = collect($checkoutItems)->map(function ($item) use ($checkoutQtys) {
+                $product = \App\Models\Product::with(['category', 'images', 'variants'])
+                    ->find($item['product_id']);
+                if (!$product) return null;
+
+                $key = $item['product_id'] . '_' . ($item['variant_id'] ?? '0');
+                $product = clone $product;
+                $product->checkout_qty = $checkoutQtys[$key] ?? $item['quantity'] ?? 1;
+                $product->checkout_variant_id = $item['variant_id'] ?? null;
+                $product->checkout_item_key = $key;
+                return $product;
+            })->filter()->values();
+
+            $vouchers = \App\Models\Voucher::where('status', 'Aktif')
+                ->where('end_date', '>=', now())->get();
+
+            return view('checkout', compact('products', 'vouchers'));
+        });
+
+        Route::post('/payment', function () {
+            $selectedIds = session('checkout_products', []);
+            if (empty($selectedIds)) return redirect('/cart');
+
+            $products = Product::with(['images'])->whereIn('id', $selectedIds)->get();
+            $total = $products->sum(fn($p) => $p->selling_price - ($p->selling_price * $p->discount / 100));
+            session(['payment_total' => $total]);
+            return redirect('/payment');
+        });
+
+        Route::get('/payment', function () {
+            $total = session('payment_total');
+            if (!$total) return redirect('/cart');
+            return view('payment', compact('total'));
+        });
+
+        Route::get('/profile', [ProfileController::class, 'index']);
+        Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+        Route::get('/profile/notifications', [ProfileController::class, 'notifications']);
+        Route::post('/profile/notifications/read', [ProfileController::class, 'markAllRead'])->name('notifications.read');
+        Route::post('/notifications/read-all', function () {
+            Notification::where('user_id', auth()->id())
+                ->where('is_read', false)
+                ->update(['is_read' => true]);
+            return response()->json(['success' => true]);
+        })->name('notifications.readAll');
+        Route::get('/profile/orders', [ProfileController::class, 'orders']);
     });
 });
-
-Route::get('/admin/report-finance', function () {
-
-    $query = FinanceTransactions::query();
-
-    if (request('search')) {
-        $query->where(
-            'description',
-            'like',
-            '%' . request('search') . '%'
-        );
-    }
-
-    if (request('from_date')) {
-        $query->whereDate(
-            'date',
-            '>=',
-            request('from_date')
-        );
-    }
-
-    if (request('to_date')) {
-        $query->whereDate(
-            'date',
-            '<=',
-            request('to_date')
-        );
-    }
-
-    $transactions = $query
-        ->latest()
-        ->get();
-
-    $totalIncome = (clone $query)
-        ->where('type', 'Pemasukan')
-        ->sum('amount');
-
-    $totalExpense = (clone $query)
-        ->where('type', 'Pengeluaran')
-        ->sum('amount');
-
-    $balance = $totalIncome - $totalExpense;
-
-    $totalTransactions = $transactions->count();
-
-    return view(
-        'admin.report-finance',
-        compact(
-            'transactions',
-            'totalIncome',
-            'totalExpense',
-            'balance',
-            'totalTransactions'
-        )
-    );
-});
-
-Route::get('/admin/report-finance/export', function () {
-
-    return Excel::download(
-        new FinanceExport,
-        'laporan-keuangan.xlsx'
-    );
-});
-
-Route::get('/admin/report-stock', function () {
-    return view('admin/report-stock');
-});
-
-Route::get('/admin/report-transaction', function () {
-    return view('admin/report-transaction');
-});
-
-Route::get('/admin/report-review', function () {
-    return view('admin/report-review');
-});
-
-Route::get('/admin/report-discount', function () {
-    return view('admin/report-discount');
-});
-//route diskon
-Route::post(
-    '/admin/discount',
-    [DiscountController::class, 'store']
-)->name('admin.discount.store');
-
-//route update diskon
-Route::put(
-    '/admin/discount/{discount}',
-    [DiscountController::class, 'update']
-)->name('admin.discount.update');
-
-//route delete diskon
-Route::delete(
-    '/admin/discount/{discount}',
-    [DiscountController::class, 'destroy']
-)->name('admin.discount.destroy');
-
-//route voucher
-Route::post(
-    '/admin/voucher/store',
-    [VoucherController::class, 'store']
-)->name('admin.voucher.store');
-
-//delete voucher
-Route::delete(
-    '/admin/voucher/{voucher}',
-    [VoucherController::class, 'destroy']
-)->name('admin.voucher.destroy');
-
-//edit voucher
-Route::put(
-    '/admin/voucher/{voucher}',
-    [VoucherController::class, 'update']
-)->name('admin.voucher.update');
-
-// Route Admin
-// Route::get('/admin/login', [LoginAdminController::class, 'index'])->name('admin.login');
-//submit form
-// Route::post('/admin/login', [LoginAdminController::class, 'login'])->name('admin.login.submit');
-
-// Route User/Client
-// Route::get('/login', [LoginController::class, 'index'])->name('login');
-// Route::get('/register', [RegisterController::class, 'index'])->name('register');
