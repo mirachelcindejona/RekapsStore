@@ -226,17 +226,160 @@ class CashierController extends Controller
             }
 
             DB::commit();
+            $order->load('items');
+            $order->items->transform(function ($item) use ($cart) {
+                foreach ($cart as $cartItem) {
+                    if ($cartItem['product_id'] == $item->product_id && $cartItem['variant_id'] == $item->product_variant_id) {
+                        $item->product_name = $cartItem['name'];
+                        break;
+                    }
+                }
+                return $item;
+            });
+            
             session()->forget('cashier_cart');
 
             return response()->json([
                 'success' => true,
                 'message' => 'Transaksi berhasil disimpan!',
-                'order'   => $order->load('items')
+                'order'   => $order
             ]);
 
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
+    }
+
+    // --- FITUR MANAJEMEN PESANAN (DAPUR) ---
+
+    // 1. Menampilkan Halaman Pesanan
+    public function orders()
+    {
+        $orders = CashierOrder::with(['items.product'])
+            ->orderBy('is_pinned', 'desc')
+            ->orderByRaw("FIELD(status, 'Proses', 'Selesai', 'Gagal', 'Dibatalkan') ASC")
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        return view('admin.cashier-orders', compact('orders'));
+    }
+
+    // 2. Tandai Pesanan Selesai
+    public function markDoneOrder(Request $request)
+    {
+        $request->validate(['id' => 'required|exists:cashier_orders,id']);
+        
+        $order = CashierOrder::findOrFail($request->id);
+        $order->update([
+            'status' => 'Selesai',
+            'is_pinned' => false,
+            'pinned_at' => null // Lepas pin jika sudah selesai
+        ]);
+
+        return response()->json(['success' => true]);
+    }
+
+    // 3. Pin / Unpin Pesanan
+    public function togglePinOrder(Request $request)
+    {
+        $request->validate(['id' => 'required|exists:cashier_orders,id']);
+        
+        $order = CashierOrder::findOrFail($request->id);
+        
+        if ($order->status === 'Selesai') {
+            return response()->json(['success' => false, 'message' => 'Pesanan sudah selesai.']);
+        }
+
+        $order->update([
+            'is_pinned' => !$order->is_pinned,
+            'pinned_at' => !$order->is_pinned ? now() : null
+        ]);
+
+        return response()->json(['success' => true, 'is_pinned' => $order->is_pinned]);
+    }
+
+    public function recap(Request $request)
+    {
+        \Carbon\Carbon::setLocale('id'); // Set bahasa hari/bulan ke Indonesia
+
+        $filter = $request->get('filter', 'today');
+        
+        $prevStart = $prevEnd = $nextStart = $nextEnd = null;
+
+        if ($filter == 'today') {
+            $date = $request->get('date', now()->format('Y-m-d'));
+            $start = \Carbon\Carbon::parse($date)->startOfDay();
+            $end = \Carbon\Carbon::parse($date)->endOfDay();
+            
+            $displayDate = '<span class="font-bold">' . $start->translatedFormat('l') . '</span><br><span>' . $start->format('d/m/Y') . '</span>';
+            
+            $prevStart = $prevEnd = $start->copy()->subDay()->format('Y-m-d');
+            $nextStart = $nextEnd = $start->copy()->addDay()->format('Y-m-d');
+            
+        } elseif ($filter == '7days') {
+            $end = $request->get('end_date') ? \Carbon\Carbon::parse($request->get('end_date'))->endOfDay() : now()->endOfDay();
+            $start = $end->copy()->subDays(6)->startOfDay(); // Total 7 hari
+            
+            $displayDate = '<span class="font-bold">' . $start->translatedFormat('l d/m/Y') . ' - </span><br><span class="font-bold">' . $end->translatedFormat('l d/m/Y') . '</span>';
+            
+            $prevEnd = $end->copy()->subDays(7)->format('Y-m-d');
+            $nextEnd = $end->copy()->addDays(7)->format('Y-m-d');
+
+        } elseif ($filter == '1month') {
+            $end = $request->get('end_date') ? \Carbon\Carbon::parse($request->get('end_date'))->endOfDay() : now()->endOfDay();
+            $start = $end->copy()->subMonth()->addDay()->startOfDay();
+            
+            $displayDate = '<span class="font-bold">' . $start->translatedFormat('l d/m/Y') . ' - </span><br><span class="font-bold">' . $end->translatedFormat('l d/m/Y') . '</span>';
+            
+            $prevEnd = $end->copy()->subMonth()->format('Y-m-d');
+            $nextEnd = $end->copy()->addMonth()->format('Y-m-d');
+
+        } else { // custom
+            $start = \Carbon\Carbon::parse($request->get('start_date'))->startOfDay();
+            $end = \Carbon\Carbon::parse($request->get('end_date'))->endOfDay();
+            
+            $displayDate = '<span class="font-bold text-[12px]">' . $start->translatedFormat('l d/m/Y') . ' - </span><br><span class="font-bold text-[12px]">' . $end->translatedFormat('l d/m/Y') . '</span>';
+            
+            $diff = $start->diffInDays($end) + 1;
+            $prevStart = $start->copy()->subDays($diff)->format('Y-m-d');
+            $prevEnd = $end->copy()->subDays($diff)->format('Y-m-d');
+            $nextStart = $start->copy()->addDays($diff)->format('Y-m-d');
+            $nextEnd = $end->copy()->addDays($diff)->format('Y-m-d');
+        }
+
+        $startDate = $start->format('Y-m-d H:i:s');
+        $endDate = $end->format('Y-m-d H:i:s');
+
+        // 1. Data Metrik (Hanya status Selesai)
+        $completedOrders = CashierOrder::whereBetween('created_at', [$startDate, $endDate])->where('status', 'Selesai')->get();
+        
+        $totalPenjualan = $completedOrders->sum('total');
+        $totalTransaksi = $completedOrders->count();
+        $completedOrders->load('items');
+        $itemTerjual = $completedOrders->flatMap->items->sum('quantity');
+        $rataRata = $totalTransaksi > 0 ? $totalPenjualan / $totalTransaksi : 0;
+
+        // 2. Top Item Terlaris
+        $topItems = CashierOrderItem::whereHas('order', function($q) use ($startDate, $endDate) {
+                $q->whereBetween('created_at', [$startDate, $endDate])->where('status', 'Selesai');
+            })
+            ->with('product')
+            ->select('product_id', \DB::raw('SUM(quantity) as total_qty'), \DB::raw('SUM(subtotal) as total_revenue'))
+            ->groupBy('product_id')
+            ->orderByDesc('total_qty')
+            ->limit(3)
+            ->get();
+
+        // 3. Riwayat Transaksi (Semua Status)
+        $historyOrders = CashierOrder::with('items.product')->whereBetween('created_at', [$startDate, $endDate])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('admin.cashier-recap', compact(
+            'filter', 'displayDate', 'prevStart', 'prevEnd', 'nextStart', 'nextEnd',
+            'totalPenjualan', 'totalTransaksi', 'itemTerjual', 'rataRata',
+            'topItems', 'historyOrders'
+        ));
     }
 }

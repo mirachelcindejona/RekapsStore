@@ -254,10 +254,7 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
         });
 
         Route::middleware(['permission:kasir'])->group(function () {
-            Route::get('/cashier', function () { return view('admin.cashier'); })->name('admin.cashier');
-            Route::get('/cashier-orders', function () { return view('admin.cashier-orders'); })->name('admin.cashier.orders');
-            Route::get('/cashier-recap', function () { return view('admin.cashier-recap'); })->name('admin.cashier.recap');
-
+            
             Route::get('/cashier', [CashierController::class, 'index'])->name('admin.cashier');
             Route::get('/cashier/products', [CashierController::class, 'getProducts']);
             
@@ -269,6 +266,12 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
             
             // Proses Pembayaran & Transaksi
             Route::post('/cashier/checkout', [CashierController::class, 'checkout']);
+
+            Route::get('/cashier/orders', [CashierController::class, 'orders'])->name('admin.cashier.orders');
+            Route::post('/cashier/orders/pin', [CashierController::class, 'togglePinOrder']);
+            Route::post('/cashier/orders/done', [CashierController::class, 'markDoneOrder']);
+            
+            Route::get('/cashier/recap', [CashierController::class, 'recap'])->name('admin.cashier.recap');
         });
     });
 

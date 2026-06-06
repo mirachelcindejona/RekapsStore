@@ -123,7 +123,7 @@
 
                 </a>
 
-                <a href="{{ url('/admin/cashier-orders') }}"
+                <a href="{{ url('/admin/cashier/orders') }}"
                     class="w-[40px] h-[40px] rounded-[8px] flex justify-center items-center mx-auto {{ request()->is('pengurus/cashier-orders') ? 'bg-primary-500 text-neutral-50 shadow-[0_4px_14px_rgba(125,57,235,0.38)] relative group' : 'hover:bg-primary-500/20 transition-colors' }}">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
@@ -134,7 +134,7 @@
                     </svg>
                 </a>
 
-                <a href="{{ url('/admin/cashier-recap') }}"
+                <a href="{{ url('/admin/cashier/recap') }}"
                     class="w-[40px] h-[40px] rounded-[8px] flex justify-center items-center mx-auto {{ request()->is('pengurus/cashier-recap') ? 'bg-primary-500 text-neutral-50 shadow-[0_4px_14px_rgba(125,57,235,0.38)] relative group' : 'hover:bg-primary-500/20 transition-colors' }}">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                         xmlns="http://www.w3.org/2000/svg">

@@ -64,7 +64,7 @@
         <div class="flex-1 overflow-y-auto pos-scroll py-[16px] flex flex-col gap-[12px]" id="cartContainer">
         </div>
 
-        <div class="flex flex-col pt-[16px] gap-[16px] border-t border-[#333] shrink-0">
+        <div class="flex flex-col pt-[16px] gap-[16px] shrink-0">
             <div class="flex flex-col pt-[16px] gap-[8px] border-t border-[#333] shrink-0">
                 <div class="flex justify-between items-center text-[12px] font-semibold text-neutral-300">
                     <span>Subtotal</span>
@@ -151,12 +151,20 @@
                     <textarea id="transactionNotes" placeholder="cth: Bayar 2 kali, atau titip barang"
                         class="w-full bg-neutral-50 border border-neutral-500 rounded-[10px] p-[12px_15px] text-[14px] text-black h-[85px] focus:outline-none"></textarea>
                 </div>
+
                 <div class="flex gap-[16px] w-full mt-[10px]">
-                    <button class="w-[150px] h-[48px] bg-neutral-300 rounded-[16px] text-[16px] font-bold text-[#868686]"
-                        onclick="closeModal('modalCheckout')">Batal</button>
-                    <button class="flex-1 h-[48px] bg-secondary-500 rounded-[16px] text-[16px] font-bold text-black"
-                        onclick="submitCheckoutForm()">Konfirmasi Transaksi</button>
+                    <button
+                        class="w-[150px] h-[48px] bg-neutral-300 rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-[#868686] flex justify-center items-center hover:bg-[#c4c4c4] transition-colors cursor-pointer"
+                        onclick="closeModal('modalCheckout')">
+                        Batal
+                    </button>
+                    <button
+                        class="flex-1 h-[48px] bg-secondary-500 shadow-[0_0_8px_rgba(180,232,46,0.35)] rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-black flex justify-center items-center hover:opacity-90 transition-opacity cursor-pointer"
+                        onclick="submitCheckoutForm()">
+                        Konfirmasi Pembayaran
+                    </button>
                 </div>
+
             </div>
         </div>
     </div>
@@ -185,18 +193,35 @@
                 </svg>
             </div>
             <h2 class="text-[22px] font-bold text-black">Transaksi Berhasil!</h2>
+
             <div class="bg-neutral-100 rounded-[12px] p-[20px] w-full text-black text-[12px] font-mono"
                 id="printReceiptContent">
             </div>
-            <button class="w-full h-[48px] bg-primary-500 text-white rounded-[16px] font-bold"
-                onclick="closeModal('modalTransaksiBerhasil'); loadProducts();">Selesai & Muat Ulang</button>
+
+            <div class="flex gap-[12px] w-full mt-[10px]">
+                <button
+                    class="flex-1 h-[48px] bg-neutral-50 border border-primary-500 shadow-[0_2px_4px_rgba(62,52,69,0.25)] rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-primary-500 flex justify-center items-center gap-[8px] hover:bg-primary-500 hover:text-white transition-colors group cursor-pointer"
+                    onclick="printReceipt()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                        <rect x="6" y="14" width="12" height="8"></rect>
+                    </svg>
+                    Cetak Struk
+                </button>
+                <button
+                    class="flex-1 h-[48px] bg-primary-500 shadow-[0_0_8px_rgba(114,52,214,0.35)] rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-white flex justify-center items-center hover:opacity-90 transition-opacity cursor-pointer"
+                    onclick="closeModal('modalTransaksiBerhasil'); loadProducts();">
+                    Selesai
+                </button>
+            </div>
         </div>
     </div>
 
     <div id="modalItemNote" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 hidden">
         <div
             class="bg-neutral-50 w-full max-w-[550px] rounded-[20px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] p-[20px] flex flex-col gap-[20px]">
-
             <div class="flex justify-between items-center w-full">
                 <h2 class="font-['Montserrat'] text-[18px] font-bold text-black leading-[28px]" id="noteModalTitle">
                     Masukkan catatan</h2>
@@ -209,26 +234,17 @@
                     </svg>
                 </button>
             </div>
-
-            <!-- Input Hidden untuk Menyimpan ID/Key Produk yang sedang diedit -->
             <input type="hidden" id="noteTargetKey">
-
             <textarea id="noteTextTarget" placeholder="cth: Pedesnya sedeng dikit"
                 class="w-full bg-neutral-50 border border-neutral-500 rounded-[10px] p-[12px_15px] font-['Montserrat'] text-[14px] text-black placeholder-neutral-400 h-[85px] focus:outline-none focus:border-primary-500"></textarea>
-
             <div class="flex gap-[12px] w-full">
                 <button
                     class="flex-1 h-[48px] bg-neutral-300 rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-[#868686] flex justify-center items-center hover:bg-[#c4c4c4] transition-colors cursor-pointer"
-                    onclick="closeModal('modalItemNote')">
-                    Batal
-                </button>
+                    onclick="closeModal('modalItemNote')">Batal</button>
                 <button
                     class="flex-1 h-[48px] bg-secondary-500 shadow-[0_0_8px_rgba(180,232,46,0.35)] rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-black flex justify-center items-center hover:opacity-90 transition-opacity cursor-pointer"
-                    onclick="saveItemNote()">
-                    Simpan Catatan
-                </button>
+                    onclick="saveItemNote()">Simpan Catatan</button>
             </div>
-
         </div>
     </div>
 
@@ -237,25 +253,19 @@
         let activeCategoryId = '';
         let globalTotalTagihan = 0;
         let lastCreatedOrderData = null;
-
-        // Mengambil data ID produk favorit yang di-pin dari LocalStorage browser
         let pinnedProducts = JSON.parse(localStorage.getItem('posPinnedProducts')) || [];
 
         document.addEventListener("DOMContentLoaded", function() {
             loadProducts();
         });
 
-        // 1. AJAX Mengambil Produk & Sinkronisasi Keranjang POS
         function loadProducts() {
             const search = document.getElementById('searchProduct').value;
             const url = `<?php echo e(url('/admin/cashier/products')); ?>?search=${search}&category_id=${activeCategoryId}`;
-
-            fetch(url)
-                .then(res => res.json())
-                .then(data => {
-                    renderProducts(data.products);
-                    renderCart(data.cart);
-                });
+            fetch(url).then(res => res.json()).then(data => {
+                renderProducts(data.products);
+                renderCart(data.cart);
+            });
         }
 
         function filterCategory(catId, btn) {
@@ -269,20 +279,18 @@
             loadProducts();
         }
 
-        // FUNGSI TOGGLE PIN/UNPIN PRODUK
         function togglePinProduct(productId, event) {
-            event.stopPropagation(); // Mencegah terpicunya klik card produk
+            event.stopPropagation();
             const index = pinnedProducts.indexOf(productId);
             if (index > -1) {
-                pinnedProducts.splice(index, 1); // Lepas Pin
+                pinnedProducts.splice(index, 1);
             } else {
-                pinnedProducts.push(productId); // Pasang Pin
+                pinnedProducts.push(productId);
             }
             localStorage.setItem('posPinnedProducts', JSON.stringify(pinnedProducts));
-            loadProducts(); // Segarkan list tampilan produk
+            loadProducts();
         }
 
-        // 2. Render Template Item Produk Ke Layar Grid
         function renderProducts(products) {
             const grid = document.getElementById('productGrid');
             grid.innerHTML = '';
@@ -293,7 +301,6 @@
                 return;
             }
 
-            // Algoritma Pengurutan: Produk yang di-pin wajib berada di posisi paling atas grid
             let pinnedList = products.filter(p => pinnedProducts.includes(p.id));
             let unpinnedList = products.filter(p => !pinnedProducts.includes(p.id));
             let sortedProducts = [...pinnedList, ...unpinnedList];
@@ -303,7 +310,6 @@
                 let buttonAction = '';
                 const isPinned = pinnedProducts.includes(p.id);
 
-                // Cek Ketersediaan Varian vs Stok Tunggal
                 if (p.variants.length > 0) {
                     stockText = `Stok Bazar: ${p.variants.reduce((acc, v) => acc + parseInt(v.stock_bazar), 0)}`;
                     buttonAction = `<div class="flex flex-col gap-1 w-full">
@@ -321,13 +327,9 @@
 
                 let imageUrl = p.images.length > 0 ? `<?php echo e(asset('storage')); ?>/${p.images[0].image_path}` :
                     `<?php echo e(asset('assets/img/products/poster-jersey.png')); ?>`;
-
-                // Tombol Icon Pin Semat Produk Berwarna Ungu khas Rekaps Store
                 let pinIconHtml = `<button onclick="togglePinProduct(${p.id}, event)" class="absolute top-2 right-2 z-10 w-[28px] h-[28px] bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-sm transition-colors">
                                   <svg width="13" height="13" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="${isPinned ? 'fill-primary-500 text-primary-500' : 'fill-none text-neutral-400'}"><line x1="12" y1="17" x2="12" y2="22"></line><path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.68V6a3 3 0 0 0-3-3h0a3 3 0 0 0-3 3v4.68a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24Z"></path></svg>
                                </button>`;
-
-                // Badge Tag Diskon Persentase Merah Menyala di Atas Gambar Produk
                 let discountBadgeHtml = p.discount > 0 ?
                     `<span class="absolute top-2 left-2 z-10 bg-red-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded shadow-sm">-${p.discount}%</span>` :
                     '';
@@ -354,14 +356,12 @@
             });
         }
 
-        // 3. Tambah Ke Keranjang POS via Fetch Request
         function addProductToCart(productId, hasVariant) {
             let variantId = null;
             if (hasVariant) {
                 variantId = document.getElementById(`v_select_${productId}`).value;
                 if (!variantId) return alert('Pilih varian produk terlebih dahulu.');
             }
-
             fetch(`<?php echo e(url('/admin/cashier/cart/add')); ?>`, {
                 method: 'POST',
                 headers: {
@@ -377,11 +377,9 @@
             });
         }
 
-        // 4. Render Keranjang di Sisi Kanan POS beserta breakdown diskon produk
         function renderCart(cart) {
             const container = document.getElementById('cartContainer');
             container.innerHTML = '';
-
             let itemsKeys = Object.keys(cart);
             document.getElementById('cartItemCounter').innerText = `${itemsKeys.length} Item`;
 
@@ -400,7 +398,6 @@
                 accumulatedFinalTotal += item.subtotal;
                 accumulatedOriginalTotal += (item.original_price * item.quantity);
 
-                // Tampilkan Harga Utama dan Info Harga Coret + Badge Diskon Persen di Item Keranjang
                 let priceDisplayHtml =
                     `<span class="text-[11px] font-bold text-white">Rp ${parseInt(item.price).toLocaleString('id-ID')}</span>`;
                 if (item.original_price && item.original_price > item.price) {
@@ -426,7 +423,6 @@
                                     </span>
                                 </div>
                             </div>
-
                             <div class="flex items-center gap-[8px] shrink-0">
                                 <button onclick="changeQty('${key}', ${item.quantity - 1})" class="w-[24px] h-[24px] border border-primary-500 rounded-[6px] text-secondary-500 flex items-center justify-center text-[14px] font-bold hover:bg-primary-500/20">-</button>
                                 <span class="text-[12px] font-medium text-white w-[14px] text-center">${item.quantity}</span>
@@ -435,7 +431,6 @@
                         </div>
                     </div>`;
             });
-
             updateTotalLabels(accumulatedOriginalTotal, accumulatedFinalTotal);
         }
 
@@ -468,7 +463,6 @@
             }
         }
 
-        // 5. Kelola Manajemen Catatan Per Item
         function triggerOpenNoteModal(key, name, currentNote) {
             document.getElementById('noteTargetKey').value = key;
             document.getElementById('noteModalTitle').innerText = `Catatan untuk ${name}`;
@@ -479,37 +473,30 @@
         function saveItemNote() {
             const key = document.getElementById('noteTargetKey').value;
             const noteText = document.getElementById('noteTextTarget').value;
-
-            fetch(`<?php echo e(url('/admin/cashier/products')); ?>`)
-                .then(res => res.json())
-                .then(data => {
-                    let qty = data.cart[key].quantity;
-                    fetch(`<?php echo e(url('/admin/cashier/cart/update')); ?>`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>'
-                        },
-                        body: JSON.stringify({
-                            key: key,
-                            quantity: qty,
-                            notes: noteText
-                        })
-                    }).then(() => {
-                        closeModal('modalItemNote');
-                        loadProducts();
-                    });
+            fetch(`<?php echo e(url('/admin/cashier/products')); ?>`).then(res => res.json()).then(data => {
+                let qty = data.cart[key].quantity;
+                fetch(`<?php echo e(url('/admin/cashier/cart/update')); ?>`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>'
+                    },
+                    body: JSON.stringify({
+                        key: key,
+                        quantity: qty,
+                        notes: noteText
+                    })
+                }).then(() => {
+                    closeModal('modalItemNote');
+                    loadProducts();
                 });
+            });
         }
 
-        // 6. Sinkronisasi Kalkulasi Label Biaya Keranjang POS
         function updateTotalLabels(originalTotal, finalTotal) {
             globalTotalTagihan = finalTotal;
             let netDiscount = originalTotal - finalTotal;
-
             document.getElementById('labelSubtotal').innerText = `Rp ${originalTotal.toLocaleString('id-ID')}`;
-
-            // Mengubah teks diskon dari statis '—' menjadi jumlah akumulasi potongan diskon barang asli
             if (netDiscount > 0) {
                 document.getElementById('labelDiskon').innerText = `-Rp ${netDiscount.toLocaleString('id-ID')}`;
                 document.getElementById('labelDiskon').className = "text-red-500 font-bold";
@@ -517,7 +504,6 @@
                 document.getElementById('labelDiskon').innerText = '—';
                 document.getElementById('labelDiskon').className = "text-neutral-300";
             }
-
             document.getElementById('totalTagihan').innerText = `Rp ${finalTotal.toLocaleString('id-ID')}`;
             hitungKembalian();
         }
@@ -531,20 +517,13 @@
             document.getElementById('btnQris').className = method === 'QRIS' ?
                 "flex-1 bg-secondary-500 text-black border border-secondary-600 rounded-[12px] py-[8px] text-[12px] font-semibold shadow-sm" :
                 "flex-1 bg-black text-secondary-700 border border-secondary-600 rounded-[12px] py-[8px] text-[12px] font-semibold";
-
-            if (method === 'Tunai') {
-                areaTunai.style.display = 'flex';
-            } else {
-                areaTunai.style.display = 'none';
-            }
+            areaTunai.style.display = method === 'Tunai' ? 'flex' : 'none';
         }
 
         function setNominal(amount, btn) {
             document.getElementById('inputUang').value = amount;
             hitungKembalian();
-            document.querySelectorAll('.btn-nominal').forEach(b => b.className =
-                "btn-nominal px-[12px] py-[6px] bg-[#292524] text-[#D6D3D1] rounded-full text-[10px] font-bold shrink-0 border border-transparent"
-            );
+            clearActiveNominal();
             btn.className =
                 "btn-nominal px-[12px] py-[6px] bg-[#292524] border border-secondary-500 text-secondary-500 rounded-full text-[10px] font-bold shrink-0";
         }
@@ -562,71 +541,51 @@
             );
         }
 
-        // 7. Proses Eksekusi Checkout Modal Form
         function openCheckoutModal() {
             if (globalTotalTagihan <= 0) return alert('Keranjang belanja kosong!');
-
-            fetch(`<?php echo e(url('/admin/cashier/products')); ?>`)
-                .then(res => res.json())
-                .then(data => {
-                    const container = document.getElementById('modalCheckoutItemsReview');
-                    container.innerHTML =
-                        '<span class="text-[13px] font-bold text-black block mb-2">RINCIAN PESANAN</span>';
-
-                    let originalSum = 0;
-                    Object.keys(data.cart).forEach(key => {
-                        let item = data.cart[key];
-                        originalSum += (item.original_price * item.quantity);
-
-                        let priceItemHtml = `Rp ${parseInt(item.price).toLocaleString('id-ID')}`;
-                        if (item.original_price && item.original_price > item.price) {
-                            priceItemHtml =
-                                `<span class="line-through text-neutral-400 mr-1">Rp ${parseInt(item.original_price).toLocaleString('id-ID')}</span> Rp ${parseInt(item.price).toLocaleString('id-ID')}`;
-                        }
-
-                        container.innerHTML += `
-                            <div class="flex flex-col w-full pb-1 border-b text-black text-[12px] mb-1">
-                                <div class="flex justify-between items-center">
-                                    <span class="font-medium text-left">${item.name}</span>
-                                    <span class="text-right">${priceItemHtml} x ${item.quantity}</span>
-                                    <span class="font-bold min-w-[70px] text-right">Rp ${item.subtotal.toLocaleString('id-ID')}</span>
-                                </div>
-                                ${item.notes ? `<span class="text-[10px] text-neutral-500 italic">Catatan: ${item.notes}</span>` : ''}
-                            </div>`;
-                    });
-
-                    let netDisc = originalSum - globalTotalTagihan;
-
+            fetch(`<?php echo e(url('/admin/cashier/products')); ?>`).then(res => res.json()).then(data => {
+                const container = document.getElementById('modalCheckoutItemsReview');
+                container.innerHTML =
+                    '<span class="text-[13px] font-bold text-black block mb-2">RINCIAN PESANAN</span>';
+                let originalSum = 0;
+                Object.keys(data.cart).forEach(key => {
+                    let item = data.cart[key];
+                    originalSum += (item.original_price * item.quantity);
+                    let priceItemHtml = `Rp ${parseInt(item.price).toLocaleString('id-ID')}`;
+                    if (item.original_price && item.original_price > item.price) {
+                        priceItemHtml =
+                            `<span class="line-through text-neutral-400 mr-1">Rp ${parseInt(item.original_price).toLocaleString('id-ID')}</span> Rp ${parseInt(item.price).toLocaleString('id-ID')}`;
+                    }
                     container.innerHTML += `
-                        <div class="flex flex-col gap-1 border-t pt-2 mt-2 text-black text-[12px]">
-                            <div class="flex justify-between">
-                                <span>Subtotal Khas</span>
-                                <span>Rp ${originalSum.toLocaleString('id-ID')}</span>
+                        <div class="flex flex-col w-full pb-1 border-b text-black text-[12px] mb-1">
+                            <div class="flex justify-between items-center">
+                                <span class="font-medium text-left">${item.name}</span>
+                                <span class="text-right">${priceItemHtml} x ${item.quantity}</span>
+                                <span class="font-bold min-w-[70px] text-right">Rp ${item.subtotal.toLocaleString('id-ID')}</span>
                             </div>
-                            ${netDisc > 0 ? `
-                                            <div class="flex justify-between text-red-500">
-                                                <span>Potongan Diskon</span>
-                                                <span>-Rp ${netDisc.toLocaleString('id-ID')}</span>
-                                            </div>` : ''}
-                            <div class="flex justify-between font-bold text-[14px] mt-1">
-                                <span>TOTAL AKHIR</span>
-                                <span class="text-primary-500">Rp ${globalTotalTagihan.toLocaleString('id-ID')}</span>
-                            </div>
+                            ${item.notes ? `<span class="text-[10px] text-neutral-500 italic">Catatan: ${item.notes}</span>` : ''}
                         </div>`;
-
-                    openModal('modalCheckout');
                 });
+                let netDisc = originalSum - globalTotalTagihan;
+                container.innerHTML += `
+                    <div class="flex flex-col gap-1 border-t pt-2 mt-2 text-black text-[12px]">
+                        <div class="flex justify-between">
+                            <span>Subtotal Khas</span><span>Rp ${originalSum.toLocaleString('id-ID')}</span>
+                        </div>
+                        ${netDisc > 0 ? `<div class="flex justify-between text-red-500"><span>Potongan Diskon</span><span>-Rp ${netDisc.toLocaleString('id-ID')}</span></div>` : ''}
+                        <div class="flex justify-between font-bold text-[14px] mt-1">
+                            <span>TOTAL AKHIR</span><span class="text-primary-500">Rp ${globalTotalTagihan.toLocaleString('id-ID')}</span>
+                        </div>
+                    </div>`;
+                openModal('modalCheckout');
+            });
         }
 
         function submitCheckoutForm() {
             let customerName = document.getElementById('customerName').value.trim();
-            if (customerName === '') {
-                customerName = 'Umum'; // Tetap kirim 'Umum' ke server jika kosong
-            }
-
+            if (customerName === '') customerName = 'Umum';
             const paidAmount = document.getElementById('inputUang').value;
             const txNotes = document.getElementById('transactionNotes').value;
-
             const payload = {
                 customer_name: customerName,
                 payment_method: currentMethod,
@@ -635,32 +594,28 @@
             };
 
             fetch(`<?php echo e(url('/admin/cashier/checkout')); ?>`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>'
-                    },
-                    body: JSON.stringify(payload)
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (!data.success) {
-                        alert('Error: ' + data.message);
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>'
+                },
+                body: JSON.stringify(payload)
+            }).then(res => res.json()).then(data => {
+                if (!data.success) {
+                    alert('Error: ' + data.message);
+                } else {
+                    closeModal('modalCheckout');
+                    lastCreatedOrderData = data.order;
+                    document.getElementById('customerName').value = '';
+                    document.getElementById('inputUang').value = '';
+                    document.getElementById('transactionNotes').value = '';
+                    if (currentMethod === 'QRIS') {
+                        openModal('modalScanQRIS');
                     } else {
-                        closeModal('modalCheckout');
-                        lastCreatedOrderData = data.order;
-
-                        document.getElementById('customerName').value = '';
-                        document.getElementById('inputUang').value = '';
-                        document.getElementById('transactionNotes').value = '';
-
-                        if (currentMethod === 'QRIS') {
-                            openModal('modalScanQRIS');
-                        } else {
-                            showFinalReceipt();
-                        }
+                        showFinalReceipt();
                     }
-                }).catch(err => alert('Terjadi kesalahan koneksi server.'));
+                }
+            }).catch(err => alert('Terjadi kesalahan koneksi server.'));
         }
 
         function triggerSuccessPaymentSimulator() {
@@ -668,7 +623,6 @@
             showFinalReceipt();
         }
 
-        // 8. Tampilkan Layout Struk Belanja Kasir Asli
         function showFinalReceipt() {
             if (!lastCreatedOrderData) return;
 
@@ -676,18 +630,28 @@
             let itemsHtml = '';
 
             lastCreatedOrderData.items.forEach(item => {
+                // Gunakan nama produk dari server, jika gagal (fallback) gunakan ID
+                let namaProduk = item.product_name || `Item #${item.product_id}`;
+
                 itemsHtml +=
                     `
                 <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                    <span>Item #${item.product_id} x ${item.quantity}</span>
+                    <span style="max-width: 65%; word-wrap: break-word;">${namaProduk} x ${item.quantity}</span>
                     <span>Rp ${parseInt(item.subtotal).toLocaleString('id-ID')}</span>
                 </div>
                 ${item.notes ? `<div style="font-size:10px; color:#555; margin-bottom:4px;">↳ Catatan: ${item.notes}</div>` : ''}`;
             });
 
             printArea.innerHTML = `
-                <div style="text-align:center; font-weight:bold; font-size:16px; color:#7D39EB;">Rekaps Store</div>
-                <div style="text-align:center; font-size:10px; color:#666;">DEPARTEMEN EKONOMI KREATIF</div>
+                <div class="flex flex-col items-center gap-[4px] w-full pb-[16px]">
+                    <span class="font-['Carattere'] text-[32px] text-primary-500 text-center leading-[1] italic">Rekaps
+                        Store</span>
+                    <span class="font-['Montserrat'] text-[12px] font-normal text-neutral-500 text-center">DEPARTEMEN EKONOMI KREATIF</span>
+                    <div class="flex items-center gap-[12px]">
+                        <span class="font-['Montserrat'] text-[12px] font-semibold text-neutral-500">@himarpl</span>
+                        <span class="font-['Montserrat'] text-[12px] font-semibold text-neutral-500">@rekaps.store</span>
+                    </div>
+                </div>
                 <hr style="border-top: 1px dashed black; margin: 10px 0;">
                 <div style="display:flex; justify-content:space-between;">
                     <span>No. Transaksi:</span>
@@ -709,10 +673,10 @@
                     <span>Rp ${parseInt(lastCreatedOrderData.subtotal).toLocaleString('id-ID')}</span>
                 </div>
                 ${parseInt(lastCreatedOrderData.discount) > 0 ? `
-                                <div style="display:flex; justify-content:space-between; color:red;">
-                                    <span>Diskon Produk:</span>
-                                    <span>-Rp ${parseInt(lastCreatedOrderData.discount).toLocaleString('id-ID')}</span>
-                                </div>` : ''}
+                                    <div style="display:flex; justify-content:space-between; color:red;">
+                                        <span>Diskon Produk:</span>
+                                        <span>-Rp ${parseInt(lastCreatedOrderData.discount).toLocaleString('id-ID')}</span>
+                                    </div>` : ''}
                 <div style="display:flex; justify-content:space-between; font-weight:bold; margin-top:3px;">
                     <span>Total Akhir:</span>
                     <span>Rp ${parseInt(lastCreatedOrderData.total).toLocaleString('id-ID')}</span>
@@ -730,6 +694,17 @@
             `;
 
             openModal('modalTransaksiBerhasil');
+        }
+
+        // Fungsi Cetak Struk (Mencetak langsung konten nota transaksi)
+        function printReceipt() {
+            const printContent = document.getElementById('printReceiptContent').innerHTML;
+            const originalContent = document.body.innerHTML;
+            document.body.innerHTML =
+                `<div style="padding: 20px; max-width: 300px; margin: auto; font-family: monospace;">${printContent}</div>`;
+            window.print();
+            document.body.innerHTML = originalContent;
+            location.reload(); // Muat ulang layar setelah print agar sistem kasir bersih
         }
 
         function openModal(id) {
