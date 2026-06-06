@@ -175,7 +175,6 @@ function changeQty(btn, delta) {
         item.dataset.qty = val;
         updateCheckoutTotal();
 
-        // simpan ke session
         fetch('/checkout/update-qty', {
             method: 'POST',
             headers: {
@@ -183,7 +182,7 @@ function changeQty(btn, delta) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                product_id: item.dataset.productId,
+                key: item.dataset.key,
                 quantity: val
             })
         });

@@ -14,11 +14,13 @@ class CartController extends Controller
     // Tampilkan halaman cart
     public function index()
     {
-        $cart = Cart::with(['items.product.images', 'items.product.variants'])
-            ->where('user_id', auth()->id())
-            ->first();
+        $cart = Cart::where('user_id', auth()->id())->first();
 
-        $items = $cart ? $cart->items : collect();
+        $items = $cart
+            ? CartItem::with(['product.images', 'product.variants'])
+                ->where('cart_id', $cart->id)
+                ->get()
+            : collect();
 
         return view('cart', compact('items'));
     }
@@ -46,7 +48,23 @@ class CartController extends Controller
 
         // Kalau dari tombol "Beli Sekarang"
         if ($request->redirect === 'checkout') {
-            session(['checkout_products' => [$request->product_id]]);
+            $qty = (int) ($request->quantity ?? 1);
+            $variantId = $request->variant_id ?: null;
+
+            session([
+                'checkout_products' => [$request->product_id],
+                'checkout_items' => [
+                    [
+                        'product_id' => $request->product_id,
+                        'variant_id' => $variantId,
+                        'quantity'   => $qty,
+                    ]
+                ],
+                'checkout_qtys' => [
+                    $request->product_id => $qty,
+                ],
+            ]);
+
             return redirect('/checkout');
         }
 

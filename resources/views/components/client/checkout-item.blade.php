@@ -1,4 +1,4 @@
-@props(['product', 'qty' => 1, 'variantId' => null])
+@props(['product', 'qty' => 1, 'variantId' => null, 'itemKey' => null])
 
 @php
     $finalPrice = $product->selling_price - ($product->selling_price * $product->discount / 100);
@@ -7,7 +7,8 @@
 <div class="checkout-item flex items-center bg-neutral-50 rounded-xl pl-3 py-3 pr-6 gap-3"
      data-price="{{ $finalPrice }}"
      data-qty="{{ $qty }}"
-     data-product-id="{{ $product->id }}">
+     data-product-id="{{ $product->id }}"
+     data-key="{{ $itemKey }}">
     <div class="flex-1 max-w-40 max-h-40 rounded-xl flex items-center justify-center shrink-0 overflow-hidden">
         <img src="{{ $product->images->first() ? asset('storage/' . $product->images->first()->image_path) : asset('assets/images/placeholder.png') }}" alt="{{ $product->name }}" class="w-full h-full object-contain">
     </div>

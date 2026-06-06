@@ -85,11 +85,6 @@ window.addEventListener('pageshow', function(event) {
 </script>
 <?php endif; ?>
 
-
-<a href="<?php echo e(url()->previous()); ?>" class="hidden w-fit sm:flex font-semibold text-neutral-500 gap-2 items-center pb-2 cursor-pointer mt-2">
-    <img src="<?php echo e(asset('assets/icons/back.svg')); ?>" alt="">
-    Kembali
-</a>
 <div class="grid grid-cols-1 lg:grid-cols-[1.5fr_0.5fr_1fr] gap-2 mt-1 sm:mt-0">
 
     

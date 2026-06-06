@@ -1,7 +1,7 @@
 <?php $attributes ??= new \Illuminate\View\ComponentAttributeBag;
 
 $__newAttributes = [];
-$__propNames = \Illuminate\View\ComponentAttributeBag::extractPropNames((['product', 'qty' => 1, 'variantId' => null]));
+$__propNames = \Illuminate\View\ComponentAttributeBag::extractPropNames((['product', 'qty' => 1, 'variantId' => null, 'itemKey' => null]));
 
 foreach ($attributes->all() as $__key => $__value) {
     if (in_array($__key, $__propNames)) {
@@ -16,7 +16,7 @@ $attributes = new \Illuminate\View\ComponentAttributeBag($__newAttributes);
 unset($__propNames);
 unset($__newAttributes);
 
-foreach (array_filter((['product', 'qty' => 1, 'variantId' => null]), 'is_string', ARRAY_FILTER_USE_KEY) as $__key => $__value) {
+foreach (array_filter((['product', 'qty' => 1, 'variantId' => null, 'itemKey' => null]), 'is_string', ARRAY_FILTER_USE_KEY) as $__key => $__value) {
     $$__key = $$__key ?? $__value;
 }
 
@@ -35,7 +35,8 @@ unset($__defined_vars, $__key, $__value); ?>
 <div class="checkout-item flex items-center bg-neutral-50 rounded-xl pl-3 py-3 pr-6 gap-3"
      data-price="<?php echo e($finalPrice); ?>"
      data-qty="<?php echo e($qty); ?>"
-     data-product-id="<?php echo e($product->id); ?>">
+     data-product-id="<?php echo e($product->id); ?>"
+     data-key="<?php echo e($itemKey); ?>">
     <div class="flex-1 max-w-40 max-h-40 rounded-xl flex items-center justify-center shrink-0 overflow-hidden">
         <img src="<?php echo e($product->images->first() ? asset('storage/' . $product->images->first()->image_path) : asset('assets/images/placeholder.png')); ?>" alt="<?php echo e($product->name); ?>" class="w-full h-full object-contain">
     </div>
