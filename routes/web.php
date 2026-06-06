@@ -27,6 +27,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\VerificationCodeController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Client\CartController;
+use App\Http\Controllers\Client\ProfileController;
 
 
 // 1. PUBLIC ROUTES (Halaman Pengunjung & Pembeli)
@@ -371,9 +372,13 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
         return view('payment', compact('total'));
     });
 
-    Route::get('/history', function () {
-        return view('history');
-    });
+    Route::get('/profile', [ProfileController::class, 'index']);
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/profile/notifications', [ProfileController::class, 'notifications']);
+    Route::post('/profile/notifications/read', [ProfileController::class, 'markAllRead'])->name('notifications.read');
+    Route::get('/profile/orders', [ProfileController::class, 'orders']);
+
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 });
 

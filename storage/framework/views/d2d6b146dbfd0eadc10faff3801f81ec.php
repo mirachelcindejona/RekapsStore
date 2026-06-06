@@ -36,8 +36,8 @@ unset($__defined_vars, $__key, $__value); ?>
      data-price="<?php echo e($finalPrice); ?>"
      data-qty="<?php echo e($qty); ?>"
      data-product-id="<?php echo e($product->id); ?>">
-    <div class="flex-1 max-w-40 rounded-xl flex items-center justify-center shrink-0 overflow-hidden">
-        <img src="<?php echo e(asset($product->images->first()->image_path ?? 'assets/images/placeholder.png')); ?>" alt="<?php echo e($product->name); ?>" class="w-full h-full object-contain">
+    <div class="flex-1 max-w-40 max-h-40 rounded-xl flex items-center justify-center shrink-0 overflow-hidden">
+        <img src="<?php echo e($product->images->first() ? asset('storage/' . $product->images->first()->image_path) : asset('assets/images/placeholder.png')); ?>" alt="<?php echo e($product->name); ?>" class="w-full h-full object-contain">
     </div>
     <div class="flex-1 min-w-0">
         <p class="text-sm font-bold text-neutral-800 truncate"><?php echo e($product->name); ?></p>

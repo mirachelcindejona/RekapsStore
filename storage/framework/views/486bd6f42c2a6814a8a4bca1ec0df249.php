@@ -129,11 +129,15 @@
                 <p class="text-xs text-neutral-400 mt-1">Produk akan dihapus dari keranjangmu.</p>
             </div>
             <div class="flex gap-2 w-full">
-                <button onclick="closeDeleteModal()"
+                <button
+                    type="button"
+                    onclick="closeDeleteModal()"
                     class="flex-1 border border-neutral-200 text-neutral-600 text-sm font-semibold py-2.5 rounded-xl hover:bg-neutral-50 transition cursor-pointer">
                     Batal
                 </button>
-                <button id="confirmDeleteBtn"
+                <button
+                    type="button"
+                    id="confirmDeleteBtn"
                     class="flex-1 bg-red-500 hover:bg-red-600 text-white text-sm font-semibold py-2.5 rounded-xl transition cursor-pointer">
                     Hapus
                 </button>
