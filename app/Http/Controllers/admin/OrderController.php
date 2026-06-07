@@ -51,9 +51,9 @@ class OrderController extends Controller
             'estimasi_hari' => 'nullable|integer|min:1'
         ]);
 
-        // $order = OnlineOrder::findOrFail($id);
-        // $order->status = $request->status;
-        // $order->save();
+        $order = OnlineOrder::findOrFail($id);
+        $order->status = $request->status;
+        $order->save();
 
         $order = OnlineOrder::with('items.product')
             ->findOrFail($id);
@@ -62,7 +62,7 @@ class OrderController extends Controller
         $order->save();
 
         if ( $request->status === 'Pesanan Selesai' && $oldStatus !== 'Pesanan Selesai') 
-        {
+            {
 
             $totalModal = 0;
 
