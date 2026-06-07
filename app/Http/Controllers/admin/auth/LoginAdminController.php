@@ -71,25 +71,25 @@ class LoginAdminController extends Controller
         }
 
         // regenerate session
+        
         $request->session()->regenerate();
 
-        $user = Auth::user();
-        if ($user->hasPermissionTo('dashboard')) {
-            return redirect('/admin');
-        }
+    $user = Auth::user();
+    if ($user->hasPermissionTo('dashboard')) {
+    return redirect('/admin')->with('success', 'Login berhasil! Selamat datang.');
+    }   
 
-        // Redirect ke menu pertama yang dia punya akses
-        if ($user->hasPermissionTo('kasir')) return redirect('/admin/cashier');
-        if ($user->hasPermissionTo('produk')) return redirect('/admin/product');
-        if ($user->hasPermissionTo('pengguna')) return redirect('/admin/users');
-        if ($user->hasPermissionTo('keuangan')) return redirect('/admin/finance');
-        if ($user->hasPermissionTo('diskon')) return redirect('/admin/promo');
-        if ($user->hasPermissionTo('laporan')) return redirect('/admin/reports');
+// Redirect ke menu pertama yang dia punya akses
+if ($user->hasPermissionTo('kasir')) return redirect('/admin/cashier')->with('success', 'Login berhasil! Selamat datang.');
+if ($user->hasPermissionTo('produk')) return redirect('/admin/product')->with('success', 'Login berhasil! Selamat datang.');
+if ($user->hasPermissionTo('pengguna')) return redirect('/admin/users')->with('success', 'Login berhasil! Selamat datang.');
+if ($user->hasPermissionTo('keuangan')) return redirect('/admin/finance')->with('success', 'Login berhasil! Selamat datang.');
+if ($user->hasPermissionTo('diskon')) return redirect('/admin/promo')->with('success', 'Login berhasil! Selamat datang.');
+if ($user->hasPermissionTo('laporan')) return redirect('/admin/reports')->with('success', 'Login berhasil! Selamat datang.');
 
-        // Kalau tidak punya permission apapun
-        return redirect('/admin/login')->withErrors(['username' => 'Akun belum diberi hak akses.']);
+// Kalau tidak punya permission apapun
+return redirect('/admin/login')->withErrors(['username' => 'Akun belum diberi hak akses.']);
     }
-
     public function logout(Request $request)
     {
         Auth::logout();
