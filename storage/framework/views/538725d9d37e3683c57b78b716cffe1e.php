@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@yield('title', 'Kasir') | Rekaps Bazar</title>
+    <title><?php echo $__env->yieldContent('title', 'Kasir'); ?> | Rekaps Bazar</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,7 +12,7 @@
         href="https://fonts.googleapis.com/css2?family=Carattere&family=Montserrat:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
 
-    @vite('resources/css/app.css')
+    <?php echo app('Illuminate\Foundation\Vite')('resources/css/app.css'); ?>
 
     <style>
         /* Custom Scrollbar */
@@ -111,36 +111,36 @@
             </div>
 
             <div class="flex flex-col gap-[10px] w-full px-[14px]">
-                <a href="{{ url('/admin/cashier') }}"
-                    class="w-[40px] h-[40px] rounded-[8px] flex justify-center items-center mx-auto {{ request()->is('pengurus/cashier') ? 'bg-primary-500 text-neutral-50 shadow-[0_4px_14px_rgba(125,57,235,0.38)] relative group' : 'hover:bg-primary-500/20 transition-colors' }}">
+                <a href="<?php echo e(url('/admin/cashier')); ?>"
+                    class="w-[40px] h-[40px] rounded-[8px] flex justify-center items-center mx-auto <?php echo e(request()->is('pengurus/cashier') ? 'bg-primary-500 text-neutral-50 shadow-[0_4px_14px_rgba(125,57,235,0.38)] relative group' : 'hover:bg-primary-500/20 transition-colors'); ?>">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M10 13.334H15.8333C16.2754 13.334 16.6993 13.1584 17.0118 12.8458C17.3244 12.5333 17.5 12.1093 17.5 11.6673V5.00065C17.5 4.55862 17.3244 4.1347 17.0118 3.82214C16.6993 3.50958 16.2754 3.33398 15.8333 3.33398H4.16667C3.72464 3.33398 3.30072 3.50958 2.98816 3.82214C2.67559 4.1347 2.5 4.55862 2.5 5.00065V11.6673C2.5 12.1093 2.67559 12.5333 2.98816 12.8458C3.30072 13.1584 3.72464 13.334 4.16667 13.334H10ZM10 13.334V16.6673M10 16.6673H13.3333M10 16.6673H6.66667"
-                            stroke="{{ request()->is('pengurus/cashier') ? '#C6FF33' : '#D7C2F9' }}" stroke-width="2"
+                            stroke="<?php echo e(request()->is('pengurus/cashier') ? '#C6FF33' : '#D7C2F9'); ?>" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
 
                 </a>
 
-                <a href="{{ url('/admin/cashier/orders') }}"
-                    class="w-[40px] h-[40px] rounded-[8px] flex justify-center items-center mx-auto {{ request()->is('pengurus/cashier-orders') ? 'bg-primary-500 text-neutral-50 shadow-[0_4px_14px_rgba(125,57,235,0.38)] relative group' : 'hover:bg-primary-500/20 transition-colors' }}">
+                <a href="<?php echo e(url('/admin/cashier/orders')); ?>"
+                    class="w-[40px] h-[40px] rounded-[8px] flex justify-center items-center mx-auto <?php echo e(request()->is('pengurus/cashier-orders') ? 'bg-primary-500 text-neutral-50 shadow-[0_4px_14px_rgba(125,57,235,0.38)] relative group' : 'hover:bg-primary-500/20 transition-colors'); ?>">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M4.16667 10.8333V4.16667C4.16667 3.72464 4.34226 3.30072 4.65482 2.98816C4.96738 2.67559 5.39131 2.5 5.83333 2.5H15.8333C16.2754 2.5 16.6993 2.67559 17.0118 2.98816C17.3244 3.30072 17.5 3.72464 17.5 4.16667V15C17.5 15.8333 17 17.5 15 17.5M15 17.5H5C4.16667 17.5 2.5 17 2.5 15V13.3333H12.5V15C12.5 17 14.1667 17.5 15 17.5ZM7.5 5.83333H14.1667M7.5 9.16667H10.8333"
-                            stroke="{{ request()->is('pengurus/cashier-orders') ? '#C6FF33' : '#D7C2F9' }}"
+                            stroke="<?php echo e(request()->is('pengurus/cashier-orders') ? '#C6FF33' : '#D7C2F9'); ?>"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </a>
 
-                <a href="{{ url('/admin/cashier/recap') }}"
-                    class="w-[40px] h-[40px] rounded-[8px] flex justify-center items-center mx-auto {{ request()->is('pengurus/cashier-recap') ? 'bg-primary-500 text-neutral-50 shadow-[0_4px_14px_rgba(125,57,235,0.38)] relative group' : 'hover:bg-primary-500/20 transition-colors' }}">
+                <a href="<?php echo e(url('/admin/cashier/recap')); ?>"
+                    class="w-[40px] h-[40px] rounded-[8px] flex justify-center items-center mx-auto <?php echo e(request()->is('pengurus/cashier-recap') ? 'bg-primary-500 text-neutral-50 shadow-[0_4px_14px_rgba(125,57,235,0.38)] relative group' : 'hover:bg-primary-500/20 transition-colors'); ?>">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M6.66683 13.334V9.16732M10.0002 13.334V6.66732M13.3335 13.334V11.6673M15.0002 3.33398H5.00016C4.55814 3.33398 4.13421 3.50958 3.82165 3.82214C3.50909 4.1347 3.3335 4.55862 3.3335 5.00065V15.0007C3.3335 15.4427 3.50909 15.8666 3.82165 16.1792C4.13421 16.4917 4.55814 16.6673 5.00016 16.6673H15.0002C15.4422 16.6673 15.8661 16.4917 16.1787 16.1792C16.4912 15.8666 16.6668 15.4427 16.6668 15.0007V5.00065C16.6668 4.55862 16.4912 4.1347 16.1787 3.82214C15.8661 3.50958 15.4422 3.33398 15.0002 3.33398Z"
-                            stroke="{{ request()->is('pengurus/cashier-recap') ? '#C6FF33' : '#D7C2F9' }}"
+                            stroke="<?php echo e(request()->is('pengurus/cashier-recap') ? '#C6FF33' : '#D7C2F9'); ?>"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
 
@@ -149,7 +149,7 @@
         </div>
 
         <div class="flex flex-col gap-[10px] w-full px-[14px] pt-[14px] border-t border-[#1E293B]">
-            <a href="{{ url('/admin') }}"
+            <a href="<?php echo e(url('/admin')); ?>"
                 class="w-[40px] h-[40px] rounded-[8px] flex justify-center items-center mx-auto hover:bg-primary-500/20 transition-colors">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
@@ -158,9 +158,9 @@
                         stroke="#D7C2F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
             </a>
-            <form action="{{ route('admin.logout') }}" method="POST">
+            <form action="<?php echo e(route('admin.logout')); ?>" method="POST">
 
-                @csrf
+                <?php echo csrf_field(); ?>
                 <button type="submit"
                     class="w-[40px] h-[40px] rounded-[8px] flex justify-center items-center mx-auto hover:bg-primary-500/20 transition-colors">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
@@ -201,10 +201,10 @@
                     <div class="hidden min-[560px]:block h-[42px] border-l-[2px] border-black/20 mx-[5px]"></div>
 
                     <div class="hidden min-[560px]:flex flex-col">
-                        <div class="font-bold text-[18px] text-black leading-[28px] mt-[-2px]">@yield('page_title', 'Kasir')</div>
+                        <div class="font-bold text-[18px] text-black leading-[28px] mt-[-2px]"><?php echo $__env->yieldContent('page_title', 'Kasir'); ?></div>
                         <div class="flex items-center gap-[4px] text-[12px] font-medium leading-[16px]">
                             <span class="text-neutral-400">Rekaps Store /</span>
-                            <span class="text-primary-500">@yield('page_breadcrumb', 'Kasir')</span>
+                            <span class="text-primary-500"><?php echo $__env->yieldContent('page_breadcrumb', 'Kasir'); ?></span>
                         </div>
                     </div>
                 </div>
@@ -223,11 +223,11 @@
 
         <main
             class="flex-1 flex flex-col min-[900px]:flex-row gap-[20px] p-[14px] min-[560px]:p-[20px] overflow-y-auto min-h-0">
-            @yield('content')
+            <?php echo $__env->yieldContent('content'); ?>
         </main>
     </div>
 
-    @yield('footer')
+    <?php echo $__env->yieldContent('footer'); ?>
 
     <script>
         /* ---- Jam Realtime Bergerak (Jam:Menit:Detik) ---- */
@@ -258,3 +258,4 @@
 </body>
 
 </html>
+<?php /**PATH C:\xampp\htdocs\rekapsapp-byweebs\resources\views/admin/layouts/layout-cashier.blade.php ENDPATH**/ ?>
