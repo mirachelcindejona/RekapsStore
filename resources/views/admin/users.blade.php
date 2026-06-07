@@ -5,9 +5,18 @@
 @section('page_breadcrumb', 'Pengguna')
 
 @section('content')
+    @if (session('success'))
+        <div class="mb-4 p-4 bg-green-100 border-l-4 border-green-500 text-green-700 rounded-lg font-medium shadow-sm">
+            {{ session('success') }}
+        </div>
+    @endif
+    @if (session('error'))
+        <div class="mb-4 p-4 bg-red-100 border-l-4 border-red-500 text-red-700 rounded-lg font-medium shadow-sm">
+            {{ session('error') }}
+        </div>
+    @endif
     <!-- HEADER -->
-    <div
-        class="flex items-center justify-between mb-[20px] gap-[12px]">
+    <div class="flex items-center justify-between mb-[20px] gap-[12px]">
         <!-- TAB -->
         <div class="flex items-center gap-[12px]">
 
@@ -213,8 +222,8 @@
                                     <button type="button" onclick="openUnblockModal({{ $user->id }})"
                                         class="w-10 h-10 rounded-[12px] bg-neutral-50 border border-primary-500 flex items-center justify-center shadow-[0px_2px_4px_rgba(62,52,69,0.25)] transition-all duration-200 hover:bg-primary-500 group">
 
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                            fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
                                             class="text-primary-500 group-hover:text-white">
 
                                             <circle cx="12" cy="12" r="9" />
@@ -222,7 +231,6 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M8 8l8 8" />
                                         </svg>
                                     </button>
-                                    
                                 @else
                                     <!-- ICON BLOCK -->
                                     <button type="button" onclick="openUnblockModal({{ $user->id }})"
@@ -321,6 +329,7 @@
                                         'diskon',
                                         'pengguna',
                                         'laporan',
+                                        'kasir',
                                     ];
                                 @endphp
 
@@ -507,6 +516,11 @@
                                 <label class="flex items-center gap-2">
                                     <input type="checkbox" name="permissions[]" value="laporan">
                                     Laporan
+                                </label>
+
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" name="permissions[]" value="kasir">
+                                    Kasir
                                 </label>
 
                             </div>
