@@ -8,7 +8,7 @@
 
 <div class="flex flex-col md:flex-row gap-3 items-start">
 
-    {{-- ===== KIRI: Checkout Items ===== --}}
+    {{-- co item  --}}
     <div class="flex flex-col gap-2 w-full md:flex-1">
         @foreach ($products as $product)
             <x-client.checkout-item 
@@ -19,7 +19,7 @@
         @endforeach
     </div>
 
-    {{-- ===== KANAN: Ringkasan Transaksi ===== --}}
+    {{-- Ringkasan transaksi  --}}
     <div class="w-full md:w-80 md:sticky md:top-15">
         <div class="flex flex-col w-full bg-white border border-neutral-200 rounded-xl px-4 py-3 gap-3">
 
@@ -145,14 +145,14 @@ function updateCheckoutTotal() {
         const productId = item.dataset.productId;
         total += price * qty;
 
-        // update item total di checkout-item
+        // update item total di co item
         const itemTotal = item.querySelector('.item-total');
         if (itemTotal) itemTotal.textContent = 'Rp' + (price * qty).toLocaleString('id-ID');
 
         const qtyLabel = item.querySelector('.qty-label');
         if (qtyLabel) qtyLabel.textContent = 'Jumlah: ' + qty;
 
-        // sinkron detail transaksi
+        // sinkronin detail transaksi
         const detailQty = document.querySelector(`.detail-qty-${productId}`);
         const detailTotal = document.querySelector(`.detail-total-${productId}`);
         if (detailQty) detailQty.textContent = 'x' + qty;
@@ -163,7 +163,6 @@ function updateCheckoutTotal() {
         'Rp' + total.toLocaleString('id-ID');
 }
 
-// Override changeQty untuk checkout
 function changeQty(btn, delta) {
     const span = btn.closest('.flex.items-center.gap-1').querySelector('.qty-value');
     let val = parseInt(span.textContent) + delta;
@@ -270,7 +269,6 @@ function updateCheckoutTotal() {
     document.getElementById('checkoutTotal').textContent =
         'Rp' + finalTotal.toLocaleString('id-ID');
 
-    // update discount amount jika ada
     if (appliedDiscount > 0) {
         document.getElementById('discountAmount').textContent =
             '-Rp' + appliedDiscount.toLocaleString('id-ID');

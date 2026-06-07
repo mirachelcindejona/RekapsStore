@@ -4,10 +4,7 @@
 ])
 
 <nav class="shadow-md px-2 sm:px-5 py-2 fixed bg-neutral-50 w-full box-border z-50">
-
-    {{-- ========================= --}}
-    {{-- MOBILE PAGE NAVBAR --}}
-    {{-- ========================= --}}
+{{-- mobile --}}
     @if ($variant === 'page')
 
         <div class="flex sm:hidden items-center justify-between gap-3">
@@ -49,8 +46,8 @@
                     <div id="searchBackdrop" class="hidden fixed inset-0 z-40" onclick="closeSearch()"></div>
                 </div>
 
-                <a href="/profile/orders" class="historybox w-[40px] h-[40px] flex items-center justify-center bg-neutral-200 rounded-lg hover:bg-primary-500 transition-all duration-300 ease-in-out cursor-pointer">
-                    <img class="history" src="{{ asset('assets/icons/history-home.svg') }}" alt="">
+                <a href="/cart" class="cartbox w-[40px] h-[40px] flex items-center justify-center bg-neutral-200 rounded-lg hover:bg-primary-500 transition-all duration-300 ease-in-out cursor-pointer">
+                    <img class="cart" src="{{ asset('assets/icons/cart-line.svg') }}" alt="">
                 </a>
 
                 {{-- MOBILE notif --}}
@@ -111,9 +108,7 @@
 
     @endif
 
-    {{-- ========================= --}}
-    {{-- DESKTOP / DEFAULT NAVBAR --}}
-    {{-- ========================= --}}
+{{-- desktop --}}
     <div class="{{ $variant === 'page' ? 'hidden sm:flex' : 'flex' }} gap-2">
 
         {{-- navbar-logo --}}
@@ -212,21 +207,18 @@
 </nav>
 
 <script>
-    // CART
     document.querySelectorAll('.cartbox').forEach((box) => {
         const icon = box.querySelector('.cart');
         box.addEventListener('mouseenter', () => { icon.src = '/assets/icons/cart-lw.svg'; });
         box.addEventListener('mouseleave', () => { setTimeout(() => { icon.src = '/assets/icons/cart-line.svg'; }, 200); });
     });
 
-    // HISTORY
     document.querySelectorAll('.historybox').forEach((box) => {
         const icon = box.querySelector('.history');
         box.addEventListener('mouseenter', () => { icon.src = '/assets/icons/history-home-lw.svg'; });
         box.addEventListener('mouseleave', () => { setTimeout(() => { icon.src = '/assets/icons/history-home.svg'; }, 200); });
     });
 
-    // NOTIFICATION
     document.querySelectorAll('.notifbox').forEach((box) => {
         const icon = box.querySelector('.notif');
         box.addEventListener('mouseenter', () => { icon.src = '/assets/icons/bell-nav-h.svg'; });

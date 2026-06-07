@@ -110,12 +110,12 @@ function updateCountdown() {
 const countdownInterval = setInterval(updateCountdown, 1000);
 updateCountdown();
 
-// POLLING status pembayaran setiap 5 detik
+// polling status pembayaran / 5 detik
 const pollingInterval = setInterval(() => {
     fetch(`/payment/check/${orderId}`)
         .then(res => res.json())
         .then(data => {
-            if (data.status === 'Paid') {
+            if (data.status === 'Lunas') {
                 clearInterval(pollingInterval);
                 clearInterval(countdownInterval);
                 document.getElementById('paymentStatus').innerHTML = `

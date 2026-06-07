@@ -293,7 +293,7 @@ window.addEventListener('pageshow', function(event) {
 
 </section>
 
-{{-- IMAGE MODAL --}}
+{{-- image modal --}}
 <div id="imageModal" class="fixed inset-0 bg-black/80 z-[999] hidden items-center justify-center p-4">
     <div id="closeImageModal" class="absolute inset-0 p-10"></div>
     <div class="relative max-w-5xl w-full">
@@ -340,14 +340,14 @@ window.addEventListener('pageshow', function(event) {
             });
         });
 
-        // Set default variant (first size)
+        // set default variant (first size)
         const firstSize = document.querySelector(".size");
         if (firstSize) {
             document.getElementById('selectedVariantId').value = firstSize.dataset.variantId ?? '';
             document.getElementById('selectedVariantIdBuy').value = firstSize.dataset.variantId ?? '';
         }
 
-        // DETAIL TOGGLE
+        // detail toggle
         const detailToggle = document.getElementById("detailToggle");
         const detailContent = document.getElementById("detailContent");
         const detailIcon = document.getElementById("detailIcon");
@@ -359,7 +359,7 @@ window.addEventListener('pageshow', function(event) {
 
     });
 
-    // IMAGE MODAL
+    // img modal
     const productImages = document.querySelectorAll(".product-image");
     const imageModal = document.getElementById("imageModal");
     const modalImage = document.getElementById("modalImage");
@@ -382,7 +382,7 @@ window.addEventListener('pageshow', function(event) {
     closeImageModal.addEventListener("click", closeModal);
     closeBtn.addEventListener("click", closeModal);
 
-    // SYNC QTY ke form
+    // Ssinkron qty
     function changeQty(btn, delta) {
         const span = btn.closest('.flex.items-center.gap-1').querySelector('.qty-value');
         let val = parseInt(span.textContent) + delta;

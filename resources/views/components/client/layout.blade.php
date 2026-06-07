@@ -14,7 +14,7 @@
     </main>
     @yield('footer')
 
-    {{-- Pop up akses ditolak --}}
+    {{-- Pop up akses tolak --}}
     @if(session('error_access'))
     <div id="toast-access" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-red-600 text-white px-6 py-4 rounded-xl shadow-lg">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">

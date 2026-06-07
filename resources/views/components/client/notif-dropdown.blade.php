@@ -21,7 +21,7 @@
     {{-- Notif List --}}
     <div class="flex flex-col">
         @forelse ($notifications as $notif)
-        <a href="{{ $notif->link ?? '#' }}"
+        <a href="{{ $notif->link ?: '/profile/notifications' }}"
            class="flex items-start gap-3 px-4 py-3 hover:bg-neutral-50 transition border-b border-neutral-50 {{ $notif->is_read ? 'opacity-60' : '' }}">
             <div class="w-2 h-2 rounded-full mt-1.5 shrink-0 {{ $notif->is_read ? 'bg-neutral-300' : 'bg-primary-500' }}"></div>
             <div class="flex flex-col gap-0.5 min-w-0">

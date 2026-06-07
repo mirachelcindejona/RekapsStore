@@ -7,55 +7,99 @@
 @endsection
 
 @section('content')
-<div class="flex gap-3 items-start mt-2">
+<div class="flex flex-col lg:flex-row gap-2 lg:gap-4 items-start mt-1 lg:mt-2">
 
-    {{-- ===== SIDEBAR ===== --}}
-    <div class="w-64 shrink-0 flex flex-col gap-2">
+    {{-- sidebar --}}
+    <div class="w-full lg:w-60 shrink-0 flex flex-col gap-1 lg:gap-3">
 
-        {{-- Menu --}}
-        <div class="bg-white border border-neutral-100 rounded-2xl p-3 flex flex-col gap-1">
-            <p class="text-xs font-bold text-neutral-400 px-3 py-1">Menu</p>
+        {{-- Mobile Tabs --}}
+        <div class="lg:hidden bg-white border border-neutral-100 rounded-2xl p-2">
+            <div class="grid grid-cols-3 gap-2">
+
+                <a href="/profile"
+                    class="flex flex-col items-center justify-center gap-1 py-3 rounded-xl text-xs font-semibold transition
+                    {{ $active === 'akun'
+                        ? 'bg-primary-50 text-primary-500'
+                        : 'text-neutral-500' }}">
+                    <img src="{{ asset('assets/icons/user.svg') }}" class="hidden lg:flex w-4 h-4">
+                    <span>Akun</span>
+                </a>
+
+                <a href="/profile/notifications"
+                    class="flex flex-col items-center justify-center gap-1 py-3 rounded-xl text-xs font-semibold transition
+                    {{ $active === 'notifikasi'
+                        ? 'bg-primary-50 text-primary-500'
+                        : 'text-neutral-500' }}">
+                    <img src="{{ asset('assets/icons/bell.svg') }}" class="hidden lg:flex w-4 h-4">
+                    <span>Notifikasi</span>
+                </a>
+
+                <a href="/profile/orders"
+                    class="flex flex-col items-center justify-center gap-1 py-3 rounded-xl text-xs font-semibold transition
+                    {{ $active === 'riwayat'
+                        ? 'bg-primary-50 text-primary-500'
+                        : 'text-neutral-500' }}">
+                    <img src="{{ asset('assets/icons/order.svg') }}" class="hidden lg:flex w-4 h-4">
+                    <span>Pesanan</span>
+                </a>
+
+            </div>
+        </div>
+
+        {{-- Desktop Sidebar --}}
+        <div class="hidden lg:flex bg-white border border-neutral-100 rounded-2xl p-3 flex-col gap-1">
+
+            <p class="text-xs font-bold text-neutral-400 px-3 py-1">
+                Menu
+            </p>
 
             <a href="/profile"
-            class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition
-            {{ $active === 'akun' ? 'bg-primary-50 text-primary-300' : 'text-neutral-600 hover:bg-neutral-50' }}">
-                <img src="{{ asset($active === 'akun' ? 'assets/icons/menu-profile-h.svg' : 'assets/icons/menu-profile.svg') }}" class="w-4 h-4">
-                Akun Saya
+                class="flex items-center gap-2 px-3 py-3 rounded-xl text-sm font-semibold transition
+                {{ $active === 'akun'
+                    ? 'bg-primary-50 text-primary-500'
+                    : 'text-neutral-600 hover:bg-neutral-50' }}">
+                <img src="{{ asset('assets/icons/user.svg') }}" class="w-4 h-4">
+                <span>Akun Saya</span>
             </a>
 
             <a href="/profile/notifications"
-            class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition
-            {{ $active === 'notifikasi' ? 'bg-primary-50 text-primary-300' : 'text-neutral-600 hover:bg-neutral-50' }}">
-                <img src="{{ asset($active === 'notifikasi' ? 'assets/icons/menu-bell-h.svg' : 'assets/icons/menu-bell.svg') }}" class="w-4 h-4">
-                Notifikasi
+                class="flex items-center gap-2 px-3 py-3 rounded-xl text-sm font-semibold transition
+                {{ $active === 'notifikasi'
+                    ? 'bg-primary-50 text-primary-500'
+                    : 'text-neutral-600 hover:bg-neutral-50' }}">
+                <img src="{{ asset('assets/icons/bell.svg') }}" class="w-4 h-4">
+                <span>Notifikasi</span>
             </a>
 
             <a href="/profile/orders"
-            class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition
-            {{ $active === 'riwayat' ? 'bg-primary-50 text-primary-300' : 'text-neutral-600 hover:bg-neutral-50' }}">
-                <img src="{{ asset($active === 'riwayat' ? 'assets/icons/menu-history-h.svg' : 'assets/icons/menu-history.svg') }}" class="w-4 h-4">
-                Riwayat Pesanan
+                class="flex items-center gap-2 px-3 py-3 rounded-xl text-sm font-semibold transition
+                {{ $active === 'riwayat'
+                    ? 'bg-primary-50 text-primary-500'
+                    : 'text-neutral-600 hover:bg-neutral-50' }}">
+                <img src="{{ asset('assets/icons/order.svg') }}" class="w-4 h-4">
+                <span>Riwayat Pesanan</span>
             </a>
-            {{-- Logout --}}
+
+        </div>
+
+        {{-- Logout --}}
+        <div class="hidden lg:flex bg-white border border-neutral-100 rounded-2xl p-3">
             <form method="POST" action="/logout">
                 @csrf
                 <button type="submit"
-                    class="group flex cursor-pointer items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-neutral-600 hover:bg-red-50 hover:text-red-500 transition w-full">
-                    <img src="{{ asset('assets/icons/logout-half-circle-line-dark.svg') }}" class="w-4 h-4 block group-hover:hidden">
-                    <img src="{{ asset('assets/icons/logout-half-circle-line-h.svg') }}" class="w-4 h-4 hidden group-hover:block">
-                    Logout
+                    class="flex items-center justify-center lg:justify-start gap-2 px-3 py-3 rounded-xl text-sm font-semibold text-neutral-600 hover:bg-red-50 hover:text-red-500 transition w-full cursor-pointer">
+                    <img src="{{ asset('assets/icons/logout.svg') }}" class="w-4 h-4">
+                    <span>Logout</span>
                 </button>
             </form>
         </div>
 
-
     </div>
 
-    {{-- ===== KONTEN ===== --}}
-    <div class="flex-1 min-w-0">
+    {{-- content --}}
+    <div class="flex-1 w-full min-w-0">
         {{ $slot }}
     </div>
 
 </div>
-@stack('scripts')
 @endsection
