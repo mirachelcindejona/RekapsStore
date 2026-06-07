@@ -168,7 +168,7 @@
         </div>
     </div>
 
-    <div id="modalScanQRIS" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 hidden">
+    {{-- <div id="modalScanQRIS" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 hidden">
         <div class="bg-neutral-50 w-full max-w-[550px] rounded-[20px] p-[20px] flex flex-col items-center gap-[20px]">
             <h2 class="text-[24px] font-bold text-black text-center">Scan QRIS Rekaps</h2>
             <div class="w-[220px] h-[220px] bg-primary-500 rounded-[16px] flex justify-center items-center overflow-hidden"
@@ -179,7 +179,7 @@
             <span class="text-[14px] text-neutral-600 text-center">Klik kode QR di atas untuk Mensimulasikan Pembayaran
                 QRIS Berhasil</span>
         </div>
-    </div>
+    </div> --}}
 
     <div id="modalTransaksiBerhasil" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 hidden">
         <div
@@ -260,7 +260,7 @@
 
         function loadProducts() {
             const search = document.getElementById('searchProduct').value;
-            const url = `{{ url('/admin/cashier/products') }}?search=${search}&category_id=${activeCategoryId}`;
+            const url = `/admin/cashier/products?search=${search}&category_id=${activeCategoryId}`;
             fetch(url).then(res => res.json()).then(data => {
                 renderProducts(data.products);
                 renderCart(data.cart);
@@ -361,11 +361,12 @@
                 variantId = document.getElementById(`v_select_${productId}`).value;
                 if (!variantId) return alert('Pilih varian produk terlebih dahulu.');
             }
-            fetch(`{{ url('/admin/cashier/cart/add') }}`, {
+            fetch(`/admin/cashier/cart/add`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'ngrok-skip-browser-warning': 'true'
                 },
                 body: JSON.stringify({
                     product_id: productId,
@@ -435,22 +436,24 @@
 
         function changeQty(key, newQty) {
             if (newQty <= 0) {
-                fetch(`{{ url('/admin/cashier/cart/remove') }}`, {
+                fetch(`/admin/cashier/cart/remove`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'ngrok-skip-browser-warning': 'true'
                     },
                     body: JSON.stringify({
                         key: key
                     })
                 }).then(() => loadProducts());
             } else {
-                fetch(`{{ url('/admin/cashier/cart/update') }}`, {
+                fetch(`/admin/cashier/cart/update`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'ngrok-skip-browser-warning': 'true'
                     },
                     body: JSON.stringify({
                         key: key,
@@ -472,13 +475,14 @@
         function saveItemNote() {
             const key = document.getElementById('noteTargetKey').value;
             const noteText = document.getElementById('noteTextTarget').value;
-            fetch(`{{ url('/admin/cashier/products') }}`).then(res => res.json()).then(data => {
+            fetch(`/admin/cashier/products`).then(res => res.json()).then(data => {
                 let qty = data.cart[key].quantity;
-                fetch(`{{ url('/admin/cashier/cart/update') }}`, {
+                fetch(`/admin/cashier/cart/update`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'ngrok-skip-browser-warning': 'true'
                     },
                     body: JSON.stringify({
                         key: key,
@@ -585,6 +589,7 @@
             if (customerName === '') customerName = 'Umum';
             const paidAmount = document.getElementById('inputUang').value;
             const txNotes = document.getElementById('transactionNotes').value;
+
             const payload = {
                 customer_name: customerName,
                 payment_method: currentMethod,
@@ -592,35 +597,62 @@
                 transaction_notes: txNotes
             };
 
-            fetch(`{{ url('/admin/cashier/checkout') }}`, {
+            fetch(`/admin/cashier/checkout`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'ngrok-skip-browser-warning': 'true'
                 },
                 body: JSON.stringify(payload)
             }).then(res => res.json()).then(data => {
                 if (!data.success) {
                     alert('Error: ' + data.message);
                 } else {
-                    closeModal('modalCheckout');
+                    closeModal('modalCheckout'); // Tutup modal ringkasan
+
                     lastCreatedOrderData = data.order;
                     document.getElementById('customerName').value = '';
                     document.getElementById('inputUang').value = '';
                     document.getElementById('transactionNotes').value = '';
+
                     if (currentMethod === 'QRIS') {
-                        openModal('modalScanQRIS');
+
+                        // MUNCULKAN POP-UP MIDTRANS
+                        window.snap.pay(data.snap_token, {
+                            onSuccess: function(result) {
+                                // Update status di memori lokal agar struk mencetak "Lunas" & "Paid"
+                                lastCreatedOrderData.payment_status = 'Lunas';
+                                lastCreatedOrderData.paid_amount = lastCreatedOrderData.total;
+
+                                showFinalReceipt();
+                            },
+                            onPending: function(result) {
+                                alert('Menunggu pembayaran QRIS dari pembeli...');
+                                // Reload halaman untuk melayani pelanggan berikutnya (pesanan sblmnya masuk antrean dapur/pending)
+                                location.reload();
+                            },
+                            onError: function(result) {
+                                alert('Pembayaran QRIS gagal!');
+                            },
+                            onClose: function() {
+                                alert('Kamu menutup layar QRIS sebelum pembeli membayar.');
+                                location.reload();
+                            }
+                        });
+
                     } else {
+                        // Jika Tunai, langsung tampilkan struk
                         showFinalReceipt();
                     }
                 }
             }).catch(err => alert('Terjadi kesalahan koneksi server.'));
         }
 
-        function triggerSuccessPaymentSimulator() {
-            closeModal('modalScanQRIS');
-            showFinalReceipt();
-        }
+        // function triggerSuccessPaymentSimulator() {
+        //     closeModal('modalScanQRIS');
+        //     showFinalReceipt();
+        // }
 
         function showFinalReceipt() {
             if (!lastCreatedOrderData) return;
@@ -672,10 +704,10 @@
                     <span>Rp ${parseInt(lastCreatedOrderData.subtotal).toLocaleString('id-ID')}</span>
                 </div>
                 ${parseInt(lastCreatedOrderData.discount) > 0 ? `
-                                    <div style="display:flex; justify-content:space-between; color:red;">
-                                        <span>Diskon Produk:</span>
-                                        <span>-Rp ${parseInt(lastCreatedOrderData.discount).toLocaleString('id-ID')}</span>
-                                    </div>` : ''}
+                                                                                                    <div style="display:flex; justify-content:space-between; color:red;">
+                                                                                                        <span>Diskon Produk:</span>
+                                                                                                        <span>-Rp ${parseInt(lastCreatedOrderData.discount).toLocaleString('id-ID')}</span>
+                                                                                                    </div>` : ''}
                 <div style="display:flex; justify-content:space-between; font-weight:bold; margin-top:3px;">
                     <span>Total Akhir:</span>
                     <span>Rp ${parseInt(lastCreatedOrderData.total).toLocaleString('id-ID')}</span>
@@ -713,5 +745,7 @@
         function closeModal(id) {
             document.getElementById(id).classList.add('hidden');
         }
+    </script>
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}">
     </script>
 @endsection

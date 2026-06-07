@@ -10,6 +10,8 @@ use App\Models\CashierOrder;
 use App\Models\CashierOrderItem;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Midtrans\Config;
+use Midtrans\Snap;
 
 class CashierController extends Controller
 {
@@ -161,7 +163,6 @@ class CashierController extends Controller
         try {
             DB::beginTransaction();
 
-            // Hitung Subtotal asli (sebelum diskon) dan Total akhir (setelah diskon)
             $originalSubtotal = 0;
             $finalTotal = 0;
 
@@ -172,14 +173,14 @@ class CashierController extends Controller
 
             $discount = $originalSubtotal - $finalTotal;
 
-            $paidAmount = $request->payment_method === 'Tunai' ? $request->paid_amount : $finalTotal;
+            // Jika QRIS, set paid_amount awal ke 0 (menunggu pembayaran)
+            $paidAmount = $request->payment_method === 'Tunai' ? $request->paid_amount : 0;
             $changeAmount = $request->payment_method === 'Tunai' ? ($paidAmount - $finalTotal) : 0;
 
             if ($request->payment_method === 'Tunai' && $paidAmount < $finalTotal) {
                 return response()->json(['success' => false, 'message' => 'Uang tunai yang dibayarkan kurang!'], 422);
             }
 
-            // Buat Record Order Baru dengan nilai subtotal dan diskon yang presisi
             $order = CashierOrder::create([
                 'cashier_id'     => Auth::id(),
                 'order_code'     => CashierOrder::generateOrderCode(),
@@ -195,7 +196,6 @@ class CashierController extends Controller
                 'notes'          => $request->transaction_notes,
             ]);
 
-            // Simpan Detail Item & Potong Stok Bazar
             foreach ($cart as $item) {
                 CashierOrderItem::create([
                     'cashier_order_id'   => $order->id,
@@ -213,19 +213,20 @@ class CashierController extends Controller
                     if ($variant && $variant->stock_bazar >= $item['quantity']) {
                         $variant->decrement('stock_bazar', $item['quantity']);
                     } else {
-                        throw new \Exception("Stok Bazar untuk varian " . $product->name . " tidak mencukupi.");
+                        throw new \Exception("Stok Bazar varian " . $product->name . " tidak cukup.");
                     }
                 } else {
                     $inventory = $product->inventory;
                     if ($inventory && $inventory->bazar_stock >= $item['quantity']) {
                         $inventory->decrement('bazar_stock', $item['quantity']);
                     } else {
-                        throw new \Exception("Stok Bazar untuk produk " . $product->name . " tidak mencukupi.");
+                        throw new \Exception("Stok Bazar produk " . $product->name . " tidak cukup.");
                     }
                 }
             }
 
             DB::commit();
+
             $order->load('items');
             $order->items->transform(function ($item) use ($cart) {
                 foreach ($cart as $cartItem) {
@@ -239,6 +240,35 @@ class CashierController extends Controller
             
             session()->forget('cashier_cart');
 
+            // --- INTEGRASI MIDTRANS ---
+            if ($request->payment_method === 'QRIS') {
+                Config::$serverKey = env('MIDTRANS_SERVER_KEY');
+                Config::$isProduction = env('MIDTRANS_IS_PRODUCTION', false);
+                Config::$isSanitized = true;
+                Config::$is3ds = true;
+
+                $params = [
+                    'transaction_details' => [
+                        'order_id'     => $order->order_code,
+                        'gross_amount' => (int) $order->total,
+                    ],
+                    'customer_details' => [
+                        'first_name' => $order->customer_name,
+                    ],
+                    'enabled_payments' => ['other_qris', 'gopay', 'shopeepay'] 
+                ];
+
+                $snapToken = Snap::getSnapToken($params);
+
+                return response()->json([
+                    'success'    => true,
+                    'message'    => 'Menunggu pembayaran QRIS',
+                    'order'      => $order,
+                    'snap_token' => $snapToken // Kirim token ke view
+                ]);
+            }
+            // --- END MIDTRANS ---
+
             return response()->json([
                 'success' => true,
                 'message' => 'Transaksi berhasil disimpan!',
@@ -249,6 +279,32 @@ class CashierController extends Controller
             DB::rollBack();
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
+    }
+
+    // 8. Tambahkan Webhook Callback Midtrans
+    public function callback(Request $request)
+    {
+        $serverKey = env('MIDTRANS_SERVER_KEY');
+        $hashed = hash("sha512", $request->order_id . $request->status_code . $request->gross_amount . $serverKey);
+        
+        if ($hashed == $request->signature_key) {
+            $order = CashierOrder::where('order_code', $request->order_id)->first();
+            
+            if ($order) {
+                if ($request->transaction_status == 'capture' || $request->transaction_status == 'settlement') {
+                    $order->update([
+                        'status'         => 'Selesai',
+                        'payment_status' => 'Lunas',
+                        'paid_amount'    => $order->total, 
+                    ]);
+                } elseif ($request->transaction_status == 'expire' || $request->transaction_status == 'cancel') {
+                    $order->update([
+                        'status' => 'Dibatalkan'
+                    ]);
+                }
+            }
+        }
+        return response()->json(['message' => 'Callback received']);
     }
 
     // --- FITUR MANAJEMEN PESANAN (DAPUR) ---
