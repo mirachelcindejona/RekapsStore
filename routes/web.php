@@ -18,7 +18,7 @@ use App\Http\Controllers\Admin\Auth\LoginAdminController;
 use App\Http\Controllers\Admin\Auth\ForgotPasswordAdminController;
 use App\Http\Controllers\Admin\Auth\VerificationCodeAdminController;
 use App\Http\Controllers\Admin\Auth\ResetPasswordAdminController;
-use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 use App\Http\Controllers\Admin\VoucherController;
 use App\Http\Controllers\Admin\DiscountController;
 use App\Http\Controllers\Admin\FinanceController;
@@ -109,7 +109,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware(['auth', 'check.banned'])->group(function () {
     Route::get('/admin/profile', function () { return view('admin.profile'); })->name('admin.profile');
     Route::get('/admin/profile/edit', function () { return view('admin.profile-edit'); })->name('admin.profile.edit');
-    Route::post( '/admin/profile/update', [ProfileController::class,'update'])->name('admin.profile.update');
+    Route::post( '/admin/profile/update', [AdminProfileController::class,'update'])->name('admin.profile.update');
 
     // LOGOUT
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
