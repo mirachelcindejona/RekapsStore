@@ -41,7 +41,7 @@
                 @csrf
                 <button type="submit"
                     class="group flex cursor-pointer items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-neutral-600 hover:bg-red-50 hover:text-red-500 transition w-full">
-                    <img src="{{ asset('assets/icons/logout-half-circle-line.svg') }}" class="w-4 h-4 block group-hover:hidden">
+                    <img src="{{ asset('assets/icons/logout-half-circle-line-dark.svg') }}" class="w-4 h-4 block group-hover:hidden">
                     <img src="{{ asset('assets/icons/logout-half-circle-line-h.svg') }}" class="w-4 h-4 hidden group-hover:block">
                     Logout
                 </button>
@@ -57,4 +57,5 @@
     </div>
 
 </div>
+@stack('scripts')
 @endsection

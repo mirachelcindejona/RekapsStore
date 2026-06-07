@@ -35,6 +35,9 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\ProfileController;
 
+Route::get('/test', function () {
+    return 'OK';
+});
 
 // 1. PUBLIC ROUTES
 Route::get('/', function () {
@@ -48,6 +51,25 @@ Route::get('/product/{slug}', function ($slug) {
         ->firstOrFail();
     return view('product-detail', compact('product'));
 })->name('product-detail');
+
+Route::get('/api/search', function () {
+    $q = request('q');
+    if (!$q || strlen($q) < 1) return response()->json([]);
+
+    $products = Product::with(['images'])
+        ->where('status', 'Aktif')
+        ->where('name', 'like', "%$q%")
+        ->limit(8)
+        ->get()
+        ->map(fn($p) => [
+            'slug'  => $p->slug,
+            'name'  => $p->name,
+            'price' => $p->selling_price - ($p->selling_price * $p->discount / 100),
+            'image' => asset($p->images->first()->image_path ?? 'assets/images/placeholder.png'),
+        ]);
+
+    return response()->json($products);
+});
 
 
 // 2. AUTENTIKASI (Hanya bisa diakses jika BELUM login / Guest)
@@ -589,31 +611,67 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
     })->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
 
     Route::get('/payment', function () {
-        $total = session('payment_total');
-        $qrUrl    = session('payment_qr_url');
-        $orderId  = session('payment_order_id');
+        $total   = session('payment_total');
+        $qrUrl   = session('payment_qr_url');
+        $orderId = session('payment_order_id');
+        $expiry  = session('payment_expiry');
 
-        if (!$total) {
-            return redirect('/cart');
+        if (!$total) return redirect('/cart');
+
+        return view('payment', compact('total', 'qrUrl', 'orderId', 'expiry'));
+    });
+
+    // Polling status pembayaran
+    Route::get('/payment/status/{orderCode}', function ($orderCode) {
+        $order = OnlineOrder::where('order_code', $orderCode)
+            ->where('user_id', auth()->id())
+            ->first();
+
+        if (!$order) return response()->json(['status' => 'not_found']);
+
+        return response()->json(['status' => $order->payment_status]);
+    });
+
+    Route::get('/payment/check/{orderCode}', function ($orderCode) {
+        try {
+            $response = \Illuminate\Support\Facades\Http::withBasicAuth(
+                config('services.midtrans.server_key'), ''
+            )->get("https://api.sandbox.midtrans.com/v2/{$orderCode}/status");
+
+            $data = $response->json();
+            $transactionStatus = $data['transaction_status'] ?? 'pending';
+
+            // update DB juga sekalian
+            $order = \App\Models\OnlineOrder::where('order_code', $orderCode)
+                ->where('user_id', auth()->id())
+                ->first();
+
+            if ($order) {
+                if (in_array($transactionStatus, ['settlement', 'capture'])) {
+                    $order->update(['payment_status' => 'Paid', 'status' => 'Pending']);
+                } elseif ($transactionStatus === 'expire') {
+                    $order->update(['payment_status' => 'Expired']);
+                } elseif (in_array($transactionStatus, ['cancel', 'deny'])) {
+                    $order->update(['payment_status' => 'Cancelled', 'status' => 'Dibatalkan']);
+                }
+            }
+
+            $mappedStatus = match($transactionStatus) {
+                'settlement', 'capture' => 'Paid',
+                'expire'                => 'Expired',
+                'cancel', 'deny'        => 'Cancelled',
+                default                 => 'Pending',
+            };
+
+            return response()->json(['status' => $mappedStatus]);
+
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
         }
-
-        return view('payment', compact('total', 'qrUrl', 'orderId'));
     });
 
-    Route::get('/test-paid/{orderCode}', function ($orderCode) {
-
-        $order = OnlineOrder::where(
-            'order_code',
-            $orderCode
-        )->firstOrFail();
-
-        $order->update([
-            'payment_status' => 'Paid',
-            'status' => 'Pending'
-        ]);
-
-        return 'OK';
-    });
+    // Detail order
+    Route::get('/profile/orders/{orderCode}', [ProfileController::class, 'orderDetail']);
 
     Route::get('/profile', [ProfileController::class, 'index']);
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');

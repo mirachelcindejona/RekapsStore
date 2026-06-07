@@ -1,6 +1,6 @@
 <x-client.profile-layout active="riwayat">
 
-    <div class="bg-white border border-neutral-100 rounded-2xl p-6 flex flex-col gap-4">
+    <div class="bg-neutral-50 border border-neutral-100 rounded-2xl p-6 flex flex-col gap-4">
 
         <h2 class="text-base font-bold text-neutral-800">Riwayat Pesanan</h2>
 
@@ -21,12 +21,12 @@
         @else
         <div class="flex flex-col gap-4">
             @foreach($orders as $order)
-            <div class="border border-neutral-100 rounded-2xl overflow-hidden">
+            <a href="/profile/orders/{{ $order->order_code }}" class="block border border-neutral-200 rounded-2xl overflow-hidden hover:bg-neutral-50 transition">
 
                 {{-- Order Items --}}
                 @foreach($order->items as $item)
                 <div class="flex items-center gap-4 p-4 {{ !$loop->last ? 'border-b border-neutral-50' : '' }}">
-                    <div class="w-20 h-20 rounded-xl bg-neutral-50 flex items-center justify-center shrink-0 overflow-hidden">
+                    <div class="w-40 h-40 rounded-xl bg-neutral-50 flex items-center justify-center shrink-0 overflow-hidden">
                         <img
                             src="{{ $item->product->images->first()
                                 ? asset('storage/' . $item->product->images->first()->image_path)
@@ -52,9 +52,9 @@
                     <div class="flex items-center gap-2">
                         @if($order->payment_status === 'Pending')
 
-                            <span class="flex items-center gap-1 text-[10px] font-bold text-teal-600 bg-teal-50 border border-teal-200 rounded-full px-2 py-0.5">
-                                <span class="w-1.5 h-1.5 rounded-full bg-teal-400 inline-block"></span>
-                                Admin Memeriksa Pembayaran
+                            <span class="flex items-center gap-1 text-[10px] font-bold text-amber-600 bg-amber-50 border border-amber-200 rounded-full px-2 py-0.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block"></span>
+                                Menunggu Pembayaran
                             </span>
 
                         @elseif($order->payment_status === 'Expired')
@@ -66,8 +66,8 @@
 
                         @elseif($order->payment_status === 'Cancelled')
 
-                            <span class="flex items-center gap-1 text-[10px] font-bold text-red-600 bg-red-50 border border-red-200 rounded-full px-2 py-0.5">
-                                <span class="w-1.5 h-1.5 rounded-full bg-red-400 inline-block"></span>
+                            <span class="flex items-center gap-1 text-[10px] font-bold text-gray-600 bg-gray-50 border border-gray-200 rounded-full px-2 py-0.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-gray-400 inline-block"></span>
                                 Pesanan Dibatalkan
                             </span>
 
@@ -111,11 +111,35 @@
                     </div>
                 </div>
 
-            </div>
+            </a>
             @endforeach
         </div>
         @endif
 
     </div>
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const pendingOrders = @json(
+        $orders->where('payment_status', 'Pending')->pluck('order_code')
+    );
 
+    if (pendingOrders.length === 0) return;
+
+    pendingOrders.forEach(orderCode => {
+        const interval = setInterval(() => {
+            fetch(`/payment/check/${orderCode}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status !== 'Pending') {
+                        clearInterval(interval);
+                        window.location.reload();
+                    }
+                })
+                .catch(() => {});
+        }, 5000);
+    });
+});
+</script>
+@endpush
 </x-client.profile-layout>

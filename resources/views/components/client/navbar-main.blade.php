@@ -23,9 +23,31 @@
             {{-- navbar-menu --}}
             <div class="flex flex-1 justify-end items-center gap-1.5">
 
-                <a href="#" class="searchbox w-[40px] h-[40px] flex items-center justify-center bg-neutral-200 rounded-lg hover:bg-primary-500 transition-all duration-300 ease-in-out cursor-pointer">
-                    <img class="search" src="{{ asset('assets/icons/search-line.svg') }}" alt="">
-                </a>
+                {{-- navbar-searchbar --}}
+                <div class="flex flex-2 md:flex-6 justify-start sm:justify-end items-center relative">
+                    <div class="h-[40px] flex w-full bg-neutral-200 items-center px-2 py-2 rounded-lg gap-2">
+                        <button type="button">
+                            <img src="{{ asset('assets/icons/search-line.svg') }}" alt="">
+                        </button>
+                        <input 
+                            type="text" 
+                            id="searchInput"
+                            placeholder="Cari di Rekaps Store" 
+                            class="outline-none w-full text-[12px] bg-transparent"
+                            autocomplete="off"
+                            onkeyup="handleSearch(this.value)"
+                            onfocus="if(this.value.length > 0) showResults()"
+                        >
+                    </div>
+
+                    {{-- Dropdown hasil pencarian --}}
+                    <div id="searchResults" class="hidden absolute top-12 left-0 w-full bg-white border border-neutral-100 rounded-xl shadow-xl z-50 max-h-72 overflow-y-auto">
+                        <div id="searchList" class="flex flex-col py-2"></div>
+                    </div>
+
+                    {{-- Backdrop --}}
+                    <div id="searchBackdrop" class="hidden fixed inset-0 z-40" onclick="closeSearch()"></div>
+                </div>
 
                 <a href="/profile/orders" class="historybox w-[40px] h-[40px] flex items-center justify-center bg-neutral-200 rounded-lg hover:bg-primary-500 transition-all duration-300 ease-in-out cursor-pointer">
                     <img class="history" src="{{ asset('assets/icons/history-home.svg') }}" alt="">
@@ -47,8 +69,12 @@
                 {{-- Avatar Mobile --}}
                 @auth
                 <div class="relative group">
-                    <button class="text-neutral-50 w-[40px] h-[40px] text-sm font-medium flex items-center justify-center bg-teal-600 rounded-lg cursor-pointer">
-                        <span>{{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 2)) }}</span>
+                    <button class="text-neutral-50 w-[40px] h-[40px] text-sm font-medium flex items-center justify-center bg-teal-600 rounded-lg cursor-pointer overflow-hidden">
+                        @if(auth()->user()->profile_photo)
+                            <img src="{{ asset('storage/' . auth()->user()->profile_photo) }}" class="w-full h-full object-cover">
+                        @else
+                            <span>{{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 2)) }}</span>
+                        @endif
                     </button>
                     <div class="absolute right-0 top-12 w-44 bg-white border border-neutral-100 rounded-xl shadow-lg flex flex-col overflow-hidden
                                 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
@@ -65,7 +91,7 @@
                             <form method="POST" action="/logout">
                                 @csrf
                                 <button type="submit" class="group/logout flex items-center gap-2 px-4 py-2.5 text-sm text-neutral-600 hover:bg-red-50 hover:text-red-500 transition w-full cursor-pointer">
-                                    <img src="{{ asset('assets/icons/logout-half-circle-line.svg') }}" class="w-4 h-4 block group-hover/logout:hidden">
+                                    <img src="{{ asset('assets/icons/logout-half-circle-line-dark.svg') }}" class="w-4 h-4 block group-hover/logout:hidden">
                                     <img src="{{ asset('assets/icons/logout-half-circle-line-h.svg') }}" class="w-4 h-4 hidden group-hover/logout:block">
                                     Logout
                                 </button>
@@ -95,14 +121,30 @@
             <img src="{{ asset('assets/icons/logo-rekaps-text.svg') }}" width="180px" alt="">
         </div>
 
-        {{-- navbar-searchbar --}}
-        <div class="flex flex-2 md:flex-6 justify-start sm:justify-end items-center">
-            <form action="#" method="GET" class="h-[40px] flex w-full bg-neutral-200 items-center px-2 py-2 rounded-lg gap-2">
-                <button type="submit">
+        {{-- navbar-searchbar DESKTOP --}}
+        <div class="flex flex-2 md:flex-6 justify-start sm:justify-end items-center relative">
+            <div class="h-[40px] flex w-full bg-neutral-200 items-center px-2 py-2 rounded-lg gap-2">
+                <button type="button">
                     <img src="{{ asset('assets/icons/search-line.svg') }}" alt="">
                 </button>
-                <input type="text" placeholder="Cari di Rekaps Store" class="outline-none w-full text-[12px] bg-transparent">
-            </form>
+                <input
+                    type="text"
+                    id="searchInputDesktop"
+                    placeholder="Cari di Rekaps Store"
+                    class="outline-none w-full text-[12px] bg-transparent"
+                    autocomplete="off"
+                    onkeyup="handleSearch(this.value, 'desktop')"
+                    onfocus="if(this.value.length > 0) showResults('desktop')"
+                >
+            </div>
+
+            {{-- Dropdown --}}
+            <div id="searchResultsDesktop" class="hidden absolute top-12 left-0 w-full bg-white border border-neutral-100 rounded-xl shadow-xl z-50 max-h-72 overflow-y-auto">
+                <div id="searchListDesktop" class="flex flex-col"></div>
+            </div>
+
+            {{-- Backdrop --}}
+            <div id="searchBackdropDesktop" class="hidden fixed inset-0 z-40" onclick="closeSearch('desktop')"></div>
         </div>
 
         {{-- navbar-menu --}}
@@ -132,8 +174,12 @@
 
             {{-- Avatar Desktop --}}
             <div class="relative group">
-                <button class="text-neutral-50 w-[40px] h-[40px] text-sm font-medium flex items-center justify-center bg-teal-600 rounded-lg cursor-pointer">
-                    <span>{{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 2)) }}</span>
+                <button class="text-neutral-50 w-[40px] h-[40px] text-sm font-medium flex items-center justify-center bg-teal-600 rounded-lg cursor-pointer overflow-hidden">
+                    @if(auth()->user()->profile_photo)
+                        <img src="{{ asset('storage/' . auth()->user()->profile_photo) }}" class="w-full h-full object-cover">
+                    @else
+                        <span>{{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 2)) }}</span>
+                    @endif
                 </button>
                 <div class="absolute right-0 top-12 w-44 bg-white border border-neutral-100 rounded-xl shadow-lg flex flex-col overflow-hidden
                             opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
@@ -150,7 +196,7 @@
                         <form method="POST" action="/logout">
                             @csrf
                             <button type="submit" class="group/logout flex items-center gap-2 px-4 py-2.5 text-sm text-neutral-600 hover:bg-red-50 hover:text-red-500 transition w-full cursor-pointer">
-                                <img src="{{ asset('assets/icons/logout-half-circle-line.svg') }}" class="w-4 h-4 block group-hover/logout:hidden">
+                                <img src="{{ asset('assets/icons/logout-half-circle-line-dark.svg') }}" class="w-4 h-4 block group-hover/logout:hidden">
                                 <img src="{{ asset('assets/icons/logout-half-circle-line-h.svg') }}" class="w-4 h-4 hidden group-hover/logout:block">
                                 Logout
                             </button>
@@ -188,12 +234,71 @@
     });
 
     function markAllRead() {
-    fetch('/notifications/read-all', {
-        method: 'POST',
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-            'Content-Type': 'application/json'
+        fetch('/notifications/read-all', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Content-Type': 'application/json'
+            }
+        }).then(() => window.location.reload());
+    }
+
+    let searchTimeout = null;
+
+    function handleSearch(query, type = 'mobile') {
+        clearTimeout(searchTimeout);
+
+        if (query.length === 0) {
+            closeSearch(type);
+            return;
         }
-    }).then(() => window.location.reload());
-}
+
+        searchTimeout = setTimeout(() => {
+            fetch(`/api/search?q=${encodeURIComponent(query)}`)
+                .then(res => res.json())
+                .then(data => {
+                    const listId = type === 'desktop' ? 'searchListDesktop' : 'searchList';
+                    const list = document.getElementById(listId);
+                    if (!list) return;
+                    list.innerHTML = '';
+
+                    if (data.length === 0) {
+                        list.innerHTML = `
+                            <div class="px-4 py-3 text-xs text-neutral-400 text-center">
+                                Produk tidak ditemukan
+                            </div>`;
+                    } else {
+                        data.forEach(product => {
+                            list.innerHTML += `
+                                <a href="/product/${product.slug}"
+                                onclick="closeSearch('${type}')"
+                                class="flex items-center gap-3 px-4 py-2.5 hover:bg-neutral-100 transition">
+                                    <div class="w-8 h-8 rounded-lg bg-neutral-100 flex items-center justify-center shrink-0 overflow-hidden">
+                                        <img src="/assets/icons/search-line.svg" class="w-3.5 h-3.5 shrink-0 opacity-30">
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-xs font-semibold text-neutral-800 truncate">${product.name}</p>
+                                    </div>
+                                </a>`;
+                        });
+                    }
+
+                    showResults(type);
+                });
+        }, 300);
+    }
+
+    function showResults(type = 'mobile') {
+        const resultsId = type === 'desktop' ? 'searchResultsDesktop' : 'searchResults';
+        const backdropId = type === 'desktop' ? 'searchBackdropDesktop' : 'searchBackdrop';
+        document.getElementById(resultsId)?.classList.remove('hidden');
+        document.getElementById(backdropId)?.classList.remove('hidden');
+    }
+
+    function closeSearch(type = 'mobile') {
+        const resultsId = type === 'desktop' ? 'searchResultsDesktop' : 'searchResults';
+        const backdropId = type === 'desktop' ? 'searchBackdropDesktop' : 'searchBackdrop';
+        document.getElementById(resultsId)?.classList.add('hidden');
+        document.getElementById(backdropId)?.classList.add('hidden');
+    }
 </script>

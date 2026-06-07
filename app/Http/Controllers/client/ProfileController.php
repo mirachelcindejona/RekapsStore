@@ -69,11 +69,30 @@ class ProfileController extends Controller
         $orders = \App\Models\OnlineOrder::with(['items.product.images', 'items.variant'])
             ->where('user_id', auth()->id())
             ->when($search, function ($q) use ($search) {
-                $q->whereHas('items.product', fn($q) => $q->where('name', 'like', "%$search%"));
+                $q->where('order_code', 'like', "%$search%")
+                ->orWhereHas('items.product', fn($q) => $q->where('name', 'like', "%$search%"));
             })
             ->latest()
             ->get();
 
         return view('profile-orders', compact('orders', 'search'));
+    }
+
+    public function orderDetail($orderCode)
+    {
+        $order = \App\Models\OnlineOrder::with([
+            'items.product.images',
+            'items.variant',
+        ])
+        ->where('order_code', $orderCode)
+        ->where('user_id', auth()->id())
+        ->firstOrFail();
+
+        $qrUrl = null;
+        if ($order->payment_status === 'Pending' && $order->snap_token) {
+            $qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' . urlencode($order->snap_token);
+        }
+
+        return view('profile-order-detail', compact('order', 'qrUrl'));
     }
 }
