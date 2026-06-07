@@ -1,5 +1,6 @@
 @extends('admin.layouts.auth-layout')
 @section('title', 'Login Admin')
+
 @section('content')
     <div class="flex min-h-screen w-full flex-col lg:flex-row">
         <div class="flex w-full flex-col p-8 lg:w-[40%] lg:p-12">
@@ -82,24 +83,24 @@
 
 @endsection
 @section('scripts')
-<script>
-document.querySelectorAll('.toggle-password')
-.forEach(function(button) {
-    button.addEventListener('click', function() {
-        const input =
-            this.parentElement.querySelector('input');
-        const icon =
-            this.querySelector('.eye-icon');
-        if (input.type === 'password') {
-            input.type = 'text';
-            icon.src =
-                "{{ asset('assets/icons/eye-off-line.svg') }}";
-        } else {
-            input.type = 'password';
-            icon.src =
-                "{{ asset('assets/icons/eye-line.svg') }}";
-        }
-    });
-});
-</script>
+    <script>
+        document.querySelectorAll('.toggle-password')
+            .forEach(function(button) {
+                button.addEventListener('click', function() {
+                    const input =
+                        this.parentElement.querySelector('input');
+                    const icon =
+                        this.querySelector('.eye-icon');
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        icon.src =
+                            "{{ asset('assets/icons/eye-off-line.svg') }}";
+                    } else {
+                        input.type = 'password';
+                        icon.src =
+                            "{{ asset('assets/icons/eye-line.svg') }}";
+                    }
+                });
+            });
+    </script>
 @endsection

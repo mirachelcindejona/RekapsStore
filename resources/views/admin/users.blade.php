@@ -5,10 +5,9 @@
 @section('page_breadcrumb', 'Pengguna')
 
 @section('content')
-
     <!-- HEADER -->
     <div
-        class="flex items-center justify-between mb-[20px] gap-[12px] flex-wrap max-[900px]:flex-col max-[900px]:items-start">
+        class="flex items-center justify-between mb-[20px] gap-[12px]">
         <!-- TAB -->
         <div class="flex items-center gap-[12px]">
 
@@ -33,27 +32,28 @@
     </div>
 
     <!-- TABLE -->
-    <div class="bg-white rounded-[24px] overflow-hidden shadow-sm border border-[#ece7f7]">
-        <table class="w-full">
-            <thead class="bg-[#faf8ff]">
-                <tr class="border-b border-[#ece7f7]">
-                    <th class="text-left px-6 py-5 text-[12px] font-bold text-neutral-500 uppercase">
-                        Nama
+    <div class="w-full overflow-x-auto touch-pan-x custom-scrollbar pb-[10px]">
+        <table
+            class="w-full border-collapse bg-neutral-50 rounded-2xl overflow-hidden shadow-[0_2px_16px_rgba(0,0,0,0.07)] min-w-[1050px]">
+            <thead class="bg-neutral-100 border-b-[0.2px] border-neutral-600">
+                <tr>
+                    <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
+                        NAMA
                     </th>
-                    <th class="text-left px-6 py-5 text-[12px] font-bold text-neutral-500 uppercase">
-                        Email
+                    <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
+                        EMAIL
                     </th>
-                    <th class="text-left px-6 py-5 text-[12px] font-bold text-neutral-500 uppercase">
-                        Role
+                    <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
+                        ROLE
                     </th>
-                    <th class="text-left px-6 py-5 text-[12px] font-bold text-neutral-500 uppercase">
-                        Bergabung
+                    <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
+                        BERGABUNG
                     </th>
-                    <th class="text-left px-6 py-5 text-[12px] font-bold text-neutral-500 uppercase">
-                        Status
+                    <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
+                        STATUS
                     </th>
-                    <th class="text-center px-6 py-5 text-[12px] font-bold text-neutral-500 uppercase">
-                        Aksi
+                    <th class="text-left px-[16px] py-[14px] text-[12px] font-bold text-neutral-500 whitespace-nowrap">
+                        AKSI
                     </th>
                 </tr>
             </thead>
@@ -62,21 +62,24 @@
             <tbody id="pengurusTable">
 
                 @foreach ($pengurus as $user)
-                    <tr class="border-b border-[#f1edf8] hover:bg-[#faf8ff] transition-all duration-200">
+                    <tr class="hover:bg-primary-50 transition-colors duration-[250ms]">
 
-                        <td class="px-6 py-5">
+                        <td
+                            class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 align-middle whitespace-nowrap">
                             <p class="text-[14px] font-semibold text-neutral-900">
                                 {{ $user->name }}
                             </p>
                         </td>
 
-                        <td class="px-6 py-5">
+                        <td
+                            class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 align-middle whitespace-nowrap">
                             <p class="text-[13px] text-neutral-700">
                                 {{ $user->email }}
                             </p>
                         </td>
 
-                        <td class="px-6 py-5">
+                        <td
+                            class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 align-middle whitespace-nowrap">
 
                             @php
                                 $role = $user->getRoleNames()->first();
@@ -89,13 +92,15 @@
                             </span>
                         </td>
 
-                        <td class="px-6 py-5">
+                        <td
+                            class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 align-middle whitespace-nowrap">
                             <p class="text-[13px] text-neutral-700">
                                 {{ $user->created_at ? $user->created_at->format('F Y') : '-' }}
                             </p>
                         </td>
 
-                        <td class="px-6 py-5">
+                        <td
+                            class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 align-middle whitespace-nowrap">
                             <span
                                 class="px-3 py-1 rounded-full text-[11px] font-bold
                             {{ $user->status == 'active' ? 'bg-[#ecfccb] text-[#65a30d]' : 'bg-[#ffe4e6] text-[#f43f5e]' }}">
@@ -103,8 +108,9 @@
                             </span>
                         </td>
 
-                        <td class="px-6 py-5">
-                            <div class="flex items-center justify-center gap-3">
+                        <td
+                            class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 align-middle whitespace-nowrap">
+                            <div class="flex gap-[6px]">
                                 <!-- EDIT -->
                                 <button onclick="openEditModal(this)" data-id="{{ $user->id }}"
                                     data-name="{{ $user->name }}" data-email="{{ $user->email }}"
@@ -141,38 +147,43 @@
             <tbody id="pembeliTable" class="hidden">
 
                 @foreach ($customers as $user)
-                    <tr class="border-b border-[#f1edf8] hover:bg-[#faf8ff] transition-all duration-200">
+                    <tr class="hover:bg-primary-50 transition-colors duration-[250ms]">
 
                         <!-- NAMA -->
-                        <td class="px-6 py-5">
+                        <td
+                            class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 align-middle whitespace-nowrap">
                             <p class="text-[14px] font-semibold text-neutral-900">
                                 {{ $user->name }}
                             </p>
                         </td>
 
                         <!-- EMAIL -->
-                        <td class="px-6 py-5">
+                        <td
+                            class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 align-middle whitespace-nowrap">
                             <p class="text-[13px] text-neutral-700">
                                 {{ $user->email }}
                             </p>
                         </td>
 
                         <!-- ROLE -->
-                        <td class="px-6 py-5">
+                        <td
+                            class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 align-middle whitespace-nowrap">
                             <span class="px-3 py-1 rounded-full text-[11px] font-bold bg-[#cffafe] text-[#0891b2]">
                                 Pengguna
                             </span>
                         </td>
 
                         <!-- BERGABUNG -->
-                        <td class="px-6 py-5">
+                        <td
+                            class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 align-middle whitespace-nowrap">
                             <p class="text-[13px] text-neutral-700">
                                 {{ $user->created_at ? $user->created_at->format('F Y') : '-' }}
                             </p>
                         </td>
 
                         <!-- STATUS -->
-                        <td class="px-6 py-5">
+                        <td
+                            class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 align-middle whitespace-nowrap">
 
                             @if ($user->status == 'active')
                                 <span class="px-3 py-1 rounded-full text-[11px] font-bold bg-[#ecfccb] text-[#65a30d]">
@@ -187,7 +198,8 @@
                         </td>
 
                         <!-- AKSI -->
-                        <td class="px-6 py-5 text-center">
+                        <td
+                            class="px-[16px] py-[14px] text-[13px] text-neutral-700 border-t border-neutral-200 align-middle whitespace-nowrap">
                             <form id="toggleForm{{ $user->id }}"
                                 action="{{ route('admin.users.toggleStatus', ['user' => $user->id, 'tab' => 'pembeli']) }}"
                                 method="POST">
@@ -197,24 +209,20 @@
 
                                 @if ($user->status == 'active')
                                     <!-- ICON MATA -->
-                                    <button type="button" onclick="openBlockModal({{ $user->id }})"
+
+                                    <button type="button" onclick="openUnblockModal({{ $user->id }})"
                                         class="w-10 h-10 rounded-[12px] bg-neutral-50 border border-primary-500 flex items-center justify-center shadow-[0px_2px_4px_rgba(62,52,69,0.25)] transition-all duration-200 hover:bg-primary-500 group">
 
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
-                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                            fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
                                             class="text-primary-500 group-hover:text-white">
 
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12
-                                                    C3.732 7.943 7.523 5 12 5
-                                                    c4.478 0 8.268 2.943 9.542 7
-                                                    -1.274 4.057-5.064 7-9.542 7
-                                                    -4.477 0-8.268-2.943-9.542-7z" />
+                                            <circle cx="12" cy="12" r="9" />
 
-                                            <circle cx="12" cy="12" r="3" />
-
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 8l8 8" />
                                         </svg>
-
                                     </button>
+                                    
                                 @else
                                     <!-- ICON BLOCK -->
                                     <button type="button" onclick="openUnblockModal({{ $user->id }})"
@@ -238,93 +246,94 @@
         </table>
 
         <!-- MODAL EDIT -->
-        <div id="editModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/30">
+        <div id="overlay"
+            class="fixed inset-0 bg-black/40 backdrop-blur-sm invisible opacity-0 z-[50] transition-all duration-300 [&.active]:visible [&.active]:opacity-100"
+            onclick="closeAll()">
+        </div>
+        <div id="editModal"
+            class="fixed inset-0 z-[100] invisible opacity-0 flex items-center justify-center p-4 transition-all duration-300 [&.active]:visible [&.active]:opacity-100">
             <div
-                class="w-[420px] max-h-[90vh] overflow-y-auto rounded-[24px] border border-black bg-neutral-50 p-[32px] shadow-xl">
+                class="bg-neutral-50 w-[90%] max-w-[600px]
+    rounded-[20px] p-[24px]
+    shadow-2xl
+    transform scale-[0.9]
+    transition-transform duration-300
+    [.active_&]:scale-100">
 
-                <!-- TITLE -->
-                <h2 class="text-[28px] font-bold text-neutral-900">
-                    Edit Pengurus
-                </h2>
+                <!-- HEADER -->
+                <div class="flex justify-between items-center mb-5">
+                    <h2 class="text-lg font-bold">
+                        Edit Pengurus
+                    </h2>
 
-                <!-- FORM -->
-                <form id="editForm" method="POST" class="mt-[24px] flex flex-col gap-[20px]">
+                    <span onclick="closeEditModal()" class="cursor-pointer text-xl">
+                        ✕
+                    </span>
+                </div>
+
+                <form id="editForm" method="POST">
 
                     @csrf
                     @method('PUT')
 
-                    <!-- NAMA -->
-                    <div>
-                        <label class="mb-[8px] block text-[14px] font-semibold">
-                            Nama Pengguna
-                        </label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 
-                        <input type="text" name="name" id="editName"
-                            class="w-full rounded-xl border border-neutral-300 px-[16px] py-[12px] outline-none focus:border-primary-500">
-                    </div>
+                        <!-- NAMA -->
+                        <div>
+                            <label>Nama Pengguna</label>
+                            <input type="text" name="name" id="editName"
+                                class="w-full border rounded-xl p-2 border-gray-200 outline-none focus:border-primary-500 transition-all">
+                        </div>
 
-                    <!-- EMAIL -->
-                    <div>
-                        <label class="mb-[8px] block text-[14px] font-semibold">
-                            Email
-                        </label>
+                        <!-- EMAIL -->
+                        <div>
+                            <label>Email</label>
+                            <input type="email" name="email" id="editEmail"
+                                class="w-full border rounded-xl p-2 border-gray-200 outline-none focus:border-primary-500 transition-all">
+                        </div>
 
-                        <input type="email" name="email" id="editEmail"
-                            class="w-full rounded-xl border border-neutral-300 px-[16px] py-[12px] outline-none focus:border-primary-500">
-                    </div>
+                        <!-- STATUS -->
+                        <div>
+                            <label>Status Pengguna</label>
+                            <select name="status" id="editStatus"
+                                class="w-full border rounded-xl p-2 border-gray-200 outline-none focus:border-primary-500 transition-all">
 
-                    <!-- HAK AKSES -->
-                    <div class="flex flex-col gap-[10px] mt-[4px]">
+                                <option value="active">Aktif</option>
+                                <option value="inactive">Nonaktif</option>
 
-                        <label class="text-[14px] font-semibold text-neutral-900">
-                            Hak Akses
-                        </label>
+                            </select>
+                        </div>
 
-                        <!-- DROPDOWN -->
-                        <div class="relative">
+                        <!-- HAK AKSES -->
+                        <div class="md:col-span-2">
+                            <label class="block mb-2">
+                                Hak Akses
+                            </label>
 
-                            <!-- BUTTON -->
-                            <button type="button" onclick="togglePermissionDropdown()"
-                                class="w-full h-[52px] rounded-[16px] border border-neutral-300 bg-neutral-50 px-[16px] flex items-center justify-between text-[14px] text-neutral-700">
+                            <div class="border border-gray-200 rounded-xl p-3 max-h-[180px] overflow-y-auto">
 
-                                <span>
-                                    Pilih Hak Akses
-                                </span>
+                                @php
+                                    $permissions = [
+                                        'dashboard',
+                                        'produk',
+                                        'pesanan',
+                                        'keuangan',
+                                        'diskon',
+                                        'pengguna',
+                                        'laporan',
+                                    ];
+                                @endphp
 
-                                <!-- ICON -->
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-
-                                    <path d="M5 7.5L10 12.5L15 7.5" stroke="#737373" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round" />
-
-                                </svg>
-
-                            </button>
-
-                            <!-- DROPDOWN CONTENT -->
-                            <div id="permissionDropdown"
-                                class="hidden mt-[12px] rounded-[18px] border border-[#ece7f7] bg-white shadow-[0_8px_24px_rgba(0,0,0,0.08)] p-[16px]">
-                                <div class="flex flex-col gap-[14px]">
-                                    @php
-                                        $permissions = [
-                                            'dashboard',
-                                            'produk',
-                                            'pesanan',
-                                            'keuangan',
-                                            'diskon',
-                                            'pengguna',
-                                            'laporan',
-                                        ];
-                                    @endphp
+                                <div class="grid grid-cols-2 gap-3">
 
                                     @foreach ($permissions as $permission)
-                                        <label class="flex items-center gap-[12px]">
+                                        <label class="flex items-center gap-2">
 
-                                            <input type="checkbox" name="permissions[]" value="{{ $permission }}">
+                                            <input type="checkbox" name="permissions[]" value="{{ $permission }}"
+                                                class="accent-primary-500">
 
-                                            <span>
-                                                {{ str_replace('manage-', '', $permission) }}
+                                            <span class="text-sm">
+                                                {{ ucfirst($permission) }}
                                             </span>
 
                                         </label>
@@ -333,39 +342,24 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
-                    <!-- STATUS -->
-                    <div>
-                        <label class="mb-[8px] block text-[14px] font-semibold">
-                            Status Pengguna
-                        </label>
+                    <!-- FOOTER -->
+                    <div class="flex justify-end gap-3 mt-5">
 
-                        <select name="status" id="editStatus"
-                            class="w-full rounded-xl border border-neutral-300 px-[16px] py-[12px] outline-none focus:border-primary-500">
-
-                            <option value="active">Aktif</option>
-                            <option value="inactive">Nonaktif</option>
-
-                        </select>
-                    </div>
-
-                    <!-- BUTTON -->
-                    <div class="mt-[12px] flex justify-end gap-[12px]">
-
-                        <!-- BATAL -->
-                        <button type="button" onclick="closeEditModal()"
-                            class="rounded-xl bg-neutral-200 px-[20px] py-[10px] font-bold text-neutral-600">
+                        <button type="button" onclick="closeEditModal()" class="px-4 py-2 bg-neutral-100 rounded-xl">
                             Batal
                         </button>
 
-                        <!-- SIMPAN -->
-                        <button type="submit"
-                            class="rounded-xl bg-primary-500 px-[20px] py-[10px] font-bold text-white shadow-lg">
-                            Simpan
+                        <button type="submit" class="px-4 py-2 bg-primary-500 text-neutral-50 rounded-xl">
+                            Simpan Perubahan
                         </button>
+
                     </div>
+
                 </form>
+
             </div>
         </div>
 
@@ -403,121 +397,150 @@
         </div>
     </div>
 
-    <!-- MODAL INPUT -->
-    <div id="userModal" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-[9999] p-4">
-        <div class="bg-white w-full max-w-[420px] rounded-[24px] p-7 shadow-xl">
-            <h3 id="modalTitle" class="text-xl font-bold mb-6">
-                Tambah Pengurus
-            </h3>
+    <!-- MODAL TAMBAH PENGURUS -->
+    <div id="userModal"
+        class="fixed inset-0 z-[100] invisible opacity-0 flex items-center justify-center p-4 transition-all duration-300 [&.active]:visible [&.active]:opacity-100">
+
+        <div
+            class="bg-white w-[90%] max-w-[600px] rounded-[20px] p-[24px] max-h-[85vh] overflow-y-auto shadow-2xl transform scale-[0.9] transition-transform duration-300 [.active_&]:scale-100">
+
+            <!-- HEADER -->
+            <div class="flex justify-between items-center mb-[20px]">
+
+                <h2 class="text-[18px] font-bold text-gray-900">
+                    Tambah Pengurus
+                </h2>
+
+                <span onclick="closeModal()" class="cursor-pointer text-[20px] text-gray-400 hover:text-gray-600">
+                    ✕
+                </span>
+
+            </div>
 
             <form action="{{ route('admin.pengurus.store') }}" method="POST">
+
                 @csrf
 
-                <div class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-[20px]">
+
                     <!-- NAMA -->
-                    <div>
-                        <label class="block mb-2 text-sm font-semibold">
-                            Nama
-                        </label>
-                        <input type="text" name="name" placeholder="Nama lengkap"
-                            class="w-full h-12 px-4 border border-gray-300 rounded-[14px] text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-none transition">
+                    <div class="flex flex-col gap-1.5">
+
+                        <label>Nama Pengguna</label>
+
+                        <input type="text" name="name" placeholder="Nama Lengkap" required
+                            class="p-[10px] rounded-[10px] border border-gray-200 outline-none focus:border-primary-500 transition-all">
+
                     </div>
 
-                    <div>
-                        <label class="block mb-2 text-sm font-semibold">
-                            Username
-                        </label>
-                        <input type="text" name="username" placeholder="Username"
-                            class="w-full h-12 px-4 border border-gray-300 rounded-[14px]">
+                    <!-- USERNAME -->
+                    <div class="flex flex-col gap-1.5">
+
+                        <label>Username</label>
+
+                        <input type="text" name="username" placeholder="Username" required
+                            class="p-[10px] rounded-[10px] border border-gray-200 outline-none focus:border-primary-500 transition-all">
+
                     </div>
 
                     <!-- EMAIL -->
-                    <div>
-                        <label class="block mb-2 text-sm font-semibold">
-                            Email
-                        </label>
-                        <input type="email" name="email" placeholder="Email"
-                            class="w-full h-12 px-4 border border-gray-300 rounded-[14px] text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-none transition">
+                    <div class="flex flex-col gap-1.5">
+
+                        <label>Email</label>
+
+                        <input type="email" name="email" placeholder="Email" required
+                            class="p-[10px] rounded-[10px] border border-gray-200 outline-none focus:border-primary-500 transition-all">
+
                     </div>
 
                     <!-- PASSWORD -->
-                    <div>
-                        <label class="block mb-2 text-sm font-semibold">
-                            Password
-                        </label>
-                        <input type="password" name="password" placeholder="Password"
-                            class="w-full h-12 px-4 border border-gray-300 rounded-[14px] text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-none transition">
-                        <button type="button" class="toggle-password absolute right-4 top-1/2 -translate-y-1/2">
-                            <img src="{{ asset('assets/icons/eye-line.svg') }}" class="eye-icon h-5 w-5" alt="eye">
-                        </button>
+                    <div class="flex flex-col gap-1.5">
+
+                        <label>Password</label>
+
+                        <input type="password" name="password" placeholder="Password" required
+                            class="p-[10px] rounded-[10px] border border-gray-200 outline-none focus:border-primary-500 transition-all">
+
                     </div>
 
-                    <div class="mt-4">
-                        <label class="block mb-2 text-sm font-semibold">
+                    <!-- HAK AKSES -->
+                    <div class="md:col-span-2">
+
+                        <label class="block mb-2">
                             Hak Akses
                         </label>
 
-                        <div class="grid grid-cols-2 gap-2">
+                        <div class="border border-gray-200 rounded-[10px] p-4">
 
-                            <label>
-                                <input type="checkbox" name="permissions[]" value="dashboard">
-                                Dashboard
-                            </label>
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
 
-                            <label>
-                                <input type="checkbox" name="permissions[]" value="produk">
-                                Produk
-                            </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" name="permissions[]" value="dashboard">
+                                    Dashboard
+                                </label>
 
-                            <label>
-                                <input type="checkbox" name="permissions[]" value="pesanan">
-                                Pesanan
-                            </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" name="permissions[]" value="produk">
+                                    Produk
+                                </label>
 
-                            <label>
-                                <input type="checkbox" name="permissions[]" value="keuangan">
-                                Keuangan
-                            </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" name="permissions[]" value="pesanan">
+                                    Pesanan
+                                </label>
 
-                            <label>
-                                <input type="checkbox" name="permissions[]" value="diskon">
-                                Diskon
-                            </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" name="permissions[]" value="keuangan">
+                                    Keuangan
+                                </label>
 
-                            <label>
-                                <input type="checkbox" name="permissions[]" value="pengguna">
-                                Pengguna
-                            </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" name="permissions[]" value="diskon">
+                                    Diskon
+                                </label>
 
-                            <label>
-                                <input type="checkbox" name="permissions[]" value="laporan">
-                                Laporan
-                            </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" name="permissions[]" value="pengguna">
+                                    Pengguna
+                                </label>
+
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" name="permissions[]" value="laporan">
+                                    Laporan
+                                </label>
+
+                            </div>
+
                         </div>
+
                     </div>
+
                 </div>
 
-                <!-- BUTTON -->
-                <div class="flex justify-end gap-3 mt-6">
+                <!-- FOOTER -->
+                <div class="flex justify-end gap-[12px] mt-[24px]">
+
                     <button type="button" onclick="closeModal()"
-                        class="rounded-xl bg-neutral-300 px-[16px] py-[8px] text-[12px] font-bold text-neutral-700 cursor-pointer">
+                        class="bg-neutral-100 px-[20px] py-[10px] rounded-[12px] font-medium">
                         Batal
                     </button>
 
                     <button type="submit"
-                        class="rounded-xl bg-primary-500 px-[16px] py-[8px] text-[12px] font-bold text-white cursor-pointer">
+                        class="bg-secondary-500 text-neutral-900 px-[20px] py-[10px] rounded-[12px] font-bold">
                         Simpan
                     </button>
+
                 </div>
+
             </form>
+
         </div>
+
     </div>
 
     <!-- MODAL BLOCK -->
     <div id="blockModal" class="hidden fixed inset-0 z-[9999] flex items-center justify-center">
-
-        <div
-            class="w-full max-w-[420px] rounded-[24px] bg-white border-2 border-neutral-950 shadow-[0_8px_30px_rgba(0,0,0,0.18)] px-[28px] py-[26px]">
+        <div class="w-[420px] rounded-[24px] border border-black bg-neutral-50 p-[32px] shadow-xl">
 
             <h2 class="text-[18px] font-bold mb-[16px]">
                 Blokir akun pengguna
@@ -546,10 +569,7 @@
 
     <!-- MODAL UNBLOCK -->
     <div id="unblockModal" class="hidden fixed inset-0 z-[9999] flex items-center justify-center">
-
-        <div
-            class="w-full max-w-[420px] rounded-[28px] bg-white border-2 border-neutral-950 shadow-[0_8px_30px_rgba(0,0,0,0.18)] p-[30px]">
-
+        <div class="w-[420px] rounded-[24px] border border-black bg-neutral-50 p-[32px] shadow-xl">
             <h2 class="text-[20px] font-bold mb-[18px]">
                 Buka blokir akun pengguna
             </h2>
@@ -590,11 +610,14 @@
             console.log('Permissions:', permissions);
 
             // buka modal
-            const modal =
-                document.getElementById('editModal');
+            const modal = document.getElementById('editModal');
+            //overlay
+            const overlay = document.getElementById('overlay');
 
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
+            overlay.classList.add('active');
+
+            modal.classList.remove('invisible', 'opacity-0');
+            modal.classList.add('active');
 
             // isi form
             document.getElementById('editName').value = name;
@@ -624,13 +647,17 @@
                 `/admin/pengurus/${id}`;
         }
 
+
+
         function closeEditModal() {
 
-            const modal =
-                document.getElementById('editModal');
+            const modal = document.getElementById('editModal');
+            const overlay = document.getElementById('overlay');
 
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
+            modal.classList.remove('active');
+            modal.classList.add('invisible', 'opacity-0');
+
+            overlay.classList.remove('active');
         }
 
 
@@ -661,18 +688,43 @@
         //   tambah pengurus
         function openAddModal() {
 
-            document
-                .getElementById('userModal')
-                .classList.remove('hidden');
+            const modal = document.getElementById('userModal');
+            const overlay = document.getElementById('overlay');
+
+            overlay.classList.add('active');
+
+            modal.classList.remove('invisible', 'opacity-0');
+            modal.classList.add('active');
         }
 
         function closeModal() {
 
-            document
-                .getElementById('userModal')
-                .classList.add('hidden');
+            const modal = document.getElementById('userModal');
+            const overlay = document.getElementById('overlay');
+
+            overlay.classList.remove('active');
+
+            modal.classList.remove('active');
+            modal.classList.add('invisible', 'opacity-0');
         }
 
+        function closeAll() {
+
+            document.getElementById('overlay')
+                .classList.remove('active');
+
+            document.getElementById('userModal')
+                .classList.remove('active');
+
+            document.getElementById('userModal')
+                .classList.add('invisible', 'opacity-0');
+
+            document.getElementById('editModal')
+                .classList.add('hidden');
+
+            document.getElementById('deleteModal')
+                .classList.add('hidden');
+        }
 
         // filter table
 
