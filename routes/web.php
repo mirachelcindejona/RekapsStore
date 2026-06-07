@@ -20,7 +20,6 @@ use App\Http\Controllers\Admin\Auth\VerificationCodeAdminController;
 use App\Http\Controllers\Admin\Auth\ResetPasswordAdminController;
 use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 use App\Http\Controllers\Admin\VoucherController;
-use App\Http\Controllers\Admin\DiscountController;
 use App\Http\Controllers\Admin\FinanceController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ReportController;
@@ -120,7 +119,9 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
     // PANEL ADMIN (Wajib Role Admin / Pengurus)
     Route::prefix('admin')->middleware(['role:admin|pengurus'])->group(function () {
 
-        Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
+        Route::middleware(['permission:dashboard'])->group(function () {
+            Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
+        });
 
         // Modul Produk & Kategori
         Route::middleware(['permission:produk'])->group(function () {
@@ -160,10 +161,6 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
         // Modul Promo / Diskon & Voucher
         Route::middleware(['permission:diskon'])->group(function () {
             Route::get('/promo', [VoucherController::class, 'index'])->name('admin.promo');
-
-            Route::post('/discount', [DiscountController::class, 'store'])->name('admin.discount.store');
-            Route::put('/discount/{discount}', [DiscountController::class, 'update'])->name('admin.discount.update');
-            Route::delete('/discount/{discount}', [DiscountController::class, 'destroy'])->name('admin.discount.destroy');
 
             Route::post('/voucher/store', [VoucherController::class, 'store'])->name('admin.voucher.store');
             Route::put('/voucher/{voucher}', [VoucherController::class, 'update'])->name('admin.voucher.update');
@@ -237,9 +234,9 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
             $cart = \App\Models\Cart::where('user_id', auth()->id())->first();
             $cartItems = $cart
                 ? \App\Models\CartItem::with(['product.images', 'product.variants'])
-                    ->where('cart_id', $cart->id)
-                    ->whereIn('product_id', $selectedIds)
-                    ->get()
+                ->where('cart_id', $cart->id)
+                ->whereIn('product_id', $selectedIds)
+                ->get()
                 : collect();
 
             $checkoutItems = $cartItems->map(fn($item) => [

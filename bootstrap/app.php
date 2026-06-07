@@ -26,21 +26,41 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
 
-->withExceptions(function (Exceptions $exceptions): void {
-    $exceptions->render(function (
-        \Spatie\Permission\Exceptions\UnauthorizedException $e,
-        \Illuminate\Http\Request $request
-    ) {
-        if ($request->is('admin/*') || $request->is('admin')) {
-            return redirect('/admin')->with(
+    ->withExceptions(function (Exceptions $exceptions): void {
+
+        $handler = function ($e, \Illuminate\Http\Request $request) {
+            $user = \Illuminate\Support\Facades\Auth::user();
+
+            if ($user && $user->hasAnyRole(['admin', 'pengurus'])) {
+                return redirect('/admin')->with(
+                    'error_access',
+                    'Kamu tidak memiliki akses ke halaman tersebut.'
+                );
+            }
+
+            return redirect('/home')->with(
                 'error_access',
                 'Kamu tidak memiliki akses ke halaman tersebut.'
             );
-        }
+        };
 
-        return redirect('/home')->with(
-            'error_access',
-            'Kamu tidak memiliki akses ke halaman tersebut.'
-        );
-    });
+//         return redirect('/home')->with(
+//             'error_access',
+//             'Kamu tidak memiliki akses ke halaman tersebut.'
+//         );
+//     });
+// })->create();
+        $exceptions->render(function (
+            \Spatie\Permission\Exceptions\UnauthorizedException $e,
+            \Illuminate\Http\Request $request
+        ) use ($handler) {
+            return $handler($e, $request);
+        });
+
+        $exceptions->render(function (
+            \Illuminate\Auth\Access\AuthorizationException $e,
+            \Illuminate\Http\Request $request
+        ) use ($handler) {
+            return $handler($e, $request);
+        });
 })->create();

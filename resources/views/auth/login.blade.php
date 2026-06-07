@@ -86,26 +86,46 @@
         </div>
     </div>
 
+    {{-- Toast register berhasil --}}
+    @if (session('success'))
+        <div id="toast-success"
+            class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-green-600 text-white px-6 py-4 rounded-xl shadow-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            <span class="text-sm font-medium">{{ session('success') }}</span>
+            <button onclick="document.getElementById('toast-success').remove()"
+                class="ml-2 text-white/80 hover:text-white text-lg">&times;</button>
+        </div>
+        <script>
+            setTimeout(() => {
+                const el = document.getElementById('toast-success');
+                if (el) el.remove();
+            }, 4000);
+        </script>
+    @endif
+
 @endsection
 @section('scripts')
-<script>
-document.querySelectorAll('.toggle-password')
-.forEach(function(button) {
-    button.addEventListener('click', function() {
-        const input =
-            this.parentElement.querySelector('input');
-        const icon =
-            this.querySelector('.eye-icon');
-        if (input.type === 'password') {
-            input.type = 'text';
-            icon.src =
-                "{{ asset('assets/icons/eye-off-line.svg') }}";
-        } else {
-            input.type = 'password';
-            icon.src =
-                "{{ asset('assets/icons/eye-line.svg') }}";
-        }
-    });
-});
-</script>
+    <script>
+        document.querySelectorAll('.toggle-password')
+            .forEach(function(button) {
+                button.addEventListener('click', function() {
+                    const input =
+                        this.parentElement.querySelector('input');
+                    const icon =
+                        this.querySelector('.eye-icon');
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        icon.src =
+                            "{{ asset('assets/icons/eye-off-line.svg') }}";
+                    } else {
+                        input.type = 'password';
+                        icon.src =
+                            "{{ asset('assets/icons/eye-line.svg') }}";
+                    }
+                });
+            });
+    </script>
 @endsection

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Voucher;
-use App\Models\Discount;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -13,16 +12,12 @@ class VoucherController extends Controller
     public function index()
     {
         // Auto-expire
-        Discount::where('end_date', '<', Carbon::today())
-            ->update(['status' => 'Non-Aktif']);
 
         Voucher::where('end_date', '<', Carbon::today())
             ->update(['status' => 'Non-Aktif']);
 
         $vouchers  = Voucher::all();
-        $discounts = Discount::all();
-
-        return view('admin.promo', compact('vouchers', 'discounts'));
+        return view('admin.promo', compact('vouchers'));
     }
 
     public function store(Request $request)
@@ -33,8 +28,7 @@ class VoucherController extends Controller
             'value'        => 'required|numeric|min:0',
             'min_purchase' => 'required|numeric|min:0',
             'quota'        => 'required|integer|min:1',
-            'start_date'   => 'required|date',
-            'end_date'     => 'required|date|after_or_equal:start_date',
+            'end_date'     => 'required|date',
         ], [
             'code.required'           => 'Kode voucher wajib diisi',
             'code.unique'             => 'Kode voucher sudah digunakan',
@@ -51,7 +45,7 @@ class VoucherController extends Controller
             'min_purchase' => $request->min_purchase,
             'quota'        => $request->quota,
             'used_quota'   => 0,
-            'start_date'   => $request->start_date,
+            'start_date'   => now(),
             'end_date'     => $request->end_date,
             'status'       => 'Aktif',
         ]);
@@ -67,8 +61,7 @@ class VoucherController extends Controller
             'value'        => 'required|numeric|min:0',
             'min_purchase' => 'required|numeric|min:0',
             'quota'        => 'required|integer|min:1',
-            'start_date'   => 'required|date',
-            'end_date'     => 'required|date|after_or_equal:start_date',
+            'end_date'     => 'required|date',
         ], [
             'code.required'           => 'Kode voucher wajib diisi',
             'code.unique'             => 'Kode voucher sudah digunakan',
@@ -84,7 +77,7 @@ class VoucherController extends Controller
             'value'        => $request->value,
             'min_purchase' => $request->min_purchase,
             'quota'        => $request->quota,
-            'start_date'   => $request->start_date,
+            'start_date'   => now(),
             'end_date'     => $request->end_date,
             'status'       => $request->status,
         ]);
