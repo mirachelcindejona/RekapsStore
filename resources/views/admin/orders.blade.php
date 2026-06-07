@@ -431,7 +431,7 @@
 
             if (order.status === 'Pesanan Selesai') {
                 btnPrint.classList.remove('hidden');
-                formUpdate.classList.add('hidden'); // Sembunyikan form jika sudah selesai (opsional)
+                formUpdate.classList.add('hidden'); 
                 preparePrintContent(order, 'ONLINE');
             } else {
                 btnPrint.classList.add('hidden');
