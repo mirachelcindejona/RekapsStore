@@ -47,7 +47,7 @@ class OrderSeeder extends Seeder
                 'total'          => 0,
                 'payment_method' => $faker->randomElement(['Transfer Bank', 'QRIS', 'E-Wallet']),
                 'payment_status' => $isLunas ? 'Lunas' : 'Pending',
-                'payment_link'   => $isLunas ? null : 'https://payment-gateway.test/pay/' . $faker->uuid,
+                'snap_token'   => $isLunas ? null : 'https://payment-gateway.test/pay/' . $faker->uuid,
                 'status'         => $faker->randomElement($onlineStatuses),
                 'is_pinned'      => $faker->boolean(10),
                 'created_at'     => Carbon::now()->subDays(rand(0, 30)), // Random tanggal 30 hari terakhir
