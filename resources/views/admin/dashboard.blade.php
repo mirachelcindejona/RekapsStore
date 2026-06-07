@@ -201,23 +201,31 @@
 
       <!-- Tabs -->
       <div class="flex gap-1 px-5 mb-4">
-        <button
-          class="rounded-lg bg-violet-600 px-4 py-1 text-[11px] font-bold text-white"
-        >
-          Minggu
-        </button>
 
-        <button
-          class="rounded-lg px-4 py-1 text-[11px] font-bold text-neutral-400"
+        <a
+            href="{{ route('admin.dashboard', ['period' => 'week']) }}"
+            class="rounded-lg px-4 py-1 text-[11px] font-bold transition
+            {{ $period == 'week' ? 'bg-violet-600 text-white' : 'text-neutral-400 hover:bg-neutral-100' }}"
         >
-          Bulan
-        </button>
+            Minggu
+        </a>
 
-        <button
-          class="rounded-lg px-4 py-1 text-[11px] font-bold text-neutral-400"
+        <a
+            href="{{ route('admin.dashboard', ['period' => 'month']) }}"
+            class="rounded-lg px-4 py-1 text-[11px] font-bold transition
+            {{ $period == 'month' ? 'bg-violet-600 text-white' : 'text-neutral-400 hover:bg-neutral-100' }}"
         >
-          Tahun
-        </button>
+            Bulan
+        </a>
+
+        <a
+            href="{{ route('admin.dashboard', ['period' => 'year']) }}"
+            class="rounded-lg px-4 py-1 text-[11px] font-bold transition
+            {{ $period == 'year' ? 'bg-violet-600 text-white' : 'text-neutral-400 hover:bg-neutral-100' }}"
+        >
+            Tahun
+        </a>
+
       </div>
 
       <!-- Chart -->
