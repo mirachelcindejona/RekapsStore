@@ -25,7 +25,7 @@ return new class extends Migration
             $table->decimal('paid_amount', 15, 2)->default(0);
             $table->decimal('change_amount', 15, 2)->default(0);
             $table->text('payment_link')->nullable();
-            $table->enum('status', ['Proses', 'Selesai'])->default('Proses');
+            $table->enum('status', ['Proses', 'Selesai', 'Gagal', 'Dibatalkan'])->default('Proses');
             $table->boolean('is_pinned')->default(false);
             $table->timestamp('pinned_at')->nullable();
             $table->text('notes')->nullable();
