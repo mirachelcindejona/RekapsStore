@@ -20,6 +20,7 @@ class ForgotPasswordController extends Controller
         $request->validate([
             'email' => 'required|email'
         ]);
+        
 
         // cek email user
         $user = User::query()
