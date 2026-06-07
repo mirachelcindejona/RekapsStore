@@ -49,6 +49,11 @@
             {{ session('error') }}
         </div>
     @endif
+    @if (session('warning'))
+        <div class="bg-amber-100 border border-amber-400 text-amber-800 px-4 py-3 rounded mb-4">
+            {{ session('warning') }}
+        </div>
+    @endif
 
     <div class="flex justify-between items-center mb-[24px] flex-wrap gap-[16px]">
         <div class="flex items-center gap-[14px]">
@@ -699,8 +704,13 @@
             </div>
 
             <p class="font-normal text-[13px] leading-[18px] text-center text-neutral-600 m-0">
-                Data produk akan terhapus secara permanen! <br>Anda yakin ingin menghapus produk <br> <strong
-                    id="deleteProductName" class="text-black text-[14px]">{{ $product->name }}</strong>?
+                Anda yakin ingin menghapus produk <br>
+                <strong class="text-black text-[14px]">{{ $product->name }}</strong>?
+                <br><br>
+                <span class="text-[11px] text-neutral-400">
+                    Jika produk memiliki riwayat transaksi, produk akan <strong
+                        class="text-amber-600">dinonaktifkan</strong> dan tidak dihapus permanen.
+                </span>
             </p>
 
             <form id="deleteForm" method="POST" action="{{ url('/admin/product/' . $product->slug) }}"

@@ -28,11 +28,11 @@
                 <div>
                     <label class="text-[13px] text-neutral-700">Nama Kategori</label>
                     <input type="text" name="name" required
-                        class="mt-1 px-[12px] py-[10px] w-full rounded-[8px] border border-neutral-400 focus:border-[#7D39EB] outline-none"
+                        class="mt-1 px-[12px] py-[10px] w-full rounded-[8px] border border-neutral-400 focus:border-primary-500 outline-none"
                         placeholder="cth: Pakaian, Makanan">
                 </div>
                 <button type="submit"
-                    class="bg-[#7D39EB] text-white py-[10px] rounded-[8px] font-bold hover:bg-[#5928a7]">Simpan
+                    class="bg-primary-500 text-white py-[10px] rounded-[8px] font-bold hover:bg-[#5928a7]">Simpan
                     Kategori</button>
             </form>
         </div>

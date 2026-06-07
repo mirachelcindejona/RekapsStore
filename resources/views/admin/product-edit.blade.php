@@ -9,7 +9,7 @@
 @section('content')
     <div class="flex items-center gap-[14px] mb-[24px]">
         <a href="{{ url('/admin/product') }}"
-            class="flex items-center justify-center w-[38px] h-[38px] rounded-full bg-neutral-50 border border-[#7D39EB] text-[#7D39EB] shadow-[0_2px_8px_rgba(0,0,0,0.05)] transition-all duration-[250ms] hover:bg-[#7D39EB] hover:text-neutral-50">
+            class="flex items-center justify-center w-[38px] h-[38px] rounded-full bg-neutral-50 border border-primary-500 text-primary-500 shadow-[0_2px_8px_rgba(0,0,0,0.05)] transition-all duration-[250ms] hover:bg-primary-500 hover:text-neutral-50">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round">
                 <path d="M19 12H5M12 19l-7-7 7-7" />
@@ -72,7 +72,7 @@
                                     stroke="#7D39EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                             <div class="text-[12px] font-semibold text-neutral-400 text-center">
-                                Drag & drop atau <br><span class="text-[#7D39EB]">klik untuk upload</span>
+                                Drag & drop atau <br><span class="text-primary-500">klik untuk upload</span>
                             </div>
                             <div class="text-[10px] text-neutral-400 text-center">PNG, JPG max 5MB & 6 Foto</div>
                         </div>
@@ -110,14 +110,14 @@
                 <div class="flex flex-col gap-[8px] w-full">
                     <label class="text-[14px] font-normal text-neutral-950">NAMA PRODUK *</label>
                     <input type="text" name="name" required value="{{ old('name', $product->name) }}"
-                        class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 placeholder:text-neutral-400 focus:border-[#7D39EB] focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)]"
+                        class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 placeholder:text-neutral-400 focus:border-primary-500 focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)]"
                         placeholder="Masukkan nama produk" />
                 </div>
 
                 <div class="flex flex-col gap-[8px] w-full">
                     <label class="text-[14px] font-normal text-neutral-950">DESKRIPSI PRODUK</label>
                     <textarea name="description"
-                        class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 placeholder:text-neutral-400 focus:border-[#7D39EB] focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)] resize-y min-h-[85px]"
+                        class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 placeholder:text-neutral-400 focus:border-primary-500 focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)] resize-y min-h-[85px]"
                         placeholder="Deskripsi...">{{ old('description', $product->description) }}</textarea>
                 </div>
 
@@ -125,7 +125,7 @@
                     <div class="flex justify-between items-center">
                         <label class="text-[14px] font-normal text-neutral-950">KATEGORI *</label>
                         <a href="{{ url('/admin/categories') }}" target="_blank"
-                            class="text-[#7D39EB] text-[12px] font-bold hover:underline flex items-center gap-[4px]">
+                            class="text-primary-500 text-[12px] font-bold hover:underline flex items-center gap-[4px]">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
@@ -136,7 +136,7 @@
                     </div>
 
                     <select name="category_product_id" required
-                        class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 focus:border-[#7D39EB]">
+                        class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 focus:border-primary-500">
                         <option value="">Pilih Kategori</option>
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}"
@@ -151,7 +151,7 @@
                     <div class="flex flex-col gap-[8px] w-full">
                         <label class="text-[14px] font-normal text-neutral-950">TIPE PRODUK *</label>
                         <select name="product_type" required
-                            class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 focus:border-[#7D39EB] focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)]">
+                            class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 focus:border-primary-500 focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)]">
                             <option value="Ready Stok"
                                 {{ old('product_type', $product->product_type) == 'Ready Stok' ? 'selected' : '' }}>Ready
                                 Stok</option>
@@ -165,7 +165,7 @@
                         <label class="text-[14px] font-normal text-neutral-950">KODE PRODUK *</label>
                         <input type="text" name="product_code" required
                             value="{{ old('product_code', $product->product_code) }}"
-                            class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 placeholder:text-neutral-400 focus:border-[#7D39EB] focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)]"
+                            class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 placeholder:text-neutral-400 focus:border-primary-500 focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)]"
                             placeholder="cth: PRDK01" />
                     </div>
                 </div>
@@ -173,14 +173,14 @@
                 <div class="flex flex-col gap-[8px] w-full">
                     <label class="text-[14px] font-normal text-neutral-950">ESTIMASI SELESAI (PO/Jasa)</label>
                     <input type="text" name="estimation" value="{{ old('estimation', $product->estimation) }}"
-                        class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 placeholder:text-neutral-400 focus:border-[#7D39EB] focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)]"
+                        class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 placeholder:text-neutral-400 focus:border-primary-500 focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)]"
                         placeholder="cth: 7 hari kerja" />
                 </div>
 
                 <div class="flex flex-col gap-[8px] w-full">
                     <label class="text-[14px] font-normal text-neutral-950">INFO PENGAMBILAN BARANG</label>
                     <textarea name="pickup_info"
-                        class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 placeholder:text-neutral-400 focus:border-[#7D39EB] focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)] resize-y min-h-[60px]"
+                        class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 placeholder:text-neutral-400 focus:border-primary-500 focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)] resize-y min-h-[60px]"
                         placeholder="cth: Diambil di sekretariat jam 15.00">{{ old('pickup_info', $product->pickup_info) }}</textarea>
                 </div>
             </div>
@@ -196,14 +196,14 @@
                         <label class="text-[14px] font-normal text-neutral-950">HARGA MODAL</label>
                         <input type="number" name="cost_price" id="cost_price"
                             value="{{ old('cost_price', $product->cost_price) }}"
-                            class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 placeholder:text-neutral-400 focus:border-[#7D39EB] focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)]"
+                            class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 placeholder:text-neutral-400 focus:border-primary-500 focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)]"
                             placeholder="0" />
                     </div>
                     <div class="flex flex-col gap-[8px] w-full">
                         <label class="text-[14px] font-normal text-neutral-950">HARGA JUAL *</label>
                         <input type="number" name="selling_price" id="selling_price" required
                             value="{{ old('selling_price', $product->selling_price) }}"
-                            class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 placeholder:text-neutral-400 focus:border-[#7D39EB] focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)]"
+                            class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 placeholder:text-neutral-400 focus:border-primary-500 focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)]"
                             placeholder="0" />
                     </div>
                 </div>
@@ -230,14 +230,14 @@
                         <label class="text-[14px] font-normal text-neutral-950">JUMLAH STOK</label>
                         <input type="number" name="main_stock" id="main_stock_input"
                             value="{{ old('main_stock', $product->inventory->main_stock ?? 0) }}"
-                            class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 placeholder:text-neutral-400 focus:border-[#7D39EB] focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)]"
+                            class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 placeholder:text-neutral-400 focus:border-primary-500 focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)]"
                             placeholder="0" />
                     </div>
                     <div class="flex flex-col gap-[8px] w-full">
                         <label class="text-[14px] font-normal text-neutral-950">STOK MINIMUM (NOTIFIKASI)</label>
                         <input type="number" name="min_stock"
                             value="{{ old('min_stock', $product->inventory->min_stock ?? 0) }}"
-                            class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 placeholder:text-neutral-400 focus:border-[#7D39EB] focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)]"
+                            class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 placeholder:text-neutral-400 focus:border-primary-500 focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)]"
                             placeholder="0" />
                     </div>
                 </div>
@@ -263,7 +263,7 @@
                     <h4 class="text-[14px] font-bold text-neutral-950">Atur Stok per Kombinasi Varian</h4>
 
                     <div
-                        class="flex justify-between items-center bg-[#7D39EB] text-white px-[15px] py-[10px] rounded-t-[10px]">
+                        class="flex justify-between items-center bg-primary-500 text-white px-[15px] py-[10px] rounded-t-[10px]">
                         <span class="text-[12px] font-bold">KOMBINASI VARIAN</span>
                         <span class="text-[12px] font-bold w-[120px] text-center">STOK TOTAL</span>
                     </div>
@@ -280,7 +280,7 @@
                     <div class="flex flex-col gap-[8px] w-full">
                         <label class="text-[14px] font-normal text-neutral-950">STATUS</label>
                         <select name="status"
-                            class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 focus:border-[#7D39EB] focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)]">
+                            class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 focus:border-primary-500 focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)]">
                             <option value="Aktif" {{ old('status', $product->status) == 'Aktif' ? 'selected' : '' }}>
                                 Aktif</option>
                             <option value="Non-Aktif"
@@ -290,14 +290,14 @@
                     <div class="flex flex-col gap-[8px] w-full">
                         <label class="text-[14px] font-normal text-neutral-950">DISKON (%)</label>
                         <input type="number" name="discount" value="{{ old('discount', $product->discount) }}"
-                            class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 placeholder:text-neutral-400 focus:border-[#7D39EB] focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)]"
+                            class="px-[15px] py-[12px] rounded-[10px] border border-neutral-500 text-[14px] w-full outline-none bg-neutral-50 text-neutral-800 transition-all duration-200 placeholder:text-neutral-400 focus:border-primary-500 focus:shadow-[0_0_0_3px_rgba(125,57,235,0.15)]"
                             placeholder="0" min="0" max="100" />
                     </div>
                 </div>
             </div>
 
             <button type="submit"
-                class="w-full bg-[#7D39EB] text-white p-[14px] rounded-xl text-[16px] font-bold shadow-[0_0_8px_rgba(114,52,214,0.35)] flex items-center justify-center gap-[10px] mt-[10px] cursor-pointer outline-none border-none transition-all duration-200 hover:bg-[#5928a7]">
+                class="w-full bg-primary-500 text-white p-[14px] rounded-xl text-[16px] font-bold shadow-[0_0_8px_rgba(114,52,214,0.35)] flex items-center justify-center gap-[10px] mt-[10px] cursor-pointer outline-none border-none transition-all duration-200 hover:bg-[#5928a7]">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -432,7 +432,7 @@
 
             variantGroups.forEach((group, index) => {
                 const pillsHTML = group.options.map((opt, optIdx) => `
-                <div class="bg-[#D7C2F9] text-[#7D39EB] px-[12px] py-[6px] rounded-full text-[12px] font-bold flex items-center gap-[8px]">
+                <div class="bg-[#D7C2F9] text-primary-500 px-[12px] py-[6px] rounded-full text-[12px] font-bold flex items-center gap-[8px]">
                     ${opt}
                     <svg onclick="removeOption('${group.id}', ${optIdx})" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="cursor-pointer hover:text-red-500 transition-colors">
                         <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
@@ -443,16 +443,16 @@
                 container.innerHTML += `
                 <div class="bg-neutral-100 rounded-lg p-[15px] border border-neutral-300 flex flex-col gap-[12px] relative">
                     ${variantGroups.length > 1 ? `
-                                    <button type="button" onclick="removeVariantGroup('${group.id}')" class="absolute top-[15px] right-[15px] text-red-500 hover:text-red-700 text-[12px] font-bold flex items-center gap-[4px]">
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                                        Hapus
-                                    </button>
-                                ` : ''}
+                                        <button type="button" onclick="removeVariantGroup('${group.id}')" class="absolute top-[15px] right-[15px] text-red-500 hover:text-red-700 text-[12px] font-bold flex items-center gap-[4px]">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                            Hapus
+                                        </button>
+                                    ` : ''}
 
                     <div class="flex flex-col gap-[4px] pr-[70px]">
                         <span class="font-bold text-[13px] text-neutral-800">Nama Tipe Varian ${index + 1}</span>
                         <input type="text" value="${group.name}" onblur="updateGroupName('${group.id}', this.value)"
-                            class="px-[12px] py-[8px] rounded-[8px] border border-neutral-400 text-[13px] w-full outline-none focus:border-[#7D39EB]"
+                            class="px-[12px] py-[8px] rounded-[8px] border border-neutral-400 text-[13px] w-full outline-none focus:border-primary-500"
                             placeholder="Contoh: Ukuran, Warna, Rasa" />
                     </div>
 
@@ -463,10 +463,10 @@
                         </div>
                         <div class="flex gap-[8px]">
                             <input type="text" id="input_option_${group.id}" onkeydown="handleOptionEnter(event, '${group.id}')"
-                                class="px-[12px] py-[8px] rounded-[8px] border border-neutral-400 text-[13px] flex-1 outline-none focus:border-[#7D39EB]"
+                                class="px-[12px] py-[8px] rounded-[8px] border border-neutral-400 text-[13px] flex-1 outline-none focus:border-primary-500"
                                 placeholder="Ketik pilihan (cth: S, Merah) lalu tekan + atau Enter" />
                             <button type="button" onclick="addOption('${group.id}')"
-                                class="w-[38px] h-[38px] bg-[#7D39EB] rounded-[8px] flex items-center justify-center text-white shrink-0 hover:bg-[#5928a7] transition-colors">
+                                class="w-[38px] h-[38px] bg-primary-500 rounded-[8px] flex items-center justify-center text-white shrink-0 hover:bg-[#5928a7] transition-colors">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                             </button>
                         </div>
@@ -506,7 +506,7 @@
                 const savedStock = storedStocks[comboName] !== undefined ? storedStocks[comboName] : '';
 
                 listContainer.innerHTML += `
-                <div class="flex justify-between items-center bg-white p-[10px_15px] rounded-[10px] border border-neutral-300 shadow-sm hover:border-[#7D39EB] transition-colors">
+                <div class="flex justify-between items-center bg-white p-[10px_15px] rounded-[10px] border border-neutral-300 shadow-sm hover:border-primary-500 transition-colors">
                     <span class="text-[14px] font-semibold text-neutral-800">${comboName}</span>
                     
                     <div class="flex items-center gap-[10px]">
@@ -514,7 +514,7 @@
                         
                         <input type="number" name="variant_combo_stocks[]" value="${savedStock}" 
                             oninput="saveStockValue('${comboName}', this.value); calculateTotalVariantStock()" required
-                            class="w-[100px] px-[12px] py-[6px] border border-neutral-400 rounded-[8px] text-[14px] font-bold text-center outline-none focus:border-[#7D39EB] focus:ring-2 focus:ring-[#D7C2F9]"
+                            class="w-[100px] px-[12px] py-[6px] border border-neutral-400 rounded-[8px] text-[14px] font-bold text-center outline-none focus:border-primary-500 focus:ring-2 focus:ring-[#D7C2F9]"
                             placeholder="0" min="0">
                     </div>
                 </div>
@@ -634,7 +634,7 @@
             existingImages.forEach((img, index) => {
                 const isActive = index === activeImageIndex;
                 const borderStyle = isActive ?
-                    'border-[#7D39EB] border-[3px] shadow-[0_0_8px_rgba(125,57,235,0.4)]' :
+                    'border-primary-500 border-[3px] shadow-[0_0_8px_rgba(125,57,235,0.4)]' :
                     'border-[#ddd] border opacity-60 hover:opacity-100';
                 thumbsHTML += `
                 <div onclick="setActiveImage(${index})" class="w-full aspect-square rounded-[10px] object-cover shrink-0 cursor-pointer overflow-hidden transition-all duration-200 ${borderStyle} bg-white relative">
@@ -648,7 +648,7 @@
                 const absoluteIndex = existingImages.length + index;
                 const isActive = absoluteIndex === activeImageIndex;
                 const borderStyle = isActive ?
-                    'border-[#7D39EB] border-[3px] shadow-[0_0_8px_rgba(125,57,235,0.4)]' :
+                    'border-primary-500 border-[3px] shadow-[0_0_8px_rgba(125,57,235,0.4)]' :
                     'border-[#ddd] border opacity-60 hover:opacity-100';
                 const thumbURL = URL.createObjectURL(file);
                 thumbsHTML += `

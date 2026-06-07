@@ -45,8 +45,7 @@ class LoginController extends Controller
 
         // Regenerate session SEBELUM redirect (fix page expired)
         $request->session()->regenerate();
-
-        return redirect('/home');
+        return redirect('/home')->with('success', 'Login berhasil! Selamat datang kembali.');
     }
 
     public function logout()
