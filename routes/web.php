@@ -149,8 +149,6 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
         Route::middleware(['permission:produk'])->group(function () {
             Route::post('/product/{slug}/stock', [ProductController::class, 'updateStock']);
             Route::resource('product', ProductController::class)->parameters(['product' => 'slug']);
-            Route::get('/product/{slug}/edit', [ProductController::class, 'edit'])->name('product.edit');
-            Route::put('/product/{slug}', [ProductController::class, 'update'])->name('product.update');
             Route::post('/product/{slug}/stock-transfer', [ProductController::class, 'transferStock']);
 
             Route::controller(CategoryProductController::class)->group(function () {
