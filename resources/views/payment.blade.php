@@ -5,10 +5,6 @@
 @endsection
 
 @section('content')
-<a href="/home" class="hidden w-fit sm:flex font-semibold text-neutral-500 gap-2 items-center pb-2 cursor-pointer mt-2">
-    <img src="{{ asset('assets/icons/back.svg') }}" alt="">
-    Kembali
-</a>
 <div class="flex justify-center">
     <div class="w-full max-w-7xl max-h-7xl border-neutral-200 rounded-2xl overflow-hidden p-0">
 
@@ -20,7 +16,11 @@
 
                 {{-- QR --}}
                 <div class="relative w-full h-fit object-contain">
-                    <img src="{{ asset('assets/icons/qr-dummy.svg') }}" alt="QR Code" class="w-full h-full">
+                    @if(isset($qrUrl) && $qrUrl)
+                        <img src="{{ $qrUrl }}" alt="QR Code" class="w-full h-full object-contain">
+                    @else
+                        <img src="{{ asset('assets/icons/qr-dummy.svg') }}" alt="QR Code" class="w-full h-full">
+                    @endif
                 </div>
 
                 {{-- Brand --}}
@@ -36,10 +36,11 @@
                 <div class="flex flex-col bg-neutral-50 gap-3 p-6 flex-1 border-1 border-neutral-300 rounded-2xl">
                     <p class="text-base lg:text-lg font-bold text-neutral-800">Langkah &nbsp;Pembayaran dengan QRIS</p>
                     <ol class="flex flex-col gap-2 text-sm lg:text-base text-neutral-500 list-decimal list-inside leading-relaxed">
-                        <li>Scan QR code menggunakan aplikasi seperti GoPay, OVO, DANA, atau mobile banking</li>
-                        <li>Pastikan nominal sesuai dengan total pembayaran</li>
-                        <li>Konfirmasi dan masukkan PIN</li>
-                        <li>Klik "Saya Sudah Bayar" setelah pembayaran selesai</li>
+                        <li>Buka aplikasi pembayaran yang mendukung QRIS</li>
+                        <li>Scan QR code yang ditampilkan pada halaman ini</li>
+                        <li>Pastikan nominal pembayaran sesuai dengan total tagihan</li>
+                        <li>Konfirmasi pembayaran dan selesaikan transaksi di aplikasi pembayaran</li>
+                        <li>Status pesanan akan diperbarui secara otomatis setelah pembayaran berhasil</li>
                     </ol>
                 </div>
 
@@ -79,7 +80,7 @@
             <p class="text-base font-bold text-neutral-800">Pembayaran tercatat</p>
             <p class="text-xs text-neutral-400 mt-1">Pembayaranmu akan segera kami verifikasi</p>
         </div>
-        <button onclick="window.location.href='/history'"
+        <button onclick="window.location.href='/profile/orders'"
             class="w-full bg-primary-500 hover:bg-primary-600 text-white text-sm font-bold py-2.5 rounded-xl transition">
             Oke
         </button>

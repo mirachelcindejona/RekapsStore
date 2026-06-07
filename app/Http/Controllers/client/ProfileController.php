@@ -12,8 +12,15 @@ class ProfileController extends Controller
 {
     public function index()
     {
-        $user = auth()->user();
-        return view('profile', compact('user'));
+        $user = auth()->user()->load('orders');
+
+        $activeVouchers = \App\Models\Voucher::where('status', 'Aktif')
+            ->get();
+
+        return view('profile', compact(
+            'user',
+            'activeVouchers'
+        ));
     }
 
     public function update(Request $request)
@@ -24,17 +31,15 @@ class ProfileController extends Controller
             'name'     => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username,' . $user->id,
             'email'    => 'required|email|unique:users,email,' . $user->id,
-            'gender'   => 'nullable|string',
         ]);
 
         $user->name     = $request->name;
         $user->username = $request->username;
         $user->email    = $request->email;
-        $user->gender   = $request->gender;
 
         if ($request->hasFile('photo')) {
             if ($user->profile_photo) {
-                Storage::delete($user->profile_photo);
+                Storage::disk('public')->delete($user->profile_photo);
             }
             $user->profile_photo = $request->file('photo')->store('profile_photos', 'public');
         }
@@ -46,9 +51,7 @@ class ProfileController extends Controller
 
     public function notifications()
     {
-        $notifications = \App\Models\Notification::where('user_id', auth()->id())
-            ->latest()
-            ->get();
+        $notifications = \App\Models\Notification::with('product.images')->where('user_id', auth()->id())->latest()->get();
         return view('profile-notifications', compact('notifications'));
     }
 

@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use App\Exports\FinanceExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\FinanceTransactions;
+use App\Models\Notification;
+use App\Models\OnlineOrder;
+use App\Models\OnlineOrderItem;
+use App\Models\VoucherUsage;
 
 // Controller Admin
 use App\Http\Controllers\Admin\ProductController;
@@ -29,7 +33,6 @@ use App\Http\Controllers\Auth\VerificationCodeController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\ProfileController;
-use App\Models\Notification;
 
 
 // 1. PUBLIC ROUTES (Halaman Pengunjung & Pembeli)
@@ -336,36 +339,266 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
     });
 
     Route::post('/payment', function () {
-        $selectedIds = session('checkout_products', []);
+        $selectedIds  = session('checkout_products', []);
+        $checkoutItems = session('checkout_items', []);
+        $voucherCode = request('voucher_code');
+        $voucher = null;
+
+        if ($voucherCode) {
+            $voucher = Voucher::where('code', $voucherCode)
+                ->where('status', 'Aktif')
+                ->where('end_date', '>=', now())
+                ->first();
+
+            if ($voucher && $voucher->used_quota >= $voucher->quota) {
+                $voucher = null;
+            }
+        }
+
         if (empty($selectedIds)) {
             return redirect('/cart');
         }
+
         $products = Product::with(['images'])
             ->whereIn('id', $selectedIds)
-            ->get();
-        $total = $products->sum(fn($p) => $p->selling_price - ($p->selling_price * $p->discount / 100));
-        session(['payment_total' => $total]);
-        return redirect('/payment');
+            ->get()
+            ->map(function ($product) use ($checkoutItems) {
+                $item = collect($checkoutItems)->firstWhere('product_id', $product->id);
+                $product->checkout_qty = $item['quantity'] ?? 1;
+                return $product;
+            });
+
+        $subtotal = $products->sum(fn($p) =>
+            ($p->selling_price - ($p->selling_price * $p->discount / 100)) * $p->checkout_qty
+        );
+
+        $total = $subtotal;
+
+        $discountAmount = 0;
+
+        if ($voucher) {
+            $discountAmount = ($subtotal * $voucher->value) / 100;
+            $total -= $discountAmount;
+        }
+
+        $orderId = 'REKAPS-' . auth()->id() . '-' . time();
+
+        $order = OnlineOrder::create([
+            'user_id'        => auth()->id(),
+            'order_code'     => $orderId,
+            'subtotal'       => $subtotal,
+            'discount' => $discountAmount,
+            'total' => $total,
+            'payment_method' => 'QRIS',
+            'payment_status' => 'Pending',
+            'status'         => 'Pending',
+        ]);
+
+        if ($voucher) {
+
+            VoucherUsage::create([
+                'voucher_id' => $voucher->id,
+                'user_id'    => auth()->id(),
+                'order_id'   => $order->id,
+                'used_at'    => now(),
+            ]);
+
+            $voucher->increment('used_quota');
+        }
+
+        foreach ($products as $product) {
+
+            $price = $product->selling_price
+                - ($product->selling_price * $product->discount / 100);
+
+            $item = collect($checkoutItems)
+                ->firstWhere('product_id', $product->id);
+
+            OnlineOrderItem::create([
+                'online_order_id'   => $order->id,
+                'product_id'        => $product->id,
+                'product_variant_id'=> $item['variant_id'] ?? null,
+                'quantity'          => $product->checkout_qty,
+                'price'             => $price,
+                'subtotal'          => $price * $product->checkout_qty,
+            ]);
+            
+        }
+
+        $itemDetails = $products->map(fn($p) => [
+            'id'       => (string) $p->id,
+            'price'    => (int) ($p->selling_price - ($p->selling_price * $p->discount / 100)),
+            'quantity' => (int) $p->checkout_qty,
+            'name'     => $p->name,
+        ])->toArray();
+
+        if ($discountAmount > 0) {
+            $itemDetails[] = [
+                'id'       => 'VOUCHER',
+                'price'    => -(int) $discountAmount,
+                'quantity' => 1,
+                'name'     => 'Voucher Discount',
+            ];
+        }
+
+        $payload = [
+            'payment_type' => 'qris',
+            'transaction_details' => [
+                'order_id'     => $orderId,
+                'gross_amount' => (int) $total,
+            ],
+            'customer_details' => [
+                'first_name' => auth()->user()->name,
+                'email'      => auth()->user()->email,
+            ],
+            'item_details' => $itemDetails,
+        ];
+
+        try {
+            $response = \Illuminate\Support\Facades\Http::withBasicAuth(
+                config('services.midtrans.server_key'), ''
+            )->post('https://api.sandbox.midtrans.com/v2/charge', $payload);
+
+            $data = $response->json();
+
+            if ($response->failed()) {
+                return redirect('/checkout')->with('error', 'Gagal membuat transaksi: ' . $response->body());
+            }
+
+            // QR dari qr_string, perlu di-encode jadi image via API
+            $qrString = $data['qr_string'] ?? null;
+
+            $qrUrl = $qrString 
+                ? 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' . urlencode($qrString)
+                : null;
+
+            $order->update([
+                'snap_token'   => $qrString,
+            ]);
+
+            session([
+                'payment_total'    => $total,
+                'payment_qr_url'   => $qrUrl,
+                'payment_order_id' => $data['order_id'] ?? $orderId,
+                'payment_expiry'   => $data['expiry_time'] ?? null,
+            ]);
+
+            $cart = \App\Models\Cart::where(
+                'user_id',
+                auth()->id()
+            )->first();
+
+            if ($cart) {
+                \App\Models\CartItem::where(
+                    'cart_id',
+                    $cart->id
+                )->delete();
+            }
+
+            return redirect('/payment');
+
+        } catch (\Exception $e) {
+            return redirect('/checkout')->with('error', 'Error: ' . $e->getMessage());
+        }
     });
+
+    Route::post('/payment/webhook', function (\Illuminate\Http\Request $request) {
+        $data          = $request->all();
+        $orderId       = $data['order_id'];
+        $statusCode    = $data['status_code'];
+        $grossAmount   = $data['gross_amount'];
+        $signatureKey  = $data['signature_key'];
+
+        // Verifikasi signature
+        $expectedSignature = hash('sha512', $orderId . $statusCode . $grossAmount . config('services.midtrans.server_key'));
+
+        if ($signatureKey !== $expectedSignature) {
+            return response()->json(['message' => 'Invalid signature'], 403);
+        }
+
+        $transactionStatus = $data['transaction_status'];
+
+        $order = \App\Models\OnlineOrder::where('order_code', $orderId)->first();
+
+        if ($order) {
+            if (in_array($transactionStatus, ['settlement', 'capture'])) {
+
+                $order->update([
+                    'payment_status' => 'Paid',
+                    'status'         => 'Pending',
+                ]);
+
+            } elseif ($transactionStatus === 'expire') {
+
+                $order->update([
+                    'payment_status' => 'Expired',
+                ]);
+
+            } elseif (in_array($transactionStatus, ['cancel', 'deny'])) {
+
+                $order->update([
+                    'payment_status' => 'Cancelled',
+                    'status'         => 'Dibatalkan',
+                ]);
+
+            }
+        }
+
+        return response()->json(['message' => 'OK']);
+    })->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
 
     Route::get('/payment', function () {
         $total = session('payment_total');
+        $qrUrl    = session('payment_qr_url');
+        $orderId  = session('payment_order_id');
+
         if (!$total) {
             return redirect('/cart');
         }
-        return view('payment', compact('total'));
+
+        return view('payment', compact('total', 'qrUrl', 'orderId'));
+    });
+
+    Route::get('/test-paid/{orderCode}', function ($orderCode) {
+
+        $order = OnlineOrder::where(
+            'order_code',
+            $orderCode
+        )->firstOrFail();
+
+        $order->update([
+            'payment_status' => 'Paid',
+            'status' => 'Pending'
+        ]);
+
+        return 'OK';
     });
 
     Route::get('/profile', [ProfileController::class, 'index']);
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/profile/notifications', [ProfileController::class, 'notifications']);
     Route::post('/profile/notifications/read', [ProfileController::class, 'markAllRead'])->name('notifications.read');
+    
     Route::post('/notifications/read-all', function () {
         Notification::where('user_id', auth()->id())
             ->where('is_read', false)
             ->update(['is_read' => true]);
         return response()->json(['success' => true]);
     })->name('notifications.readAll');
+
+    Route::post('/notifications/{notification}/read', function (\App\Models\Notification $notification) {
+
+        if ($notification->user_id === auth()->id()) {
+            $notification->update([
+                'is_read' => true
+            ]);
+        }
+
+        return response()->json([
+            'success' => true
+        ]);
+    })->middleware('auth');
+
     Route::get('/profile/orders', [ProfileController::class, 'orders']);
 
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');

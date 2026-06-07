@@ -9,6 +9,16 @@ class OnlineOrderItem extends Model
     protected $table = 'online_order_items';
     public $timestamps = false;
 
+    protected $fillable = [
+        'online_order_id',
+        'product_id',
+        'product_variant_id',
+        'quantity',
+        'price',
+        'subtotal',
+        'notes'
+    ];
+
     public function order()
     {
         return $this->belongsTo(OnlineOrder::class, 'online_order_id');

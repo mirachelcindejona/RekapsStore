@@ -104,6 +104,7 @@
             </div>
             <form method="POST" action="/payment">
                 <?php echo csrf_field(); ?>
+                <input type="hidden" name="voucher_code" id="voucherCodeInput" >
                 <button type="submit" class="w-full flex items-center justify-center gap-2 cursor-pointer bg-primary-500 hover:bg-primary-600 text-white text-sm font-bold py-3 rounded-xl transition">
                     <img src="<?php echo e(asset('assets/icons/buy-ill.svg')); ?>" alt="" class="w-4 h-4">
                     Bayar Sekarang
@@ -269,6 +270,8 @@ function applyVoucher() {
     }
 
     appliedDiscount = (subtotal * discount) / 100;
+    
+    document.getElementById('voucherCodeInput').value = selected.value;
 
     // tampilkan discount row
     const discountRow = document.getElementById('discountRow');
