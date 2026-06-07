@@ -9,7 +9,7 @@
         $countSemua = $orders->count();
         $countProses = $orders->where('status', 'Proses')->count();
         $countSelesai = $orders->where('status', 'Selesai')->count();
-        $countDibatalkan = $orders->where('status', 'Dibatalkan')->count(); // ← tambah ini
+        $countDibatalkan = $orders->where('status', 'Dibatalkan')->count();
     @endphp
 
     <div class="flex flex-col gap-[20px] pb-[50px] w-full">
