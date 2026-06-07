@@ -9,6 +9,7 @@
         $countSemua = $orders->count();
         $countProses = $orders->where('status', 'Proses')->count();
         $countSelesai = $orders->where('status', 'Selesai')->count();
+        $countDibatalkan = $orders->where('status', 'Dibatalkan')->count(); // ← tambah ini
     @endphp
 
     <div class="flex flex-col gap-[20px] pb-[50px] w-full">
@@ -26,6 +27,10 @@
                 class="tab-btn px-[16px] py-[8px] bg-neutral-200 rounded-full text-neutral-700 text-[14px] font-bold hover:bg-neutral-300 transition-colors">
                 Selesai <span id="countSelesai">({{ $countSelesai }})</span>
             </button>
+            <button onclick="changeFilter('dibatalkan', this)"
+                class="tab-btn px-[16px] py-[8px] bg-neutral-200 rounded-full text-neutral-700 text-[14px] font-bold hover:bg-neutral-300 transition-colors">
+                Dibatalkan <span id="countDibatalkan">({{ $countDibatalkan }})</span>
+            </button>
         </div>
 
         <div id="ordersContainer" class="flex flex-wrap items-start content-start gap-[20px] w-full">
@@ -34,6 +39,7 @@
                 <div class="order-card flex flex-col {{ $order->status == 'Selesai' ? 'bg-white/70' : 'bg-white' }} rounded-[24px] pb-[16px] w-[310px] shrink-0 transition-all duration-300 shadow-sm"
                     data-id="{{ $order->id }}" data-pinned="{{ $order->is_pinned ? 'true' : 'false' }}"
                     data-completed="{{ $order->status == 'Selesai' ? 'true' : 'false' }}"
+                    data-status="{{ strtolower($order->status) }}"
                     data-timestamp="{{ \Carbon\Carbon::parse($order->created_at)->timestamp }}">
 
                     <div
@@ -83,19 +89,27 @@
 
                     <div class="flex flex-row items-center gap-[10px] px-[16px] mt-[20px] w-full">
                         <button
-                            class="btn-selesai flex-1 h-[48px] {{ $order->status == 'Selesai' ? 'bg-neutral-300 cursor-default' : 'bg-primary-500 shadow-[0_0_8px_rgba(114,52,214,0.35)] hover:opacity-90' }} rounded-[16px] flex justify-center items-center gap-[8px] transition-colors"
-                            onclick="markDone(this, {{ $order->id }})">
+                            class="btn-selesai flex-1 h-[48px] {{ $order->status == 'Selesai' ? 'bg-neutral-300 cursor-default' : ($order->status == 'Dibatalkan' ? 'bg-red-100 cursor-default' : 'bg-primary-500 shadow-[0_0_8px_rgba(114,52,214,0.35)] hover:opacity-90') }} rounded-[16px] flex justify-center items-center gap-[8px] transition-colors"
+                            onclick="{{ $order->status == 'Proses' ? 'markDone(this, ' . $order->id . ')' : '' }}"
+                            {{ $order->status != 'Proses' ? 'disabled' : '' }}>
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                stroke="{{ $order->status == 'Selesai' ? '#A87AF2' : '#C6FF33' }}" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" class="icon-selesai">
-                                <path d="M20 6L9 17l-5-5"></path>
+                                stroke="{{ $order->status == 'Selesai' ? '#A87AF2' : ($order->status == 'Dibatalkan' ? '#ef4444' : '#C6FF33') }}"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-selesai">
+                                @if ($order->status == 'Dibatalkan')
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                @else
+                                    <path d="M20 6L9 17l-5-5"></path>
+                                @endif
                             </svg>
                             <span
-                                class="text-[16px] font-bold text-selesai {{ $order->status == 'Selesai' ? 'text-primary-300' : 'text-white' }}">{{ $order->status == 'Selesai' ? 'Selesai' : 'Tandai Selesai' }}</span>
+                                class="text-[16px] font-bold {{ $order->status == 'Selesai' ? 'text-primary-300' : ($order->status == 'Dibatalkan' ? 'text-red-400' : 'text-white') }}">
+                                {{ $order->status == 'Selesai' ? 'Selesai' : ($order->status == 'Dibatalkan' ? 'Dibatalkan' : 'Tandai Selesai') }}
+                            </span>
                         </button>
 
                         <button
-                            class="btn-pin w-[48px] h-[48px] shrink-0 {{ $order->is_pinned ? 'bg-secondary-500 border-transparent' : 'bg-neutral-50 border-secondary-600' }} shadow-[0_2px_4px_rgba(62,52,69,0.25)] rounded-[16px] flex justify-center items-center transition-all {{ $order->status == 'Selesai' ? 'hidden' : '' }}"
+                            class="btn-pin w-[48px] h-[48px] shrink-0 {{ $order->is_pinned ? 'bg-secondary-500 border-transparent' : 'bg-neutral-50 border-secondary-600' }} shadow-[0_2px_4px_rgba(62,52,69,0.25)] rounded-[16px] flex justify-center items-center transition-all {{ $order->status != 'Proses' ? 'hidden' : '' }}"
                             onclick="togglePin(this, {{ $order->id }})">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7D39EB"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-pin">
@@ -124,7 +138,6 @@
             sortCards();
         });
 
-        /* ==== FUNGSI FILTER TABS ==== */
         function changeFilter(filterType, btnElement) {
             currentActiveFilter = filterType;
 
@@ -144,39 +157,36 @@
             const cards = document.querySelectorAll('.order-card');
 
             cards.forEach(card => {
-                const isCompleted = card.dataset.completed === 'true';
+                const status = card.dataset.status;
 
                 if (currentActiveFilter === 'semua') {
                     card.style.display = 'flex';
-                } else if (currentActiveFilter === 'proses') {
-                    card.style.display = isCompleted ? 'none' : 'flex';
-                } else if (currentActiveFilter === 'selesai') {
-                    card.style.display = isCompleted ? 'flex' : 'none';
+                } else {
+                    card.style.display = status === currentActiveFilter ? 'flex' : 'none';
                 }
             });
         }
 
-        /* ==== DINAMIS UPDATE JUMLAH COUNTER STATUS ==== */
         function updateCounterBadges() {
             const cards = document.querySelectorAll('.order-card');
             let totalSemua = cards.length;
             let totalProses = 0;
             let totalSelesai = 0;
+            let totalDibatalkan = 0;
 
             cards.forEach(card => {
-                if (card.dataset.completed === 'true') {
-                    totalSelesai++;
-                } else {
-                    totalProses++;
-                }
+                const status = card.dataset.status;
+                if (status === 'selesai') totalSelesai++;
+                else if (status === 'dibatalkan') totalDibatalkan++;
+                else totalProses++;
             });
 
             document.getElementById('countSemua').innerText = `(${totalSemua})`;
             document.getElementById('countProses').innerText = `(${totalProses})`;
             document.getElementById('countSelesai').innerText = `(${totalSelesai})`;
+            document.getElementById('countDibatalkan').innerText = `(${totalDibatalkan})`;
         }
 
-        /* ==== FUNGSI TOGGLE PIN (DATABASE) ==== */
         function togglePin(btn, orderId) {
             const card = btn.closest('.order-card');
             if (card.dataset.completed === 'true') return;
@@ -209,7 +219,6 @@
             });
         }
 
-        /* ==== FUNGSI MARK AS DONE (DATABASE) ==== */
         function markDone(btn, orderId) {
             const card = btn.closest('.order-card');
             if (card.dataset.completed === 'true') return;
@@ -246,31 +255,31 @@
 
                     sortCards();
                     applyFilter();
-                    updateCounterBadges(); // Mutasi counter secara dinamis
+                    updateCounterBadges();
                 }
             });
         }
 
-        /* ==== ENGINE URUTAN KARTU SESUAI REQUEST UTUH ==== */
         function sortCards() {
             const container = document.getElementById('ordersContainer');
             const cards = Array.from(container.querySelectorAll('.order-card'));
 
             cards.sort((a, b) => {
-                const aDone = a.dataset.completed === 'true';
-                const bDone = b.dataset.completed === 'true';
+                const aStatus = a.dataset.status;
+                const bStatus = b.dataset.status;
                 const aPinned = a.dataset.pinned === 'true';
                 const bPinned = b.dataset.pinned === 'true';
                 const aTime = parseInt(a.dataset.timestamp);
                 const bTime = parseInt(b.dataset.timestamp);
 
-                // Rule 1: Yang Selesai (Completed) wajib ditaruh paling bawah akhir
-                if (aDone !== bDone) return aDone ? 1 : -1;
+                // Proses di atas, Selesai & Dibatalkan di bawah
+                const aBottom = aStatus === 'selesai' || aStatus === 'dibatalkan';
+                const bBottom = bStatus === 'selesai' || bStatus === 'dibatalkan';
+                if (aBottom !== bBottom) return aBottom ? 1 : -1;
 
-                // Rule 2: Di dalam status kelompok yang sama, cek Pin (Semat di atas)
+                // Pin di atas dalam grup yang sama
                 if (aPinned !== bPinned) return aPinned ? -1 : 1;
 
-                // Rule 3: Jika sama-sama dipin atau sama-sama proses biasa, transaksi paling dulu (paling kecil timestamnya) melesat ke atas
                 return aTime - bTime;
             });
 

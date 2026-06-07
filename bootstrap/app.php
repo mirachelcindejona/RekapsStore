@@ -44,6 +44,12 @@ return Application::configure(basePath: dirname(__DIR__))
             );
         };
 
+//         return redirect('/home')->with(
+//             'error_access',
+//             'Kamu tidak memiliki akses ke halaman tersebut.'
+//         );
+//     });
+// })->create();
         $exceptions->render(function (
             \Spatie\Permission\Exceptions\UnauthorizedException $e,
             \Illuminate\Http\Request $request
@@ -57,4 +63,4 @@ return Application::configure(basePath: dirname(__DIR__))
         ) use ($handler) {
             return $handler($e, $request);
         });
-    })->create();
+})->create();
