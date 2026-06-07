@@ -225,6 +225,7 @@ class CashierController extends Controller
                     }
                 }
             }
+
             $totalModal = 0;
 
             foreach ($cart as $item) {
@@ -275,6 +276,7 @@ class CashierController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+            
         }
     }
 
