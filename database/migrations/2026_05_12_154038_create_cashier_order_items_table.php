@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('cashier_order_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cashier_order_id')->constrained('cashier_orders')->cascadeOnDelete();
-            $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
+            $table->foreignId('cashier_order_id')->constrained('cashier_orders')->onDelete('cascade');
+            $table->foreignId('product_id')->constrained('products')->onDelete('restrict');
             
             // Nullable karena tidak semua produk punya varian (misal: Basreng tidak punya varian ukuran)
-            $table->foreignId('product_variant_id')->nullable()->constrained('product_variants')->nullOnDelete();
+            $table->foreignId('product_variant_id')->nullable()->constrained('product_variants')->onDelete('restrict');
             
             $table->integer('quantity');
             $table->decimal('price', 15, 2);
-            $table->decimal('subtotal', 15, 2); // quantity * price
-            $table->text('notes')->nullable(); // Catatan per item (cth: "jangan pedes")
+            $table->decimal('subtotal', 15, 2);
+            $table->text('notes')->nullable();
             
             $table->timestamps();
         });

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 class LoginController extends Controller
@@ -17,38 +16,44 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
+        $request->validate([
             'username' => 'required',
             'password' => 'required',
         ]);
 
-        $credentials['status'] = 'active';
+        $user = User::where('username', $request->username)->first();
 
-        if (Auth::attempt($credentials)) {
-            
-            $user = Auth::user();
-
-            // Cek role via Spatie
-            if (!$user->hasRole('customer')) {
-                Auth::logout();
-                return back()->withErrors([
-                    'username' => 'Silakan login melalui panel admin.'
-                ]);
-            }
-
-            $request->session()->regenerate();
-            return redirect('/admin');
+        // Cek user exist
+        if (!$user) {
+            return back()->withErrors(['username' => 'Username atau Password salah'])->withInput();
         }
 
-        $userExists = User::where('username', $request->username)->first();
-        if ($userExists && $userExists->status !== 'active') {
-            return back()->withErrors([
-                'username' => 'Akun Anda dinonaktifkan atau diblokir.'
-            ])->withInput();
+        // Cek status banned/nonaktif
+        if ($user->status !== 'active') {
+            return back()->withErrors(['username' => 'Akun Anda dinonaktifkan atau diblokir.'])->withInput();
         }
 
-        return back()->withErrors([
-            'username' => 'Username atau Password salah'
-        ])->withInput();
+        // Cek role — customer tidak boleh login di sini
+        if (!$user->hasRole('customer')) {
+            return back()->withErrors(['username' => 'Silakan login melalui panel admin.'])->withInput();
+        }
+
+        // Attempt login
+        if (!Auth::attempt(['username' => $request->username, 'password' => $request->password, 'status' => 'active'])) {
+            return back()->withErrors(['username' => 'Username atau Password salah'])->withInput();
+        }
+
+        // Regenerate session SEBELUM redirect (fix page expired)
+        $request->session()->regenerate();
+
+        return redirect('/home');
+    }
+
+    public function logout()
+    {
+        auth()->logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+        return redirect('/');
     }
 }

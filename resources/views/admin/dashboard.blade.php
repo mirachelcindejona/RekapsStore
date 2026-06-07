@@ -13,7 +13,7 @@
       </p>
 
       <h1 class="text-[26px] font-black text-white leading-tight mb-1">
-        Halo, <span class="text-lime-400">Admin!</span>
+        Halo, <span class="text-lime-400">{{ auth()->user()->name }}</span>
       </h1>
 
       <p class="text-[12px] font-medium text-neutral-400">
@@ -26,7 +26,7 @@
       <div
         class="text-center rounded-2xl border border-white/10 bg-white/5 px-5 py-4"
       >
-        <div class="text-[22px] font-black text-lime-400 leading-none">12</div>
+        <div class="text-[22px] font-black text-lime-400 leading-none">{{ $newOrdersToday }}</div>
         <div
           class="mt-1 text-[10px] uppercase tracking-[1px] font-semibold text-neutral-400"
         >
@@ -37,7 +37,7 @@
       <div
         class="text-center rounded-2xl border border-white/10 bg-white/5 px-5 py-4">
         <div class="text-[22px] font-black text-white leading-none">
-          Rp4.2jt
+          Rp{{ number_format($todayRevenue,0,',','.') }}
         </div>
         <div
           class="mt-1 text-[10px] uppercase tracking-[1px] font-semibold text-neutral-400">
@@ -47,7 +47,7 @@
 
       <div
         class="text-center rounded-2xl border border-white/10 bg-white/5 px-5 py-4">
-        <div class="text-[22px] font-black text-white leading-none">3</div>
+        <div class="text-[22px] font-black text-white leading-none">{{ $criticalStock }}</div>
         <div
           class="mt-1 text-[10px] uppercase tracking-[1px] font-semibold text-neutral-400">
           Stok Kritis
@@ -75,7 +75,7 @@
       </p>
 
       <h2 class="text-3xl font-black text-neutral-950">
-        <span class="text-sm font-bold">Rp</span>18.4jt
+        <span class="text-sm font-bold">Rp</span>Rp{{ number_format($totalRevenue,0,',','.') }}
       </h2>
 
       <span
@@ -104,7 +104,9 @@
         Total Pesanan
       </p>
 
-      <h2 class="text-3xl font-black text-neutral-950">247</h2>
+      <h2 class="text-3xl font-black text-neutral-950">
+        {{ $totalOrders }}
+      </h2>
 
       <span
         class="mt-3 inline-flex items-center rounded-full bg-lime-100 px-2 py-1 text-[10px] font-bold text-lime-800"
@@ -133,7 +135,9 @@
         Total Produk
       </p>
 
-      <h2 class="text-3xl font-black text-neutral-950">58</h2>
+      <h2 class="text-3xl font-black text-neutral-950">
+        {{ $totalProducts }}
+      </h2>
 
       <span
         class="mt-3 inline-flex items-center rounded-full bg-red-100 px-2 py-1 text-[10px] font-bold text-red-700"
@@ -162,7 +166,7 @@
         Pembeli Aktif
       </p>
 
-      <h2 class="text-3xl font-black text-neutral-950">134</h2>
+      <h2 class="text-3xl font-black text-neutral-950">{{ $activeBuyers }}</h2>
 
       <span
         class="mt-3 inline-flex items-center rounded-full bg-lime-100 px-2 py-1 text-[10px] font-bold text-lime-800"
@@ -219,31 +223,22 @@
       <!-- Chart -->
       <div class="px-5 pb-5">
         <div class="flex h-[155px] items-end gap-2">
-          @php $data = [ 
-            ['Sen',55,40], 
-            ['Sel',75,55], 
-            ['Rab',60,45],
-            ['Kam',90,70], 
-            ['Jum',80,60], 
-            ['Sab',100,85], 
-            ['Min',50,38], 
-            ];
-          @endphp @foreach ($data as [$hari, $pendapatan, $pesanan])
+          @foreach ($charData as $item)
           <div class="flex flex-1 flex-col items-center gap-2 h-full">
             <div class="flex flex-1 items-end gap-1 w-full">
               <div
                 class="w-full rounded-t-md bg-violet-600"
-                style="height: {{ $pendapatan }}%; opacity: .9"
-              ></div>
+                style="height: {{ $maxRevenue > 0 ? ($item['revenue'] / $maxRevenue) * 100 : 0 }}%; opacity:.9">
+              </div>
 
               <div
                 class="w-full rounded-t-md bg-lime-400"
-                style="height: {{ $pesanan }}%"
-              ></div>
+                style=" height: {{ $maxOrders > 0 ? ($item['orders'] / $maxOrders) * 100 : 0 }}%">
+              </div>
             </div>
 
             <span class="text-[9px] font-bold text-neutral-400">
-              {{ $hari }}
+              {{ $item['day'] }}
             </span>
           </div>
           @endforeach
@@ -277,57 +272,66 @@
         </div>
 
         <div class="grid grid-cols-2 gap-3 p-5">
-          <button
-            class="rounded-2xl border-2 border-transparent bg-neutral-100 p-4 text-left transition hover:border-violet-600 hover:bg-violet-100"
-          >
-            <div
-              class="mb-3 flex h-8 w-8 items-center justify-center rounded-xl bg-white shadow-sm"
-            >
-              ➕
+          <a href="{{ url('/admin/product') }}"
+              class="rounded-2xl border-2 border-transparent bg-neutral-100 p-4 text-left transition hover:border-violet-600 hover:bg-violet-100">
+
+              <div class="mb-3 flex h-8 w-8 items-center justify-center rounded-xl bg-white shadow-sm">
+                  ➕
+              </div>
+
+              <p class="text-[11px] font-bold text-neutral-950">
+                  Tambah Produk
+              </p>
+
+          </a>
+
+          <a
+            href="{{ url('/admin/finance') }}"
+            class="rounded-2xl border-2 border-transparent bg-neutral-100 p-4 text-left transition hover:border-violet-600 hover:bg-violet-100">
+
+            <div class="mb-3 flex h-8 w-8 items-center justify-center rounded-xl bg-white shadow-sm">
+                💰
             </div>
 
-            <p class="text-[11px] font-bold text-neutral-950">Tambah Produk</p>
-          </button>
+            <p class="text-[11px] font-bold text-neutral-950">
+                Catat Keuangan
+            </p>
 
-          <button
-            class="rounded-2xl border-2 border-transparent bg-neutral-100 p-4 text-left transition hover:border-violet-600 hover:bg-violet-100"
-          >
-            <div
-              class="mb-3 flex h-8 w-8 items-center justify-center rounded-xl bg-white shadow-sm"
-            >
-              🧾
+          </a>
+
+          <a
+             href="{{ url('/admin/reports') }}"
+            class="rounded-2xl border-2 border-transparent bg-neutral-100 p-4 text-left transition hover:border-violet-600 hover:bg-violet-100">
+
+            <div class="mb-3 flex h-8 w-8 items-center justify-center rounded-xl bg-white shadow-sm">
+                🧾
             </div>
 
-            <p class="text-[11px] font-bold text-neutral-950">Buat Pesanan</p>
-          </button>
+            <p class="text-[11px] font-bold text-neutral-950">
+                Cetak Laporan
+            </p>
 
-          <button
-            class="rounded-2xl border-2 border-transparent bg-neutral-100 p-4 text-left transition hover:border-violet-600 hover:bg-violet-100"
-          >
-            <div
-              class="mb-3 flex h-8 w-8 items-center justify-center rounded-xl bg-white shadow-sm"
-            >
-              💰
-            </div>
+        </a>
 
-            <p class="text-[11px] font-bold text-neutral-950">Catat Keuangan</p>
-          </button>
+          <a
+              href="{{ url('/admin/report-stock-history') }}"
+              class="rounded-2xl border-2 border-transparent bg-neutral-100 p-4 text-left transition hover:border-violet-600 hover:bg-violet-100">
 
-          <button
-            class="rounded-2xl border-2 border-transparent bg-neutral-100 p-4 text-left transition hover:border-violet-600 hover:bg-violet-100"
-          >
-            <div
-              class="mb-3 flex h-8 w-8 items-center justify-center rounded-xl bg-white shadow-sm"
-            >
-              📦
-            </div>
+              <div class="mb-3 flex h-8 w-8 items-center justify-center rounded-xl bg-white shadow-sm">
+                  📦
+              </div>
 
-            <p class="text-[11px] font-bold text-neutral-950">Tambah Stok</p>
-          </button>
+              <p class="text-[11px] font-bold text-neutral-950">
+                  Riwayat Stok
+              </p>
+
+          </a>
         </div>
       </div>
     </div>
   </div>
+
+  
   <!-- PESANAN TERBARU -->
   <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
     <!-- Header -->
@@ -351,154 +355,63 @@
     <!-- Orders -->
     <div class="px-5 pb-5">
       <!-- ITEM -->
-      <div class="flex items-center gap-3 py-3 border-b border-neutral-100">
-        <!-- Avatar -->
-        <div
-          class="w-9 h-9 rounded-md bg-violet-100 text-violet-600 flex items-center justify-center text-xs font-extrabold flex-shrink-0"
-        >
-          RF
-        </div>
+      @foreach($latestOrders as $order)
+      <div
+          class="flex items-center justify-between px-6 py-4 border-b border-neutral-100">
 
-        <!-- Info -->
-        <div class="flex-1 min-w-0">
-          <div class="text-[12px] font-bold text-neutral-950">
-            Rizki Fadillah
+          <div class="flex items-center gap-3">
+
+              <div
+                  class="flex h-9 w-9 items-center justify-center rounded-xl bg-violet-100 font-bold text-violet-600">
+
+                  {{ strtoupper(substr($order['customer'],0,1)) }}
+
+              </div>
+
+              <div>
+
+                  <h4
+                      class="text-[14px] font-bold text-neutral-900">
+
+                      {{ $order['customer'] }}
+
+                  </h4>
+
+                  <p
+                      class="text-[12px] text-neutral-500">
+
+                      {{ $order['product'] }}
+                      ×
+                      {{ $order['qty'] }}
+
+                  </p>
+
+              </div>
+
           </div>
 
-          <div class="text-[10px] text-neutral-400 font-medium truncate">
-            Kaos Ekraf Navy × 2
-          </div>
-        </div>
+          <div class="text-right">
 
-        <!-- Meta -->
-        <div class="text-right flex-shrink-0">
-          <div class="text-[12px] font-extrabold text-neutral-950">
-            Rp180.000
+              <p
+                  class="font-bold text-neutral-900">
+
+                  Rp{{ number_format($order['total'],0,',','.') }}
+
+              </p>
+
+              <span
+                  class="inline-flex mt-1 rounded-full px-2 py-1 text-[10px] font-bold bg-violet-100 text-violet-600">
+
+                  {{ $order['status'] }}
+
+              </span>
+
           </div>
 
-          <span
-            class="inline-flex items-center text-[9px] font-bold px-2 py-0.5 rounded-full mt-1 bg-amber-100 text-amber-800"
-          >
-            ⏳ Pending
-          </span>
-        </div>
       </div>
 
-      <!-- ITEM -->
-      <div class="flex items-center gap-3 py-3 border-b border-neutral-100">
-        <div
-          class="w-9 h-9 rounded-md bg-green-100 text-green-700 flex items-center justify-center text-xs font-extrabold flex-shrink-0"
-        >
-          SA
-        </div>
-
-        <div class="flex-1 min-w-0">
-          <div class="text-[12px] font-bold text-neutral-950">Siti Aisyah</div>
-
-          <div class="text-[10px] text-neutral-400 font-medium truncate">
-            Totebag Canvas × 1
-          </div>
-        </div>
-
-        <div class="text-right flex-shrink-0">
-          <div class="text-[12px] font-extrabold text-neutral-950">
-            Rp75.000
-          </div>
-
-          <span
-            class="inline-flex items-center text-[9px] font-bold px-2 py-0.5 rounded-full mt-1 bg-lime-100 text-lime-800"
-          >
-            ✅ Valid
-          </span>
-        </div>
-      </div>
-
-      <!-- ITEM -->
-      <div class="flex items-center gap-3 py-3 border-b border-neutral-100">
-        <div
-          class="w-9 h-9 rounded-md bg-amber-100 text-amber-700 flex items-center justify-center text-xs font-extrabold flex-shrink-0"
-        >
-          BH
-        </div>
-
-        <div class="flex-1 min-w-0">
-          <div class="text-[12px] font-bold text-neutral-950">Budi Hartono</div>
-
-          <div class="text-[10px] text-neutral-400 font-medium truncate">
-            Mug Custom × 3
-          </div>
-        </div>
-
-        <div class="text-right flex-shrink-0">
-          <div class="text-[12px] font-extrabold text-neutral-950">
-            Rp225.000
-          </div>
-
-          <span
-            class="inline-flex items-center text-[9px] font-bold px-2 py-0.5 rounded-full mt-1 bg-violet-100 text-violet-600"
-          >
-            🔧 Proses
-          </span>
-        </div>
-      </div>
-
-      <!-- ITEM -->
-      <div class="flex items-center gap-3 py-3 border-b border-neutral-100">
-        <div
-          class="w-9 h-9 rounded-md bg-teal-100 text-teal-700 flex items-center justify-center text-xs font-extrabold flex-shrink-0"
-        >
-          NR
-        </div>
-
-        <div class="flex-1 min-w-0">
-          <div class="text-[12px] font-bold text-neutral-950">Nadia Rahayu</div>
-
-          <div class="text-[10px] text-neutral-400 font-medium truncate">
-            Topi Snapback × 1
-          </div>
-        </div>
-
-        <div class="text-right flex-shrink-0">
-          <div class="text-[12px] font-extrabold text-neutral-950">
-            Rp95.000
-          </div>
-
-          <span
-            class="inline-flex items-center text-[9px] font-bold px-2 py-0.5 rounded-full mt-1 bg-teal-100 text-teal-700"
-          >
-            ✔ Selesai
-          </span>
-        </div>
-      </div>
-
-      <!-- ITEM -->
-      <div class="flex items-center gap-3 py-3">
-        <div
-          class="w-9 h-9 rounded-md bg-red-100 text-red-600 flex items-center justify-center text-xs font-extrabold flex-shrink-0"
-        >
-          DP
-        </div>
-
-        <div class="flex-1 min-w-0">
-          <div class="text-[12px] font-bold text-neutral-950">Dika Pratama</div>
-
-          <div class="text-[10px] text-neutral-400 font-medium truncate">
-            Kaos Ekraf Navy × 1, Totebag × 1
-          </div>
-        </div>
-
-        <div class="text-right flex-shrink-0">
-          <div class="text-[12px] font-extrabold text-neutral-950">
-            Rp165.000
-          </div>
-
-          <span
-            class="inline-flex items-center text-[9px] font-bold px-2 py-0.5 rounded-full mt-1 bg-amber-100 text-amber-800"
-          >
-            ⏳ Pending
-          </span>
-        </div>
-      </div>
+      @endforeach
+      
     </div>
   </div>
 </div>

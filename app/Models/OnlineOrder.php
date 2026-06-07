@@ -8,6 +8,19 @@ class OnlineOrder extends Model
 {
     protected $table = 'online_orders';
 
+    protected $fillable = [
+        'user_id',
+        'order_code',
+        'subtotal',
+        'discount',
+        'total',
+        'payment_method',
+        'payment_status',
+        'snap_token',
+        'status',
+        'is_pinned'
+    ];
+
     public function items()
     {
         return $this->hasMany(OnlineOrderItem::class);

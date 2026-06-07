@@ -15,7 +15,7 @@
     <div class="product-grid grid grid-cols-2 min-[480px]:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 items-stretch">
         @foreach ($products as $product)
         <x-client.product-card
-            :link="route('product-detail', $product->id)"
+            :link="route('product-detail', $product->slug)"
             :discount="$product->discount"
             :image="$product->images->first()->image_path ?? 'assets/images/placeholder.png'"
             :name="$product->name"

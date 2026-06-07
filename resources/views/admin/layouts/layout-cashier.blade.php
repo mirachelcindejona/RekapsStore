@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@yield('title', 'Kasir') — Rekaps Bazar</title>
+    <title>@yield('title', 'Kasir') | Rekaps Bazar</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -111,7 +111,7 @@
             </div>
 
             <div class="flex flex-col gap-[10px] w-full px-[14px]">
-                <a href="{{ url('/pengurus/cashier') }}"
+                <a href="{{ url('/admin/cashier') }}"
                     class="w-[40px] h-[40px] rounded-[8px] flex justify-center items-center mx-auto {{ request()->is('pengurus/cashier') ? 'bg-primary-500 text-neutral-50 shadow-[0_4px_14px_rgba(125,57,235,0.38)] relative group' : 'hover:bg-primary-500/20 transition-colors' }}">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
@@ -123,7 +123,7 @@
 
                 </a>
 
-                <a href="{{ url('/pengurus/cashier-orders') }}"
+                <a href="{{ url('/admin/cashier/orders') }}"
                     class="w-[40px] h-[40px] rounded-[8px] flex justify-center items-center mx-auto {{ request()->is('pengurus/cashier-orders') ? 'bg-primary-500 text-neutral-50 shadow-[0_4px_14px_rgba(125,57,235,0.38)] relative group' : 'hover:bg-primary-500/20 transition-colors' }}">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
@@ -134,7 +134,7 @@
                     </svg>
                 </a>
 
-                <a href="{{ url('/pengurus/cashier-recap') }}"
+                <a href="{{ url('/admin/cashier/recap') }}"
                     class="w-[40px] h-[40px] rounded-[8px] flex justify-center items-center mx-auto {{ request()->is('pengurus/cashier-recap') ? 'bg-primary-500 text-neutral-50 shadow-[0_4px_14px_rgba(125,57,235,0.38)] relative group' : 'hover:bg-primary-500/20 transition-colors' }}">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
@@ -149,7 +149,7 @@
         </div>
 
         <div class="flex flex-col gap-[10px] w-full px-[14px] pt-[14px] border-t border-[#1E293B]">
-            <a href="#"
+            <a href="{{ url('/admin') }}"
                 class="w-[40px] h-[40px] rounded-[8px] flex justify-center items-center mx-auto hover:bg-primary-500/20 transition-colors">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
@@ -158,15 +158,20 @@
                         stroke="#D7C2F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
             </a>
-            <a href="#"
-                class="w-[40px] h-[40px] rounded-[8px] flex justify-center items-center mx-auto hover:bg-primary-500/20 transition-colors">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M12.4998 13.3333L15.8332 10L12.4998 6.66667M15.8332 10H7.49984M11.6665 17.5C10.6816 17.5 9.70632 17.306 8.79638 16.9291C7.88644 16.5522 7.05964 15.9997 6.3632 15.3033C5.66676 14.6069 5.11432 13.7801 4.73741 12.8701C4.3605 11.9602 4.1665 10.9849 4.1665 10C4.1665 9.01509 4.3605 8.03982 4.73741 7.12987C5.11432 6.21993 5.66676 5.39314 6.3632 4.6967C7.05964 4.00026 7.88644 3.44781 8.79638 3.0709C9.70632 2.69399 10.6816 2.5 11.6665 2.5"
-                        stroke="#D7C2F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-            </a>
+            <form action="{{ route('admin.logout') }}" method="POST">
+
+                @csrf
+                <button type="submit"
+                    class="w-[40px] h-[40px] rounded-[8px] flex justify-center items-center mx-auto hover:bg-primary-500/20 transition-colors">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M12.4998 13.3333L15.8332 10L12.4998 6.66667M15.8332 10H7.49984M11.6665 17.5C10.6816 17.5 9.70632 17.306 8.79638 16.9291C7.88644 16.5522 7.05964 15.9997 6.3632 15.3033C5.66676 14.6069 5.11432 13.7801 4.73741 12.8701C4.3605 11.9602 4.1665 10.9849 4.1665 10C4.1665 9.01509 4.3605 8.03982 4.73741 7.12987C5.11432 6.21993 5.66676 5.39314 6.3632 4.6967C7.05964 4.00026 7.88644 3.44781 8.79638 3.0709C9.70632 2.69399 10.6816 2.5 11.6665 2.5"
+                            stroke="#D7C2F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+
+            </form>
         </div>
     </aside>
 

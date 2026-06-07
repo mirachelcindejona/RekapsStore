@@ -21,12 +21,6 @@
     </div>
 
     <div class="flex items-center gap-[8px]">
-        <div
-            class="hidden min-[560px]:flex items-center gap-[8px] bg-neutral-200 rounded-lg px-[14px] py-[8px] min-w-[268px]">
-            <img src="{{ asset('assets/icons/search-line.svg') }}" alt="Search" class="text-neutral-400 shrink-0" />
-            <input type="text" placeholder="Cari..."
-                class="bg-transparent border-none outline-none text-[12px] font-medium text-neutral-950 w-full placeholder:text-neutral-400" />
-        </div>
 
         <button
             class="w-[40px] h-[40px] rounded-lg flex items-center justify-center bg-neutral-200 text-neutral-500 cursor-pointer transition-colors duration-300 relative hover:bg-primary-500 hover:text-neutral-50 border-none outline-none">

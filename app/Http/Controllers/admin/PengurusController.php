@@ -15,7 +15,9 @@ class PengurusController extends Controller
         $pengurus = User::role([
             'admin',
             'pengurus'
-        ])->get();
+        ])
+            ->where('id', '!=', auth()->id())
+            ->get();
 
         $customers = User::role('customer')->get();
 
@@ -68,9 +70,19 @@ class PengurusController extends Controller
 
     public function destroy(User $user)
     {
+        if ($user->id == auth()->id()) {
+            return back()->with(
+                'error',
+                'Anda tidak dapat menghapus akun sendiri'
+            );
+        }
+
         $user->delete();
 
-        return back()->with('success', 'Pengurus berhasil dihapus');
+        return back()->with(
+            'success',
+            'Pengurus berhasil dihapus'
+        );
     }
 
     public function store(Request $request)

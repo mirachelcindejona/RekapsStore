@@ -6,7 +6,7 @@
         </div>
         {{-- navbar-searchbar --}}
         <div class="flex flex-2 sm:flex-50 md:flex-6 justify-start sm:justify-end items-center">
-            <form action="#" method="GET" class=" flex w-full h-[40px] bg-neutral-200 items-center px-2 py-2 rounded-lg gap-2">
+            <form action="/login" method="GET" class=" flex w-full h-[40px] bg-neutral-200 items-center px-2 py-2 rounded-lg gap-2">
                 <button type="submit" class="cursor-pointer">
                     <img src="{{ asset('assets/icons/search-line.svg') }}" alt="">
                 </button>
@@ -18,10 +18,10 @@
             <a href="/login" class="w-[40px] h-[40px] flex sm:hidden lg:flex  justify-center items-center cartbox bg-neutral-200 rounded-lg sm:rounded-xl hover:bg-primary-500 cursor-pointer">
                 <img class="cart cursor-pointer" src="{{ asset('assets/icons/cart-line.svg') }}" alt="">
             </a>
-            <a href="#" class="w-[40px] h-[40px] flex justify-center items-center historybox sm:hidden bg-neutral-200 rounded-lg sm:rounded-xl hover:bg-primary-500 cursor-pointer">
+            <a href="/login" class="w-[40px] h-[40px] flex justify-center items-center historybox sm:hidden bg-neutral-200 rounded-lg sm:rounded-xl hover:bg-primary-500 cursor-pointer">
                 <img class="history cursor-pointer" src="{{ asset('assets/icons/history-home.svg') }}" alt="">
             </a>
-            <a href="#" class="w-[40px] h-[40px] flex justify-center items-center accountbox sm:hidden bg-neutral-200 rounded-lg sm:rounded-xl cursor-pointer">
+            <a href="/login" class="w-[40px] h-[40px] flex justify-center items-center accountbox sm:hidden bg-neutral-200 rounded-lg sm:rounded-xl cursor-pointer">
                 <img class="account cursor-pointer" src="{{ asset('assets/icons/user-anonymous.svg') }}" alt="">
             </a>
         </div>

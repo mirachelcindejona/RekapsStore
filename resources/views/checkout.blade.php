@@ -11,7 +11,11 @@
     {{-- ===== KIRI: Checkout Items ===== --}}
     <div class="flex flex-col gap-2 w-full md:flex-1">
         @foreach ($products as $product)
-            <x-client.checkout-item :product="$product" />
+            <x-client.checkout-item 
+                :product="$product"
+                :qty="$product->checkout_qty"
+                :variantId="$product->checkout_variant_id"
+            />
         @endforeach
     </div>
 
@@ -31,16 +35,28 @@
             <div id="detailTransaksi" class="hidden flex-col gap-2 border-t border-neutral-100 pt-3">
                 <p class="text-xs font-semibold text-neutral-500 mb-1">Detail Transaksimu</p>
                 @foreach ($products as $product)
-                <div class="flex items-center justify-between">
-                    <p class="text-xs text-neutral-600 truncate max-w-[60%]">{{ $product->name }}</p>
-                    <p class="text-xs font-semibold text-neutral-800">Rp{{ number_format($product->selling_price - ($product->selling_price * $product->discount / 100), 0, ',', '.') }}</p>
+                <div class="flex items-center justify-between" id="detail-item-{{ $product->id }}">
+                    <p class="text-xs text-neutral-600 truncate max-w-[60%]">
+                        {{ $product->name }} (<span class="detail-qty-{{ $product->id }}">x{{ $product->checkout_qty }}</span>)
+                    </p>
+                    <p class="text-xs font-semibold text-neutral-800 detail-total-{{ $product->id }}">
+                        Rp{{ number_format(($product->selling_price - ($product->selling_price * $product->discount / 100)) * $product->checkout_qty, 0, ',', '.') }}
+                    </p>
                 </div>
                 @endforeach
+
+                {{-- Total Diskon --}}
+                <div id="discountRow" class="hidden flex items-center justify-between">
+                    <p class="text-xs text-neutral-600">Total diskon</p>
+                    <p id="discountAmount" class="text-xs font-semibold text-red-500">-Rp0</p>
+                </div>
+
                 <div class="border-t border-neutral-100 pt-2 mt-1">
                     <button type="button"
                         onclick="document.getElementById('voucherModal').classList.remove('hidden')"
                         class="flex items-center gap-1 text-xs font-semibold bg-neutral-100 hover:bg-neutral-200 text-neutral-400 border rounded-lg border-neutral-300 cursor-pointer py-1 px-2 transition">
-                        <span class="text-base leading-none">+</span> Pakai Voucher
+                        <span class="text-base leading-none">+</span> 
+                        <span id="voucherBtnText">Pakai Voucher</span>
                     </button>
                 </div>
             </div>
@@ -48,12 +64,15 @@
             {{-- Total + Bayar --}}
             <div class="flex items-center justify-between">
                 <p class="text-sm font-semibold text-neutral-700">Total Harga</p>
-                <p class="text-sm font-semibold text-primary-500">Rp{{ number_format($products->sum(fn($p) => $p->selling_price - ($p->selling_price * $p->discount / 100)), 0, ',', '.') }}</p>
+                <p id="checkoutTotal" class="text-sm font-semibold text-primary-500">
+                    Rp{{ number_format($products->sum(fn($p) => ($p->selling_price - ($p->selling_price * $p->discount / 100)) * $p->checkout_qty), 0, ',', '.') }}
+                </p>
             </div>
             <form method="POST" action="/payment">
                 @csrf
+                <input type="hidden" name="voucher_code" id="voucherCodeInput" >
                 <button type="submit" class="w-full flex items-center justify-center gap-2 cursor-pointer bg-primary-500 hover:bg-primary-600 text-white text-sm font-bold py-3 rounded-xl transition">
-                    <img src="{{ asset('assets/icons/secure-payment.svg') }}" alt="" class="w-4 h-4">
+                    <img src="{{ asset('assets/icons/buy-ill.svg') }}" alt="" class="w-4 h-4">
                     Bayar Sekarang
                 </button>
             </form>
@@ -90,11 +109,13 @@
                         :value="$voucher->code"
                         :checked="false"
                         :disabled="false"
+                        :dataDiscount="$voucher->value"
+                        :dataMinPurchase="$voucher->min_purchase"
                     />
                 @endforeach
             </div>
         </div>
-        <button class="w-full bg-primary-500 hover:bg-primary-600 active:scale-95 text-white text-sm font-bold py-3 rounded-xl transition">
+        <button onclick="applyVoucher()" class="w-full bg-primary-500 hover:bg-primary-600 active:scale-95 text-white text-sm font-bold py-3 rounded-xl transition cursor-pointer">
             Pakai Voucher
         </button>
     </div>
@@ -105,7 +126,6 @@ function toggleDetail() {
     const detail = document.getElementById('detailTransaksi');
     const btn = document.getElementById('toggleDetailBtn');
     const isHidden = detail.classList.contains('hidden');
-
     if (isHidden) {
         detail.classList.remove('hidden');
         detail.classList.add('flex');
@@ -114,6 +134,146 @@ function toggleDetail() {
         detail.classList.add('hidden');
         detail.classList.remove('flex');
         btn.textContent = 'Lihat Detail Transaksi';
+    }
+}
+
+function updateCheckoutTotal() {
+    let total = 0;
+    document.querySelectorAll('.checkout-item').forEach(item => {
+        const price = parseFloat(item.dataset.price);
+        const qty = parseInt(item.dataset.qty);
+        const productId = item.dataset.productId;
+        total += price * qty;
+
+        // update item total di checkout-item
+        const itemTotal = item.querySelector('.item-total');
+        if (itemTotal) itemTotal.textContent = 'Rp' + (price * qty).toLocaleString('id-ID');
+
+        const qtyLabel = item.querySelector('.qty-label');
+        if (qtyLabel) qtyLabel.textContent = 'Jumlah: ' + qty;
+
+        // sinkron detail transaksi
+        const detailQty = document.querySelector(`.detail-qty-${productId}`);
+        const detailTotal = document.querySelector(`.detail-total-${productId}`);
+        if (detailQty) detailQty.textContent = 'x' + qty;
+        if (detailTotal) detailTotal.textContent = 'Rp' + (price * qty).toLocaleString('id-ID');
+    });
+
+    document.getElementById('checkoutTotal').textContent =
+        'Rp' + total.toLocaleString('id-ID');
+}
+
+// Override changeQty untuk checkout
+function changeQty(btn, delta) {
+    const span = btn.closest('.flex.items-center.gap-1').querySelector('.qty-value');
+    let val = parseInt(span.textContent) + delta;
+    if (val < 1) val = 1;
+    span.textContent = val;
+
+    // update data-qty di checkout-item
+    const item = btn.closest('.checkout-item');
+    if (item) {
+        item.dataset.qty = val;
+        updateCheckoutTotal();
+
+        fetch('/checkout/update-qty', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                key: item.dataset.key,
+                quantity: val
+            })
+        });
+        return;
+    }
+
+    // update hidden input quantity (untuk product-detail)
+    const qtyInput = document.getElementById('selectedQty');
+    if (qtyInput) qtyInput.value = val;
+    const qtyInputBuy = document.getElementById('selectedQtyBuy');
+    if (qtyInputBuy) qtyInputBuy.value = val;
+}
+
+document.addEventListener('DOMContentLoaded', updateCheckoutTotal);
+
+let appliedDiscount = 0;
+
+function getSubtotal() {
+    let total = 0;
+    document.querySelectorAll('.checkout-item').forEach(item => {
+        total += parseFloat(item.dataset.price) * parseInt(item.dataset.qty);
+    });
+    return total;
+}
+
+function applyVoucher() {
+    const selected = document.querySelector('input[name="voucher"]:checked');
+    if (!selected) {
+        alert('Pilih voucher terlebih dahulu.');
+        return;
+    }
+
+    const discount = parseFloat(selected.dataset.discount);
+    const minPurchase = parseFloat(selected.dataset.minPurchase);
+    const subtotal = getSubtotal();
+
+    if (subtotal < minPurchase) {
+        alert(`Minimal pembelian Rp${minPurchase.toLocaleString('id-ID')} untuk voucher ini.`);
+        return;
+    }
+
+    appliedDiscount = (subtotal * discount) / 100;
+    
+    document.getElementById('voucherCodeInput').value = selected.value;
+
+    // tampilkan discount row
+    const discountRow = document.getElementById('discountRow');
+    discountRow.classList.remove('hidden');
+    document.getElementById('discountAmount').textContent = 
+        '-Rp' + appliedDiscount.toLocaleString('id-ID');
+
+    // update tombol voucher
+    document.getElementById('voucherBtnText').textContent = 
+        `Voucher: ${selected.value} (-${discount}%)`;
+
+    // update total
+    updateCheckoutTotal();
+
+    // tutup modal
+    document.getElementById('voucherModal').classList.add('hidden');
+}
+
+function updateCheckoutTotal() {
+    let total = 0;
+    document.querySelectorAll('.checkout-item').forEach(item => {
+        const price = parseFloat(item.dataset.price);
+        const qty = parseInt(item.dataset.qty);
+        const productId = item.dataset.productId;
+        total += price * qty;
+
+        const itemTotal = item.querySelector('.item-total');
+        if (itemTotal) itemTotal.textContent = 'Rp' + (price * qty).toLocaleString('id-ID');
+
+        const qtyLabel = item.querySelector('.qty-label');
+        if (qtyLabel) qtyLabel.textContent = 'Jumlah: ' + qty;
+
+        const detailQty = document.querySelector(`.detail-qty-${productId}`);
+        const detailTotal = document.querySelector(`.detail-total-${productId}`);
+        if (detailQty) detailQty.textContent = 'x' + qty;
+        if (detailTotal) detailTotal.textContent = 'Rp' + (price * qty).toLocaleString('id-ID');
+    });
+
+    const finalTotal = total - appliedDiscount;
+    document.getElementById('checkoutTotal').textContent =
+        'Rp' + finalTotal.toLocaleString('id-ID');
+
+    // update discount amount jika ada
+    if (appliedDiscount > 0) {
+        document.getElementById('discountAmount').textContent =
+            '-Rp' + appliedDiscount.toLocaleString('id-ID');
     }
 }
 </script>

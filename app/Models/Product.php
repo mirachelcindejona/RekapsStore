@@ -41,4 +41,14 @@ class Product extends Model
     {
         return $this->hasMany(Review::class, 'product_id');
     }
+
+    // Menghitung Total Stok Bazar (Gabungan stok utama bazar + varian bazar)
+    public function getTotalBazarStockAttribute()
+    {
+        if ($this->variants()->exists()) {
+            return $this->variants()->sum('stock_bazar');
+        }
+        
+        return $this->inventory ? $this->inventory->bazar_stock : 0;
+    }
 }
