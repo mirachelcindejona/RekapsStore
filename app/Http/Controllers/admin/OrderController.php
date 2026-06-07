@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\OnlineOrder;
 use App\Models\CashierOrder;
 use App\Models\Notification;
+use App\Models\FinanceTransactions;
 
 class OrderController extends Controller
 {
@@ -50,9 +51,48 @@ class OrderController extends Controller
             'estimasi_hari' => 'nullable|integer|min:1'
         ]);
 
-        $order = OnlineOrder::findOrFail($id);
+        // $order = OnlineOrder::findOrFail($id);
+        // $order->status = $request->status;
+        // $order->save();
+
+        $order = OnlineOrder::with('items.product')
+            ->findOrFail($id);
+        $oldStatus = $order->status;
         $order->status = $request->status;
         $order->save();
+
+        if ( $request->status === 'Pesanan Selesai' && $oldStatus !== 'Pesanan Selesai') 
+        {
+
+            $totalModal = 0;
+
+            foreach ($order->items as $item) {
+
+                if ($item->product) {
+
+                    $totalModal +=
+                        $item->product->cost_price
+                        *
+                        $item->quantity;
+                }
+            }
+
+            FinanceTransactions::create([
+                'date'        => now(),
+                'description' => 'Penjualan Online - ' . $order->order_code,
+                'category'    => 'Penjualan Online',
+                'type'        => 'Pemasukan',
+                'amount'      => $order->total,
+            ]);
+
+            FinanceTransactions::create([
+                'date'        => now(),
+                'description' => 'Modal Barang Online - ' . $order->order_code,
+                'category'    => 'Modal',
+                'type'        => 'Pengeluaran',
+                'amount'      => $totalModal,
+            ]);
+        }
 
         // Menyusun Pesan Notifikasi Berdasarkan Status
         $title = "Update Pesanan " . $order->order_code;
