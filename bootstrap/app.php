@@ -32,6 +32,28 @@ return Application::configure(basePath: dirname(__DIR__))
             $user = \Illuminate\Support\Facades\Auth::user();
 
             if ($user && $user->hasAnyRole(['admin', 'pengurus'])) {
+                // Tentukan halaman redirect berdasarkan permission pertama yang dimiliki user
+                $permissionRedirectMap = [
+                    'dashboard' => '/admin',
+                    'kasir'     => '/admin/cashier',
+                    'produk'    => '/admin/product',
+                    'pengguna'  => '/admin/users',
+                    'keuangan'  => '/admin/finance',
+                    'diskon'    => '/admin/promo',
+                    'laporan'   => '/admin/reports',
+                    'pesanan'   => '/admin/orders',
+                ];
+
+                foreach ($permissionRedirectMap as $permission => $url) {
+                    if ($user->can($permission)) {
+                        return redirect($url)->with(
+                            'error_access',
+                            'Kamu tidak memiliki akses ke halaman tersebut.'
+                        );
+                    }
+                }
+
+                // Fallback jika tidak ada permission yang cocok
                 return redirect('/admin')->with(
                     'error_access',
                     'Kamu tidak memiliki akses ke halaman tersebut.'
@@ -63,4 +85,4 @@ return Application::configure(basePath: dirname(__DIR__))
         ) use ($handler) {
             return $handler($e, $request);
         });
-})->create();
+    })->create();
