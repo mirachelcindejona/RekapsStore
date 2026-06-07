@@ -20,7 +20,7 @@ return new class extends Migration
             $table->decimal('total', 15, 2)->default(0);
             $table->string('payment_method')->nullable();
             $table->string('payment_status')->default('Pending');
-            $table->string('payment_link')->nullable();
+            $table->text('snap_token')->nullable();
             $table->string('status')->default('Pending');
             $table->boolean('is_pinned')->default(false);
             $table->timestamps();

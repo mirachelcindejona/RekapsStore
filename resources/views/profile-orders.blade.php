@@ -27,8 +27,12 @@
                 @foreach($order->items as $item)
                 <div class="flex items-center gap-4 p-4 {{ !$loop->last ? 'border-b border-neutral-50' : '' }}">
                     <div class="w-20 h-20 rounded-xl bg-neutral-50 flex items-center justify-center shrink-0 overflow-hidden">
-                        <img src="{{ asset($item->product->images->first()->image_path ?? 'assets/images/placeholder.png') }}"
-                            class="w-full h-full object-contain">
+                        <img
+                            src="{{ $item->product->images->first()
+                                ? asset('storage/' . $item->product->images->first()->image_path)
+                                : asset('assets/images/placeholder.png') }}"
+                            class="w-full h-full object-contain"
+                        >
                     </div>
                     <div class="flex-1">
                         <p class="text-sm font-bold text-neutral-800">{{ $item->product->name }}</p>
@@ -37,24 +41,64 @@
                     </div>
                 </div>
                 @endforeach
-
+                <div class="px-4 pb-2">
+                    <p class="text-[11px] text-neutral-400">
+                        {{ $order->order_code }}
+                    </p>
+                </div>
                 {{-- Order Footer --}}
                 <div class="flex items-center justify-between px-4 py-3 bg-neutral-50">
+                    {{-- badge status --}}
                     <div class="flex items-center gap-2">
                         @if($order->payment_status === 'Pending')
-                        <span class="flex items-center gap-1 text-[10px] font-bold text-primary-500 bg-primary-50 border border-primary-200 rounded-full px-2 py-0.5">
-                            <span class="w-1.5 h-1.5 rounded-full bg-primary-400 inline-block"></span>
-                            Admin Memeriksa Pembayaran
-                        </span>
+
+                            <span class="flex items-center gap-1 text-[10px] font-bold text-teal-600 bg-teal-50 border border-teal-200 rounded-full px-2 py-0.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-teal-400 inline-block"></span>
+                                Admin Memeriksa Pembayaran
+                            </span>
+
+                        @elseif($order->payment_status === 'Expired')
+
+                            <span class="flex items-center gap-1 text-[10px] font-bold text-red-600 bg-red-50 border border-red-200 rounded-full px-2 py-0.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-red-400 inline-block"></span>
+                                Expired
+                            </span>
+
+                        @elseif($order->payment_status === 'Cancelled')
+
+                            <span class="flex items-center gap-1 text-[10px] font-bold text-red-600 bg-red-50 border border-red-200 rounded-full px-2 py-0.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-red-400 inline-block"></span>
+                                Pesanan Dibatalkan
+                            </span>
+
+                        @elseif($order->status === 'Pending')
+
+                            <span class="flex items-center gap-1 text-[10px] font-bold text-primary-500 bg-primary-50 border border-primary-200 rounded-full px-2 py-0.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-primary-400 inline-block"></span>
+                                Menunggu Proses Produksi
+                            </span>
+
+                        @elseif($order->status === 'Diproses')
+
+                            <span class="flex items-center gap-1 text-[10px] font-bold text-yellow-500 bg-yellow-50 border border-yellow-200 rounded-full px-2 py-0.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-yellow-400 inline-block"></span>
+                                Sedang Diproduksi
+                            </span>
+
+                        @elseif($order->status === 'Siap Diambil')
+
+                            <span class="flex items-center gap-1 text-[10px] font-bold text-cyan-500 bg-cyan-50 border border-cyan-200 rounded-full px-2 py-0.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 inline-block"></span>
+                                Siap Diambil
+                            </span>
+
                         @elseif($order->status === 'Selesai')
-                        <span class="flex items-center gap-1 text-[10px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-200 rounded-full px-2 py-0.5">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block"></span>
-                            Selesai
-                        </span>
-                        @else
-                        <span class="flex items-center gap-1 text-[10px] font-bold text-neutral-500 bg-neutral-100 border border-neutral-200 rounded-full px-2 py-0.5">
-                            {{ $order->status }}
-                        </span>
+
+                            <span class="flex items-center gap-1 text-[10px] font-bold text-emerald-500 bg-emerald-50 border border-emerald-200 rounded-full px-2 py-0.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block"></span>
+                                Pesanan Selesai
+                            </span>
+
                         @endif
                     </div>
                     <div class="flex items-center gap-3">
