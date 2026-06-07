@@ -16,6 +16,18 @@
             {{ session('error') }}
         </div>
     @endif
+    @if (session('warning'))
+        <div
+            class="mb-4 p-4 bg-amber-100 border-l-4 border-amber-500 text-amber-700 rounded-lg font-medium shadow-sm flex items-center gap-[10px]">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+            {{ session('warning') }}
+        </div>
+    @endif
 
     <div class="flex overflow-x-auto custom-scrollbar gap-[12px] pb-[10px] w-full max-w-full mb-[12px]">
         <a href="{{ request()->fullUrlWithQuery(['type' => null]) }}"
@@ -237,8 +249,8 @@
 
     <a href="{{ url('/admin/product/create') }}"
         class="hidden max-[900px]:flex fixed bottom-[30px] right-[30px] w-[56px] h-[56px] rounded-full bg-primary-500 text-neutral-50 shadow-lg items-center justify-center z-[90] cursor-pointer transition-all duration-200 hover:bg-[#5928a7]">
-        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
-            stroke-linejoin="round">
+        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 5V19M5 12H19" />
         </svg>
     </a>
@@ -258,9 +270,13 @@
             </div>
 
             <p class="font-normal text-[13px] leading-[18px] text-center text-neutral-600 m-0">
-                Data produk akan terhapus secara permanen! <br>Anda yakin ingin menghapus produk <br> <strong
-                    id="deleteProductName" class="text-black text-[14px]">Nama
-                    Produk</strong>?
+                Anda yakin ingin menghapus produk <br>
+                <strong id="deleteProductName" class="text-black text-[14px]">Nama Produk</strong>?
+                <br><br>
+                <span class="text-[11px] text-neutral-400">
+                    Jika produk memiliki riwayat transaksi, produk akan <strong
+                        class="text-amber-600">dinonaktifkan</strong> dan tidak dihapus permanen.
+                </span>
             </p>
 
             <form id="deleteForm" method="POST" action=""

@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use \App\Models\OnlineOrderItem;
+use \App\Models\CashierOrderItem;
 
 class ProductController extends Controller
 {
@@ -304,6 +306,18 @@ class ProductController extends Controller
 
             $product = Product::where('slug', $slug)->firstOrFail();
 
+            // Cek apakah produk punya riwayat order
+            $hasOnlineOrder = OnlineOrderItem::where('product_id', $product->id)->exists();
+            $hasCashierOrder = CashierOrderItem::where('product_id', $product->id)->exists();
+
+            if ($hasOnlineOrder || $hasCashierOrder) {
+                // Tidak bisa dihapus, non-aktifkan saja
+                $product->update(['status' => 'Non-Aktif']);
+                DB::commit();
+                return redirect('/admin/product')->with('warning', 'Produk tidak dapat dihapus karena memiliki riwayat transaksi. Produk telah dinonaktifkan.');
+            }
+
+            // Tidak ada riwayat order, boleh hapus permanen
             if ($product->images && $product->images->count() > 0) {
                 foreach ($product->images as $image) {
                     if (Storage::disk('public')->exists($image->image_path)) {
@@ -315,19 +329,17 @@ class ProductController extends Controller
             $product->variants()->delete();
             $product->inventory()->delete();
             $product->images()->delete();
-            
             $product->reviews()->delete();
             $product->stockHistories()->delete();
-
             $product->delete();
 
             DB::commit();
 
-            return redirect('/admin/product')->with('success', 'Produk beserta fotonya berhasil dihapus secara permanen!');
+            return redirect('/admin/product')->with('success', 'Produk berhasil dihapus secara permanen!');
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect('/admin/product')->with('error', 'Terjadi kesalahan saat menghapus produk: ' . $e->getMessage());
+            return redirect('/admin/product')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 

@@ -203,6 +203,7 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
             Route::post('/cashier/orders/pin', [CashierController::class, 'togglePinOrder']);
             Route::post('/cashier/orders/done', [CashierController::class, 'markDoneOrder']);
             Route::get('/cashier/recap', [CashierController::class, 'recap'])->name('admin.cashier.recap');
+            Route::get('/cashier/orders/check-status/{id}', [CashierController::class, 'checkOrderStatus']);
         });
     });
 

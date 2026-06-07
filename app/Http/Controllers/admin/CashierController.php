@@ -20,7 +20,17 @@ class CashierController extends Controller
     public function index()
     {
         $categories = CategoryProduct::all();
-        return view('admin.cashier', compact('categories'));
+        $vouchers = \App\Models\Voucher::where('status', 'Aktif')
+            ->whereRaw('used_quota < quota')
+            ->where(function($q) {
+                $q->whereNull('start_date')->orWhereDate('start_date', '<=', now());
+            })
+            ->where(function($q) {
+                $q->whereNull('end_date')->orWhereDate('end_date', '>=', now());
+            })
+            ->get();
+
+        return view('admin.cashier', compact('categories', 'vouchers'));
     }
 
     // 2. Load Produk secara Real-time via AJAX (Hanya Produk dengan Stok Bazar > 0)
@@ -159,22 +169,47 @@ class CashierController extends Controller
                 'customer_name'  => 'nullable|string|max:100',
                 'payment_method' => 'required|in:Tunai,QRIS',
                 'paid_amount'       => 'nullable|numeric|min:0',
-                'transaction_notes' => 'nullable|string'
+                'transaction_notes' => 'nullable|string',
+                'voucher_code'      => 'nullable|string|exists:voucher,code',
             ]);
 
             DB::beginTransaction();
 
             $originalSubtotal = 0;
             $finalTotal = 0;
+            $voucherDiscount = 0;
+            $voucher = null;
 
             foreach ($cart as $item) {
                 $originalSubtotal += ($item['original_price'] * $item['quantity']);
                 $finalTotal += $item['subtotal'];
             }
 
-            $discount = $originalSubtotal - $finalTotal;
+            if ($request->voucher_code) {
+                $voucher = \App\Models\Voucher::where('code', $request->voucher_code)
+                    ->where('status', 'Aktif')
+                    ->whereRaw('used_quota < quota')
+                    ->first();
 
-            // Jika QRIS, set paid_amount awal ke 0 (menunggu pembayaran)
+                if (!$voucher) {
+                    return response()->json(['success' => false, 'message' => 'Voucher tidak valid atau sudah habis!'], 422);
+                }
+
+                if ($finalTotal < $voucher->min_purchase) {
+                    return response()->json(['success' => false, 'message' => 'Total belanja kurang dari minimum pembelian voucher!'], 422);
+                }
+
+                if ($voucher->type === 'percentage') {
+                    $voucherDiscount = ($voucher->value / 100) * $finalTotal;
+                } else {
+                    $voucherDiscount = $voucher->value;
+                }
+
+                $voucherDiscount = min($voucherDiscount, $finalTotal); // tidak boleh melebihi total
+                $finalTotal = $finalTotal - $voucherDiscount;
+            }
+
+            $discount = $originalSubtotal - $finalTotal;
             $paidAmount = $request->payment_method === 'Tunai' ? $request->paid_amount : 0;
             $changeAmount = $request->payment_method === 'Tunai' ? ($paidAmount - $finalTotal) : 0;
 
@@ -253,6 +288,10 @@ class CashierController extends Controller
                 'amount'      => $totalModal,
             ]);
 
+            if ($voucher) {
+                $voucher->increment('used_quota');
+            }
+
             DB::commit();
 
             $order->load('items');
@@ -291,15 +330,21 @@ class CashierController extends Controller
                 return response()->json([
                     'success'    => true,
                     'message'    => 'Menunggu pembayaran QRIS',
-                    'order'      => $order,
-                    'snap_token' => $snapToken // Kirim token ke view
+                    'order'      => array_merge($order->toArray(), [
+                        'voucher_code'     => $request->voucher_code ?? null,
+                        'voucher_discount' => $voucherDiscount ?? 0,
+                    ]),
+                    'snap_token' => $snapToken
                 ]);
             }
 
             return response()->json([
                 'success' => true,
                 'message' => 'Transaksi berhasil disimpan!',
-                'order'   => $order
+                'order'   => array_merge($order->toArray(), [
+                    'voucher_code'     => $request->voucher_code ?? null,
+                    'voucher_discount' => $voucherDiscount ?? 0,
+                ])
             ]);
 
         } catch (\Exception $e) {
@@ -316,7 +361,7 @@ class CashierController extends Controller
     // 8. Tambahkan Webhook Callback Midtrans
     public function callback(Request $request)
     {
-        $serverKey = env('MIDTRANS_SERVER_KEY');
+        $serverKey = config('services.midtrans.server_key');
         $hashed = hash("sha512", $request->order_id . $request->status_code . $request->gross_amount . $serverKey);
         
         if ($hashed == $request->signature_key) {
@@ -329,21 +374,69 @@ class CashierController extends Controller
                         'payment_status' => 'Lunas',
                         'paid_amount'    => $order->total, 
                     ]);
+
                 } elseif ($request->transaction_status == 'expire' || $request->transaction_status == 'cancel') {
-                    $order->update([
-                        'status' => 'Dibatalkan'
-                    ]);
+                    
+                    DB::beginTransaction();
+                    try {
+                        // 1. Update status order
+                        $order->update([
+                            'status'         => 'Dibatalkan',
+                            'payment_status' => 'Dibatalkan',
+                        ]);
+
+                        // 2. Kembalikan stok & hapus catatan keuangan
+                        $order->load('items');
+
+                        foreach ($order->items as $item) {
+                            $product = Product::find($item->product_id);
+                            if (!$product) continue;
+
+                            if ($item->product_variant_id) {
+                                // Kembalikan stok varian
+                                $variant = $product->variants()->find($item->product_variant_id);
+                                if ($variant) {
+                                    $variant->increment('stock_bazar', $item->quantity);
+                                }
+                            } else {
+                                // Kembalikan stok inventory biasa
+                                $inventory = $product->inventory;
+                                if ($inventory) {
+                                    $inventory->increment('bazar_stock', $item->quantity);
+                                }
+                            }
+                        }
+
+                        // 3. Hapus catatan finance yang terkait order ini
+                        FinanceTransactions::where('description', 'like', '%' . $order->order_code . '%')->delete();
+
+                        DB::commit();
+
+                    } catch (\Exception $e) {
+                        DB::rollBack();
+                        \Log::error('Callback rollback error: ' . $e->getMessage());
+                    }
                 }
             }
         }
+
         return response()->json(['message' => 'Callback received']);
+    }
+
+    public function checkOrderStatus($id)
+    {
+        $order = CashierOrder::findOrFail($id);
+        return response()->json([
+            'status'         => $order->status,
+            'payment_status' => $order->payment_status,
+        ]);
     }
 
     public function orders()
     {
         $orders = CashierOrder::with(['items.product'])
             ->orderBy('is_pinned', 'desc')
-            ->orderByRaw("FIELD(status, 'Proses', 'Selesai', 'Gagal', 'Dibatalkan') ASC")
+            ->orderByRaw("FIELD(status, 'Proses', 'Selesai', 'Dibatalkan', 'Gagal') ASC")
             ->orderBy('created_at', 'asc')
             ->get();
 
