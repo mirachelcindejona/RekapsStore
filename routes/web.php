@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\FinanceController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\CashierController;
+use App\Http\Controllers\Admin\OrderController;
 
 // Controller User
 use App\Http\Controllers\Auth\LoginController;
@@ -160,7 +161,6 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
             Route::delete('/voucher/{voucher}', [VoucherController::class, 'destroy'])->name('admin.voucher.destroy');
         });
 
-        // Modul Laporan
         Route::middleware(['permission:laporan'])->group(function () {
             Route::get('/reports', [ReportController::class, 'index']);
             Route::get('/report-sales', [ReportController::class, 'sales'])->name('report.sales');
@@ -174,6 +174,11 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
             Route::get('/report-transaction', fn() => view('admin.report-transaction'));
             Route::get('/report-review', fn() => view('admin.report-review'));
             Route::get('/report-discount', fn() => view('admin.report-discount'));
+        });
+
+        Route::middleware(['permission:pesanan'])->group(function () {
+            Route::get('/orders', [OrderController::class, 'index'])->name('admin.orders');
+            Route::put('/orders/online/{id}/status', [OrderController::class, 'updateOnlineStatus'])->name('orders.online.status');
         });
 
         // Modul Kasir

@@ -1,10 +1,10 @@
-@extends('admin.layouts.layout-cashier')
 
-@section('title', 'Rekap Bazar')
-@section('page_title', 'Rekap Bazar')
-@section('page_breadcrumb', 'Rekap Bazar')
 
-@php
+<?php $__env->startSection('title', 'Rekap Bazar'); ?>
+<?php $__env->startSection('page_title', 'Rekap Bazar'); ?>
+<?php $__env->startSection('page_breadcrumb', 'Rekap Bazar'); ?>
+
+<?php
     // Helper untuk mengubah angka panjang menjadi format K/Jt (contoh: 14.5jt)
     function formatShort($n)
     {
@@ -16,9 +16,9 @@
         }
         return number_format($n, 0, ',', '.');
     }
-@endphp
+?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
     <style>
         .no-scrollbar::-webkit-scrollbar {
             display: none;
@@ -38,21 +38,21 @@
 
             <div class="flex flex-wrap gap-[12px]">
                 <button onclick="applyFilter('today')"
-                    class="px-[16px] py-[8px] rounded-full text-[14px] font-bold transition-colors {{ $filter == 'today' ? 'bg-primary-500 shadow-[0_0_8px_rgba(125,57,235,0.35)] text-white' : 'bg-[#E5E5E5] text-[#404040] hover:bg-[#d4d4d4]' }}">Hari
+                    class="px-[16px] py-[8px] rounded-full text-[14px] font-bold transition-colors <?php echo e($filter == 'today' ? 'bg-primary-500 shadow-[0_0_8px_rgba(125,57,235,0.35)] text-white' : 'bg-[#E5E5E5] text-[#404040] hover:bg-[#d4d4d4]'); ?>">Hari
                     ini</button>
                 <button onclick="applyFilter('7days')"
-                    class="px-[16px] py-[8px] rounded-full text-[14px] font-bold transition-colors {{ $filter == '7days' ? 'bg-primary-500 shadow-[0_0_8px_rgba(125,57,235,0.35)] text-white' : 'bg-[#E5E5E5] text-[#404040] hover:bg-[#d4d4d4]' }}">7
+                    class="px-[16px] py-[8px] rounded-full text-[14px] font-bold transition-colors <?php echo e($filter == '7days' ? 'bg-primary-500 shadow-[0_0_8px_rgba(125,57,235,0.35)] text-white' : 'bg-[#E5E5E5] text-[#404040] hover:bg-[#d4d4d4]'); ?>">7
                     hari</button>
                 <button onclick="applyFilter('1month')"
-                    class="px-[16px] py-[8px] rounded-full text-[14px] font-bold transition-colors {{ $filter == '1month' ? 'bg-primary-500 shadow-[0_0_8px_rgba(125,57,235,0.35)] text-white' : 'bg-[#E5E5E5] text-[#404040] hover:bg-[#d4d4d4]' }}">1
+                    class="px-[16px] py-[8px] rounded-full text-[14px] font-bold transition-colors <?php echo e($filter == '1month' ? 'bg-primary-500 shadow-[0_0_8px_rgba(125,57,235,0.35)] text-white' : 'bg-[#E5E5E5] text-[#404040] hover:bg-[#d4d4d4]'); ?>">1
                     bulan</button>
                 <button onclick="openModal('modalPilihTanggal')"
-                    class="px-[16px] py-[8px] rounded-full text-[14px] font-bold transition-colors {{ $filter == 'custom' ? 'bg-primary-500 shadow-[0_0_8px_rgba(125,57,235,0.35)] text-white' : 'bg-[#E5E5E5] text-[#404040] hover:bg-[#d4d4d4]' }}">Pilih
+                    class="px-[16px] py-[8px] rounded-full text-[14px] font-bold transition-colors <?php echo e($filter == 'custom' ? 'bg-primary-500 shadow-[0_0_8px_rgba(125,57,235,0.35)] text-white' : 'bg-[#E5E5E5] text-[#404040] hover:bg-[#d4d4d4]'); ?>">Pilih
                     tanggal</button>
             </div>
 
             <div class="flex items-center gap-[12px]">
-                <button onclick="navigateDate('{{ $prevStart }}', '{{ $prevEnd }}')"
+                <button onclick="navigateDate('<?php echo e($prevStart); ?>', '<?php echo e($prevEnd); ?>')"
                     class="w-[36px] h-[36px] flex justify-center items-center hover:bg-gray-200 rounded-full transition-colors cursor-pointer">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2"
                         stroke-linecap="round" stroke-linejoin="round">
@@ -61,10 +61,11 @@
                 </button>
 
                 <div class="text-[14px] text-black min-w-[150px] text-center leading-tight">
-                    {!! $displayDate !!}
+                    <?php echo $displayDate; ?>
+
                 </div>
 
-                <button onclick="navigateDate('{{ $nextStart }}', '{{ $nextEnd }}')"
+                <button onclick="navigateDate('<?php echo e($nextStart); ?>', '<?php echo e($nextEnd); ?>')"
                     class="w-[36px] h-[36px] flex justify-center items-center hover:bg-gray-200 rounded-full transition-colors cursor-pointer">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2"
                         stroke-linecap="round" stroke-linejoin="round">
@@ -83,7 +84,7 @@
                     <div class="flex items-end gap-[4px]">
                         <span class="text-[12px] font-bold text-black mb-[4px]">Rp</span>
                         <span
-                            class="text-[24px] font-black text-black leading-none">{{ formatShort($totalPenjualan) }}</span>
+                            class="text-[24px] font-black text-black leading-none"><?php echo e(formatShort($totalPenjualan)); ?></span>
                         <span class="text-[12px] font-bold text-secondary-700 mb-[2px] ml-[4px]">dari transaksi
                             selesai</span>
                     </div>
@@ -98,7 +99,7 @@
                     <span class="text-[14px] font-black text-neutral-400 uppercase tracking-wide">TRANSAKSI</span>
                     <div class="flex items-end gap-[6px]">
                         <span
-                            class="text-[24px] font-black text-black leading-none">{{ number_format($totalTransaksi, 0, ',', '.') }}</span>
+                            class="text-[24px] font-black text-black leading-none"><?php echo e(number_format($totalTransaksi, 0, ',', '.')); ?></span>
                         <span class="text-[12px] font-bold text-secondary-700 mb-[2px]">pesanan selesai</span>
                     </div>
                 </div>
@@ -111,7 +112,7 @@
                     <span class="text-[14px] font-black text-neutral-400 uppercase tracking-wide">ITEM TERJUAL</span>
                     <div class="flex items-end gap-[6px]">
                         <span
-                            class="text-[24px] font-black text-black leading-none">{{ number_format($itemTerjual, 0, ',', '.') }}</span>
+                            class="text-[24px] font-black text-black leading-none"><?php echo e(number_format($itemTerjual, 0, ',', '.')); ?></span>
                         <span class="text-[12px] font-bold text-secondary-700 mb-[2px]">total item</span>
                     </div>
                 </div>
@@ -124,7 +125,7 @@
                     <span class="text-[14px] font-black text-neutral-400 uppercase tracking-wide">RATA-RATA</span>
                     <div class="flex items-end gap-[4px]">
                         <span class="text-[12px] font-bold text-black mb-[4px]">Rp</span>
-                        <span class="text-[24px] font-black text-black leading-none">{{ formatShort($rataRata) }}</span>
+                        <span class="text-[24px] font-black text-black leading-none"><?php echo e(formatShort($rataRata)); ?></span>
                         <span class="text-[12px] font-bold text-secondary-700 mb-[2px] ml-[4px]">per transaksi</span>
                     </div>
                 </div>
@@ -137,24 +138,24 @@
         </div>
 
         <div class="flex overflow-x-auto no-scrollbar pos-scroll gap-[16px] pb-[12px] w-full">
-            @php $colors = ['#EFB100', '#94A3B8', '#B45309']; @endphp
-            @forelse ($topItems as $index => $item)
+            <?php $colors = ['#EFB100', '#94A3B8', '#B45309']; ?>
+            <?php $__empty_1 = true; $__currentLoopData = $topItems; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                 <div
                     class="relative overflow-hidden bg-white rounded-[15px] p-[18px_20px] flex items-center gap-[20px] min-w-[260px] filter drop-shadow-[0_4px_4px_rgba(215,194,249,0.4)] shrink-0">
                     <div
                         class="absolute right-0 top-0 w-[75px] h-[79px] bg-primary-100 opacity-[0.15] rounded-bl-[100%] z-0">
                     </div>
                     <span class="text-[36px] font-bold leading-none z-10"
-                        style="color: {{ $colors[$index] ?? '#000' }}">#{{ $index + 1 }}</span>
+                        style="color: <?php echo e($colors[$index] ?? '#000'); ?>">#<?php echo e($index + 1); ?></span>
                     <div class="flex flex-col z-10 gap-[2px]">
-                        <span class="text-[16px] font-bold text-black leading-tight">{{ $item->product->name }}</span>
-                        <span class="text-[14px] font-bold text-primary-500 leading-tight">{{ $item->total_qty }} terjual -
-                            Rp {{ number_format($item->total_revenue, 0, ',', '.') }}</span>
+                        <span class="text-[16px] font-bold text-black leading-tight"><?php echo e($item->product->name); ?></span>
+                        <span class="text-[14px] font-bold text-primary-500 leading-tight"><?php echo e($item->total_qty); ?> terjual -
+                            Rp <?php echo e(number_format($item->total_revenue, 0, ',', '.')); ?></span>
                     </div>
                 </div>
-            @empty
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                 <div class="text-neutral-500 italic text-[14px]">Belum ada data penjualan pada rentang waktu ini.</div>
-            @endforelse
+            <?php endif; ?>
         </div>
 
         <div class="flex items-center gap-[20px] w-full mt-[10px]">
@@ -192,39 +193,39 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($historyOrders as $order)
+                        <?php $__empty_1 = true; $__currentLoopData = $historyOrders; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $order): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                             <tr class="border-b-[0.1px] border-neutral-700 hover:bg-neutral-50 transition-colors">
                                 <td class="py-[16px] px-[16px] text-[12px] font-bold text-primary-500 whitespace-nowrap">
-                                    {{ $order->order_code }}</td>
+                                    <?php echo e($order->order_code); ?></td>
                                 <td class="py-[16px] px-[16px] text-[12px] font-medium text-neutral-700 whitespace-nowrap">
-                                    {{ \Carbon\Carbon::parse($order->created_at)->format('H:i') }}</td>
+                                    <?php echo e(\Carbon\Carbon::parse($order->created_at)->format('H:i')); ?></td>
                                 <td class="py-[16px] px-[16px] text-[12px] font-medium text-neutral-700 whitespace-nowrap">
-                                    {{ $order->customer_name }}</td>
+                                    <?php echo e($order->customer_name); ?></td>
                                 <td class="py-[16px] px-[16px] whitespace-nowrap text-center">
-                                    @if ($order->payment_method == 'QRIS')
+                                    <?php if($order->payment_method == 'QRIS'): ?>
                                         <span
                                             class="inline-flex justify-center items-center px-[10px] py-[4px] bg-primary-100 rounded-full text-[10px] font-bold text-primary-500">QRIS</span>
-                                    @else
+                                    <?php else: ?>
                                         <span
                                             class="inline-flex justify-center items-center px-[10px] py-[4px] bg-[#FEF3C6] rounded-full text-[10px] font-bold text-[#EFB100]">Tunai</span>
-                                    @endif
+                                    <?php endif; ?>
                                 </td>
                                 <td class="py-[16px] px-[16px] text-[12px] font-bold text-black whitespace-nowrap">Rp
-                                    {{ number_format($order->total, 0, ',', '.') }}</td>
+                                    <?php echo e(number_format($order->total, 0, ',', '.')); ?></td>
                                 <td class="py-[16px] px-[16px] whitespace-nowrap text-center">
-                                    @if ($order->status == 'Selesai')
+                                    <?php if($order->status == 'Selesai'): ?>
                                         <span
                                             class="inline-flex justify-center items-center px-[10px] py-[4px] bg-secondary-200 bg-opacity-40 rounded-full text-[10px] font-bold text-secondary-700">Selesai</span>
-                                    @elseif($order->status == 'Proses')
+                                    <?php elseif($order->status == 'Proses'): ?>
                                         <span
                                             class="inline-flex justify-center items-center px-[10px] py-[4px] bg-[#FEF3C6] rounded-full text-[10px] font-bold text-[#EFB100]">Proses</span>
-                                    @else
+                                    <?php else: ?>
                                         <span
-                                            class="inline-flex justify-center items-center px-[10px] py-[4px] bg-red-100 rounded-full text-[10px] font-bold text-red-600">{{ $order->status }}</span>
-                                    @endif
+                                            class="inline-flex justify-center items-center px-[10px] py-[4px] bg-red-100 rounded-full text-[10px] font-bold text-red-600"><?php echo e($order->status); ?></span>
+                                    <?php endif; ?>
                                 </td>
                                 <td class="py-[16px] px-[16px] whitespace-nowrap text-center">
-                                    <button onclick="viewReceipt({{ $order->id }})"
+                                    <button onclick="viewReceipt(<?php echo e($order->id); ?>)"
                                         class="w-[36px] h-[36px] mx-auto bg-neutral-50 border border-primary-500 rounded-[12px] shadow-[0_2px_4px_rgba(62,52,69,0.25)] flex justify-center items-center hover:bg-primary-500 hover:text-white text-primary-500 transition-colors group cursor-pointer">
                                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                                             stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -235,20 +236,20 @@
                                     </button>
                                 </td>
                             </tr>
-                        @empty
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                             <tr>
                                 <td colspan="7" class="py-[20px] text-center text-neutral-500 text-[14px]">Tidak ada
                                     transaksi pada rentang waktu ini.</td>
                             </tr>
-                        @endforelse
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('footer')
+<?php $__env->startSection('footer'); ?>
     <div id="modalPilihTanggal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 hidden">
         <div class="bg-white w-[90%] max-w-[400px] rounded-[20px] p-[24px] flex flex-col gap-[20px] shadow-lg">
             <h2 class="text-[18px] font-bold text-black text-center">Pilih Rentang Waktu</h2>
@@ -298,8 +299,8 @@
     </div>
 
     <script>
-        const ordersData = @json($historyOrders->keyBy('id'));
-        const currentFilter = '{{ $filter }}';
+        const ordersData = <?php echo json_encode($historyOrders->keyBy('id'), 15, 512) ?>;
+        const currentFilter = '<?php echo e($filter); ?>';
 
         /* ---- Fungsi Filter Waktu & Navigasi ---- */
         function applyFilter(filterType) {
@@ -405,4 +406,6 @@
             location.reload();
         }
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin.layouts.layout-cashier', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\rekapsapp-byweebs\resources\views/admin/cashier-recap.blade.php ENDPATH**/ ?>

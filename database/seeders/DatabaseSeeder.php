@@ -50,6 +50,7 @@ class DatabaseSeeder extends Seeder
             ProductSeeder::class,
             // VoucherSeeder::class,
             ReviewSeeder::class,
+            OrderSeeder::class,
         ]);
 
         $this->call([
