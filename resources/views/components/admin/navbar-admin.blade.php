@@ -27,9 +27,22 @@
             <img src="{{ asset('assets/icons/bell-line.svg') }}" alt="Notification" />
         </button>
 
-        <div
-            class="w-[40px] h-[40px] bg-gradient-to-br from-primary-500 to-primary-300 rounded-lg flex items-center justify-center text-[14px] font-extrabold text-neutral-50 cursor-pointer">
-            A</div>
+        <a
+            href="{{ route('admin.profile') }}"
+            class="
+            w-[48px]
+            h-[48px]
+            rounded-xl
+            bg-primary-500
+            text-white
+            flex
+            items-center
+            justify-center
+            font-bold">
+
+                {{ strtoupper(substr(Auth::user()->name,0,1)) }}
+
+        </a>
     </div>
 </header>
 <!-- END .navbar -->
