@@ -819,7 +819,7 @@
                             },
                             onError: function(result) {
                                 alert('Pembayaran QRIS gagal!');
-                                location.reload(); //
+                                location.reload(); 
                             },
                             onClose: function() {
                                 // Cek status order ke backend sebelum tampilkan struk
@@ -1011,7 +1011,7 @@
                 <span class="text-primary-400 ml-[8px] cursor-pointer hover:text-primary-300 transition-colors" onclick="openModal('voucherModal')">${appliedVoucherCode}</span>
                 <span class="text-red-400 ml-[4px] cursor-pointer hover:text-red-300 transition-colors" onclick="removeVoucher()">✕</span>
             `;
-            labelVoucher.onclick = null; // hapus onclick lama, sudah ada di span dalam
+            labelVoucher.onclick = null;
 
             // Update total
             document.getElementById('totalTagihan').innerText = `Rp ${afterVoucher.toLocaleString('id-ID')}`;

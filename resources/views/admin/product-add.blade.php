@@ -540,11 +540,9 @@
                 // Masukkan file ke input rahasia (image_upload) agar terbaca oleh form Laravel
                 syncFileInput();
 
-                // Tampilkan fotonya di layar
+                // Tampilkan foto di layar
                 renderImageGallery();
             }
-
-            // KOSONGKAN TRIGGER, agar kita bisa klik file yang sama 2x tanpa nge-bug
             event.target.value = '';
         }
 
@@ -623,7 +621,6 @@
             // Hapus file dari array
             productImages.splice(activeImageIndex, 1);
 
-            // Posisikan index ke gambar sebelumnya yang aman
             if (activeImageIndex >= productImages.length) {
                 activeImageIndex = productImages.length - 1;
             }
@@ -635,7 +632,6 @@
             renderImageGallery();
         }
 
-        // Initialize UI pertama kali
         renderVariantGroups();
     </script>
 @endsection
