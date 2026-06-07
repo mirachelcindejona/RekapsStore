@@ -39,7 +39,6 @@ class LoginAdminController extends Controller
             return back()->withErrors([
                 'username' => 'Username tidak ditemukan'
             ])->withInput();
-
         }
 
         // cek login
@@ -51,7 +50,6 @@ class LoginAdminController extends Controller
             return back()->withErrors([
                 'password' => 'Password salah'
             ])->withInput();
-
         }
 
         // refresh user
@@ -70,13 +68,26 @@ class LoginAdminController extends Controller
             return back()->withErrors([
                 'username' => 'Akun ini bukan admin'
             ]);
-
         }
 
         // regenerate session
         $request->session()->regenerate();
 
-        return redirect('/admin');
+        $user = Auth::user();
+        if ($user->hasPermissionTo('dashboard')) {
+            return redirect('/admin');
+        }
+
+        // Redirect ke menu pertama yang dia punya akses
+        if ($user->hasPermissionTo('kasir')) return redirect('/admin/cashier');
+        if ($user->hasPermissionTo('produk')) return redirect('/admin/product');
+        if ($user->hasPermissionTo('pengguna')) return redirect('/admin/users');
+        if ($user->hasPermissionTo('keuangan')) return redirect('/admin/finance');
+        if ($user->hasPermissionTo('diskon')) return redirect('/admin/promo');
+        if ($user->hasPermissionTo('laporan')) return redirect('/admin/reports');
+
+        // Kalau tidak punya permission apapun
+        return redirect('/admin/login')->withErrors(['username' => 'Akun belum diberi hak akses.']);
     }
 
     public function logout(Request $request)

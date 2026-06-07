@@ -110,7 +110,9 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
     // PANEL ADMIN (Wajib Role Admin / Pengurus)
     Route::prefix('admin')->middleware(['role:admin|pengurus'])->group(function () {
 
-        Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
+        Route::middleware(['permission:dashboard'])->group(function () {
+            Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
+        });
 
         // Modul Produk & Kategori
         Route::middleware(['permission:produk'])->group(function () {
@@ -222,9 +224,9 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
             $cart = \App\Models\Cart::where('user_id', auth()->id())->first();
             $cartItems = $cart
                 ? \App\Models\CartItem::with(['product.images', 'product.variants'])
-                    ->where('cart_id', $cart->id)
-                    ->whereIn('product_id', $selectedIds)
-                    ->get()
+                ->where('cart_id', $cart->id)
+                ->whereIn('product_id', $selectedIds)
+                ->get()
                 : collect();
 
             $checkoutItems = $cartItems->map(fn($item) => [
