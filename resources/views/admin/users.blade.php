@@ -332,7 +332,7 @@
                                                 class="accent-primary-500">
 
                                             <span class="text-sm">
-                                                {{ ucfirst($permission) }}
+                                                {{ $permission == 'diskon' ? 'Promo' : ucfirst($permission) }}
                                             </span>
 
                                         </label>
@@ -495,7 +495,7 @@
 
                                 <label class="flex items-center gap-2">
                                     <input type="checkbox" name="permissions[]" value="diskon">
-                                    Diskon
+                                    Promo
                                 </label>
 
                                 <label class="flex items-center gap-2">
