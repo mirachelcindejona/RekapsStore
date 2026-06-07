@@ -36,7 +36,7 @@
         </div>
     </div>
 
-    {{-- CART ITEMS --}}
+    {{-- cart-items --}}
     <div class="flex flex-col gap-2 pb-17">
         @forelse ($items as $item)
         <x-client.cart-item
@@ -54,7 +54,7 @@
         @endforelse
     </div>
 
-    {{-- CHECKOUT BAR --}}
+    {{-- co bar --}}
     <div class="flex fixed bottom-2 left-1/2 -translate-x-1/2 w-full max-w-7xl px-2 z-10">
         <div class="flex w-full bg-white border border-neutral-100 rounded-xl px-6 py-3 shadow-lg items-center justify-between">
             <p class="text-xs sm:text-sm font-semibold text-neutral-700">Total Harga :

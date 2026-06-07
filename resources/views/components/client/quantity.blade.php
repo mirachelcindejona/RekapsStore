@@ -14,7 +14,7 @@ function changeQty(btn, delta) {
     if (val < 1) val = 1;
     span.textContent = val;
 
-    // ===== CART =====
+    // cart
     const cartCard = btn.closest('[data-item-id]');
     if (cartCard) {
         const itemId = cartCard.dataset.itemId;
@@ -35,7 +35,7 @@ function changeQty(btn, delta) {
         return;
     }
 
-    // ===== CHECKOUT =====
+    // co
     const checkoutItem = btn.closest('.checkout-item');
     if (checkoutItem) {
         checkoutItem.dataset.qty = val;
@@ -55,7 +55,7 @@ function changeQty(btn, delta) {
         return;
     }
 
-    // ===== PRODUCT DETAIL =====
+    // productdetail
     const qtyInput = document.getElementById('selectedQty');
     if (qtyInput) qtyInput.value = val;
     const qtyInputBuy = document.getElementById('selectedQtyBuy');
