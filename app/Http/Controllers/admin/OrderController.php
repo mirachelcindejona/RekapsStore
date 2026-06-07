@@ -8,6 +8,7 @@ use App\Models\OnlineOrder;
 use App\Models\CashierOrder;
 use App\Models\Notification;
 use App\Models\FinanceTransactions;
+use App\Models\Product;
 
 class OrderController extends Controller
 {
@@ -51,9 +52,9 @@ class OrderController extends Controller
             'estimasi_hari' => 'nullable|integer|min:1'
         ]);
 
-        $order = OnlineOrder::findOrFail($id);
-        $order->status = $request->status;
-        $order->save();
+        // $order = OnlineOrder::findOrFail($id);
+        // $order->status = $request->status;
+        // $order->save();
 
         $order = OnlineOrder::with('items.product')
             ->findOrFail($id);
@@ -61,37 +62,43 @@ class OrderController extends Controller
         $order->status = $request->status;
         $order->save();
 
-        if ( $request->status === 'Pesanan Selesai' && $oldStatus !== 'Pesanan Selesai') 
-            {
+        if ($request->status == 'Pesanan Selesai') {
 
-            $totalModal = 0;
+            $alreadyExist = FinanceTransactions::where(
+                'description',
+                'Penjualan Online - ' . $order->order_code
+            )->exists();
 
-            foreach ($order->items as $item) {
+            if (!$alreadyExist) {
 
-                if ($item->product) {
+                $totalModal = 0;
 
-                    $totalModal +=
-                        $item->product->cost_price
-                        *
-                        $item->quantity;
+                foreach ($order->items as $item) {
+
+                    $product = Product::find($item->product_id);
+
+                    if ($product) {
+                        $totalModal +=
+                            $product->cost_price * $item->quantity;
+                    }
                 }
+
+                FinanceTransactions::create([
+                    'date' => now(),
+                    'description' => 'Penjualan Online - ' . $order->order_code,
+                    'category' => 'Penjualan Online',
+                    'type' => 'Pemasukan',
+                    'amount' => $order->total,
+                ]);
+
+                FinanceTransactions::create([
+                    'date' => now(),
+                    'description' => 'Modal Barang - ' . $order->order_code,
+                    'category' => 'Modal',
+                    'type' => 'Pengeluaran',
+                    'amount' => $totalModal,
+                ]);
             }
-
-            FinanceTransactions::create([
-                'date'        => now(),
-                'description' => 'Penjualan Online - ' . $order->order_code,
-                'category'    => 'Penjualan Online',
-                'type'        => 'Pemasukan',
-                'amount'      => $order->total,
-            ]);
-
-            FinanceTransactions::create([
-                'date'        => now(),
-                'description' => 'Modal Barang Online - ' . $order->order_code,
-                'category'    => 'Modal',
-                'type'        => 'Pengeluaran',
-                'amount'      => $totalModal,
-            ]);
         }
 
         // Menyusun Pesan Notifikasi Berdasarkan Status
