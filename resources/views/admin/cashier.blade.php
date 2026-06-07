@@ -593,7 +593,7 @@
             const payload = {
                 customer_name: customerName,
                 payment_method: currentMethod,
-                paid_amount: paidAmount,
+                paid_amount: currentMethod === 'Tunai' ? (paidAmount || 0) : 0,
                 transaction_notes: txNotes
             };
 
@@ -704,10 +704,10 @@
                     <span>Rp ${parseInt(lastCreatedOrderData.subtotal).toLocaleString('id-ID')}</span>
                 </div>
                 ${parseInt(lastCreatedOrderData.discount) > 0 ? `
-                                                                                                    <div style="display:flex; justify-content:space-between; color:red;">
-                                                                                                        <span>Diskon Produk:</span>
-                                                                                                        <span>-Rp ${parseInt(lastCreatedOrderData.discount).toLocaleString('id-ID')}</span>
-                                                                                                    </div>` : ''}
+                                                                                                        <div style="display:flex; justify-content:space-between; color:red;">
+                                                                                                            <span>Diskon Produk:</span>
+                                                                                                            <span>-Rp ${parseInt(lastCreatedOrderData.discount).toLocaleString('id-ID')}</span>
+                                                                                                        </div>` : ''}
                 <div style="display:flex; justify-content:space-between; font-weight:bold; margin-top:3px;">
                     <span>Total Akhir:</span>
                     <span>Rp ${parseInt(lastCreatedOrderData.total).toLocaleString('id-ID')}</span>

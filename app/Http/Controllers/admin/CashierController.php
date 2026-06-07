@@ -154,14 +154,14 @@ class CashierController extends Controller
             return response()->json(['success' => false, 'message' => 'Keranjang belanja kosong!'], 400);
         }
 
-        $request->validate([
-            'customer_name'  => 'nullable|string|max:100',
-            'payment_method' => 'required|in:Tunai,QRIS',
-            'paid_amount'    => 'required_if:payment_method,Tunai|numeric|min:0',
-            'transaction_notes' => 'nullable|string'
-        ]);
-
         try {
+            $request->validate([
+                'customer_name'  => 'nullable|string|max:100',
+                'payment_method' => 'required|in:Tunai,QRIS',
+                'paid_amount'       => 'nullable|numeric|min:0',
+                'transaction_notes' => 'nullable|string'
+            ]);
+
             DB::beginTransaction();
 
             $originalSubtotal = 0;
@@ -268,9 +268,9 @@ class CashierController extends Controller
             
             session()->forget('cashier_cart');
 
-            // --- INTEGRASI MIDTRANS ---
+            // INTEGRASI MIDTRANS
             if ($request->payment_method === 'QRIS') {
-                Config::$serverKey = env('MIDTRANS_SERVER_KEY');
+                Config::$serverKey = config('services.midtrans.server_key');
                 Config::$isProduction = env('MIDTRANS_IS_PRODUCTION', false);
                 Config::$isSanitized = true;
                 Config::$is3ds = true;
@@ -295,7 +295,6 @@ class CashierController extends Controller
                     'snap_token' => $snapToken // Kirim token ke view
                 ]);
             }
-            // --- END MIDTRANS ---
 
             return response()->json([
                 'success' => true,
@@ -305,8 +304,12 @@ class CashierController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
-            
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+                'line'    => $e->getLine(),
+                'file'    => basename($e->getFile()),
+            ], 500);
         }
     }
 
@@ -336,9 +339,6 @@ class CashierController extends Controller
         return response()->json(['message' => 'Callback received']);
     }
 
-    // --- FITUR MANAJEMEN PESANAN (DAPUR) ---
-
-    // 1. Menampilkan Halaman Pesanan
     public function orders()
     {
         $orders = CashierOrder::with(['items.product'])
@@ -350,7 +350,6 @@ class CashierController extends Controller
         return view('admin.cashier-orders', compact('orders'));
     }
 
-    // 2. Tandai Pesanan Selesai
     public function markDoneOrder(Request $request)
     {
         $request->validate(['id' => 'required|exists:cashier_orders,id']);
@@ -364,8 +363,6 @@ class CashierController extends Controller
 
         return response()->json(['success' => true]);
     }
-
-    // 3. Pin / Unpin Pesanan
     public function togglePinOrder(Request $request)
     {
         $request->validate(['id' => 'required|exists:cashier_orders,id']);
