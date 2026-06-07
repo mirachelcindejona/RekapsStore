@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Midtrans\Config;
 use Midtrans\Snap;
+use App\Models\FinanceTransactions;
 
 class CashierController extends Controller
 {
@@ -225,6 +226,33 @@ class CashierController extends Controller
                 }
             }
 
+            $totalModal = 0;
+
+            foreach ($cart as $item) {
+
+                $product = Product::find($item['product_id']);
+
+                $totalModal +=
+                    $product->cost_price
+                    *
+                    $item['quantity'];
+            }
+            FinanceTransactions::create([
+                'date'        => now(),
+                'description' => 'Penjualan Kasir - ' . $order->order_code,
+                'category'    => 'Penjualan',
+                'type'        => 'Pemasukan',
+                'amount'      => $order->total,
+            ]);
+
+            FinanceTransactions::create([
+                'date'        => now(),
+                'description' => 'Modal Barang - ' . $order->order_code,
+                'category'    => 'Modal',
+                'type'        => 'Pengeluaran',
+                'amount'      => $totalModal,
+            ]);
+
             DB::commit();
 
             $order->load('items');
@@ -278,6 +306,7 @@ class CashierController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+            
         }
     }
 

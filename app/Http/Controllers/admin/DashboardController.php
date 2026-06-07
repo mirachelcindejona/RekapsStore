@@ -133,7 +133,7 @@ class DashboardController extends Controller
                     $date
                 )->count();
 
-            $chartData[] = [
+            $charData[] = [
 
                 'day' =>
                     $date->translatedFormat('D'),
@@ -147,11 +147,11 @@ class DashboardController extends Controller
         }
 
         $maxRevenue =
-            collect($chartData)
+            collect($charData)
                 ->max('revenue');
 
         $maxOrders =
-            collect($chartData)
+            collect($charData)
                 ->max('orders');
 
         $latestOnline =
