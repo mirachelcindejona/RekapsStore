@@ -301,7 +301,7 @@
         const ordersData = @json($historyOrders->keyBy('id'));
         const currentFilter = '{{ $filter }}';
 
-        /* ---- Fungsi Filter Waktu & Navigasi ---- */
+        // Fungsi Filter Waktu & Navigasi
         function applyFilter(filterType) {
             window.location.href = `?filter=${filterType}`;
         }
@@ -324,7 +324,7 @@
             }
         }
 
-        /* ---- Fungsi Modal & Struk ---- */
+        // Fungsi Modal & Struk
         function openModal(modalId) {
             document.getElementById(modalId).classList.remove('hidden');
         }

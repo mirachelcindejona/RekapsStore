@@ -201,23 +201,31 @@
 
       <!-- Tabs -->
       <div class="flex gap-1 px-5 mb-4">
-        <button
-          class="rounded-lg bg-violet-600 px-4 py-1 text-[11px] font-bold text-white"
-        >
-          Minggu
-        </button>
 
-        <button
-          class="rounded-lg px-4 py-1 text-[11px] font-bold text-neutral-400"
+        <a
+            href="{{ route('admin.dashboard', ['period' => 'week']) }}"
+            class="rounded-lg px-4 py-1 text-[11px] font-bold transition
+            {{ $period == 'week' ? 'bg-violet-600 text-white' : 'text-neutral-400 hover:bg-neutral-100' }}"
         >
-          Bulan
-        </button>
+            Minggu
+        </a>
 
-        <button
-          class="rounded-lg px-4 py-1 text-[11px] font-bold text-neutral-400"
+        <a
+            href="{{ route('admin.dashboard', ['period' => 'month']) }}"
+            class="rounded-lg px-4 py-1 text-[11px] font-bold transition
+            {{ $period == 'month' ? 'bg-violet-600 text-white' : 'text-neutral-400 hover:bg-neutral-100' }}"
         >
-          Tahun
-        </button>
+            Bulan
+        </a>
+
+        <a
+            href="{{ route('admin.dashboard', ['period' => 'year']) }}"
+            class="rounded-lg px-4 py-1 text-[11px] font-bold transition
+            {{ $period == 'year' ? 'bg-violet-600 text-white' : 'text-neutral-400 hover:bg-neutral-100' }}"
+        >
+            Tahun
+        </a>
+
       </div>
 
       <!-- Chart -->
@@ -228,12 +236,12 @@
             <div class="flex flex-1 items-end gap-1 w-full">
               <div
                 class="w-full rounded-t-md bg-violet-600"
-                style="height: {{ $maxRevenue > 0 ? ($item['revenue'] / $maxRevenue) * 100 : 0 }} %; opacity:.9">
+                style="height: {{ $maxRevenue > 0 ? ($item['revenue'] / $maxRevenue) * 100 : 0 }}%; opacity:.9">
               </div>
 
               <div
                 class="w-full rounded-t-md bg-lime-400"
-                style=" height: {{ $maxOrders > 0 ? ($item['orders'] / $maxOrders) * 100 : 0 }} %">
+                style=" height: {{ $maxOrders > 0 ? ($item['orders'] / $maxOrders) * 100 : 0 }}%">
               </div>
             </div>
 
@@ -300,7 +308,7 @@
           </a>
 
           <a
-             href="{{ url('/admin/orders') }}"
+             href="{{ url('/admin/reports') }}"
             class="rounded-2xl border-2 border-transparent bg-neutral-100 p-4 text-left transition hover:border-violet-600 hover:bg-violet-100">
 
             <div class="mb-3 flex h-8 w-8 items-center justify-center rounded-xl bg-white shadow-sm">
@@ -308,7 +316,7 @@
             </div>
 
             <p class="text-[11px] font-bold text-neutral-950">
-                Buat Pesanan
+                Cetak Laporan
             </p>
 
         </a>

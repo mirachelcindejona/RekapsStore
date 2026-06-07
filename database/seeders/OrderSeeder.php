@@ -38,6 +38,20 @@ class OrderSeeder extends Seeder
         
         for ($i = 0; $i < 15; $i++) {
             $isLunas = $faker->boolean(70); // 70% kemungkinan lunas
+
+            if ($isLunas) {
+                $paymentStatus = 'Lunas';
+
+                $status = $faker->randomElement([
+                    'Menunggu Proses Produksi',
+                    'Sedang Diproduksi',
+                    'Siap Diambil',
+                    'Pesanan Selesai'
+                ]);
+            } else {
+                $paymentStatus = 'Pending';
+                $status = 'Pending';
+            }
             
             $onlineOrder = OnlineOrder::create([
                 'user_id'        => $faker->randomElement($users),
@@ -46,9 +60,9 @@ class OrderSeeder extends Seeder
                 'discount'       => $faker->randomElement([0, 0, 5000, 10000]),
                 'total'          => 0,
                 'payment_method' => $faker->randomElement(['Transfer Bank', 'QRIS', 'E-Wallet']),
-                'payment_status' => $isLunas ? 'Lunas' : 'Pending',
-                'payment_link'   => $isLunas ? null : 'https://payment-gateway.test/pay/' . $faker->uuid,
-                'status'         => $faker->randomElement($onlineStatuses),
+                'payment_status' => $paymentStatus,
+                'snap_token'   => $isLunas ? null : 'https://payment-gateway.test/pay/' . $faker->uuid,
+                'status'         => $status,
                 'is_pinned'      => $faker->boolean(10),
                 'created_at'     => Carbon::now()->subDays(rand(0, 30)), // Random tanggal 30 hari terakhir
                 'updated_at'     => Carbon::now(),

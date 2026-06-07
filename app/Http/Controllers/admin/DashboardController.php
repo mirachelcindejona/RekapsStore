@@ -89,69 +89,239 @@ class DashboardController extends Controller
             }
         }
 
+        $period = request('period', 'week');
         $charData = [];
+        // for ($i = 6; $i >= 0; $i--) {
+
+        //     $date =
+        //         Carbon::now()->subDays($i);
+
+        //     $revenue =
+
+        //         OnlineOrder::whereDate(
+        //             'created_at',
+        //             $date
+        //         )
+        //         ->where(
+        //             'payment_status',
+        //             'Lunas'
+        //         )
+        //         ->sum('total')
+
+        //         +
+
+        //         CashierOrder::whereDate(
+        //             'created_at',
+        //             $date
+        //         )
+        //         ->where(
+        //             'payment_status',
+        //             'Lunas'
+        //         )
+        //         ->sum('total');
+
+        //     $orders =
+
+        //         OnlineOrder::whereDate(
+        //             'created_at',
+        //             $date
+        //         )->count()
+
+        //         +
+
+        //         CashierOrder::whereDate(
+        //             'created_at',
+        //             $date
+        //         )->count();
+
+        //     $charData[] = [
+
+        //         'day' =>
+        //             $date->translatedFormat('D'),
+
+        //         'revenue' =>
+        //             $revenue,
+
+        //         'orders' =>
+        //             $orders
+        //     ];
+        // }
+        $period = request('period', 'week');
+
+        if ($period === 'month') {
+
+            $startOfMonth = Carbon::now()->startOfMonth();
+
+            for ($week = 1; $week <= 5; $week++) {
+
+                $weekStart =
+                    $startOfMonth
+                        ->copy()
+                        ->addDays(($week - 1) * 7);
+
+                if ($weekStart->month != now()->month) {
+                    break;
+                }
+
+                $weekEnd =
+                    $weekStart
+                        ->copy()
+                        ->addDays(6);
+
+                $revenue =
+
+                    OnlineOrder::whereBetween(
+                        'created_at',
+                        [$weekStart, $weekEnd]
+                    )
+                    ->where(
+                        'payment_status',
+                        'Lunas'
+                    )
+                    ->sum('total')
+
+                    +
+
+                    CashierOrder::whereBetween(
+                        'created_at',
+                        [$weekStart, $weekEnd]
+                    )
+                    ->where(
+                        'payment_status',
+                        'Lunas'
+                    )
+                    ->sum('total');
+
+                $orders =
+
+                    OnlineOrder::whereBetween(
+                        'created_at',
+                        [$weekStart, $weekEnd]
+                    )->count()
+
+                    +
+
+                    CashierOrder::whereBetween(
+                        'created_at',
+                        [$weekStart, $weekEnd]
+                    )->count();
+
+                $charData[] = [
+                    'day' => 'W' . $week,
+                    'revenue' => $revenue,
+                    'orders' => $orders
+                ];
+            }
+        } elseif ($period === 'year') {
+
+            for ($i = 1; $i <= 12; $i++) {
+
+                $month = Carbon::create(
+                    now()->year,
+                    $i,
+                    1
+                );
+
+                $revenue =
+
+                    OnlineOrder::whereYear(
+                        'created_at',
+                        now()->year
+                    )
+                    ->whereMonth(
+                        'created_at',
+                        $i
+                    )
+                    ->where(
+                        'payment_status',
+                        'Lunas'
+                    )
+                    ->sum('total')
+
+                    +
+
+                    CashierOrder::whereYear(
+                        'created_at',
+                        now()->year
+                    )
+                    ->whereMonth(
+                        'created_at',
+                        $i
+                    )
+                    ->where(
+                        'payment_status',
+                        'Lunas'
+                    )
+                    ->sum('total');
+
+                $orders =
+
+                    OnlineOrder::whereYear(
+                        'created_at',
+                        now()->year
+                    )
+                    ->whereMonth(
+                        'created_at',
+                        $i
+                    )
+                    ->count()
+
+                    +
+
+                    CashierOrder::whereYear(
+                        'created_at',
+                        now()->year
+                    )
+                    ->whereMonth(
+                        'created_at',
+                        $i
+                    )
+                    ->count();
+
+                $charData[] = [
+                    'day' => $month->translatedFormat('M'),
+                    'revenue' => $revenue,
+                    'orders' => $orders
+                ];
+            }
+        } else {
+
             for ($i = 6; $i >= 0; $i--) {
 
-            $date =
-                Carbon::now()->subDays($i);
+                $date = Carbon::now()->subDays($i);
 
-            $revenue =
+                $revenue =
+                    OnlineOrder::whereDate('created_at', $date)
+                        ->where('payment_status', 'Lunas')
+                        ->sum('total')
 
-                OnlineOrder::whereDate(
-                    'created_at',
-                    $date
-                )
-                ->where(
-                    'payment_status',
-                    'Lunas'
-                )
-                ->sum('total')
+                    +
 
-                +
+                    CashierOrder::whereDate('created_at', $date)
+                        ->where('payment_status', 'Lunas')
+                        ->sum('total');
 
-                CashierOrder::whereDate(
-                    'created_at',
-                    $date
-                )
-                ->where(
-                    'payment_status',
-                    'Lunas'
-                )
-                ->sum('total');
+                $orders =
+                    OnlineOrder::whereDate('created_at', $date)->count()
 
-            $orders =
+                    +
 
-                OnlineOrder::whereDate(
-                    'created_at',
-                    $date
-                )->count()
+                    CashierOrder::whereDate('created_at', $date)->count();
 
-                +
-
-                CashierOrder::whereDate(
-                    'created_at',
-                    $date
-                )->count();
-
-            $chartData[] = [
-
-                'day' =>
-                    $date->translatedFormat('D'),
-
-                'revenue' =>
-                    $revenue,
-
-                'orders' =>
-                    $orders
-            ];
+                $charData[] = [
+                    'day' => $date->translatedFormat('D'),
+                    'revenue' => $revenue,
+                    'orders' => $orders
+                ];
+            }
         }
 
         $maxRevenue =
-            collect($chartData)
+            collect($charData)
                 ->max('revenue');
 
         $maxOrders =
-            collect($chartData)
+            collect($charData)
                 ->max('orders');
 
         $latestOnline =
@@ -253,7 +423,8 @@ class DashboardController extends Controller
                 'charData',
                 'maxRevenue',
                 'maxOrders',
-                'latestOrders'
+                'latestOrders',
+                'period'
             )
         );
 

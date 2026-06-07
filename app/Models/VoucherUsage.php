@@ -9,6 +9,13 @@ class VoucherUsage extends Model
     protected $table = 'voucher_usages';
     public $timestamps = false;
 
+    protected $fillable = [
+        'voucher_id',
+        'user_id',
+        'order_id',
+        'used_at'
+    ];
+
     public function voucher()
     {
         return $this->belongsTo(Voucher::class);

@@ -18,6 +18,12 @@ return Application::configure(basePath: dirname(__DIR__))
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
             'check.banned'     => \App\Http\Middleware\CheckBannedUser::class,
         ]);
+
+        $middleware->trustProxies(at: '*');
+        
+        $middleware->validateCsrfTokens(except: [
+            '/midtrans-callback',
+        ]);
     })
 
     ->withExceptions(function (Exceptions $exceptions): void {
@@ -60,6 +66,12 @@ return Application::configure(basePath: dirname(__DIR__))
             );
         };
 
+//         return redirect('/home')->with(
+//             'error_access',
+//             'Kamu tidak memiliki akses ke halaman tersebut.'
+//         );
+//     });
+// })->create();
         $exceptions->render(function (
             \Spatie\Permission\Exceptions\UnauthorizedException $e,
             \Illuminate\Http\Request $request

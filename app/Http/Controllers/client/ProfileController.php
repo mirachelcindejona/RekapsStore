@@ -12,8 +12,15 @@ class ProfileController extends Controller
 {
     public function index()
     {
-        $user = auth()->user();
-        return view('profile', compact('user'));
+        $user = auth()->user()->load('orders');
+
+        $activeVouchers = \App\Models\Voucher::where('status', 'Aktif')
+            ->get();
+
+        return view('profile', compact(
+            'user',
+            'activeVouchers'
+        ));
     }
 
     public function update(Request $request)
@@ -24,17 +31,15 @@ class ProfileController extends Controller
             'name'     => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username,' . $user->id,
             'email'    => 'required|email|unique:users,email,' . $user->id,
-            'gender'   => 'nullable|string',
         ]);
 
         $user->name     = $request->name;
         $user->username = $request->username;
         $user->email    = $request->email;
-        $user->gender   = $request->gender;
 
         if ($request->hasFile('photo')) {
             if ($user->profile_photo) {
-                Storage::delete($user->profile_photo);
+                Storage::disk('public')->delete($user->profile_photo);
             }
             $user->profile_photo = $request->file('photo')->store('profile_photos', 'public');
         }
@@ -46,9 +51,7 @@ class ProfileController extends Controller
 
     public function notifications()
     {
-        $notifications = \App\Models\Notification::where('user_id', auth()->id())
-            ->latest()
-            ->get();
+        $notifications = \App\Models\Notification::with('product.images')->where('user_id', auth()->id())->latest()->get();
         return view('profile-notifications', compact('notifications'));
     }
 
@@ -66,11 +69,30 @@ class ProfileController extends Controller
         $orders = \App\Models\OnlineOrder::with(['items.product.images', 'items.variant'])
             ->where('user_id', auth()->id())
             ->when($search, function ($q) use ($search) {
-                $q->whereHas('items.product', fn($q) => $q->where('name', 'like', "%$search%"));
+                $q->where('order_code', 'like', "%$search%")
+                ->orWhereHas('items.product', fn($q) => $q->where('name', 'like', "%$search%"));
             })
             ->latest()
             ->get();
 
         return view('profile-orders', compact('orders', 'search'));
+    }
+
+    public function orderDetail($orderCode)
+    {
+        $order = \App\Models\OnlineOrder::with([
+            'items.product.images',
+            'items.variant',
+        ])
+        ->where('order_code', $orderCode)
+        ->where('user_id', auth()->id())
+        ->firstOrFail();
+
+        $qrUrl = null;
+        if ($order->payment_status === 'Pending' && $order->snap_token) {
+            $qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' . urlencode($order->snap_token);
+        }
+
+        return view('profile-order-detail', compact('order', 'qrUrl'));
     }
 }

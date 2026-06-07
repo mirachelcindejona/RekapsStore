@@ -5,6 +5,16 @@
 @section('page_breadcrumb', 'Pengguna')
 
 @section('content')
+    @if (session('success'))
+        <div class="mb-4 p-4 bg-green-100 border-l-4 border-green-500 text-green-700 rounded-lg font-medium shadow-sm">
+            {{ session('success') }}
+        </div>
+    @endif
+    @if (session('error'))
+        <div class="mb-4 p-4 bg-red-100 border-l-4 border-red-500 text-red-700 rounded-lg font-medium shadow-sm">
+            {{ session('error') }}
+        </div>
+    @endif
     <!-- HEADER -->
     <div class="flex items-center justify-between mb-[20px] gap-[12px]">
         <!-- TAB -->
@@ -12,20 +22,20 @@
 
             <!-- PENGURUS -->
             <button id="tabPengurus" onclick="filterUsers('Pengurus')"
-                class="flex items-center justify-center gap-[6px] rounded-xl border border-primary-500 bg-primary-500 px-[16px] py-[8px] text-[12px] font-bold text-white transition-all duration-[250ms] cursor-pointer shadow-[0_4px_14px_rgba(125,57,235,0.45)]">
+                class="flex items-center justify-center gap-[6px] rounded-xl border border-primary-500 bg-primary-500 px-[16px] py-[10px] text-[12px] font-bold text-white transition-all duration-[250ms] cursor-pointer shadow-[0_4px_14px_rgba(125,57,235,0.45)]">
                 Pengurus
             </button>
 
             <!-- PEMBELI -->
             <button id="tabPembeli" onclick="filterUsers('Pembeli')"
-                class="flex items-center justify-center gap-[6px] rounded-xl border border-primary-500 bg-transparent px-[16px] py-[8px] text-[12px] font-bold text-primary-500 transition-all duration-[250ms] cursor-pointer">
+                class="flex items-center justify-center gap-[6px] rounded-xl border border-primary-500 bg-transparent px-[16px] py-[10px] text-[12px] font-bold text-primary-500 transition-all duration-[250ms] cursor-pointer">
                 Pembeli
             </button>
         </div>
 
         <!-- BUTTON TAMBAH -->
         <button id="addUserBtn" onclick="openAddModal()"
-            class="flex items-center justify-center gap-[6px] rounded-xl bg-primary-500 px-[16px] py-[8px] text-[12px] font-bold text-neutral-50 shadow-[0_0_8px_rgba(114,52,214,0.35)] transition-all duration-[250ms] border-none cursor-pointer whitespace-nowrap shrink-0 hover:bg-[#5928a7] hover:shadow-[0_4px_14px_rgba(125,57,235,0.45)]">
+            class="flex items-center justify-center gap-[6px] px-[16px] py-[10px] bg-primary-500 text-neutral-50 rounded-xl text-[13px] font-bold shadow-[0_0_8px_rgba(114,52,214,0.35)] border-none cursor-pointer transition-all duration-[250ms] whitespace-nowrap hover:bg-[#5928a7]">
             + Tambah Pengurus
         </button>
     </div>

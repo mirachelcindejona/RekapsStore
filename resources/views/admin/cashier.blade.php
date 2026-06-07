@@ -41,7 +41,7 @@
     <div
         class="w-full lg:w-[357px] min-[900px]:w-[360px] bg-neutral-950 rounded-[16px] p-[16px] flex flex-col text-white shadow-xl h-full min-h-0 shrink-0">
         <div class="flex flex-col gap-[16px] pb-[16px] border-b border-white/20 shrink-0">
-            <div class="flex flex-col gap-[4px]">
+            <div class="flex items-center justify-between">
                 <div class="flex items-center gap-[8px]">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C6FF33" stroke-width="2"
                         stroke-linecap="round" stroke-linejoin="round">
@@ -51,7 +51,9 @@
                     </svg>
                     <h2 class="text-[18px] font-extrabold text-white m-0">Keranjang</h2>
                 </div>
-                <span class="text-[12px] text-neutral-300" id="cartItemCounter">0 Item</span>
+                <span id="cartItemCounter"
+                    class="bg-secondary-500 text-black text-[11px] font-extrabold px-[10px] py-[3px] rounded-full">0
+                    Item</span>
             </div>
 
             <div class="bg-neutral-950 border border-secondary-500 rounded-[10px] px-[15px] py-[10px] flex items-center">
@@ -72,6 +74,13 @@
                 <div class="flex justify-between items-center text-[12px] font-semibold text-neutral-300">
                     <span>Diskon</span>
                     <span id="labelDiskon">—</span>
+                </div>
+                <div class="flex justify-between items-center text-[12px] font-semibold">
+                    <span class="text-neutral-300">Voucher</span>
+                    <span id="labelVoucher" onclick="openModal('voucherModal')"
+                        class="text-primary-400 cursor-pointer hover:text-primary-300 transition-colors">
+                        Tambah Voucher
+                    </span>
                 </div>
                 <div class="flex justify-between items-center mt-[4px]">
                     <span class="text-[16px] font-extrabold text-neutral-300">Total</span>
@@ -168,7 +177,7 @@
         </div>
     </div>
 
-    <div id="modalScanQRIS" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 hidden">
+    {{-- <div id="modalScanQRIS" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 hidden">
         <div class="bg-neutral-50 w-full max-w-[550px] rounded-[20px] p-[20px] flex flex-col items-center gap-[20px]">
             <h2 class="text-[24px] font-bold text-black text-center">Scan QRIS Rekaps</h2>
             <div class="w-[220px] h-[220px] bg-primary-500 rounded-[16px] flex justify-center items-center overflow-hidden"
@@ -179,7 +188,7 @@
             <span class="text-[14px] text-neutral-600 text-center">Klik kode QR di atas untuk Mensimulasikan Pembayaran
                 QRIS Berhasil</span>
         </div>
-    </div>
+    </div> --}}
 
     <div id="modalTransaksiBerhasil" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 hidden">
         <div
@@ -247,20 +256,109 @@
         </div>
     </div>
 
+    <div id="voucherModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 hidden">
+        <div
+            class="bg-white w-full max-w-[550px] rounded-[20px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] p-[24px_37px] flex flex-col gap-[25px] max-h-[90dvh] overflow-y-auto">
+            <div class="flex justify-between items-center w-full">
+                <h2 class="font-['Montserrat'] text-[18px] font-bold text-black">Pilih Voucher</h2>
+                <button class="text-primary-500 hover:opacity-70 cursor-pointer" onclick="closeModal('voucherModal')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="flex flex-col gap-[12px] w-full">
+                <div class="flex flex-col gap-[4px]">
+                    <span class="text-[14px] font-normal text-black uppercase">Kode Voucher</span>
+                    <div class="flex gap-[8px]">
+                        <input type="text" id="manualVoucherCode" placeholder="Masukkan kode voucher..."
+                            class="flex-1 bg-neutral-50 border border-neutral-500 rounded-[10px] p-[12px_15px] text-[14px] text-black placeholder:text-neutral-400 focus:outline-none focus:border-primary-500 uppercase">
+                        <button onclick="applyManualVoucher()"
+                            class="h-[48px] px-[20px] bg-neutral-300 rounded-[16px] font-['Montserrat'] text-[14px] font-bold text-[#868686] hover:bg-[#c4c4c4] transition-colors cursor-pointer">
+                            Cari
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-[4px]">
+                    <span class="text-[14px] font-normal text-black uppercase">Voucher Tersedia</span>
+                    <div class="flex flex-col gap-[8px]" id="voucherList">
+                        @forelse ($vouchers as $voucher)
+                            <label
+                                class="voucher-item flex items-center justify-between border border-neutral-200 rounded-[12px] px-[16px] py-[12px] cursor-pointer hover:border-primary-400 transition has-[:checked]:border-primary-500 has-[:checked]:bg-primary-50"
+                                data-code="{{ $voucher->code }}" data-discount="{{ $voucher->value }}"
+                                data-type="{{ $voucher->type }}" data-min="{{ $voucher->min_purchase }}">
+                                <input type="radio" name="voucher_radio" value="{{ $voucher->code }}" class="hidden"
+                                    data-discount="{{ $voucher->value }}" data-type="{{ $voucher->type }}"
+                                    data-min="{{ $voucher->min_purchase }}">
+                                <div class="flex flex-col gap-[2px]">
+                                    <span class="text-[14px] font-bold text-black">{{ $voucher->code }}</span>
+                                    <span class="text-[12px] text-neutral-500">
+                                        Min. Rp{{ number_format($voucher->min_purchase, 0, ',', '.') }}
+                                        @if ($voucher->end_date)
+                                            · s/d {{ \Carbon\Carbon::parse($voucher->end_date)->format('d M Y') }}
+                                        @endif
+                                    </span>
+                                </div>
+                                <div class="flex flex-col items-end gap-[2px]">
+                                    <span class="text-[14px] font-bold text-primary-500">
+                                        {{ $voucher->type === 'percentage' ? $voucher->value . '%' : 'Rp' . number_format($voucher->value, 0, ',', '.') }}
+                                        OFF
+                                    </span>
+                                    <span class="text-[10px] text-neutral-400">Sisa:
+                                        {{ $voucher->quota - $voucher->used_quota }}</span>
+                                </div>
+                            </label>
+                        @empty
+                            <div class="text-center text-[14px] text-neutral-400 py-[16px]">Tidak ada voucher tersedia.
+                            </div>
+                        @endforelse
+                    </div>
+                </div>
+
+                <div class="flex gap-[16px] w-full mt-[10px]">
+                    <button
+                        class="w-[150px] h-[48px] bg-neutral-300 rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-[#868686] flex justify-center items-center hover:bg-[#c4c4c4] transition-colors cursor-pointer"
+                        onclick="closeModal('voucherModal')">
+                        Batal
+                    </button>
+                    <button
+                        class="flex-1 h-[48px] bg-secondary-500 shadow-[0_0_8px_rgba(180,232,46,0.35)] rounded-[16px] font-['Montserrat'] text-[16px] font-bold text-black flex justify-center items-center hover:opacity-90 transition-opacity cursor-pointer"
+                        onclick="applySelectedVoucher()">
+                        Pakai Voucher
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         let currentMethod = 'Tunai';
         let activeCategoryId = '';
         let globalTotalTagihan = 0;
         let lastCreatedOrderData = null;
         let pinnedProducts = JSON.parse(localStorage.getItem('posPinnedProducts')) || [];
+        let appliedVoucherCode = '';
+        let appliedVoucherDiscount = 0;
+        let appliedVoucherType = '';
+        let productDiscountAmount = 0;
 
         document.addEventListener("DOMContentLoaded", function() {
             loadProducts();
+            document.querySelectorAll('.voucher-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const radio = this.querySelector('input[type="radio"]');
+                    radio.checked = true;
+                });
+            });
         });
 
         function loadProducts() {
             const search = document.getElementById('searchProduct').value;
-            const url = `{{ url('/admin/cashier/products') }}?search=${search}&category_id=${activeCategoryId}`;
+            const url = `/admin/cashier/products?search=${search}&category_id=${activeCategoryId}`;
             fetch(url).then(res => res.json()).then(data => {
                 renderProducts(data.products);
                 renderCart(data.cart);
@@ -361,11 +459,12 @@
                 variantId = document.getElementById(`v_select_${productId}`).value;
                 if (!variantId) return alert('Pilih varian produk terlebih dahulu.');
             }
-            fetch(`{{ url('/admin/cashier/cart/add') }}`, {
+            fetch(`/admin/cashier/cart/add`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'ngrok-skip-browser-warning': 'true'
                 },
                 body: JSON.stringify({
                     product_id: productId,
@@ -435,22 +534,24 @@
 
         function changeQty(key, newQty) {
             if (newQty <= 0) {
-                fetch(`{{ url('/admin/cashier/cart/remove') }}`, {
+                fetch(`/admin/cashier/cart/remove`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'ngrok-skip-browser-warning': 'true'
                     },
                     body: JSON.stringify({
                         key: key
                     })
                 }).then(() => loadProducts());
             } else {
-                fetch(`{{ url('/admin/cashier/cart/update') }}`, {
+                fetch(`/admin/cashier/cart/update`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'ngrok-skip-browser-warning': 'true'
                     },
                     body: JSON.stringify({
                         key: key,
@@ -472,13 +573,14 @@
         function saveItemNote() {
             const key = document.getElementById('noteTargetKey').value;
             const noteText = document.getElementById('noteTextTarget').value;
-            fetch(`{{ url('/admin/cashier/products') }}`).then(res => res.json()).then(data => {
+            fetch(`/admin/cashier/products`).then(res => res.json()).then(data => {
                 let qty = data.cart[key].quantity;
-                fetch(`{{ url('/admin/cashier/cart/update') }}`, {
+                fetch(`/admin/cashier/cart/update`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'ngrok-skip-browser-warning': 'true'
                     },
                     body: JSON.stringify({
                         key: key,
@@ -494,8 +596,12 @@
 
         function updateTotalLabels(originalTotal, finalTotal) {
             globalTotalTagihan = finalTotal;
-            let netDiscount = originalTotal - finalTotal;
+            productDiscountAmount = originalTotal - finalTotal;
+
+            let netDiscount = productDiscountAmount;
+
             document.getElementById('labelSubtotal').innerText = `Rp ${originalTotal.toLocaleString('id-ID')}`;
+
             if (netDiscount > 0) {
                 document.getElementById('labelDiskon').innerText = `-Rp ${netDiscount.toLocaleString('id-ID')}`;
                 document.getElementById('labelDiskon').className = "text-red-500 font-bold";
@@ -503,8 +609,15 @@
                 document.getElementById('labelDiskon').innerText = '—';
                 document.getElementById('labelDiskon').className = "text-neutral-300";
             }
+
             document.getElementById('totalTagihan').innerText = `Rp ${finalTotal.toLocaleString('id-ID')}`;
-            hitungKembalian();
+
+            // Kalau ada voucher aktif, recalc ulang
+            if (appliedVoucherCode) {
+                recalcWithVoucher();
+            } else {
+                hitungKembalian();
+            }
         }
 
         function switchMethod(method) {
@@ -529,7 +642,18 @@
 
         function hitungKembalian() {
             const inputVal = parseInt(document.getElementById('inputUang').value) || 0;
-            const kembalian = inputVal - globalTotalTagihan;
+
+            // Hitung total final termasuk voucher
+            let totalFinal = globalTotalTagihan;
+            if (appliedVoucherCode) {
+                let voucherCut = appliedVoucherType === 'percentage' ?
+                    (appliedVoucherDiscount / 100) * globalTotalTagihan :
+                    appliedVoucherDiscount;
+                voucherCut = Math.min(voucherCut, globalTotalTagihan);
+                totalFinal = globalTotalTagihan - voucherCut;
+            }
+
+            const kembalian = inputVal - totalFinal;
             document.getElementById('teksKembalian').innerText = 'Kembalian: Rp ' + (kembalian > 0 ? kembalian
                 .toLocaleString('id-ID') : 0);
         }
@@ -565,15 +689,33 @@
                             ${item.notes ? `<span class="text-[10px] text-neutral-500 italic">Catatan: ${item.notes}</span>` : ''}
                         </div>`;
                 });
+
                 let netDisc = originalSum - globalTotalTagihan;
+
+                // Hitung voucher cut
+                let voucherCut = 0;
+                if (appliedVoucherCode) {
+                    if (appliedVoucherType === 'percentage') {
+                        voucherCut = (appliedVoucherDiscount / 100) * globalTotalTagihan;
+                    } else {
+                        voucherCut = appliedVoucherDiscount;
+                    }
+                    voucherCut = Math.min(voucherCut, globalTotalTagihan);
+                }
+
+                const grandTotal = globalTotalTagihan - voucherCut;
+
                 container.innerHTML += `
                     <div class="flex flex-col gap-1 border-t pt-2 mt-2 text-black text-[12px]">
                         <div class="flex justify-between">
-                            <span>Subtotal Khas</span><span>Rp ${originalSum.toLocaleString('id-ID')}</span>
+                            <span>Subtotal Asli</span>
+                            <span>Rp ${originalSum.toLocaleString('id-ID')}</span>
                         </div>
-                        ${netDisc > 0 ? `<div class="flex justify-between text-red-500"><span>Potongan Diskon</span><span>-Rp ${netDisc.toLocaleString('id-ID')}</span></div>` : ''}
+                        ${netDisc > 0 ? `<div class="flex justify-between text-red-500"><span>Diskon Produk</span><span>-Rp ${netDisc.toLocaleString('id-ID')}</span></div>` : ''}
+                        ${voucherCut > 0 ? `<div class="flex justify-between text-red-500"><span>Voucher (${appliedVoucherCode})</span><span>-Rp ${voucherCut.toLocaleString('id-ID')}</span></div>` : ''}
                         <div class="flex justify-between font-bold text-[14px] mt-1">
-                            <span>TOTAL AKHIR</span><span class="text-primary-500">Rp ${globalTotalTagihan.toLocaleString('id-ID')}</span>
+                            <span>TOTAL AKHIR</span>
+                            <span class="text-primary-500">Rp ${grandTotal.toLocaleString('id-ID')}</span>
                         </div>
                     </div>`;
                 openModal('modalCheckout');
@@ -583,44 +725,140 @@
         function submitCheckoutForm() {
             let customerName = document.getElementById('customerName').value.trim();
             if (customerName === '') customerName = 'Umum';
-            const paidAmount = document.getElementById('inputUang').value;
+            const paidAmount = parseInt(document.getElementById('inputUang').value) || 0;
             const txNotes = document.getElementById('transactionNotes').value;
+
+            // Hitung total final dengan voucher untuk validasi frontend
+            let totalFinal = globalTotalTagihan;
+            if (appliedVoucherCode) {
+                let voucherCut = appliedVoucherType === 'percentage' ?
+                    (appliedVoucherDiscount / 100) * globalTotalTagihan :
+                    appliedVoucherDiscount;
+                voucherCut = Math.min(voucherCut, globalTotalTagihan);
+                totalFinal = globalTotalTagihan - voucherCut;
+            }
+
+            // Validasi tunai di frontend
+            if (currentMethod === 'Tunai' && paidAmount < totalFinal) {
+                alert(`Uang yang dibayarkan kurang! Total: Rp ${totalFinal.toLocaleString('id-ID')}`);
+                return;
+            }
+
             const payload = {
                 customer_name: customerName,
                 payment_method: currentMethod,
-                paid_amount: paidAmount,
-                transaction_notes: txNotes
+                paid_amount: currentMethod === 'Tunai' ? paidAmount : 0,
+                transaction_notes: txNotes,
+                voucher_code: appliedVoucherCode || null,
             };
 
-            fetch(`{{ url('/admin/cashier/checkout') }}`, {
+            fetch(`/admin/cashier/checkout`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'ngrok-skip-browser-warning': 'true'
                 },
                 body: JSON.stringify(payload)
             }).then(res => res.json()).then(data => {
                 if (!data.success) {
                     alert('Error: ' + data.message);
                 } else {
-                    closeModal('modalCheckout');
+                    closeModal('modalCheckout'); // Tutup modal ringkasan
+
+                    appliedVoucherCode = '';
+                    appliedVoucherDiscount = 0;
+                    appliedVoucherType = '';
+                    const labelVoucher = document.getElementById('labelVoucher');
+                    labelVoucher.innerHTML = 'Tambah Voucher';
+                    labelVoucher.onclick = function() {
+                        openModal('voucherModal');
+                    };
+
                     lastCreatedOrderData = data.order;
                     document.getElementById('customerName').value = '';
                     document.getElementById('inputUang').value = '';
                     document.getElementById('transactionNotes').value = '';
+
                     if (currentMethod === 'QRIS') {
-                        openModal('modalScanQRIS');
+
+                        // munculkan pop up midtrans
+                        window.snap.pay(data.snap_token, {
+                            onSuccess: function(result) {
+                                // Verifikasi status ke backend dulu
+                                fetch(`/admin/cashier/orders/check-status/${lastCreatedOrderData.id}`, {
+                                        headers: {
+                                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                            'Accept': 'application/json',
+                                            'ngrok-skip-browser-warning': 'true'
+                                        }
+                                    })
+                                    .then(r => r.json())
+                                    .then(statusData => {
+                                        if (statusData.payment_status === 'Lunas' && statusData
+                                            .status === 'Selesai') {
+                                            // Benar-benar sukses
+                                            lastCreatedOrderData.payment_status = 'Lunas';
+                                            lastCreatedOrderData.paid_amount = lastCreatedOrderData
+                                                .total;
+                                            showFinalReceipt();
+                                        } else {
+                                            // Midtrans bilang sukses tapi DB bilang tidak — berarti dibatalkan
+                                            alert('Pembayaran dibatalkan.');
+                                            location.reload();
+                                        }
+                                    })
+                                    .catch(() => {
+                                        alert('Gagal verifikasi pembayaran.');
+                                        location.reload();
+                                    });
+                            },
+                            onPending: function(result) {
+                                alert('Menunggu pembayaran QRIS dari pembeli...');
+                                location.reload();
+                            },
+                            onError: function(result) {
+                                alert('Pembayaran QRIS gagal!');
+                                location.reload(); //
+                            },
+                            onClose: function() {
+                                // Cek status order ke backend sebelum tampilkan struk
+                                fetch(`/admin/cashier/orders/check-status/${lastCreatedOrderData.id}`, {
+                                        headers: {
+                                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                            'Accept': 'application/json',
+                                            'ngrok-skip-browser-warning': 'true'
+                                        }
+                                    })
+                                    .then(r => r.json())
+                                    .then(data => {
+                                        if (data.status === 'Selesai' && data.payment_status ===
+                                            'Lunas') {
+                                            showFinalReceipt();
+                                        } else {
+                                            alert('Pembayaran dibatalkan atau belum selesai.');
+                                            location.reload();
+                                        }
+                                    })
+                                    .catch(() => {
+                                        alert('Pembayaran dibatalkan.');
+                                        location.reload();
+                                    });
+                            }
+                        });
+
                     } else {
+                        // Jika Tunai, langsung tampilkan struk
                         showFinalReceipt();
                     }
                 }
             }).catch(err => alert('Terjadi kesalahan koneksi server.'));
         }
 
-        function triggerSuccessPaymentSimulator() {
-            closeModal('modalScanQRIS');
-            showFinalReceipt();
-        }
+        // function triggerSuccessPaymentSimulator() {
+        //     closeModal('modalScanQRIS');
+        //     showFinalReceipt();
+        // }
 
         function showFinalReceipt() {
             if (!lastCreatedOrderData) return;
@@ -629,22 +867,19 @@
             let itemsHtml = '';
 
             lastCreatedOrderData.items.forEach(item => {
-                // Gunakan nama produk dari server, jika gagal (fallback) gunakan ID
                 let namaProduk = item.product_name || `Item #${item.product_id}`;
-
                 itemsHtml +=
                     `
-                <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                    <span style="max-width: 65%; word-wrap: break-word;">${namaProduk} x ${item.quantity}</span>
-                    <span>Rp ${parseInt(item.subtotal).toLocaleString('id-ID')}</span>
-                </div>
-                ${item.notes ? `<div style="font-size:10px; color:#555; margin-bottom:4px;">↳ Catatan: ${item.notes}</div>` : ''}`;
+                    <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                        <span style="max-width: 65%; word-wrap: break-word;">${namaProduk} x ${item.quantity}</span>
+                        <span>Rp ${parseInt(item.subtotal).toLocaleString('id-ID')}</span>
+                    </div>
+                    ${item.notes ? `<div style="font-size:10px; color:#555; margin-bottom:4px;">↳ Catatan: ${item.notes}</div>` : ''}`;
             });
 
             printArea.innerHTML = `
                 <div class="flex flex-col items-center gap-[4px] w-full pb-[16px]">
-                    <span class="font-['Carattere'] text-[32px] text-primary-500 text-center leading-[1] italic">Rekaps
-                        Store</span>
+                    <span class="font-['Carattere'] text-[32px] text-primary-500 text-center leading-[1] italic">Rekaps Store</span>
                     <span class="font-['Montserrat'] text-[12px] font-normal text-neutral-500 text-center">DEPARTEMEN EKONOMI KREATIF</span>
                     <div class="flex items-center gap-[12px]">
                         <span class="font-['Montserrat'] text-[12px] font-semibold text-neutral-500">@himarpl</span>
@@ -653,16 +888,13 @@
                 </div>
                 <hr style="border-top: 1px dashed black; margin: 10px 0;">
                 <div style="display:flex; justify-content:space-between;">
-                    <span>No. Transaksi:</span>
-                    <span>${lastCreatedOrderData.order_code}</span>
+                    <span>No. Transaksi:</span><span>${lastCreatedOrderData.order_code}</span>
                 </div>
                 <div style="display:flex; justify-content:space-between;">
-                    <span>Pelanggan:</span>
-                    <span>${lastCreatedOrderData.customer_name}</span>
+                    <span>Pelanggan:</span><span>${lastCreatedOrderData.customer_name}</span>
                 </div>
                 <div style="display:flex; justify-content:space-between;">
-                    <span>Metode Bayar:</span>
-                    <span>${lastCreatedOrderData.payment_method}</span>
+                    <span>Metode Bayar:</span><span>${lastCreatedOrderData.payment_method}</span>
                 </div>
                 <hr style="border-top: 1px dashed black; margin: 10px 0;">
                 ${itemsHtml}
@@ -672,10 +904,15 @@
                     <span>Rp ${parseInt(lastCreatedOrderData.subtotal).toLocaleString('id-ID')}</span>
                 </div>
                 ${parseInt(lastCreatedOrderData.discount) > 0 ? `
-                                    <div style="display:flex; justify-content:space-between; color:red;">
-                                        <span>Diskon Produk:</span>
-                                        <span>-Rp ${parseInt(lastCreatedOrderData.discount).toLocaleString('id-ID')}</span>
-                                    </div>` : ''}
+                                                    <div style="display:flex; justify-content:space-between; color:red;">
+                                                        <span>Diskon Produk:</span>
+                                                        <span>-Rp ${parseInt(lastCreatedOrderData.discount).toLocaleString('id-ID')}</span>
+                                                    </div>` : ''}
+                ${lastCreatedOrderData.voucher_code ? `
+                                                    <div style="display:flex; justify-content:space-between; color:red;">
+                                                        <span>Voucher (${lastCreatedOrderData.voucher_code}):</span>
+                                                        <span>-Rp ${parseInt(lastCreatedOrderData.voucher_discount).toLocaleString('id-ID')}</span>
+                                                    </div>` : ''}
                 <div style="display:flex; justify-content:space-between; font-weight:bold; margin-top:3px;">
                     <span>Total Akhir:</span>
                     <span>Rp ${parseInt(lastCreatedOrderData.total).toLocaleString('id-ID')}</span>
@@ -684,7 +921,7 @@
                     <span>Dibayar:</span>
                     <span>Rp ${parseInt(lastCreatedOrderData.paid_amount).toLocaleString('id-ID')}</span>
                 </div>
-                <div style="display:flex; justify-content:space-between; color: green; font-weight:bold;">
+                <div style="display:flex; justify-content:space-between; color:green; font-weight:bold;">
                     <span>Kembalian:</span>
                     <span>Rp ${parseInt(lastCreatedOrderData.change_amount).toLocaleString('id-ID')}</span>
                 </div>
@@ -713,5 +950,93 @@
         function closeModal(id) {
             document.getElementById(id).classList.add('hidden');
         }
+
+        function applyManualVoucher() {
+            const code = document.getElementById('manualVoucherCode').value.trim().toUpperCase();
+            if (!code) return alert('Masukkan kode voucher terlebih dahulu.');
+
+            // Cari di list yang ada
+            const radio = document.querySelector(`input[name="voucher_radio"][value="${code}"]`);
+            if (radio) {
+                radio.checked = true;
+                applySelectedVoucher();
+            } else {
+                alert('Kode voucher tidak ditemukan atau tidak tersedia.');
+            }
+        }
+
+        function applySelectedVoucher() {
+            const selected = document.querySelector('input[name="voucher_radio"]:checked');
+            if (!selected) return alert('Pilih voucher terlebih dahulu.');
+
+            const discount = parseFloat(selected.dataset.discount);
+            const type = selected.dataset.type;
+            const minPurchase = parseFloat(selected.dataset.min);
+            const code = selected.value;
+
+            if (globalTotalTagihan < minPurchase) {
+                alert(`Minimal pembelian Rp${minPurchase.toLocaleString('id-ID')} untuk voucher ini.`);
+                return;
+            }
+
+            appliedVoucherCode = code;
+            appliedVoucherDiscount = discount;
+            appliedVoucherType = type;
+
+            closeModal('voucherModal');
+            recalcWithVoucher();
+        }
+
+        function recalcWithVoucher() {
+            if (!appliedVoucherCode) return;
+
+            let voucherCut = 0;
+            if (appliedVoucherType === 'percentage') {
+                voucherCut = (appliedVoucherDiscount / 100) * globalTotalTagihan;
+            } else {
+                voucherCut = appliedVoucherDiscount;
+            }
+            voucherCut = Math.min(voucherCut, globalTotalTagihan);
+
+            const afterVoucher = globalTotalTagihan - voucherCut;
+
+            // Update label voucher — tampilkan kode + nominal
+            const labelVoucher = document.getElementById('labelVoucher');
+            labelVoucher.innerHTML = 'Tambah Voucher';
+            labelVoucher.onclick = function() {
+                openModal('voucherModal');
+            };
+            labelVoucher.innerHTML = `
+                <span class="text-neutral-300">-Rp ${voucherCut.toLocaleString('id-ID')}</span>
+                <span class="text-primary-400 ml-[8px] cursor-pointer hover:text-primary-300 transition-colors" onclick="openModal('voucherModal')">${appliedVoucherCode}</span>
+                <span class="text-red-400 ml-[4px] cursor-pointer hover:text-red-300 transition-colors" onclick="removeVoucher()">✕</span>
+            `;
+            labelVoucher.onclick = null; // hapus onclick lama, sudah ada di span dalam
+
+            // Update total
+            document.getElementById('totalTagihan').innerText = `Rp ${afterVoucher.toLocaleString('id-ID')}`;
+
+            hitungKembalian();
+        }
+
+        function removeVoucher() {
+            appliedVoucherCode = '';
+            appliedVoucherDiscount = 0;
+            appliedVoucherType = '';
+
+            // Reset label voucher
+            const labelVoucher = document.getElementById('labelVoucher');
+            labelVoucher.innerHTML = 'Tambah Voucher';
+            labelVoucher.onclick = function() {
+                openModal('voucherModal');
+            };
+
+            // Reset total ke harga setelah diskon produk saja
+            document.getElementById('totalTagihan').innerText = `Rp ${globalTotalTagihan.toLocaleString('id-ID')}`;
+
+            hitungKembalian();
+        }
+    </script>
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}">
     </script>
 @endsection
