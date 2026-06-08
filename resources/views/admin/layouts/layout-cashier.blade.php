@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="{{ asset('assets/icons/logo-rekaps.svg') }}">
     <title>@yield('title', 'Kasir') | Rekaps Bazar</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -162,7 +163,6 @@
 
                 @csrf
                 <button type="button" onclick="document.getElementById('logout-modal').classList.remove('hidden')"
-
                     class="w-[40px] h-[40px] rounded-[8px] flex justify-center items-center mx-auto hover:bg-primary-500/20 transition-colors">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
@@ -257,33 +257,37 @@
         }
     </script>
     <div id="logout-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center">
-    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"
-        onclick="document.getElementById('logout-modal').classList.add('hidden')"></div>
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            onclick="document.getElementById('logout-modal').classList.add('hidden')"></div>
 
-    <div class="relative bg-[#0F172A] border border-[#1E293B] rounded-2xl shadow-2xl p-6 w-[320px] flex flex-col items-center gap-4 text-center">
-        <div class="w-12 h-12 rounded-full bg-red-500/10 flex items-center justify-center">
-            <svg width="24" height="24" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12.4998 13.3333L15.8332 10L12.4998 6.66667M15.8332 10H7.49984M11.6665 17.5C10.6816 17.5 9.70632 17.306 8.79638 16.9291C7.88644 16.5522 7.05964 15.9997 6.3632 15.3033C5.66676 14.6069 5.11432 13.7801 4.73741 12.8701C4.3605 11.9602 4.1665 10.9849 4.1665 10C4.1665 9.01509 4.3605 8.03982 4.73741 7.12987C5.11432 6.21993 5.66676 5.39314 6.3632 4.6967C7.05964 4.00026 7.88644 3.44781 8.79638 3.0709C9.70632 2.69399 10.6816 2.5 11.6665 2.5" stroke="#f87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </div>
-        <div>
-            <h3 class="text-white font-semibold text-base">Keluar dari Kasir?</h3>
-            <p class="text-slate-400 text-sm mt-1">Sesi kasir kamu akan berakhir. Pastikan semua transaksi sudah selesai.</p>
-        </div>
-        <div class="flex gap-3 w-full mt-1">
-            <button type="button"
-                onclick="document.getElementById('logout-modal').classList.add('hidden')"
-                class="flex-1 px-4 py-2 rounded-xl border border-[#1E293B] text-slate-300 text-sm hover:bg-[#1E293B] transition-colors">
-                Batal
-            </button>
-            <button type="button"
-                onclick="document.getElementById('logout-form').submit()"
-                class="flex-1 px-4 py-2 rounded-xl bg-red-500 hover:bg-red-600 text-white text-sm font-medium transition-colors">
-                Ya, Keluar
-            </button>
+        <div
+            class="relative bg-[#0F172A] border border-[#1E293B] rounded-2xl shadow-2xl p-6 w-[320px] flex flex-col items-center gap-4 text-center">
+            <div class="w-12 h-12 rounded-full bg-red-500/10 flex items-center justify-center">
+                <svg width="24" height="24" viewBox="0 0 20 20" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M12.4998 13.3333L15.8332 10L12.4998 6.66667M15.8332 10H7.49984M11.6665 17.5C10.6816 17.5 9.70632 17.306 8.79638 16.9291C7.88644 16.5522 7.05964 15.9997 6.3632 15.3033C5.66676 14.6069 5.11432 13.7801 4.73741 12.8701C4.3605 11.9602 4.1665 10.9849 4.1665 10C4.1665 9.01509 4.3605 8.03982 4.73741 7.12987C5.11432 6.21993 5.66676 5.39314 6.3632 4.6967C7.05964 4.00026 7.88644 3.44781 8.79638 3.0709C9.70632 2.69399 10.6816 2.5 11.6665 2.5"
+                        stroke="#f87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </div>
+            <div>
+                <h3 class="text-white font-semibold text-base">Keluar dari Kasir?</h3>
+                <p class="text-slate-400 text-sm mt-1">Sesi kasir kamu akan berakhir. Pastikan semua transaksi sudah
+                    selesai.</p>
+            </div>
+            <div class="flex gap-3 w-full mt-1">
+                <button type="button" onclick="document.getElementById('logout-modal').classList.add('hidden')"
+                    class="flex-1 px-4 py-2 rounded-xl border border-[#1E293B] text-slate-300 text-sm hover:bg-[#1E293B] transition-colors">
+                    Batal
+                </button>
+                <button type="button" onclick="document.getElementById('logout-form').submit()"
+                    class="flex-1 px-4 py-2 rounded-xl bg-red-500 hover:bg-red-600 text-white text-sm font-medium transition-colors">
+                    Ya, Keluar
+                </button>
+            </div>
         </div>
     </div>
-</div>
 
 </body>
+
 </html>
