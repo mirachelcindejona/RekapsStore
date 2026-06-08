@@ -4,14 +4,33 @@
 
         <h2 class="text-sm sm:text-base font-bold text-neutral-800">Riwayat Pesanan</h2>
 
+    <div class="flex flex-col gap-2">
         <form method="GET" action="/profile/orders">
+            <input type="hidden" name="status" value="{{ $status }}">
             <div class="flex items-center gap-2 border border-neutral-200 rounded-xl px-3 py-2">
                 <img src="{{ asset('assets/icons/search-line.svg') }}" class="w-4 h-4 shrink-0">
-                <input type="text" name="search" value="{{ $search }}"
-                    placeholder="Cari pesananmu"
-                    class="flex-1 text-sm text-neutral-700 focus:outline-none placeholder:text-neutral-300">
+                <input type="text" name="search" value="{{ $search }}" placeholder="Cari pesananmu" class="flex-1 text-sm text-neutral-700 focus:outline-none placeholder:text-neutral-300">
             </div>
         </form>
+        <div class="flex gap-2 overflow-x-auto pb-1">
+            @php
+                $tabs = [
+                    'semua'         => 'Semua',
+                    'pending'       => 'Menunggu Bayar',
+                    'proses'        => 'Diproses',
+                    'siap'          => 'Siap Diambil',
+                    'selesai'       => 'Selesai',
+                    'expired'       => 'Expired',
+                    'cancelled'     => 'Dibatalkan',
+                ];
+            @endphp
+            @foreach($tabs as $key => $label)
+            <a href="{{ request()->fullUrlWithQuery(['status' => $key, 'search' => $search]) }}" class="shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full border transition {{ $status === $key ? 'bg-primary-500 text-neutral-50 border-primary-500' : 'bg-neutral-50 text-neutral-500 border-neutral-200 hover:bg-primary-50 hover:text-primary-500' }}">
+                {{ $label }}
+            </a>
+            @endforeach
+        </div>
+    </div>
 
         @if($orders->isEmpty())
         <div class="flex flex-col items-center justify-center py-16 gap-2 text-center">

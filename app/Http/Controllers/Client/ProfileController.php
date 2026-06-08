@@ -66,16 +66,27 @@ class ProfileController extends Controller
     public function orders(Request $request)
     {
         $search = $request->get('search');
+        $status = $request->get('status', 'semua');
         $orders = \App\Models\OnlineOrder::with(['items.product.images', 'items.variant'])
             ->where('user_id', auth()->id())
             ->when($search, function ($q) use ($search) {
                 $q->where('order_code', 'like', "%$search%")
                 ->orWhereHas('items.product', fn($q) => $q->where('name', 'like', "%$search%"));
             })
-            ->latest()
-            ->get();
+            ->when($status && $status !== 'semua', function ($q) use ($status) {
+                match($status) {
+                    'pending'   => $q->where('payment_status', 'Pending'),
+                    'expired'   => $q->where('payment_status', 'Expired'),
+                    'cancelled' => $q->where('payment_status', 'Cancelled'),
+                    'proses'    => $q->whereIn('payment_status', ['Lunas', 'Paid'])
+                                    ->whereIn('status', ['Menunggu Proses Produksi', 'Pending', 'Sedang Diproduksi']),
+                    'siap'      => $q->where('status', 'Siap Diambil'),
+                    'selesai'   => $q->where('status', 'Pesanan Selesai'),
+                    default     => null,
+                };
+            })->latest()->get();
 
-        return view('profile-orders', compact('orders', 'search'));
+        return view('profile-orders', compact('orders', 'search', 'status'));
     }
 
     public function orderDetail($orderCode)
