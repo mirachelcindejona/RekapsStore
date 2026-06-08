@@ -245,67 +245,6 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
             return response()->json(['success' => true]);
         });
 
-        Route::post('/checkout', function () {
-            $selectedIds = request('selected_products', []);
-            if (empty($selectedIds)) {
-                return redirect('/cart')->with('error', 'Pilih produk terlebih dahulu.');
-            }
-
-            $cart = \App\Models\Cart::where('user_id', auth()->id())->first();
-            $cartItems = $cart
-                ? \App\Models\CartItem::with(['product.images', 'product.variants'])
-                ->where('cart_id', $cart->id)
-                ->whereIn('product_id', $selectedIds)
-                ->get()
-                : collect();
-
-            $checkoutItems = $cartItems->map(fn($item) => [
-                'product_id' => $item->product_id,
-                'variant_id' => $item->product_variant_id,
-                'quantity'   => $item->quantity,
-            ])->values()->toArray();
-
-            $checkoutQtys = [];
-            foreach ($cartItems as $item) {
-                $key = $item->product_id . '_' . ($item->product_variant_id ?? '0');
-                $checkoutQtys[$key] = $item->quantity;
-            }
-
-            session([
-                'checkout_products' => $selectedIds,
-                'checkout_items'    => $checkoutItems,
-                'checkout_qtys'     => $checkoutQtys,
-            ]);
-
-            return redirect('/checkout');
-        });
-
-        Route::get('/checkout', function () {
-            $selectedIds = session('checkout_products', []);
-            $checkoutItems = session('checkout_items', []);
-            $checkoutQtys = session('checkout_qtys', []);
-
-            if (empty($selectedIds)) return redirect('/cart');
-
-            $products = collect($checkoutItems)->map(function ($item) use ($checkoutQtys) {
-                $product = \App\Models\Product::with(['category', 'images', 'variants'])
-                    ->find($item['product_id']);
-                if (!$product) return null;
-
-                $key = $item['product_id'] . '_' . ($item['variant_id'] ?? '0');
-                $product = clone $product;
-                $product->checkout_qty = $checkoutQtys[$key] ?? $item['quantity'] ?? 1;
-                $product->checkout_variant_id = $item['variant_id'] ?? null;
-                $product->checkout_item_key = $key;
-                return $product;
-            })->filter()->values();
-
-            $vouchers = \App\Models\Voucher::where('status', 'Aktif')
-                ->where('end_date', '>=', now())->get();
-
-            return view('checkout', compact('products', 'vouchers'));
-        });
-
         Route::post('/payment', function () {
             $selectedIds = session('checkout_products', []);
             if (empty($selectedIds)) return redirect('/cart');
