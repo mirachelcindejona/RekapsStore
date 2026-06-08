@@ -48,7 +48,7 @@ Route::get('/', function () {
 Route::post('/midtrans-callback', [CashierController::class, 'callback']);
 
 Route::get('/product/{slug}', function ($slug) {
-    $product = Product::with(['category', 'images', 'variants', 'reviews.user'])
+    $product = Product::with(['category', 'images', 'variants', 'reviews.user', 'inventory'])
         ->where('slug', $slug)
         ->firstOrFail();
     return view('product-detail', compact('product'));
