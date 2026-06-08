@@ -4,7 +4,7 @@
 ])
 
 <nav class="shadow-md px-2 sm:px-5 py-2 fixed bg-neutral-50 w-full box-border z-50">
-{{-- mobile --}}
+    {{-- mobile --}}
     @if ($variant === 'page')
 
         <div class="flex sm:hidden items-center justify-between gap-3">
@@ -26,19 +26,14 @@
                         <button type="button">
                             <img src="{{ asset('assets/icons/search-line.svg') }}" alt="">
                         </button>
-                        <input 
-                            type="text" 
-                            id="searchInput"
-                            placeholder="Cari di Rekaps Store" 
-                            class="outline-none w-full text-[12px] bg-transparent"
-                            autocomplete="off"
-                            onkeyup="handleSearch(this.value)"
-                            onfocus="if(this.value.length > 0) showResults()"
-                        >
+                        <input type="text" id="searchInput" placeholder="Cari di Rekaps Store"
+                            class="outline-none w-full text-[12px] bg-transparent" autocomplete="off"
+                            onkeyup="handleSearch(this.value)" onfocus="if(this.value.length > 0) showResults()">
                     </div>
 
                     {{-- Dropdown hasil pencarian --}}
-                    <div id="searchResults" class="hidden absolute top-12 left-0 w-full bg-white border border-neutral-100 rounded-xl shadow-xl z-50 max-h-72 overflow-y-auto">
+                    <div id="searchResults"
+                        class="hidden absolute top-12 left-0 w-full bg-white border border-neutral-100 rounded-xl shadow-xl z-50 max-h-72 overflow-y-auto">
                         <div id="searchList" class="flex flex-col py-2"></div>
                     </div>
 
@@ -46,7 +41,8 @@
                     <div id="searchBackdrop" class="hidden fixed inset-0 z-40" onclick="closeSearch()"></div>
                 </div>
 
-                <a href="/cart" class="cartbox w-[40px] h-[40px] flex items-center justify-center bg-neutral-200 rounded-lg hover:bg-primary-500 transition-all duration-300 ease-in-out cursor-pointer">
+                <a href="/cart"
+                    class="cartbox w-[40px] h-[40px] flex items-center justify-center bg-neutral-200 rounded-lg hover:bg-primary-500 transition-all duration-300 ease-in-out cursor-pointer">
                     <img class="cart" src="{{ asset('assets/icons/cart-line.svg') }}" alt="">
                 </a>
 
@@ -73,33 +69,43 @@
                 </div>
                 {{-- Avatar Mobile --}}
                 @auth
-                <div class="relative group">
-                    <button class="text-neutral-50 w-[40px] h-[40px] text-sm font-medium flex items-center justify-center bg-teal-600 rounded-lg cursor-pointer overflow-hidden">
-                        @if(auth()->user()->profile_photo)
-                            <img src="{{ asset('storage/' . auth()->user()->profile_photo) }}" class="w-full h-full object-cover">
-                        @else
-                            <span>{{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 2)) }}</span>
-                        @endif
-                    </button>
-                    <div class="absolute right-0 top-12 w-44 bg-white border border-neutral-100 rounded-xl shadow-lg flex flex-col overflow-hidden
+                    <div class="relative group">
+                        <button
+                            class="text-neutral-50 w-[40px] h-[40px] text-sm font-medium flex items-center justify-center bg-teal-600 rounded-lg cursor-pointer overflow-hidden">
+                            @if (auth()->user()->profile_photo)
+                                <img src="{{ asset('storage/' . auth()->user()->profile_photo) }}"
+                                    class="w-full h-full object-cover">
+                            @else
+                                <span>{{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 2)) }}</span>
+                            @endif
+                        </button>
+                        <div
+                            class="absolute right-0 top-12 w-44 bg-white border border-neutral-100 rounded-xl shadow-lg flex flex-col overflow-hidden
                                 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                        <a href="/profile" class="flex items-center gap-2 px-4 py-2.5 text-sm text-neutral-700 hover:bg-primary-50 hover:text-primary-500 transition">
-                            <img src="{{ asset('assets/icons/menu-profile.svg') }}" class="w-4 h-4"> Akun Saya
-                        </a>
-                        <a href="/profile/notifications" class="flex items-center gap-2 px-4 py-2.5 text-sm text-neutral-700 hover:bg-primary-50 hover:text-primary-500 transition">
-                            <img src="{{ asset('assets/icons/menu-bell.svg') }}" class="w-4 h-4"> Notifikasi
-                        </a>
-                        <a href="/profile/orders" class="flex items-center gap-2 px-4 py-2.5 text-sm text-neutral-700 hover:bg-primary-50 hover:text-primary-500 transition">
-                            <img src="{{ asset('assets/icons/menu-history.svg') }}" class="w-4 h-4"> Riwayat Pesanan
-                        </a>
-                        <div class="border-t border-neutral-100">
-                            <form method="POST" action="/logout">
-                                @csrf
-                                <button type="submit" class="group/logout flex items-center gap-2 px-4 py-2.5 text-sm text-neutral-600 hover:bg-red-50 hover:text-red-500 transition w-full cursor-pointer">
-                                    <img src="{{ asset('assets/icons/logout-half-circle-line-dark.svg') }}" class="w-4 h-4 block group-hover/logout:hidden">
-                                    <img src="{{ asset('assets/icons/logout-half-circle-line-h.svg') }}" class="w-4 h-4 hidden group-hover/logout:block">
-                                    Logout
-                                </button>
+                            <a href="/profile"
+                                class="flex items-center gap-2 px-4 py-2.5 text-sm text-neutral-700 hover:bg-primary-50 hover:text-primary-500 transition">
+                                <img src="{{ asset('assets/icons/menu-profile.svg') }}" class="w-4 h-4"> Akun Saya
+                            </a>
+                            <a href="/profile/notifications"
+                                class="flex items-center gap-2 px-4 py-2.5 text-sm text-neutral-700 hover:bg-primary-50 hover:text-primary-500 transition">
+                                <img src="{{ asset('assets/icons/menu-bell.svg') }}" class="w-4 h-4"> Notifikasi
+                            </a>
+                            <a href="/profile/orders"
+                                class="flex items-center gap-2 px-4 py-2.5 text-sm text-neutral-700 hover:bg-primary-50 hover:text-primary-500 transition">
+                                <img src="{{ asset('assets/icons/menu-history.svg') }}" class="w-4 h-4"> Riwayat Pesanan
+                            </a>
+                            <div class="border-t border-neutral-100">
+                                <form method="POST" action="/logout">
+                                    @csrf
+                                    <button type="submit"
+                                        class="group/logout flex items-center gap-2 px-4 py-2.5 text-sm text-neutral-600 hover:bg-red-50 hover:text-red-500 transition w-full cursor-pointer">
+                                        <img src="{{ asset('assets/icons/logout-half-circle-line-dark.svg') }}"
+                                            class="w-4 h-4 block group-hover/logout:hidden">
+                                        <img src="{{ asset('assets/icons/logout-half-circle-line-h.svg') }}"
+                                            class="w-4 h-4 hidden group-hover/logout:block">
+                                        Logout
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -116,12 +122,14 @@
 
     @endif
 
-{{-- desktop --}}
+    {{-- desktop --}}
     <div class="{{ $variant === 'page' ? 'hidden sm:flex' : 'flex' }} gap-2">
 
         {{-- navbar-logo --}}
-        <div class="hidden md:flex">
-            <img src="{{ asset('assets/icons/logo-rekaps-text.svg') }}" width="180px" alt="">
+        <div class="hidden md:flex cursor-pointer">
+            <a href="/">
+                <img src="{{ asset('assets/icons/logo-rekaps-text.svg') }}" width="180px" alt="">
+            </a>
         </div>
 
         {{-- navbar-searchbar DESKTOP --}}
@@ -130,19 +138,15 @@
                 <button type="button">
                     <img src="{{ asset('assets/icons/search-line.svg') }}" alt="">
                 </button>
-                <input
-                    type="text"
-                    id="searchInputDesktop"
-                    placeholder="Cari di Rekaps Store"
-                    class="outline-none w-full text-[12px] bg-transparent"
-                    autocomplete="off"
+                <input type="text" id="searchInputDesktop" placeholder="Cari di Rekaps Store"
+                    class="outline-none w-full text-[12px] bg-transparent" autocomplete="off"
                     onkeyup="handleSearch(this.value, 'desktop')"
-                    onfocus="if(this.value.length > 0) showResults('desktop')"
-                >
+                    onfocus="if(this.value.length > 0) showResults('desktop')">
             </div>
 
             {{-- Dropdown --}}
-            <div id="searchResultsDesktop" class="hidden absolute top-12 left-0 w-full bg-white border border-neutral-100 rounded-xl shadow-xl z-50 max-h-72 overflow-y-auto">
+            <div id="searchResultsDesktop"
+                class="hidden absolute top-12 left-0 w-full bg-white border border-neutral-100 rounded-xl shadow-xl z-50 max-h-72 overflow-y-auto">
                 <div id="searchListDesktop" class="flex flex-col"></div>
             </div>
 
@@ -187,9 +191,11 @@
 
             {{-- Avatar Desktop --}}
             <div class="relative group">
-                <button class="text-neutral-50 w-[40px] h-[40px] text-sm font-medium flex items-center justify-center bg-teal-600 rounded-lg cursor-pointer overflow-hidden">
-                    @if(auth()->user()->profile_photo)
-                        <img src="{{ asset('storage/' . auth()->user()->profile_photo) }}" class="w-full h-full object-cover">
+                <button
+                    class="text-neutral-50 w-[40px] h-[40px] text-sm font-medium flex items-center justify-center bg-teal-600 rounded-lg cursor-pointer overflow-hidden">
+                    @if (auth()->user()->profile_photo)
+                        <img src="{{ asset('storage/' . auth()->user()->profile_photo) }}"
+                            class="w-full h-full object-cover">
                     @else
                         <span>{{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 2)) }}</span>
                     @endif
