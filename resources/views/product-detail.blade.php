@@ -121,27 +121,57 @@
             {{-- variants --}}
             @php
                 $groupedVariants = $product->variants->groupBy('variant_name');
+                $hasVariants = $product->variants->isNotEmpty();
+                $maxStock = $hasVariants
+                    ? $product->variants->first()?->stock_online ?? 0
+                    : $product->inventory?->main_stock ?? 0;
             @endphp
 
-            @foreach ($groupedVariants as $variantName => $variantOptions)
-                <div class="flex gap-5 items-center">
-                    <span class="font-semibold text-[14px]">{{ $variantName }}</span>
-                    <ul class="flex gap-2 text-[14px] text-neutral-500 font-semibold w-full sm:w-auto">
-                        @foreach ($variantOptions as $variant)
-                            <li class="size min-w-7 max-w-max h-7 flex items-center justify-center px-2 {{ $loop->first ? 'active' : '' }}"
-                                data-variant-id="{{ $variant->id }}">
-                                {{ $variant->variant_value }}
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endforeach
+            @if ($hasVariants)
+                @foreach ($groupedVariants as $variantName => $variantOptions)
+                    <div class="flex gap-3 items-start">
+                        <span class="font-semibold text-[14px] shrink-0 mt-1">{{ $variantName }}</span>
+                        <ul class="flex flex-wrap gap-2 text-[14px] text-neutral-500 font-semibold">
+                            @foreach ($variantOptions as $variant)
+                                <li class="size min-w-7 max-w-max h-7 flex items-center justify-center px-2 {{ $loop->first ? 'active' : '' }}"
+                                    data-variant-id="{{ $variant->id }}" data-stock="{{ $variant->stock_online }}">
+                                    {{ $variant->variant_value }}
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endforeach
+
+                <p class="text-xs text-neutral-400">
+                    Stok: <span id="variantStock" class="font-semibold text-neutral-600">{{ $maxStock }}</span>
+                </p>
+            @else
+                <p class="text-xs text-neutral-400">
+                    Stok: <span id="variantStock" class="font-semibold text-neutral-600">{{ $maxStock }}</span>
+                </p>
+            @endif
+
+            {{-- <div class="flex flex-row gap-5 items-center">
+                <span class="font-semibold text-[14px]">Jumlah</span>
+                <x-client.quantity :qty="1" />
+            </div> --}}
 
             <div class="flex flex-row gap-5 items-center">
                 <span class="font-semibold text-[14px]">Jumlah</span>
-                <x-client.quantity :qty="1" />
+                <div class="flex items-center gap-1">
+                    <button type="button" id="btnMinus" onclick="changeQty(-1)" disabled
+                        class="w-6 h-6 cursor-pointer rounded-md bg-primary-500 text-neutral-50 flex items-center justify-center font-bold hover:bg-primary-600 transition leading-none disabled:opacity-40 disabled:cursor-not-allowed">
+                        &minus;
+                    </button>
+                    <input type="number" id="qtyInput" min="1" value="1"
+                        class="qty-value w-10 text-center text-xs font-bold text-neutral-800 border-none outline-none bg-transparent [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        oninput="onQtyInput(this)">
+                    <button type="button" id="btnPlus" onclick="changeQty(1)"
+                        class="w-6 h-6 cursor-pointer rounded-md bg-primary-500 text-neutral-50 flex items-center justify-center font-bold hover:bg-primary-600 transition leading-none disabled:opacity-40 disabled:cursor-not-allowed">
+                        &plus;
+                    </button>
+                </div>
             </div>
-
         </div>
 
         <div class="flex-1 w-full flex flex-col items-end justify-end gap-2 text-sm font-medium">
@@ -348,26 +378,6 @@
 <script>
     document.addEventListener("DOMContentLoaded", () => {
 
-        // SIZE — update hidden input variant_id
-        const sizes = document.querySelectorAll(".size");
-        sizes.forEach(size => {
-            size.addEventListener("click", function() {
-                sizes.forEach(item => item.classList.remove("active"));
-                this.classList.add("active");
-
-                const variantId = this.dataset.variantId;
-                document.getElementById('selectedVariantId').value = variantId;
-                document.getElementById('selectedVariantIdBuy').value = variantId;
-            });
-        });
-
-        // set default variant (first size)
-        const firstSize = document.querySelector(".size");
-        if (firstSize) {
-            document.getElementById('selectedVariantId').value = firstSize.dataset.variantId ?? '';
-            document.getElementById('selectedVariantIdBuy').value = firstSize.dataset.variantId ?? '';
-        }
-
         // detail toggle
         const detailToggle = document.getElementById("detailToggle");
         const detailContent = document.getElementById("detailContent");
@@ -378,6 +388,95 @@
             detailIcon.classList.toggle("rotate-180");
         });
 
+        // set default variant (first size)
+        const firstSize = document.querySelector(".size");
+        if (firstSize) {
+            const inputVariant = document.getElementById('selectedVariantId');
+            const inputVariantBuy = document.getElementById('selectedVariantIdBuy');
+            if (inputVariant) inputVariant.value = firstSize.dataset.variantId ?? '';
+            if (inputVariantBuy) inputVariantBuy.value = firstSize.dataset.variantId ?? '';
+            updateStock(parseInt(firstSize.dataset.stock ?? 0));
+        } else {
+            updateStock(parseInt(document.getElementById('variantStock').textContent ?? 0));
+        }
+
+        document.querySelectorAll(".size").forEach(size => {
+            size.addEventListener("click", function() {
+                document.querySelectorAll(".size").forEach(i => i.classList.remove("active"));
+                this.classList.add("active");
+
+                const variantId = this.dataset.variantId;
+                const stock = parseInt(this.dataset.stock ?? 0);
+
+                const inputVariant = document.getElementById('selectedVariantId');
+                const inputVariantBuy = document.getElementById('selectedVariantIdBuy');
+                if (inputVariant) inputVariant.value = variantId;
+                if (inputVariantBuy) inputVariantBuy.value = variantId;
+
+                document.getElementById('variantStock').textContent = stock;
+                setQty(1);
+                updateStock(stock);
+            });
+        });
+    });
+
+    function getStock() {
+        return parseInt(document.getElementById('variantStock').textContent ?? 0);
+    }
+
+    function setQty(val) {
+        const stock = getStock();
+        if (val < 1) val = 1;
+        if (val > stock) val = stock;
+        document.getElementById('qtyInput').value = val;
+        document.getElementById('selectedQty').value = val;
+        document.getElementById('selectedQtyBuy').value = val;
+        updateButtons(val, stock);
+    }
+
+    function updateStock(stock) {
+        const current = parseInt(document.getElementById('qtyInput').value ?? 1);
+        updateButtons(current, stock);
+    }
+
+    function updateButtons(val, stock) {
+        document.getElementById('btnMinus').disabled = val <= 1;
+        document.getElementById('btnPlus').disabled = val >= stock;
+    }
+
+    function changeQty(delta) {
+        const current = parseInt(document.getElementById('qtyInput').value ?? 1);
+        setQty(current + delta);
+    }
+
+    function onQtyInput(input) {
+        const stock = getStock();
+        let val = parseInt(input.value);
+
+        if (isNaN(val) || val === 0 || input.value === '') {
+            // kosongkan dulu, baru onblur yang fix
+            document.getElementById('selectedQty').value = 1;
+            document.getElementById('selectedQtyBuy').value = 1;
+            updateButtons(1, stock);
+            return;
+        }
+
+        if (val > stock) {
+            alert(`Stok tersedia hanya ${stock}. Jumlah dikembalikan ke maksimal.`);
+            val = stock;
+            input.value = val;
+        }
+
+        document.getElementById('selectedQty').value = val;
+        document.getElementById('selectedQtyBuy').value = val;
+        updateButtons(val, stock);
+    }
+
+    document.getElementById('qtyInput').addEventListener('blur', function() {
+        const val = parseInt(this.value);
+        if (isNaN(val) || val < 1) {
+            setQty(1);
+        }
     });
 
     // img modal
@@ -402,15 +501,5 @@
 
     closeImageModal.addEventListener("click", closeModal);
     closeBtn.addEventListener("click", closeModal);
-
-    // Ssinkron qty
-    function changeQty(btn, delta) {
-        const span = btn.closest('.flex.items-center.gap-1').querySelector('.qty-value');
-        let val = parseInt(span.textContent) + delta;
-        if (val < 1) val = 1;
-        span.textContent = val;
-        document.getElementById('selectedQty').value = val;
-        document.getElementById('selectedQtyBuy').value = val;
-    }
 </script>
 @endsection
