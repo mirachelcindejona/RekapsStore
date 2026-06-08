@@ -5,7 +5,7 @@
 @section('page_breadcrumb', 'Rekap Bazar')
 
 @php
-    // Helper untuk mengubah angka panjang menjadi format K/Jt (contoh: 14.5jt)
+    // Helper pengubah angka panjang menjadi format K/Jt
     function formatShort($n)
     {
         if ($n >= 1000000) {

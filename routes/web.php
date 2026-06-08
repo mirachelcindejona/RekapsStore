@@ -35,6 +35,9 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\ProfileController;
 
+Route::get('/test', function () {
+    return 'OK';
+});
 
 // 1. PUBLIC ROUTES
 Route::get('/', function () {
@@ -50,6 +53,25 @@ Route::get('/product/{slug}', function ($slug) {
         ->firstOrFail();
     return view('product-detail', compact('product'));
 })->name('product-detail');
+
+Route::get('/api/search', function () {
+    $q = request('q');
+    if (!$q || strlen($q) < 1) return response()->json([]);
+
+    $products = Product::with(['images'])
+        ->where('status', 'Aktif')
+        ->where('name', 'like', "%$q%")
+        ->limit(8)
+        ->get()
+        ->map(fn($p) => [
+            'slug'  => $p->slug,
+            'name'  => $p->name,
+            'price' => $p->selling_price - ($p->selling_price * $p->discount / 100),
+            'image' => asset($p->images->first()->image_path ?? 'assets/images/placeholder.png'),
+        ]);
+
+    return response()->json($products);
+});
 
 
 // 2. AUTENTIKASI (Hanya bisa diakses jika BELUM login / Guest)
@@ -127,8 +149,6 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
         Route::middleware(['permission:produk'])->group(function () {
             Route::post('/product/{slug}/stock', [ProductController::class, 'updateStock']);
             Route::resource('product', ProductController::class)->parameters(['product' => 'slug']);
-            Route::get('/product/{slug}/edit', [ProductController::class, 'edit'])->name('product.edit');
-            Route::put('/product/{slug}', [ProductController::class, 'update'])->name('product.update');
             Route::post('/product/{slug}/stock-transfer', [ProductController::class, 'transferStock']);
 
             Route::controller(CategoryProductController::class)->group(function () {
@@ -204,7 +224,7 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
         });
     });
 
-    // CLIENT - Khusus customer (role:customer)
+    // client
     Route::middleware(['role:customer'])->group(function () {
         Route::get('/home', function () {
             $products = Product::with(['category', 'images', 'variants', 'reviews'])->get();
@@ -305,13 +325,6 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
         Route::get('/profile', [ProfileController::class, 'index']);
         Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
         Route::get('/profile/notifications', [ProfileController::class, 'notifications']);
-        Route::post('/profile/notifications/read', [ProfileController::class, 'markAllRead'])->name('notifications.read');
-        Route::post('/notifications/read-all', function () {
-            Notification::where('user_id', auth()->id())
-                ->where('is_read', false)
-                ->update(['is_read' => true]);
-            return response()->json(['success' => true]);
-        })->name('notifications.readAll');
         Route::get('/profile/orders', [ProfileController::class, 'orders']);
     });
 
@@ -337,7 +350,7 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
 
         $checkoutQtys = [];
         foreach ($cartItems as $item) {
-            // pakai kombinasi product_id + variant_id sebagai key
+            // pakai kombinasi product_id + variant_id for keynya
             $key = $item->product_id . '_' . ($item->product_variant_id ?? '0');
             $checkoutQtys[$key] = $item->quantity;
         }
@@ -426,14 +439,14 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
             $total -= $discountAmount;
         }
 
-        $orderId = 'REKAPS-' . auth()->id() . '-' . time();
+        $orderId = 'ONL-' . strtoupper(\Illuminate\Support\Str::random(3)) . rand(1000, 9999);
 
         $order = OnlineOrder::create([
             'user_id'        => auth()->id(),
             'order_code'     => $orderId,
             'subtotal'       => $subtotal,
-            'discount' => $discountAmount,
-            'total' => $total,
+            'discount'       => $discountAmount,
+            'total'          => $total,
             'payment_method' => 'QRIS',
             'payment_status' => 'Pending',
             'status'         => 'Pending',
@@ -510,7 +523,7 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
                 return redirect('/checkout')->with('error', 'Gagal membuat transaksi: ' . $response->body());
             }
 
-            // QR dari qr_string, perlu di-encode jadi image via API
+            // QR dari qr_string di-encode jadi image via API
             $qrString = $data['qr_string'] ?? null;
 
             $qrUrl = $qrString 
@@ -567,25 +580,19 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
 
         if ($order) {
             if (in_array($transactionStatus, ['settlement', 'capture'])) {
-
                 $order->update([
-                    'payment_status' => 'Paid',
-                    'status'         => 'Pending',
+                    'payment_status' => 'Lunas',
+                    'status'         => 'Menunggu Proses Produksi',
                 ]);
-
             } elseif ($transactionStatus === 'expire') {
-
                 $order->update([
                     'payment_status' => 'Expired',
                 ]);
-
             } elseif (in_array($transactionStatus, ['cancel', 'deny'])) {
-
                 $order->update([
                     'payment_status' => 'Cancelled',
                     'status'         => 'Dibatalkan',
                 ]);
-
             }
         }
 
@@ -593,35 +600,69 @@ Route::middleware(['auth', 'check.banned'])->group(function () {
     })->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
 
     Route::get('/payment', function () {
-        $total = session('payment_total');
-        $qrUrl    = session('payment_qr_url');
-        $orderId  = session('payment_order_id');
+        $total   = session('payment_total');
+        $qrUrl   = session('payment_qr_url');
+        $orderId = session('payment_order_id');
+        $expiry  = session('payment_expiry');
 
-        if (!$total) {
-            return redirect('/cart');
+        if (!$total) return redirect('/cart');
+
+        return view('payment', compact('total', 'qrUrl', 'orderId', 'expiry'));
+    });
+
+    // Polling status pembayaran
+    Route::get('/payment/status/{orderCode}', function ($orderCode) {
+        $order = OnlineOrder::where('order_code', $orderCode)
+            ->where('user_id', auth()->id())
+            ->first();
+
+        if (!$order) return response()->json(['status' => 'not_found']);
+
+        return response()->json(['status' => $order->payment_status]);
+    });
+
+    Route::get('/payment/check/{orderCode}', function ($orderCode) {
+        try {
+            $response = \Illuminate\Support\Facades\Http::withBasicAuth(
+                config('services.midtrans.server_key'), ''
+            )->get("https://api.sandbox.midtrans.com/v2/{$orderCode}/status");
+
+            $data = $response->json();
+            $transactionStatus = $data['transaction_status'] ?? 'pending';
+
+            $order = \App\Models\OnlineOrder::where('order_code', $orderCode)
+                ->where('user_id', auth()->id())
+                ->first();
+
+            if ($order) {
+                if (in_array($transactionStatus, ['settlement', 'capture'])) {
+                    $order->update(['payment_status' => 'Lunas', 'status' => 'Menunggu Proses Produksi']);
+                } elseif ($transactionStatus === 'expire') {
+                    $order->update(['payment_status' => 'Expired']);
+                } elseif (in_array($transactionStatus, ['cancel', 'deny'])) {
+                    $order->update(['payment_status' => 'Cancelled', 'status' => 'Dibatalkan']);
+                }
+            }
+
+            $mappedStatus = match($transactionStatus) {
+                'settlement', 'capture' => 'Lunas',
+                'expire'                => 'Expired',
+                'cancel', 'deny'        => 'Cancelled',
+                default                 => 'Pending',
+            };
+
+            return response()->json(['status' => $mappedStatus]);
+
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
         }
-
-        return view('payment', compact('total', 'qrUrl', 'orderId'));
     });
 
-    Route::get('/test-paid/{orderCode}', function ($orderCode) {
-
-        $order = OnlineOrder::where(
-            'order_code',
-            $orderCode
-        )->firstOrFail();
-
-        $order->update([
-            'payment_status' => 'Paid',
-            'status' => 'Pending'
-        ]);
-
-        return 'OK';
-    });
+    // Detail order
+    Route::get('/profile/orders/{orderCode}', [ProfileController::class, 'orderDetail']);
 
     Route::get('/profile', [ProfileController::class, 'index']);
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-    Route::get('/profile/notifications', [ProfileController::class, 'notifications']);
     Route::post('/profile/notifications/read', [ProfileController::class, 'markAllRead'])->name('notifications.read');
     
     Route::post('/notifications/read-all', function () {

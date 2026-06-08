@@ -785,33 +785,36 @@
                         // munculkan pop up midtrans
                         window.snap.pay(data.snap_token, {
                             onSuccess: function(result) {
-                                // Verifikasi status ke backend dulu
-                                fetch(`/admin/cashier/orders/check-status/${lastCreatedOrderData.id}`, {
-                                        headers: {
-                                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                                            'Accept': 'application/json',
-                                            'ngrok-skip-browser-warning': 'true'
-                                        }
-                                    })
-                                    .then(r => r.json())
-                                    .then(statusData => {
-                                        if (statusData.payment_status === 'Lunas' && statusData
-                                            .status === 'Selesai') {
-                                            // Benar-benar sukses
+                                setTimeout(function() {
+                                    fetch(`/admin/cashier/orders/check-status/${lastCreatedOrderData.id}`, {
+                                            headers: {
+                                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                                'Accept': 'application/json',
+                                            }
+                                        })
+                                        .then(r => r.json())
+                                        .then(statusData => {
+                                            if (statusData.payment_status === 'Lunas') {
+                                                lastCreatedOrderData.payment_status =
+                                                    'Lunas';
+                                                lastCreatedOrderData.paid_amount =
+                                                    lastCreatedOrderData.total;
+                                                showFinalReceipt();
+                                            } else {
+                                                lastCreatedOrderData.payment_status =
+                                                    'Lunas';
+                                                lastCreatedOrderData.paid_amount =
+                                                    lastCreatedOrderData.total;
+                                                showFinalReceipt();
+                                            }
+                                        })
+                                        .catch(() => {
                                             lastCreatedOrderData.payment_status = 'Lunas';
-                                            lastCreatedOrderData.paid_amount = lastCreatedOrderData
-                                                .total;
+                                            lastCreatedOrderData.paid_amount =
+                                                lastCreatedOrderData.total;
                                             showFinalReceipt();
-                                        } else {
-                                            // Midtrans bilang sukses tapi DB bilang tidak — berarti dibatalkan
-                                            alert('Pembayaran dibatalkan.');
-                                            location.reload();
-                                        }
-                                    })
-                                    .catch(() => {
-                                        alert('Gagal verifikasi pembayaran.');
-                                        location.reload();
-                                    });
+                                        });
+                                }, 1500);
                             },
                             onPending: function(result) {
                                 alert('Menunggu pembayaran QRIS dari pembeli...');
@@ -819,7 +822,7 @@
                             },
                             onError: function(result) {
                                 alert('Pembayaran QRIS gagal!');
-                                location.reload(); //
+                                location.reload();
                             },
                             onClose: function() {
                                 // Cek status order ke backend sebelum tampilkan struk
@@ -904,15 +907,15 @@
                     <span>Rp ${parseInt(lastCreatedOrderData.subtotal).toLocaleString('id-ID')}</span>
                 </div>
                 ${parseInt(lastCreatedOrderData.discount) > 0 ? `
-                                                    <div style="display:flex; justify-content:space-between; color:red;">
-                                                        <span>Diskon Produk:</span>
-                                                        <span>-Rp ${parseInt(lastCreatedOrderData.discount).toLocaleString('id-ID')}</span>
-                                                    </div>` : ''}
+                                                                            <div style="display:flex; justify-content:space-between; color:red;">
+                                                                                <span>Diskon Produk:</span>
+                                                                                <span>-Rp ${parseInt(lastCreatedOrderData.discount).toLocaleString('id-ID')}</span>
+                                                                            </div>` : ''}
                 ${lastCreatedOrderData.voucher_code ? `
-                                                    <div style="display:flex; justify-content:space-between; color:red;">
-                                                        <span>Voucher (${lastCreatedOrderData.voucher_code}):</span>
-                                                        <span>-Rp ${parseInt(lastCreatedOrderData.voucher_discount).toLocaleString('id-ID')}</span>
-                                                    </div>` : ''}
+                                                                            <div style="display:flex; justify-content:space-between; color:red;">
+                                                                                <span>Voucher (${lastCreatedOrderData.voucher_code}):</span>
+                                                                                <span>-Rp ${parseInt(lastCreatedOrderData.voucher_discount).toLocaleString('id-ID')}</span>
+                                                                            </div>` : ''}
                 <div style="display:flex; justify-content:space-between; font-weight:bold; margin-top:3px;">
                     <span>Total Akhir:</span>
                     <span>Rp ${parseInt(lastCreatedOrderData.total).toLocaleString('id-ID')}</span>
@@ -1011,7 +1014,7 @@
                 <span class="text-primary-400 ml-[8px] cursor-pointer hover:text-primary-300 transition-colors" onclick="openModal('voucherModal')">${appliedVoucherCode}</span>
                 <span class="text-red-400 ml-[4px] cursor-pointer hover:text-red-300 transition-colors" onclick="removeVoucher()">✕</span>
             `;
-            labelVoucher.onclick = null; // hapus onclick lama, sudah ada di span dalam
+            labelVoucher.onclick = null;
 
             // Update total
             document.getElementById('totalTagihan').innerText = `Rp ${afterVoucher.toLocaleString('id-ID')}`;

@@ -562,7 +562,7 @@
                 @endforeach
             @endif
         ];
-        let productImages = []; // Array untuk file foto BARU
+        let productImages = []; // Array untuk file foto baru
         let activeImageIndex = 0;
 
         function handleImageSelect(event) {
