@@ -12,27 +12,25 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
-            'guest'            => \App\Http\Middleware\RedirectIfAuthenticated::class,
-            'role'             => \Spatie\Permission\Middleware\RoleMiddleware::class,
-            'permission'      => \Spatie\Permission\Middleware\PermissionMiddleware::class,
+            'guest'              => \App\Http\Middleware\RedirectIfAuthenticated::class,
+            'role'               => \Spatie\Permission\Middleware\RoleMiddleware::class,
+            'permission'         => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
-            'check.banned'     => \App\Http\Middleware\CheckBannedUser::class,
+            'check.banned'       => \App\Http\Middleware\CheckBannedUser::class,
         ]);
 
         $middleware->trustProxies(at: '*');
-        
+
         $middleware->validateCsrfTokens(except: [
             '/midtrans-callback',
         ]);
     })
-
     ->withExceptions(function (Exceptions $exceptions): void {
 
         $handler = function ($e, \Illuminate\Http\Request $request) {
             $user = \Illuminate\Support\Facades\Auth::user();
 
             if ($user && $user->hasAnyRole(['admin', 'pengurus'])) {
-                // Tentukan halaman redirect berdasarkan permission pertama yang dimiliki user
                 $permissionRedirectMap = [
                     'dashboard' => '/admin',
                     'kasir'     => '/admin/cashier',
@@ -53,7 +51,6 @@ return Application::configure(basePath: dirname(__DIR__))
                     }
                 }
 
-                // Fallback jika tidak ada permission yang cocok
                 return redirect('/admin')->with(
                     'error_access',
                     'Kamu tidak memiliki akses ke halaman tersebut.'
@@ -66,12 +63,6 @@ return Application::configure(basePath: dirname(__DIR__))
             );
         };
 
-//         return redirect('/home')->with(
-//             'error_access',
-//             'Kamu tidak memiliki akses ke halaman tersebut.'
-//         );
-//     });
-// })->create();
         $exceptions->render(function (
             \Spatie\Permission\Exceptions\UnauthorizedException $e,
             \Illuminate\Http\Request $request
@@ -85,4 +76,5 @@ return Application::configure(basePath: dirname(__DIR__))
         ) use ($handler) {
             return $handler($e, $request);
         });
+
     })->create();

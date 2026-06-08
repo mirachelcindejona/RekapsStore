@@ -17,20 +17,24 @@
     @yield('footer')
 
     {{-- Pop up akses tolak --}}
-    @if(session('error_access'))
-    <div id="toast-access" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-red-600 text-white px-6 py-4 rounded-xl shadow-lg">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
-        </svg>
-        <span class="text-sm font-medium">{{ session('error_access') }}</span>
-        <button onclick="document.getElementById('toast-access').remove()" class="ml-2 text-white/80 hover:text-white text-lg leading-none">&times;</button>
-    </div>
-    <script>
-        setTimeout(() => {
-            const el = document.getElementById('toast-access');
-            if (el) el.remove();
-        }, 4000);
-    </script>
+    @if (session('error_access'))
+        <div id="toast-access"
+            class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-red-600 text-white px-6 py-4 rounded-xl shadow-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+            </svg>
+            <span class="text-sm font-medium">{{ session('error_access') }}</span>
+            <button onclick="document.getElementById('toast-access').remove()"
+                class="ml-2 text-white/80 hover:text-white text-lg leading-none">&times;</button>
+        </div>
+        <script>
+            setTimeout(() => {
+                const el = document.getElementById('toast-access');
+                if (el) el.remove();
+            }, 4000);
+        </script>
     @endif
 
     {{-- Form logout customer --}}
@@ -53,32 +57,6 @@
             </div>
         </div>
     </div>
-
-    {{-- Toast sukses --}}
-    @if (session('success'))
-        <div id="toast-success"
-            class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-green-600 text-white px-6 py-4 rounded-xl shadow-lg">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-            </svg>
-            <span class="text-sm font-medium">{{ session('success') }}</span>
-            <button onclick="document.getElementById('toast-success').remove()"
-                class="ml-2 text-white/80 hover:text-white text-lg">&times;</button>
-        </div>
-        <script>
-            setTimeout(() => {
-                const el = document.getElementById('toast-success');
-                if (el) el.remove();
-            }, 4000);
-        </script>
-    @endif
-
-    <script>
-        function confirmLogout() {
-            document.getElementById('logoutModal').classList.remove('hidden');
-        }
-    </script>
 
     {{-- Toast sukses --}}
     @if (session('success'))
